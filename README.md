@@ -14,9 +14,10 @@ See [PROJECT_SPEC.md](PROJECT_SPEC.md) for the specification and
 - **Phase 1 (project skeleton):** configuration, data models, tests.
 - **Phase 2 (ingestion and chunking):** TXT/PDF ingestion, legal-aware
   chunking, and JSONL output.
+- **Phase 3 (lexical retrieval):** in-memory BM25 search over the chunks.
 
-Retrieval, reranking, generation, verification, evaluation, and the UI are
-**not implemented yet**.
+Dense and hybrid retrieval, reranking, generation, verification, evaluation,
+and the UI are **not implemented yet**.
 
 ## Repository layout
 
@@ -27,6 +28,7 @@ src/
   ingestion.py   # TXT/PDF loading, batch ingestion, CLI
   chunking.py    # legal-aware chunking
   chunk_store.py # JSONL serialization of chunks
+  retrieval.py   # tokenizer and BM25 retriever, search CLI
 tests/           # pytest suite; builds synthetic TXT/PDF fixtures on the fly
 data/
   raw/           # your source documents (git-ignored)
@@ -63,7 +65,8 @@ deactivate  # when finished
 On macOS/Linux, use `.venv/bin/python` instead of `.\.venv\Scripts\python.exe`.
 
 Dependencies: `python-dotenv` (loads `.env`), `PyMuPDF` (PDF text extraction;
-licensed AGPL-3.0 or commercial), and `pytest` (tests).
+licensed AGPL-3.0 or commercial), `rank-bm25` (BM25 scoring; installs
+`numpy`), and `pytest` (tests).
 
 ## Usage
 
@@ -73,6 +76,9 @@ licensed AGPL-3.0 or commercial), and `pytest` (tests).
 
 # Ingest documents (see "Ingestion" below)
 .\.venv\Scripts\python.exe -m src.ingestion --input data/raw --output data/processed/chunks.jsonl
+
+# Search the ingested chunks with BM25 (see "Lexical retrieval (BM25)" below)
+.\.venv\Scripts\python.exe -m src.retrieval "obblighi del datore di lavoro" --top-k 5
 
 # Run the tests
 .\.venv\Scripts\python.exe -m pytest -v
@@ -172,6 +178,118 @@ Use `src.chunk_store.read_chunks(path)` to load the file back as `LegalChunk` ob
   paragraph or heading boundaries are not overlapped.
 - Chunk text is always an exact excerpt of the extracted document text.
   PDF page ranges (`page` to `page_end`) are computed from character offsets.
+
+## Lexical retrieval (BM25)
+
+BM25 ranks chunks by the query words they contain. A chunk scores higher when
+it uses a query word often, when the word is rare in the corpus, and when the
+chunk is short. It matches words, not meaning.
+
+**Command line** (run ingestion first):
+
+```powershell
+.\.venv\Scripts\python.exe -m src.retrieval "sanzioni del Garante" --top-k 3
+.\.venv\Scripts\python.exe -m src.retrieval "data breach" --chunks path\to\chunks.jsonl
+```
+
+The command prints each result's rank, score, chunk ID, source (file, page
+range, article, paragraph), and a text excerpt. Exit code `2` means a missing
+or malformed chunk file or an invalid query or `--top-k`.
+
+**Python:**
+
+```python
+from pathlib import Path
+from src.retrieval import BM25Retriever
+
+retriever = BM25Retriever.from_jsonl(Path("data/processed/chunks.jsonl"))
+for passage in retriever.search("obblighi del datore di lavoro", top_k=5):
+    chunk = passage.chunk
+    print(passage.rank, round(passage.score, 3), chunk.chunk_id,
+          chunk.location.source_path, chunk.location.page, chunk.location.article)
+```
+
+`BM25Retriever(chunks)` also accepts any iterable of `LegalChunk`. Each
+result is a `RetrievedPassage` with `method=RetrievalMethod.BM25`, a 1-based
+`rank`, the BM25 `score`, and the unchanged `LegalChunk`, which carries its
+IDs, text, source location, and metadata.
+
+**Behavior**
+
+- *Tokenization* is the same for chunks and queries:
+  - case and accents are folded (`Responsabilità`, `RESPONSABILITA'` and
+    `responsabilita` all match);
+  - punctuation splits words, and Italian elisions are separated
+    (`dell'articolo` → `dell`, `articolo`);
+  - compound identifiers are kept whole and also split into their parts
+    (`2016/679` → `2016/679`, `2016`, `679`; `2-bis`; `d.lgs`);
+  - an article or paragraph keyword followed by a number becomes a structural
+    token in place of the keyword:
+    - `Articolo 5`, `art. 5`, `Art.5` and `Article 5` → `art:5`, `5`;
+    - `comma 2`, `paragrafo 2` and `paragraph 2` → `par:2`, `2`;
+    - only the first number is linked (`artt. 5 e 6` → `art:5`, `5`, `e`, `6`);
+  - no stop words are removed and no stemming is applied.
+- *Indexed structure:* each chunk is indexed as its text plus tokens from its
+  metadata: the section heading, `art:<article>`, and `par:<label>` for each
+  paragraph label.
+  - A metadata token is added only if the text lacks it, and only once, so the
+    text's term counts are not inflated.
+  - Continuation chunks, which don't repeat their article's heading, are
+    therefore found by `articolo 5` or by the heading words.
+  - Structural tokens come only from metadata. A reference in running text
+    ("chi viola l'articolo 5") is indexed as ordinary words, so a chunk citing
+    article 5 ranks below article 5 itself.
+  - Displayed text is never changed. The document title is not stored on
+    chunks and is not indexed.
+- *Results* are chunks that contain at least one indexed query token, ordered
+  by descending score. Ties keep corpus order. Fewer than `top_k` results are
+  returned rather than padding with unrelated chunks, and a query with no
+  matching words returns an empty list.
+- *Scores* are BM25 with k1=1.5 and b=0.75, computed by `rank_bm25.BM25Okapi`
+  with one change: the IDF is `ln(1 + (N − n + 0.5) / (n + 0.5))`, the formula
+  Lucene uses, where N is the number of chunks and n the number containing
+  the word.
+  - This IDF is always positive, so every match scores above 0, and matching
+    one more query word never lowers a chunk's score.
+  - The library's original Okapi IDF, `ln((N − n + 0.5) / (n + 0.5))`, is 0
+    for a word in exactly half of the chunks. For a word in more than half it
+    is replaced by a floor that can itself be ≤ 0 in small or repetitive
+    corpora. There, a matching chunk scored 0, and a chunk matching two query
+    words ranked below one matching only one of them.
+  - The Okapi behavior stays available for comparison with
+    `BM25Retriever(chunks, positive_idf=False)`.
+  - The trade-off is that very common words still add a little to the score
+    instead of being ignored.
+  - Scores only order the results of a single query. They are not
+    probabilities and cannot be compared across queries or corpora.
+- *Validation:* a blank query raises `ValueError`. `top_k` must be an `int`
+  ≥ 1, and booleans are rejected with `TypeError`. An empty corpus returns `[]`.
+
+**Limitations**
+
+- It is purely lexical:
+  - different word forms don't match (`obbligo` vs `obblighi`, `lavoratore`
+    vs `lavoratori`, `sanzione` vs `sanzioni`);
+  - abbreviations aren't expanded (`decreto legislativo` vs `d.lgs.`);
+  - synonyms and related concepts aren't matched (`licenziamento` vs `recesso
+    del datore`).
+
+  The tests record these cases. Stemming is deliberately not used yet (see
+  below), and dense retrieval is planned for a later phase.
+- Structural tokens depend on the chunker's heading detection. An article
+  whose heading was not recognized has no `art:` token. A range such as
+  `artt. 5-7` or a list such as `artt. 5 e 6` links only the first number.
+- Stemming is not added. An Italian stemmer (for example Snowball) would
+  connect `obbligo` and `obblighi`, but it also merges distinct legal terms
+  and makes article identifiers harder to reason about. Whether it helps
+  should be measured on the labelled retrieval set planned for the
+  evaluation phase, not assumed.
+- The index lives in memory and is rebuilt from the JSONL file each time a
+  retriever is created, so re-run ingestion and rebuild after the corpus
+  changes. Nothing is persisted, and search is a linear scan, which is
+  adequate for prototype-sized corpora.
+- A high score only means the words match. It is not evidence that a passage
+  answers a legal question.
 
 ## Configuration
 
