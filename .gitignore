@@ -14,9 +14,12 @@ __pycache__/
 # Allow the example environment file
 !.env.example
 
-# Local data and indexes
-data/raw/
-data/processed/
+# Local data and indexes (keep the empty directories via .gitkeep)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/indexes/
 *.db
 *.sqlite3
 

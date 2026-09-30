@@ -1,0 +1,8 @@
+# Direct dependencies only; install with:
+#   .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+# Loads a local .env file into the environment (src/config.py).
+python-dotenv==1.2.3
+
+# Test runner.
+pytest==9.1.1
