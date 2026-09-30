@@ -8,5 +8,8 @@ python-dotenv==1.2.3
 # for CPython >= 3.10 on Windows/macOS/Linux. License: AGPL-3.0 (or commercial).
 PyMuPDF==1.28.2
 
+# BM25 lexical retrieval (src/retrieval.py). Pure Python; pulls in numpy.
+rank-bm25==0.2.2
+
 # Test runner.
 pytest==9.1.1
