@@ -4,5 +4,9 @@
 # Loads a local .env file into the environment (src/config.py).
 python-dotenv==1.2.3
 
+# PDF text extraction, page by page (src/ingestion.py). Prebuilt abi3 wheels
+# for CPython >= 3.10 on Windows/macOS/Linux. License: AGPL-3.0 (or commercial).
+PyMuPDF==1.28.2
+
 # Test runner.
 pytest==9.1.1

@@ -88,6 +88,27 @@ def test_invalid_page_is_rejected():
         SourceLocation(page=0)
 
 
+def test_page_range():
+    assert SourceLocation(page=2, page_end=3).page_end == 3
+    with pytest.raises(ValueError, match="page_end"):
+        SourceLocation(page=3, page_end=2)
+    with pytest.raises(ValueError, match="page_end"):
+        SourceLocation(page_end=2)
+
+
+def test_page_starts_map_offsets_to_pages():
+    doc = LegalDocument(doc_id="d", title="t", content="aa\n\nbb", page_starts=(0, 4))
+    assert doc.page_at(0) == 1
+    assert doc.page_at(4) == 2
+    assert LegalDocument(doc_id="d", title="t", content="aa").page_at(0) is None
+
+
+@pytest.mark.parametrize("starts", [(1,), (0, 5, 3), (0, 99)])
+def test_invalid_page_starts_are_rejected(starts):
+    with pytest.raises(ValueError, match="page_starts"):
+        LegalDocument(doc_id="d", title="t", content="aa\n\nbb", page_starts=starts)
+
+
 def test_retrieved_passage_rank_is_one_based():
     chunk = make_chunk()
     passage = RetrievedPassage(

@@ -9,6 +9,7 @@ verification updates them.
 from __future__ import annotations
 
 import re
+from bisect import bisect_right
 from dataclasses import dataclass, field
 from datetime import date
 from enum import StrEnum
@@ -36,6 +37,9 @@ class VerificationStatus(StrEnum):
 def _require_non_empty(value: str, name: str) -> None:
     if not value or not value.strip():
         raise ValueError(f"{name} must not be empty.")
+
+
+METADATA_DATE_FIELDS = ("publication_date", "effective_from", "effective_to")
 
 
 @dataclass(frozen=True)
@@ -68,7 +72,8 @@ class SourceLocation:
     """Where a passage sits in its original source. Unknown parts are None."""
 
     source_path: str | None = None
-    page: int | None = None
+    page: int | None = None  # First (or only) page, 1-based.
+    page_end: int | None = None  # Last page; equals `page` for single-page passages.
     section: str | None = None
     article: str | None = None
     paragraph: str | None = None
@@ -76,6 +81,10 @@ class SourceLocation:
     def __post_init__(self) -> None:
         if self.page is not None and self.page < 1:
             raise ValueError(f"page must be >= 1 (got {self.page}).")
+        if self.page_end is not None and (self.page is None or self.page_end < self.page):
+            raise ValueError(
+                f"page_end ({self.page_end}) requires a page and must be >= page ({self.page})."
+            )
 
 
 @dataclass(frozen=True)
@@ -86,9 +95,27 @@ class LegalDocument:
     source_path: str | None = None
     source_url: str | None = None
     metadata: DocumentMetadata = field(default_factory=DocumentMetadata)
+    # Paginated sources only (PDF): character offset in `content` where each
+    # page begins, so page_starts[0] is page 1. Empty for unpaginated text.
+    page_starts: tuple[int, ...] = ()
 
     def __post_init__(self) -> None:
         _require_non_empty(self.doc_id, "doc_id")
+        starts = self.page_starts
+        if starts and (
+            starts[0] != 0
+            or any(b < a for a, b in zip(starts, starts[1:]))
+            or starts[-1] > len(self.content)
+        ):
+            raise ValueError(
+                "page_starts must begin at 0, be non-decreasing, and lie within content."
+            )
+
+    def page_at(self, offset: int) -> int | None:
+        """1-based page containing the character at `offset`, or None if unpaginated."""
+        if not self.page_starts:
+            return None
+        return bisect_right(self.page_starts, offset)
 
 
 @dataclass(frozen=True)
