@@ -15,9 +15,12 @@ See [PROJECT_SPEC.md](PROJECT_SPEC.md) for the specification and
 - **Phase 2 (ingestion and chunking):** TXT/PDF ingestion, legal-aware
   chunking, and JSONL output.
 - **Phase 3 (lexical retrieval):** in-memory BM25 search over the chunks.
+- **Phase 4A (retrieval evaluation):** Recall@k, MRR@k and nDCG@k over
+  labelled queries, with a BM25 baseline runner.
 
-Dense and hybrid retrieval, reranking, generation, verification, evaluation,
-and the UI are **not implemented yet**.
+Dense and hybrid retrieval, reranking, generation, verification, grounding
+evaluation, and the UI are **not implemented yet**. No curated legal benchmark
+exists yet; only a synthetic test fixture.
 
 ## Repository layout
 
@@ -29,11 +32,13 @@ src/
   chunking.py    # legal-aware chunking
   chunk_store.py # JSONL serialization of chunks
   retrieval.py   # tokenizer and BM25 retriever, search CLI
+  retrieval_eval.py # retrieval metrics, evaluation data loading, evaluation CLI
 tests/           # pytest suite; builds synthetic TXT/PDF fixtures on the fly
+  fixtures/synthetic_retrieval/ # SYNTHETIC chunks, queries and judgments for tests only
 data/
   raw/           # your source documents (git-ignored)
   processed/     # parsed documents and chunks (git-ignored)
-  evaluation/    # evaluation questions and labels
+  evaluation/    # curated queries.jsonl and qrels.jsonl (version-controlled; none yet)
 ```
 
 ## Setup (Windows, PowerShell)
@@ -79,6 +84,9 @@ licensed AGPL-3.0 or commercial), `rank-bm25` (BM25 scoring; installs
 
 # Search the ingested chunks with BM25 (see "Lexical retrieval (BM25)" below)
 .\.venv\Scripts\python.exe -m src.retrieval "obblighi del datore di lavoro" --top-k 5
+
+# Evaluate retrieval against labelled queries (see "Retrieval evaluation" below)
+.\.venv\Scripts\python.exe -m src.retrieval_eval --k 1 5 10 --output data/processed/eval_bm25.json
 
 # Run the tests
 .\.venv\Scripts\python.exe -m pytest -v
@@ -290,6 +298,107 @@ IDs, text, source location, and metadata.
   adequate for prototype-sized corpora.
 - A high score only means the words match. It is not evidence that a passage
   answers a legal question.
+
+## Retrieval evaluation
+
+`src/retrieval_eval.py` measures whether a retriever ranks the chunks a person
+judged relevant near the top of its results. It only sees ranked chunk IDs, so
+the same queries, judgments and metrics can compare any retriever.
+
+**Data format** (UTF-8 JSON Lines, one object per line):
+
+```jsonl
+# queries.jsonl: query_id must be unique; "notes" is optional
+{"query_id": "q01", "text": "obblighi del datore di lavoro", "notes": "..."}
+
+# qrels.jsonl: one line per judged (query, chunk) pair
+{"query_id": "q01", "chunk_id": "doc-5de8c317e7a9f3d7-0001-da460b66", "relevance": 2}
+{"query_id": "q01", "chunk_id": "doc-5de8c317e7a9f3d7-0002-a03d3cee", "relevance": 0}
+```
+
+(The `#` lines above are explanations; JSON Lines has no comments.)
+
+- `relevance` is an integer ≥ 0. `0` means judged not relevant, and `1` or
+  more means relevant; higher grades are only used by nDCG. A 0–2 scale is
+  typical: 2 = directly answers, 1 = partly relevant.
+- Loading fails with the file name and line number on:
+  - invalid JSON, missing or unknown keys, or empty IDs or text;
+  - duplicate query IDs or duplicate (query, chunk) judgments;
+  - relevance that isn't an integer ≥ 0 (booleans included);
+  - judgments that reference an unknown query.
+- **Judgments are tied to one chunk file.** Chunk IDs change whenever a
+  document or `CHUNK_SIZE`/`CHUNK_OVERLAP` changes. Judgments that reference a
+  chunk ID missing from the chunk file are therefore an error, not a silent
+  zero. Re-run ingestion with the settings used for labelling, or relabel.
+
+**Metrics** (k = cutoff; only the first k retrieved IDs count):
+
+| Metric | Definition |
+|---|---|
+| Recall@k | relevant chunks in the top k ÷ all relevant chunks for the query (cannot reach 1 if there are more than k) |
+| MRR@k | mean over queries of 1/rank of the first relevant chunk in the top k (0 if none) |
+| nDCG@k | DCG@k ÷ ideal DCG@k, where DCG@k = Σ relevance_i / log2(i + 1) (linear gain) and the ideal ranking sorts the judged grades |
+
+Edge cases:
+- *Unjudged* retrieved chunks count as not relevant.
+- *Duplicate* chunk IDs count only at their first position; repeats still use
+  up positions but earn nothing.
+- *Fewer than k results, or none,* score lower; denominators never shrink.
+- *Ties in relevance:* the order among equally graded chunks does not change nDCG.
+- *Queries without any relevant judgment* (unjudged, or judged only 0) can't
+  be scored. They are listed as skipped and excluded from the means.
+- *Aggregates* are unweighted means over the evaluated queries.
+
+**Running it:**
+
+```powershell
+# Defaults: data/processed/chunks.jsonl, data/evaluation/queries.jsonl, data/evaluation/qrels.jsonl
+.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever bm25 --k 1 5 10 --output data/processed/eval_bm25.json
+
+# The synthetic fixture (a smoke test, not a benchmark):
+.\.venv\Scripts\python.exe -m src.retrieval_eval --chunks tests/fixtures/synthetic_retrieval/chunks.jsonl `
+    --queries tests/fixtures/synthetic_retrieval/queries.jsonl --qrels tests/fixtures/synthetic_retrieval/qrels.jsonl
+```
+
+The terminal shows mean metrics at each k and per-query scores at the largest
+k. The `--output` JSON report records:
+- the retriever name and the k values;
+- the chunk count, and the path and SHA-256 of the chunk, query and judgment files;
+- per query: the retrieved IDs, the duplicate count, the metrics or the skip reason;
+- the means.
+
+The report is deterministic: same files and retriever, same report. It
+contains no timestamps. Exit codes: `0` evaluated; `1` no query had a
+relevant judgment; `2` missing or invalid files or arguments.
+
+`--retriever` accepts `bm25` (the default, positive IDF) and `bm25-okapi`
+(the library's original IDF).
+
+**Synthetic tests vs a curated benchmark**
+- `tests/fixtures/synthetic_retrieval/` holds invented passages and judgments.
+  They only check that the evaluation code works, and their scores say nothing
+  about legal retrieval quality.
+- A real benchmark goes in `data/evaluation/` (version-controlled), next to the
+  chunk file it was labelled against. Its judgments should come from people
+  qualified to judge the legal relevance of the documents. None exists yet.
+- The evaluation reports say which files were used (path and hash), so it is
+  always visible which data a score came from.
+
+**Comparing retrievers later.** A retriever only needs a
+`search(query, top_k) -> list[RetrievedPassage]` method and an entry in
+`RETRIEVERS` in `src/retrieval_eval.py`. A future dense retriever is compared
+with BM25 by running the same command with `--retriever dense` on the same
+files, and comparing the two JSON reports query by query.
+
+**Limitations**
+
+- Retrieval metrics measure ranking against the judgments given. They depend
+  on judgment quality and completeness: relevant chunks nobody judged count as
+  misses.
+- A small query set gives unstable means. No significance tests or confidence
+  intervals are computed.
+- Only chunk-level relevance is supported, not document-level relevance.
+- Answer quality and grounding are evaluated separately, in a later phase.
 
 ## Configuration
 

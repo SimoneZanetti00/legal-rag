@@ -1,0 +1,6 @@
+{"query_id": "synthetic-q01", "text": "obblighi del datore di lavoro", "notes": "Graded: the article heading chunk is most relevant, its continuation less so."}
+{"query_id": "synthetic-q02", "text": "data breach notification 72 hours"}
+{"query_id": "synthetic-q03", "text": "licenziamento", "notes": "Relevant chunk says 'recesso', not 'licenziamento': a lexical gap; BM25 returns nothing."}
+{"query_id": "synthetic-q04", "text": "sanzione amministrativa", "notes": "Two relevant chunks, one Italian and one English."}
+{"query_id": "synthetic-q05", "text": "diritto d'autore", "notes": "Judged, but nothing in the corpus is relevant: skipped."}
+{"query_id": "synthetic-q06", "text": "periodo di prova", "notes": "Not judged at all: skipped."}

@@ -1,0 +1,8 @@
+{"query_id": "synthetic-q01", "chunk_id": "syn-a-0001", "relevance": 2}
+{"query_id": "synthetic-q01", "chunk_id": "syn-a-0002", "relevance": 1}
+{"query_id": "synthetic-q01", "chunk_id": "syn-a-0003", "relevance": 0}
+{"query_id": "synthetic-q02", "chunk_id": "syn-b-0001", "relevance": 2}
+{"query_id": "synthetic-q03", "chunk_id": "syn-a-0005", "relevance": 2}
+{"query_id": "synthetic-q04", "chunk_id": "syn-a-0004", "relevance": 1}
+{"query_id": "synthetic-q04", "chunk_id": "syn-b-0002", "relevance": 1}
+{"query_id": "synthetic-q05", "chunk_id": "syn-b-0000", "relevance": 0}
