@@ -317,8 +317,8 @@ def test_okapi_variant_is_available():
 
 
 def test_unknown_retriever_is_rejected():
-    with pytest.raises(ValueError, match="unknown retriever 'dense'"):
-        run_evaluation("dense", CHUNKS, QUERIES, QRELS, [5])
+    with pytest.raises(ValueError, match="unknown retriever 'no-such-retriever'"):
+        run_evaluation("no-such-retriever", CHUNKS, QUERIES, QRELS, [5])
 
 
 def test_stale_judgments_are_detected(tmp_path):

@@ -11,5 +11,10 @@ PyMuPDF==1.28.2
 # BM25 lexical retrieval (src/retrieval.py). Pure Python; pulls in numpy.
 rank-bm25==0.2.2
 
+# Dense retrieval embeddings (src/dense_retrieval.py). Pulls in torch (CPU
+# build from PyPI on Windows), transformers and huggingface-hub. Models are
+# downloaded from Hugging Face on first use, not at install time.
+sentence-transformers==6.1.0
+
 # Test runner.
 pytest==9.1.1

@@ -7,6 +7,15 @@ import pytest
 PdfWriter = Callable[[Path, list[list[str] | None]], Path]
 
 
+@pytest.fixture(autouse=True)
+def no_model_downloads(monkeypatch):
+    """Keep Hugging Face offline in every test: an accidental real model load
+    fails fast instead of downloading. Tests use fake encoders; the opt-in
+    real-model test reads the local cache only."""
+    monkeypatch.setenv("HF_HUB_OFFLINE", "1")
+    monkeypatch.setenv("TRANSFORMERS_OFFLINE", "1")
+
+
 @pytest.fixture
 def write_pdf() -> PdfWriter:
     """Create a synthetic PDF.
