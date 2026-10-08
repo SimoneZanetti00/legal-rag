@@ -60,6 +60,7 @@ from rank_bm25 import BM25Okapi
 from src.chunk_store import read_chunks
 from src.config import ConfigError, load_settings
 from src.models import LegalChunk, RetrievalMethod, RetrievedPassage
+from src.retrieval_common import format_passage, require_positive_int, require_query
 
 # A run of letters/digits, optionally joined by "-", "/" or "." to further
 # runs: "2-bis", "2016/679", "d.lgs", "6.1". Apostrophes split Italian
@@ -189,14 +190,8 @@ class BM25Retriever:
         `top_k` that is not a positive int (booleans are rejected). Returns []
         when the index is empty or no chunk contains a query token.
         """
-        if not isinstance(query, str):
-            raise TypeError(f"query must be a string (got {type(query).__name__}).")
-        if not query.strip():
-            raise ValueError("query must not be empty or whitespace.")
-        if isinstance(top_k, bool) or not isinstance(top_k, int):
-            raise TypeError(f"top_k must be an int (got {type(top_k).__name__}).")
-        if top_k < 1:
-            raise ValueError(f"top_k must be >= 1 (got {top_k}).")
+        require_query(query)
+        require_positive_int(top_k, "top_k")
 
         query_tokens = tokenize(query)
         if self._bm25 is None or not query_tokens:
@@ -218,30 +213,6 @@ class BM25Retriever:
             )
             for rank, i in enumerate(matches[:top_k], start=1)
         ]
-
-
-def _format_passage(passage: RetrievedPassage, excerpt_length: int = 240) -> str:
-    chunk = passage.chunk
-    location = chunk.location
-    parts = [location.source_path or "unknown source"]
-    if location.page is not None:
-        pages = str(location.page)
-        if location.page_end not in (None, location.page):
-            pages += f"-{location.page_end}"
-        parts.append(f"p. {pages}")
-    if location.article:
-        parts.append(f"art. {location.article}")
-    if location.paragraph:
-        parts.append(f"par. {location.paragraph}")
-
-    excerpt = " ".join(chunk.text.split())
-    if len(excerpt) > excerpt_length:
-        excerpt = excerpt[:excerpt_length].rstrip() + " ..."
-    return (
-        f"#{passage.rank}  score={passage.score:.4f}  {chunk.chunk_id}\n"
-        f"    {' | '.join(parts)}\n"
-        f"    {excerpt}"
-    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -280,7 +251,7 @@ def main(argv: list[str] | None = None) -> int:
     if not results:
         print("No chunks contain any of the query terms.")
     for passage in results:
-        print(_format_passage(passage))
+        print(format_passage(passage))
     return 0
 
 

@@ -60,7 +60,7 @@ import numpy as np
 from src.chunk_store import read_chunks
 from src.config import ConfigError, load_settings
 from src.models import LegalChunk, RetrievalMethod, RetrievedPassage
-from src.retrieval import _format_passage
+from src.retrieval_common import format_passage, require_positive_int, require_query
 
 DEFAULT_MODEL = "intfloat/multilingual-e5-small"
 DEFAULT_BATCH_SIZE = 32
@@ -174,14 +174,8 @@ class DenseRetriever:
         non-string or blank query and for a `top_k` that is not a positive int
         (booleans are rejected). Returns [] for an empty corpus.
         """
-        if not isinstance(query, str):
-            raise TypeError(f"query must be a string (got {type(query).__name__}).")
-        if not query.strip():
-            raise ValueError("query must not be empty or whitespace.")
-        if isinstance(top_k, bool) or not isinstance(top_k, int):
-            raise TypeError(f"top_k must be an int (got {type(top_k).__name__}).")
-        if top_k < 1:
-            raise ValueError(f"top_k must be >= 1 (got {top_k}).")
+        require_query(query)
+        require_positive_int(top_k, "top_k")
         if self._embeddings is None:
             return []
 
@@ -340,7 +334,7 @@ def main(argv: list[str] | None = None) -> int:
     if not results:
         print("No results.")
     for passage in results:
-        print(_format_passage(passage))
+        print(format_passage(passage))
     return 0
 
 
