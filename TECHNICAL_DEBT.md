@@ -6,8 +6,10 @@ improvement pass once the main framework is implemented. It is not a roadmap
 (see [MASTER_PROMPT.md](MASTER_PROMPT.md)) and does not repeat the usage notes
 in [README.md](README.md).
 
-- **Baseline:** Phase 5 (hybrid retrieval), written on top of commit `89b58c7`,
-  2026-10-08. First version: commit `910b522` (Phase 4B), 2026-10-01.
+- **Baseline:** shared retrieval helpers extracted ahead of Phase 6 (a
+  behaviour-preserving refactoring), written on top of commit `b97a1ac`.
+  Previous baselines: Phase 5 on `89b58c7`; first version `910b522` (Phase 4B),
+  2026-10-01.
 - **Phases covered:** 1 (setup), 2 (ingestion and chunking), 3 (BM25),
   4A (retrieval evaluation), 4B (dense retrieval), 5 (hybrid retrieval). Later
   phases appear only as risks and questions to revisit.
@@ -71,8 +73,8 @@ the phase reports and are not asserted by the test suite.
 | TD-027 | Cache key does not cover model revision or library version | Embedding cache | Confirmed | Medium | Open |
 | TD-028 | Model revision is not pinned | Model identity | Confirmed | Medium | Open |
 | TD-029 | Cache files are never cleaned up | Embedding cache | Confirmed | Low | Open |
-| TD-030 | Dense and hybrid modules import a private helper | Coupling | Confirmed | Low | Open |
-| TD-031 | Logic is duplicated across retrievers and CLIs | Coupling | Confirmed | Medium | Open |
+| TD-030 | Dense and hybrid modules import a private helper | Coupling | Confirmed | Low | Resolved |
+| TD-031 | Logic is duplicated across retrievers and CLIs | Coupling | Confirmed | Low | Open |
 | TD-032 | Evaluation depends on the ingestion module | Coupling | Confirmed | Low | Open |
 | TD-033 | Most settings are defined but unused | Configuration | Confirmed | Low | Open |
 | TD-034 | Layout differs from the spec; no packaging | Project structure | Confirmed | Low | Open |
@@ -365,22 +367,21 @@ the phase reports and are not asserted by the test suite.
 
 ## Internal coupling and configuration
 
-### TD-030 · Dense and hybrid modules import a private helper
-- **Kind:** Confirmed · **Priority:** Low · **Status:** Open
-- **Evidence:** `src/dense_retrieval.py` and, since Phase 5, `src/hybrid_retrieval.py` both have `from src.retrieval import _format_passage`. It keeps the three CLIs' output identical without editing the BM25 module.
-- **Follow-up:** Make the helper public or move it to a shared module.
-
 ### TD-031 · Logic is duplicated across retrievers and CLIs
-- **Kind:** Confirmed · **Priority:** Medium (it grew with the third retriever, as predicted) · **Status:** Open
-- **Evidence:**
-  - Query and `top_k` validation now exists three times: in `BM25Retriever`, `DenseRetriever` and `src/hybrid_retrieval.py`. One test keeps the three identical.
-  - The duplicate chunk ID check and `from_jsonl` are repeated in `BM25Retriever` and `DenseRetriever`.
-  - The default chunk path literal appears in five modules.
-  - Defaults are defined twice and kept equal by tests: the embedding model (`src/config.py`, `src/dense_retrieval.py`), and the two candidate depths and the RRF constant (`src/config.py`, `src/hybrid_retrieval.py`).
-  - `src/hybrid_retrieval.py` declares its own two-line `search` protocol, a copy of the one in `src/retrieval_eval.py`, to avoid a circular import.
-  - The fake encoder helpers are copied between `tests/test_dense_retrieval.py` and `tests/test_hybrid_retrieval.py`.
-- **Decision in Phase 5:** The validation was copied, not extracted, so that the working BM25 and dense modules stayed untouched.
-- **Follow-up:** Extract the shared pieces into one small module as a separate refactoring change, before another retriever or the reranker is added.
+- **Kind:** Confirmed · **Priority:** Low (the parts a reranker would have copied are resolved) · **Status:** Open (partly resolved)
+- **Resolved in the refactoring before Phase 6:**
+  - Query and `top_k` validation existed three times. It is now `require_query` and `require_positive_int` in `src/retrieval_common.py`, called by `BM25Retriever`, `DenseRetriever` and `HybridRetriever`. Exception types, messages and the order of the checks are unchanged.
+  - The `search` protocol was declared twice. `Retriever` is now defined once in `src/retrieval_common.py` and imported by `src/hybrid_retrieval.py` and `src/retrieval_eval.py`.
+  - The private-helper import is recorded separately as TD-030.
+- **Still duplicated (deliberately deferred):**
+  - The duplicate chunk ID check, in `BM25Retriever` and `DenseRetriever`.
+  - The chunk-file check with its "chunk file not found" message, in four modules.
+  - The default chunk path literal, in five modules.
+  - CLI boilerplate: the stdout guard in four CLIs and the settings-loading block in five.
+  - Defaults defined twice and kept equal by tests: the embedding model (`src/config.py`, `src/dense_retrieval.py`), and the two candidate depths and the RRF constant (`src/config.py`, `src/hybrid_retrieval.py`).
+  - The fake encoder helpers, copied between `tests/test_dense_retrieval.py` and `tests/test_hybrid_retrieval.py`.
+- **Not unified on purpose:** `batch_size` in `DenseRetriever` and the evaluator's `k` are checked separately because they raise `ValueError` where the shared helper raises `TypeError`. Merging them would change behaviour.
+- **Follow-up:** Share the test fakes when the reranker tests are written. Revisit the rest if another CLI or retriever copies it again.
 
 ### TD-032 · Evaluation depends on the ingestion module
 - **Kind:** Confirmed · **Priority:** Low · **Status:** Open
@@ -403,7 +404,7 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-034 · Layout differs from the spec; no packaging
 - **Kind:** Confirmed · **Priority:** Low · **Status:** Open
-- **Evidence:** Compared with the layout suggested in `PROJECT_SPEC.md` §5: evaluation lives in `src/retrieval_eval.py`, not in an `evaluation/` directory; dense and hybrid retrieval each have their own module; `indexing.py` and `utils.py` do not exist, because index building lives in the retriever modules. Modules for later phases (`pipeline.py`, `reranking.py`, `generation.py`, `verification.py`, `app/`) are not due yet. The package is named `src`, there is no `pyproject.toml` or `setup.py`, and `python -m src.…` fails when run from another directory.
+- **Evidence:** Compared with the layout suggested in `PROJECT_SPEC.md` §5: evaluation lives in `src/retrieval_eval.py`, not in an `evaluation/` directory; dense and hybrid retrieval each have their own module; `indexing.py` and `utils.py` do not exist: index building lives in the retriever modules, and the helpers they share live in `src/retrieval_common.py`. Modules for later phases (`pipeline.py`, `reranking.py`, `generation.py`, `verification.py`, `app/`) are not due yet. The package is named `src`, there is no `pyproject.toml` or `setup.py`, and `python -m src.…` fails when run from another directory.
 - **Follow-up:** Update the spec's layout section to match, or restructure once the pipeline module exists.
 
 ## Environment, downloads and reproducibility
@@ -475,6 +476,12 @@ the phase reports and are not asserted by the test suite.
 - **Questions:** How is approval recorded? How are instructions inside retrieved passages kept from steering the model? What is logged?
 
 ## Resolved
+
+### TD-030 · Dense and hybrid modules import a private helper
+- **Kind:** Confirmed · **Priority:** Low · **Status:** Resolved in the refactoring before Phase 6
+- **Evidence:** `src/dense_retrieval.py` and `src/hybrid_retrieval.py` both had `from src.retrieval import _format_passage`.
+- **Resolution:** The function is now the public `format_passage` in `src/retrieval_common.py`, with its body unchanged, and the three search CLIs import it from there. No module in `src/` imports a private name from another.
+- **Verified by:** `tests/test_retrieval_common.py`: tests that pin the formatter's exact output, written and run against the old function before it was moved, and `test_no_source_module_imports_a_private_name_from_another`, which fails if such an import returns. The output of the three search CLIs on the synthetic fixture was byte-identical before and after.
 
 ### TD-040 · Hybrid retrieval: fusion and comparison questions
 - **Kind:** Risk · **Priority:** High · **Status:** Resolved in Phase 5 (design questions answered; what remains is tracked elsewhere)

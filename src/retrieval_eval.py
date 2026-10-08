@@ -46,15 +46,16 @@ import sys
 from collections.abc import Callable, Iterable, Iterator, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Protocol
+from typing import Any
 
 from src.chunk_store import read_chunks
 from src.config import ConfigError, load_settings
 from src.dense_retrieval import DenseRetriever
 from src.hybrid_retrieval import HybridRetriever
 from src.ingestion import display_path
-from src.models import LegalChunk, RetrievedPassage
+from src.models import LegalChunk
 from src.retrieval import BM25Retriever
+from src.retrieval_common import Retriever
 
 DEFAULT_KS = (1, 5, 10)
 METRIC_NAMES = ("recall", "mrr", "ndcg")
@@ -62,15 +63,6 @@ METRIC_NAMES = ("recall", "mrr", "ndcg")
 
 class EvaluationDataError(ValueError):
     """Evaluation data is malformed or inconsistent; the message says where."""
-
-
-class Retriever(Protocol):
-    """What the evaluator needs. A retriever may also define `describe() -> dict`
-    to record its settings (e.g. the embedding model) in the report, and
-    `max_results`, the most results it can return, so that cutoffs above it
-    are flagged in the report."""
-
-    def search(self, query: str, top_k: int = ...) -> list[RetrievedPassage]: ...
 
 
 def _dense_retriever(chunks: list[LegalChunk]) -> DenseRetriever:

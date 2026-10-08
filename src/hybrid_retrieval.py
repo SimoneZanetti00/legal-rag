@@ -57,36 +57,19 @@ import argparse
 import sys
 from collections.abc import Mapping, Sequence
 from pathlib import Path
-from typing import Any, Protocol
+from typing import Any
 
 from src.chunk_store import read_chunks
 from src.config import ConfigError, load_settings
 from src.dense_retrieval import DenseRetriever
 from src.models import LegalChunk, RetrievalMethod, RetrievedPassage
-from src.retrieval import BM25Retriever, _format_passage
+from src.retrieval import BM25Retriever
+from src.retrieval_common import Retriever, format_passage, require_positive_int, require_query
 
 # Same values as the BM25_TOP_K, DENSE_TOP_K and RRF_K defaults in src/config.py.
 DEFAULT_BM25_TOP_K = 20
 DEFAULT_DENSE_TOP_K = 20
 DEFAULT_RRF_K = 60
-
-
-class _Searchable(Protocol):
-    def search(self, query: str, top_k: int = ...) -> list[RetrievedPassage]: ...
-
-
-def _require_positive_int(value: object, name: str) -> None:
-    if isinstance(value, bool) or not isinstance(value, int):
-        raise TypeError(f"{name} must be an int (got {type(value).__name__}).")
-    if value < 1:
-        raise ValueError(f"{name} must be >= 1 (got {value}).")
-
-
-def _require_query(query: object) -> None:
-    if not isinstance(query, str):
-        raise TypeError(f"query must be a string (got {type(query).__name__}).")
-    if not query.strip():
-        raise ValueError("query must not be empty or whitespace.")
 
 
 def reciprocal_rank_fusion(
@@ -103,9 +86,9 @@ def reciprocal_rank_fusion(
       in two lists means the lists come from different corpora: ValueError.
     - `top_k=None` returns every fused result.
     """
-    _require_positive_int(rrf_k, "rrf_k")
+    require_positive_int(rrf_k, "rrf_k")
     if top_k is not None:
-        _require_positive_int(top_k, "top_k")
+        require_positive_int(top_k, "top_k")
 
     chunks: dict[str, LegalChunk] = {}
     method_ranks: dict[str, dict[RetrievalMethod, int]] = {}
@@ -158,16 +141,16 @@ class HybridRetriever:
 
     def __init__(
         self,
-        bm25: _Searchable,
-        dense: _Searchable,
+        bm25: Retriever,
+        dense: Retriever,
         *,
         bm25_top_k: int = DEFAULT_BM25_TOP_K,
         dense_top_k: int = DEFAULT_DENSE_TOP_K,
         rrf_k: int = DEFAULT_RRF_K,
     ) -> None:
-        _require_positive_int(bm25_top_k, "bm25_top_k")
-        _require_positive_int(dense_top_k, "dense_top_k")
-        _require_positive_int(rrf_k, "rrf_k")
+        require_positive_int(bm25_top_k, "bm25_top_k")
+        require_positive_int(dense_top_k, "dense_top_k")
+        require_positive_int(rrf_k, "rrf_k")
         self._bm25 = bm25
         self._dense = dense
         self.bm25_top_k = bm25_top_k
@@ -225,13 +208,13 @@ class HybridRetriever:
         Returns [] when neither retriever returns a candidate. Errors raised by
         either retriever are not caught.
         """
-        _require_query(query)
-        _require_positive_int(top_k, "top_k")
+        require_query(query)
+        require_positive_int(top_k, "top_k")
         return reciprocal_rank_fusion(self._candidates(query), rrf_k=self.rrf_k, top_k=top_k)
 
     def _candidates(self, query: str) -> dict[RetrievalMethod, list[RetrievedPassage]]:
         """Each retriever's candidates, at its fixed depth (independent of the output size)."""
-        _require_query(query)
+        require_query(query)
         return {
             RetrievalMethod.BM25: self._bm25.search(query, top_k=self.bm25_top_k),
             RetrievalMethod.DENSE: self._dense.search(query, top_k=self.dense_top_k),
@@ -275,8 +258,8 @@ def main(argv: list[str] | None = None) -> int:
     model_name = args.model or settings.embedding_model
 
     try:
-        _require_query(args.query)  # checked first, before any model is loaded
-        _require_positive_int(args.top_k, "top_k")
+        require_query(args.query)  # checked first, before any model is loaded
+        require_positive_int(args.top_k, "top_k")
         retriever = HybridRetriever.from_jsonl(
             chunks_path,
             bm25_top_k=settings.bm25_top_k,
@@ -315,7 +298,7 @@ def main(argv: list[str] | None = None) -> int:
     if not results:
         print("No results.")
     for passage in results:
-        print(_format_passage(passage))
+        print(format_passage(passage))
         print(_format_sources(passage))
     return 0
 

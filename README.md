@@ -36,6 +36,7 @@ src/
   ingestion.py   # TXT/PDF loading, batch ingestion, CLI
   chunking.py    # legal-aware chunking
   chunk_store.py # JSONL serialization of chunks
+  retrieval_common.py # shared by the retrievers: argument checks, result formatting, Retriever interface
   retrieval.py   # tokenizer and BM25 retriever, search CLI
   dense_retrieval.py # embedding-based retriever, embedding cache, search CLI
   hybrid_retrieval.py # Reciprocal Rank Fusion, hybrid retriever, search CLI
