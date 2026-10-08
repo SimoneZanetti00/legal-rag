@@ -6,10 +6,11 @@ improvement pass once the main framework is implemented. It is not a roadmap
 (see [MASTER_PROMPT.md](MASTER_PROMPT.md)) and does not repeat the usage notes
 in [README.md](README.md).
 
-- **Baseline:** commit `5942160` (Phase 4B, dense retrieval), 2026-10-01.
+- **Baseline:** Phase 5 (hybrid retrieval), written on top of commit `89b58c7`,
+  2026-10-08. First version: commit `910b522` (Phase 4B), 2026-10-01.
 - **Phases covered:** 1 (setup), 2 (ingestion and chunking), 3 (BM25),
-  4A (retrieval evaluation), 4B (dense retrieval). Later phases appear only as
-  risks and questions to revisit.
+  4A (retrieval evaluation), 4B (dense retrieval), 5 (hybrid retrieval). Later
+  phases appear only as risks and questions to revisit.
 
 ## How to read an entry
 
@@ -70,17 +71,17 @@ the phase reports and are not asserted by the test suite.
 | TD-027 | Cache key does not cover model revision or library version | Embedding cache | Confirmed | Medium | Open |
 | TD-028 | Model revision is not pinned | Model identity | Confirmed | Medium | Open |
 | TD-029 | Cache files are never cleaned up | Embedding cache | Confirmed | Low | Open |
-| TD-030 | Dense module imports a private helper | Coupling | Confirmed | Low | Open |
+| TD-030 | Dense and hybrid modules import a private helper | Coupling | Confirmed | Low | Open |
 | TD-031 | Logic is duplicated across retrievers and CLIs | Coupling | Confirmed | Medium | Open |
 | TD-032 | Evaluation depends on the ingestion module | Coupling | Confirmed | Low | Open |
 | TD-033 | Most settings are defined but unused | Configuration | Confirmed | Low | Open |
 | TD-034 | Layout differs from the spec; no packaging | Project structure | Confirmed | Low | Open |
 | TD-035 | Only direct dependencies are pinned | Environment | Confirmed | Medium | Open |
 | TD-036 | No CI; tested on one platform only | Environment | Confirmed | Medium | Open |
-| TD-037 | The real model is exercised only by an opt-in test | Testing | Confirmed | Medium | Open |
-| TD-038 | Model downloads fail behind HTTPS inspection | Environment | Observed | Low | Open |
+| TD-037 | The real model is exercised only by opt-in tests | Testing | Confirmed | Medium | Open |
+| TD-038 | Behind HTTPS inspection, model downloads fail and cached loads are slow | Environment | Observed | Low | Open |
 | TD-039 | Heavy environment and slow first import | Environment | Observed | Low | Open |
-| TD-040 | Hybrid retrieval: fusion and comparison questions | Hybrid (future) | Risk | High | Open |
+| TD-040 | Hybrid retrieval: fusion and comparison questions | Hybrid | Risk | High | Resolved |
 | TD-041 | Reranking: unverified model and input limits | Reranking (future) | Risk | Medium | Open |
 | TD-042 | Generation: token budget, citations and provenance | Generation (future) | Risk | Medium | Open |
 | TD-043 | Abstention thresholds need calibrated scores | Abstention (future) | Risk | High | Open |
@@ -89,6 +90,15 @@ the phase reports and are not asserted by the test suite.
 | TD-046 | Okapi IDF scored real matches zero or negative | BM25 | Confirmed | High | Resolved |
 | TD-047 | Search output could crash on characters the console cannot show | Search CLIs | Confirmed | Low | Resolved |
 | TD-048 | A unit test attempted a real model download | Testing | Confirmed | Medium | Resolved |
+| TD-049 | RRF parameters are untuned defaults | Hybrid | Confirmed | Medium | Open |
+| TD-050 | RRF ignores score magnitude | Hybrid | Confirmed | Low | Open |
+| TD-051 | The fused score is not a calibrated confidence | Hybrid | Confirmed | Medium | Open |
+| TD-052 | "Found by both" always wins, and small corpora make it meaningless | Hybrid | Confirmed | Medium | Open |
+| TD-053 | Ties are common and the chunk-ID tie-break is arbitrary | Hybrid | Confirmed | Medium | Open |
+| TD-054 | Hybrid retrieval depends on the dense model, with no fallback | Hybrid | Confirmed | Low | Open |
+| TD-055 | Metadata and temporal filters are not implemented | Retrieval | Confirmed | Medium | Deferred |
+| TD-056 | Real-model runs print library progress output | Environment | Observed | Low | Open |
+| TD-057 | Evaluation cutoffs above the hybrid candidate depth are not comparable | Hybrid, evaluation | Confirmed | Medium | Open |
 
 ## Ingestion and chunking (Phase 2)
 
@@ -181,7 +191,7 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-013 · Indexes are rebuilt per run; cost at scale is unmeasured
 - **Kind:** Hypothesis · **Priority:** Low (no measured problem) · **Status:** Open
-- **Evidence:** `BM25Retriever` tokenises the whole corpus on construction and scores every chunk per query. `DenseRetriever` compares the query with every chunk in memory. No timing has been taken on a realistic corpus.
+- **Evidence:** `BM25Retriever` tokenises the whole corpus on construction and scores every chunk per query. `DenseRetriever` compares the query with every chunk in memory. `HybridRetriever` (Phase 5) holds both indexes and runs both scans, one after the other, for every query. No timing has been taken on a realistic corpus.
 - **Follow-up:** Measure index and query time on the TD-002 corpus before deciding whether persistence or a vector index is needed.
 - **Depends on:** TD-002.
 
@@ -207,9 +217,9 @@ the phase reports and are not asserted by the test suite.
 - **Follow-up:** Freeze chunk settings for the benchmark, or judge at a level that survives re-chunking (document plus article, or character span).
 
 ### TD-017 · Recall comparison is skewed by result counts
-- **Kind:** Observed · **Priority:** Medium (affects every BM25-versus-dense comparison) · **Status:** Open
-- **Evidence:** BM25 returns only chunks that share a query word. Dense retrieval always returns `top_k`. With a deterministic fake encoder on the nine-chunk fixture, dense recall@10 was 1.000 simply because k exceeded the corpus size.
-- **Impact:** Recall at large k favours dense retrieval for a reason unrelated to quality.
+- **Kind:** Observed · **Priority:** Medium (affects every comparison between BM25 and dense or hybrid) · **Status:** Open
+- **Evidence:** BM25 returns only chunks that share a query word. Dense retrieval always returns `top_k`, and hybrid retrieval returns results whenever dense does. With a deterministic fake encoder on the nine-chunk fixture, dense recall@10 was 1.000 simply because k exceeded the corpus size. In the Phase 5 smoke run with the real model on the same fixture, mean recall@5 was 0.625 for BM25 and 1.000 for both dense and hybrid; five results out of nine chunks cover most of the corpus.
+- **Impact:** Recall at a k near the corpus size favours dense and hybrid retrieval for a reason unrelated to quality.
 - **Follow-up:** Compare at k well below the corpus size, and report how many results each retriever returned.
 - **Depends on:** TD-015.
 
@@ -221,7 +231,7 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-019 · Reports do not record library versions or model revision
 - **Kind:** Confirmed · **Priority:** Medium (needed to reproduce a dense result) · **Status:** Open
-- **Evidence:** The JSON report holds the retriever name, the model name and prefixes, the k values, and input file hashes. It holds no package versions and no model revision.
+- **Evidence:** The JSON report holds the retriever name, the model name and prefixes, the k values, and input file hashes. For hybrid runs it also holds the fusion method, `rrf_k` and both candidate depths. It holds no package versions and no model revision.
 - **Follow-up:** Add the versions of the retrieval libraries and the resolved model revision to `retriever_details`.
 - **Depends on:** TD-028.
 
@@ -267,7 +277,7 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-026 · No relevance cut-off
 - **Kind:** Confirmed · **Priority:** Medium (needed for abstention) · **Status:** Open
-- **Evidence:** `DenseRetriever.search` returns `top_k` chunks whenever the corpus has that many. `MIN_RETRIEVAL_SCORE` is defined in `src/config.py` and read nowhere.
+- **Evidence:** `DenseRetriever.search` returns `top_k` chunks whenever the corpus has that many. `HybridRetriever` inherits this: a query with no lexical match still returns the dense candidates (tested). `MIN_RETRIEVAL_SCORE` is defined in `src/config.py` and read nowhere.
 - **Impact:** Unrelated passages are returned for questions the corpus cannot answer.
 - **Follow-up:** See TD-043.
 
@@ -291,17 +301,86 @@ the phase reports and are not asserted by the test suite.
 - **Evidence:** Each new combination of chunks and model writes a new `.npy` file under `data/indexes/embeddings/`. Nothing removes old ones.
 - **Follow-up:** Document or add a simple prune step if the directory grows.
 
+## Hybrid retrieval (Phase 5)
+
+### TD-049 · RRF parameters are untuned defaults
+- **Kind:** Confirmed (fact); effect unmeasured · **Priority:** Medium (they shape every hybrid ranking) · **Status:** Open
+- **Evidence:** `RRF_K=60`, `BM25_TOP_K=20` and `DENSE_TOP_K=20` are conventional starting values taken from the existing configuration defaults. Both retrievers have equal weight. None was chosen from data, because no benchmark exists.
+- **Impact:** Unknown. Different values can change the fused order (a test shows `rrf_k=1` and `rrf_k=60` ordering the same lists differently).
+- **Follow-up:** Tune on the benchmark, and only then consider per-retriever weights.
+- **Depends on:** TD-015.
+
+### TD-050 · RRF ignores score magnitude
+- **Kind:** Confirmed (by design) · **Priority:** Low (no evidence that it hurts) · **Status:** Open
+- **Evidence:** `reciprocal_rank_fusion` uses each chunk's position only. A first place won by a wide margin counts the same as one won narrowly. Scores were deliberately not normalized: BM25 scores are unbounded and corpus-dependent, and dense scores are bunched (TD-021).
+- **Follow-up:** Compare with a score-aware fusion only when benchmark data can show a difference.
+- **Depends on:** TD-015.
+
+### TD-051 · The fused score is not a calibrated confidence
+- **Kind:** Confirmed · **Priority:** Medium (it will be tempting to threshold it for abstention) · **Status:** Open
+- **Evidence:** A fused score is a sum of `1 / (rrf_k + rank)` terms. With the defaults it lies between 1/80 and 2/61 whatever the query, including queries the corpus cannot answer. It says nothing about relevance in absolute terms.
+- **Impact:** It cannot serve as a relevance threshold, and it is not comparable across queries or settings.
+- **Follow-up:** See TD-043.
+
+### TD-052 · "Found by both" always wins, and small corpora make it meaningless
+- **Kind:** Confirmed (property of the formula); Observed on the fixture · **Priority:** Medium (it affects any evaluation on a small corpus) · **Status:** Open
+- **Evidence:** A chunk returned by both retrievers outranks any chunk returned by only one whenever the candidate depth is below `rrf_k + 2`, which holds at the defaults (20 against 62). A test covers it. Dense retrieval returns candidates for every query (TD-026), so on a corpus with no more chunks than `DENSE_TOP_K` its list is the whole corpus. On the nine-chunk fixture the CLI reports "BM25 5, dense 9" candidates: every BM25 match is automatically "found by both".
+- **Impact:** On small corpora the hybrid order is the BM25 matches first, then the remaining chunks in dense order. Hybrid scores on the synthetic fixture therefore say nothing about fusion quality.
+- **Follow-up:** Evaluate on a corpus much larger than the candidate depths.
+- **Depends on:** TD-002, TD-015.
+
+### TD-053 · Ties are common and the chunk-ID tie-break is arbitrary
+- **Kind:** Confirmed (design); Observed on the fixture · **Priority:** Medium (it decided a top result) · **Status:** Open
+- **Evidence:** Equal fused scores are ordered by `chunk_id`, which is deterministic but unrelated to relevance, and arbitrary across documents because document IDs are hashes. Ties arise easily: a chunk ranked 1st and 2nd ties exactly with one ranked 2nd and 1st. With the real model on the fixture, the query `obblighi del datore di lavoro` produced exactly that tie for its top two results (both 0.0325), so the first result, and that query's reciprocal rank, were decided by the chunk ID.
+- **Impact:** Measured hybrid metrics can depend on the tie-break.
+- **Follow-up:** Count how often ties occur on the benchmark before choosing another rule.
+- **Depends on:** TD-015.
+
+### TD-054 · Hybrid retrieval depends on the dense model, with no fallback
+- **Kind:** Confirmed (by design) · **Priority:** Low · **Status:** Open
+- **Evidence:** `HybridRetriever.search` does not catch errors from either retriever, and the CLI exits with code 2 when the embedding model cannot be loaded (both tested). It never returns BM25-only results in place of hybrid ones.
+- **Impact:** Hybrid search is unavailable wherever the model is (TD-038), and every search pays for both scans (TD-013).
+- **Follow-up:** None. An explicit, visible fallback could be added if a use case needs it.
+
+### TD-055 · Metadata and temporal filters are not implemented
+- **Kind:** Confirmed · **Priority:** Medium · **Status:** Deferred (decided when Phase 5 was designed)
+- **Evidence:** `MASTER_PROMPT.md` lists "available metadata and temporal filters" under Phase 5. They were left out of the approved Phase 5 scope. No retriever accepts a filter.
+- **Reason:** No document has any metadata to filter on (TD-044), and filters would require changing both existing retrievers.
+- **Follow-up:** Build them once sources carry metadata.
+- **Depends on:** TD-004, TD-044.
+
+### TD-056 · Real-model runs print library progress output
+- **Kind:** Observed · **Priority:** Low (cosmetic) · **Status:** Open
+- **Evidence:** Running the dense, hybrid or evaluation CLI with the real model prints the embedding library's `Loading weights` progress lines and warnings on stderr, mixed with the program's own messages.
+- **Follow-up:** Silence or redirect the library's output in the CLIs.
+
+### TD-057 · Evaluation cutoffs above the hybrid candidate depth are not comparable
+- **Kind:** Confirmed (reproduced during the Phase 5 review; tested) · **Priority:** Medium (it can make hybrid look worse in a comparison) · **Status:** Open (flagged by a warning, not prevented)
+- **Evidence:** `HybridRetriever` returns at most `bm25_top_k + dense_top_k` results per query (40 by default), while BM25 and dense retrieval return as many as requested. In a review run with the fake encoder on a 120-chunk synthetic corpus where every chunk was judged relevant, at k=100 BM25 and dense each returned 100 results (recall 0.833) and hybrid returned 20 (recall 0.167). Recall@10 was identical for all three. Hybrid returned 20, not 40, because both retrievers had picked the same chunks.
+- **Impact:** At a cutoff above the candidate depths, hybrid's lower recall reflects where its ranking ends, not its ranking quality.
+- **Mitigation in place:** When a cutoff exceeds a retriever's `max_results`, `src/retrieval_eval.py` adds a warning to the terminal summary and to `warnings` in the report. The metrics are left as computed and the run still succeeds. Tests cover the warning, the unchanged results, and the absence of the warning for BM25, dense, and cutoffs within reach.
+- **Remaining gap:** No warning is given for a cutoff between the smaller candidate depth and the maximum, where hybrid may also return fewer results than the cutoff. Each query's `retrieved` list in the report shows the real count.
+- **Follow-up:** Decide whether the evaluator should refuse such cutoffs, or whether the candidate depths should grow with the evaluation k. Revisit with TD-049.
+- **Depends on:** TD-049.
+
 ## Internal coupling and configuration
 
-### TD-030 · Dense module imports a private helper
+### TD-030 · Dense and hybrid modules import a private helper
 - **Kind:** Confirmed · **Priority:** Low · **Status:** Open
-- **Evidence:** `src/dense_retrieval.py` has `from src.retrieval import _format_passage`. It was done to keep both CLIs' output identical without editing the BM25 module during Phase 4B.
+- **Evidence:** `src/dense_retrieval.py` and, since Phase 5, `src/hybrid_retrieval.py` both have `from src.retrieval import _format_passage`. It keeps the three CLIs' output identical without editing the BM25 module.
 - **Follow-up:** Make the helper public or move it to a shared module.
 
 ### TD-031 · Logic is duplicated across retrievers and CLIs
-- **Kind:** Confirmed · **Priority:** Medium (a third retriever would copy it again) · **Status:** Open
-- **Evidence:** Repeated in `BM25Retriever` and `DenseRetriever`: query and `top_k` validation (kept identical by a test), the duplicate chunk ID check, and `from_jsonl`. The default chunk path literal appears in four modules. The default embedding model is defined in both `src/config.py` and `src/dense_retrieval.py` (kept equal by a test).
-- **Follow-up:** Extract the shared pieces into one small module before or during hybrid retrieval.
+- **Kind:** Confirmed · **Priority:** Medium (it grew with the third retriever, as predicted) · **Status:** Open
+- **Evidence:**
+  - Query and `top_k` validation now exists three times: in `BM25Retriever`, `DenseRetriever` and `src/hybrid_retrieval.py`. One test keeps the three identical.
+  - The duplicate chunk ID check and `from_jsonl` are repeated in `BM25Retriever` and `DenseRetriever`.
+  - The default chunk path literal appears in five modules.
+  - Defaults are defined twice and kept equal by tests: the embedding model (`src/config.py`, `src/dense_retrieval.py`), and the two candidate depths and the RRF constant (`src/config.py`, `src/hybrid_retrieval.py`).
+  - `src/hybrid_retrieval.py` declares its own two-line `search` protocol, a copy of the one in `src/retrieval_eval.py`, to avoid a circular import.
+  - The fake encoder helpers are copied between `tests/test_dense_retrieval.py` and `tests/test_hybrid_retrieval.py`.
+- **Decision in Phase 5:** The validation was copied, not extracted, so that the working BM25 and dense modules stayed untouched.
+- **Follow-up:** Extract the shared pieces into one small module as a separate refactoring change, before another retriever or the reranker is added.
 
 ### TD-032 · Evaluation depends on the ingestion module
 - **Kind:** Confirmed · **Priority:** Low · **Status:** Open
@@ -310,21 +389,21 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-033 · Most settings are defined but unused
 - **Kind:** Confirmed · **Priority:** Low · **Status:** Open
-- **Evidence:** Of the 20 settings, five are read outside `src/config.py`: `DATA_DIR` (through the raw, processed and evaluation paths), `INDEX_DIR`, `EMBEDDING_MODEL`, `CHUNK_SIZE` and `CHUNK_OVERLAP`. The other fifteen are read by no code outside `src/config.py`:
+- **Evidence:** Of the 20 settings, eight are read outside `src/config.py`: `DATA_DIR` (through the raw, processed and evaluation paths), `INDEX_DIR`, `EMBEDDING_MODEL`, `CHUNK_SIZE`, `CHUNK_OVERLAP` and, since Phase 5, `BM25_TOP_K`, `DENSE_TOP_K` and `RRF_K`. The other twelve are read by no code outside `src/config.py`:
   - `RERANKER_ENABLED`, `RERANKER_MODEL`
   - `LLM_PROVIDER`, `LLM_MODEL`, `LLM_API_KEY`
-  - `BM25_TOP_K`, `DENSE_TOP_K`, `RERANK_TOP_K`, `FINAL_EVIDENCE_COUNT`
-  - `RRF_K`, `CONTEXT_TOKEN_BUDGET`
+  - `RERANK_TOP_K`, `FINAL_EVIDENCE_COUNT`
+  - `CONTEXT_TOKEN_BUDGET`
   - `MIN_RETRIEVAL_SCORE`, `MIN_RERANK_SCORE`
   - `UNDATED_SOURCE_POLICY`, `MAX_GENERATION_RETRIES`
 
-  Thirteen of them are checked in `_validate`. `MIN_RETRIEVAL_SCORE` and `MIN_RERANK_SCORE` are only parsed. `Settings.require_llm_api_key()` is called only by tests.
+  Nine of them are checked in `_validate`. `LLM_API_KEY`, `MIN_RETRIEVAL_SCORE` and `MIN_RERANK_SCORE` are only parsed; the only other reader of `LLM_API_KEY` is `Settings.require_llm_api_key()`, which only tests call. (The first version of this entry counted `LLM_API_KEY` as validated; it never was.)
 - **Impact:** Documented settings with no effect can mislead. Their defaults, including the reranker model name, have never been exercised.
 - **Follow-up:** Verify each setting when its phase lands. Remove any that end up unused.
 
 ### TD-034 · Layout differs from the spec; no packaging
 - **Kind:** Confirmed · **Priority:** Low · **Status:** Open
-- **Evidence:** Compared with the layout suggested in `PROJECT_SPEC.md` §5: evaluation lives in `src/retrieval_eval.py`, not in an `evaluation/` directory; dense retrieval has its own module; `indexing.py` and `utils.py` do not exist, because index building lives in the retriever modules. Modules for later phases (`pipeline.py`, `reranking.py`, `generation.py`, `verification.py`, `app/`) are not due yet. The package is named `src`, there is no `pyproject.toml` or `setup.py`, and `python -m src.…` fails when run from another directory.
+- **Evidence:** Compared with the layout suggested in `PROJECT_SPEC.md` §5: evaluation lives in `src/retrieval_eval.py`, not in an `evaluation/` directory; dense and hybrid retrieval each have their own module; `indexing.py` and `utils.py` do not exist, because index building lives in the retriever modules. Modules for later phases (`pipeline.py`, `reranking.py`, `generation.py`, `verification.py`, `app/`) are not due yet. The package is named `src`, there is no `pyproject.toml` or `setup.py`, and `python -m src.…` fails when run from another directory.
 - **Follow-up:** Update the spec's layout section to match, or restructure once the pipeline module exists.
 
 ## Environment, downloads and reproducibility
@@ -339,16 +418,20 @@ the phase reports and are not asserted by the test suite.
 - **Evidence:** There is no CI configuration. All runs were on Windows 11 with Python 3.13.2. The README states Python 3.11+, which is untested.
 - **Follow-up:** Run the default (offline) suite in CI on Windows and Linux for the supported Python versions.
 
-### TD-037 · The real model is exercised only by an opt-in test
+### TD-037 · The real model is exercised only by opt-in tests
 - **Kind:** Confirmed · **Priority:** Medium (integration regressions would go unnoticed) · **Status:** Open
-- **Evidence:** The default suite uses fake encoders and replaces the `sentence_transformers` module. `test_real_model_smoke` runs only with `RUN_REAL_MODEL_TESTS=1` and a model already in the local cache.
-- **Follow-up:** Run the opt-in test in a scheduled or manual CI job with a cached model.
+- **Evidence:** The default suite uses fake encoders and replaces the `sentence_transformers` module. Two tests named `test_real_model_smoke`, one for dense and one for hybrid retrieval, run only with `RUN_REAL_MODEL_TESTS=1` and a model already in the local cache.
+- **Follow-up:** Run the opt-in tests in a scheduled or manual CI job with a cached model.
 - **Depends on:** TD-036.
 
-### TD-038 · Model downloads fail behind HTTPS inspection
+### TD-038 · Behind HTTPS inspection, model downloads fail and cached loads are slow
 - **Kind:** Observed (development machine) · **Priority:** Low (documented, environment-specific) · **Status:** Open
-- **Evidence:** Behind antivirus HTTPS inspection, the Hugging Face client failed with `CERTIFICATE_VERIFY_FAILED`. The README documents a manual, verification-preserving procedure. On Windows without symlink support the model cache also runs in a degraded mode that uses more disk space.
-- **Follow-up:** None planned beyond the documentation.
+- **Evidence:**
+  - Behind antivirus HTTPS inspection, the Hugging Face client failed with `CERTIFICATE_VERIFY_FAILED`. The README documents a manual, verification-preserving procedure.
+  - Found in Phase 5: with the model already cached, a dense search without `HF_HUB_OFFLINE=1` still took 238 seconds, logging 48 certificate errors and 40 retries before using the cache. The same command with `HF_HUB_OFFLINE=1` took 24 seconds. The README now recommends the variable.
+  - On Windows without symlink support the model cache also runs in a degraded mode that uses more disk space.
+- **Impact:** Every dense, hybrid or dense-evaluation run on such a machine is about four minutes slower unless the variable is set.
+- **Follow-up:** None planned beyond the documentation. An option to load local files only would remove the need for the variable.
 
 ### TD-039 · Heavy environment and slow first import
 - **Kind:** Observed · **Priority:** Low · **Status:** Open
@@ -356,15 +439,6 @@ the phase reports and are not asserted by the test suite.
 - **Follow-up:** Measure with TD-013.
 
 ## Risks and questions for later phases
-
-### TD-040 · Hybrid retrieval: fusion and comparison questions
-- **Kind:** Risk · **Priority:** High (decides whether the next phase's results mean anything) · **Status:** Open
-- **Questions:**
-  - How should a BM25 list that can be shorter than k be fused with a dense list that is always k long (TD-017)?
-  - Is the default `RRF_K=60` appropriate? It has never been used.
-  - `RetrievedPassage.method_ranks` and `method_scores` exist but no retriever sets them. Fusion must populate and test them.
-  - BM25-only, dense-only and hybrid must be compared on the same benchmark and k. No improvement should be claimed from the synthetic fixture.
-- **Depends on:** TD-015, TD-017, TD-031.
 
 ### TD-041 · Reranking: unverified model and input limits
 - **Kind:** Risk · **Priority:** Medium · **Status:** Open
@@ -385,9 +459,9 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-043 · Abstention thresholds need calibrated scores
 - **Kind:** Risk · **Priority:** High (abstention is a core requirement of the spec) · **Status:** Open
-- **Evidence:** BM25 scores depend on the corpus and the query. Dense scores are bunched (TD-021) and are returned for every query (TD-026). Neither is a probability.
+- **Evidence:** BM25 scores depend on the corpus and the query. Dense scores are bunched (TD-021) and are returned for every query (TD-026). The fused RRF score depends only on ranks (TD-051). None of the three is a probability.
 - **Questions:** Can a threshold on either score, on the fused rank, or on a reranker score separate answerable from unanswerable questions? This needs unanswerable queries in the benchmark.
-- **Depends on:** TD-015, TD-021, TD-026.
+- **Depends on:** TD-015, TD-021, TD-026, TD-051.
 
 ### TD-044 · Temporal filtering has no data to work on
 - **Kind:** Confirmed · **Priority:** Medium · **Status:** Open
@@ -401,6 +475,15 @@ the phase reports and are not asserted by the test suite.
 - **Questions:** How is approval recorded? How are instructions inside retrieved passages kept from steering the model? What is logged?
 
 ## Resolved
+
+### TD-040 · Hybrid retrieval: fusion and comparison questions
+- **Kind:** Risk · **Priority:** High · **Status:** Resolved in Phase 5 (design questions answered; what remains is tracked elsewhere)
+- **Questions raised before Phase 5, and their outcome:**
+  - *How should a BM25 list that can be shorter than k be fused with a dense list that is always full?* With rank-only RRF over fixed candidate depths; a list contributes nothing for chunks it lacks. The side effects are recorded in TD-052.
+  - *Is `RRF_K=60` appropriate?* Still unknown. It is in use but untuned (TD-049).
+  - *`method_ranks` and `method_scores` were never set.* `reciprocal_rank_fusion` now sets them for every fused result, and tests check them.
+  - *The three retrievers must be compared on the same benchmark and k.* The evaluator accepts `bm25`, `dense` and `hybrid` with one dataset, the same metrics and the same report format (tested). The comparison itself still needs a benchmark (TD-015) and care with result counts (TD-017).
+- **Verified by:** `tests/test_hybrid_retrieval.py`.
 
 ### TD-046 · Okapi IDF scored real matches zero or negative
 - **Kind:** Confirmed · **Priority:** High · **Status:** Resolved in Phase 3

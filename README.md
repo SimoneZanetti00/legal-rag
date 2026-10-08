@@ -19,10 +19,13 @@ See [PROJECT_SPEC.md](PROJECT_SPEC.md) for the specification and
   labelled queries, with a BM25 baseline runner.
 - **Phase 4B (dense retrieval):** embedding-based search with
   `intfloat/multilingual-e5-small`, selectable in the evaluator.
+- **Phase 5 (hybrid retrieval):** BM25 and dense results fused with Reciprocal
+  Rank Fusion, selectable in the evaluator.
 
-Hybrid retrieval, reranking, generation, verification, grounding evaluation,
-and the UI are **not implemented yet**. No curated legal benchmark exists yet;
-only a synthetic test fixture.
+Metadata and temporal filters, reranking, generation, verification, grounding
+evaluation, and the UI are **not implemented yet**. No curated legal benchmark
+exists yet; only a synthetic test fixture. Nothing here shows that any of the
+three retrievers is better than another on legal text.
 
 ## Repository layout
 
@@ -35,6 +38,7 @@ src/
   chunk_store.py # JSONL serialization of chunks
   retrieval.py   # tokenizer and BM25 retriever, search CLI
   dense_retrieval.py # embedding-based retriever, embedding cache, search CLI
+  hybrid_retrieval.py # Reciprocal Rank Fusion, hybrid retriever, search CLI
   retrieval_eval.py # retrieval metrics, evaluation data loading, evaluation CLI
 tests/           # pytest suite; builds synthetic TXT/PDF fixtures on the fly
   fixtures/synthetic_retrieval/ # SYNTHETIC chunks, queries and judgments for tests only
@@ -97,6 +101,9 @@ Dependencies:
 
 # Search them by embedding similarity (see "Dense retrieval" below; downloads the model on first use)
 .\.venv\Scripts\python.exe -m src.dense_retrieval "obblighi del datore di lavoro" --top-k 5
+
+# Search with both and fuse the rankings (see "Hybrid retrieval" below; also needs the model)
+.\.venv\Scripts\python.exe -m src.hybrid_retrieval "obblighi del datore di lavoro" --top-k 5
 
 # Evaluate retrieval against labelled queries (see "Retrieval evaluation" below)
 .\.venv\Scripts\python.exe -m src.retrieval_eval --k 1 5 10 --output data/processed/eval_bm25.json
@@ -343,7 +350,8 @@ works.
 first time a dense search, or a dense evaluation, needs it. It is stored in
 the Hugging Face cache (`%USERPROFILE%\.cache\huggingface`), and later runs
 work offline. The model is loaded once per retriever, and not at all when
-the corpus is empty. To forbid downloads, set `HF_HUB_OFFLINE=1`.
+the corpus is empty. To forbid downloads, set `HF_HUB_OFFLINE=1`; the model
+must then already be in the cache.
 
 **Command line** (run ingestion first):
 
@@ -427,7 +435,21 @@ verify failed: unable to get local issuer certificate`.
      Verification stays on; setting `HF_HUB_DISABLE_XET=1` for the same
      command keeps every file on the client that reads `SSL_CERT_FILE`.
 - Keep certificate files outside the repository and never commit them.
-- Once the model is cached, no network access or certificate setup is needed.
+- On a machine with this problem, a model that is already cached still loads
+  slowly, because the client retries its online checks before falling back to
+  the cache. In one measured run that took 238 seconds instead of 24.
+  Setting `HF_HUB_OFFLINE=1` skips those checks:
+
+  ```powershell
+  $env:HF_HUB_OFFLINE = "1"      # this PowerShell session only
+  ```
+
+  `HF_HUB_OFFLINE=1` means cache-only operation. Use it only when the model
+  you need is already downloaded. While it is set nothing can be downloaded or
+  updated: a different `EMBEDDING_MODEL`, or a first download, fails with a
+  "couldn't find them in the cached files" error. Remove it
+  (`Remove-Item Env:HF_HUB_OFFLINE`) before downloading or updating a model.
+  On a network without HTTPS inspection it is not needed.
 
 **Limitations**
 
@@ -458,6 +480,131 @@ verify failed: unable to get local issuer certificate`.
 - **Search cost.** Search is a brute-force comparison with every chunk in
   memory. That is fine for prototype corpora, but there is no vector database.
 - **Speed.** Encoding runs on CPU unless a GPU build of `torch` is installed.
+
+## Hybrid retrieval
+
+Hybrid retrieval runs BM25 and dense retrieval for the same query and merges
+their two rankings into one with Reciprocal Rank Fusion (RRF). The intent is
+to combine exact word and identifier matching with meaning-based matching.
+Whether that helps on legal text has not been measured.
+
+**How the fusion works.** Each retriever returns its best candidates in
+order. A chunk's fused score is
+
+```text
+score(chunk) = sum of 1 / (RRF_K + rank) over the retrievers that returned it
+```
+
+where `rank` is the chunk's position (1 = best) in that retriever's list.
+
+- Only ranks are used. BM25 scores and cosine similarities are on unrelated
+  scales, so they are never compared, normalized or weighted.
+- A chunk returned by both retrievers is one result; its two contributions
+  are added.
+- Results are ordered by fused score. Equal scores are ordered by chunk ID, so
+  the output is fully deterministic.
+- Example with `RRF_K=60`: BM25 returns `[A, B, C]` and dense returns
+  `[C, A, D]`. Then A scores 1/61 + 1/62, C scores 1/63 + 1/61, B scores 1/62
+  and D scores 1/63, giving the order A, C, B, D.
+
+**Settings.** No new settings were added; hybrid retrieval uses three that
+already existed:
+
+| Setting | Default | Role |
+|---|---|---|
+| `BM25_TOP_K` | `20` | How many BM25 candidates enter the fusion |
+| `DENSE_TOP_K` | `20` | How many dense candidates enter the fusion |
+| `RRF_K` | `60` | The constant in the formula; larger values make rank position matter less |
+
+These candidate depths are fixed. They do not change with the number of
+results you ask for, so `search(q, 5)` is always the first five results of
+`search(q, 10)`. At most `BM25_TOP_K + DENSE_TOP_K` results can be returned,
+which matters when evaluating at a large k (see "Comparing retrievers").
+The number of results is the `top_k` argument, as for the other retrievers.
+
+**Command line** (run ingestion first; needs the embedding model):
+
+```powershell
+.\.venv\Scripts\python.exe -m src.hybrid_retrieval "obblighi del datore di lavoro" --top-k 3
+```
+
+```text
+Indexed 9 chunk(s) from tests\fixtures\synthetic_retrieval\chunks.jsonl with intfloat/multilingual-e5-small (embedding cache: hit)
+Candidates: BM25 5 (depth 20), dense 9 (depth 20); fusion: RRF, rrf_k=60
+#1  score=0.0325  syn-a-0001
+    synthetic/legge_sintetica.txt | art. 2 | par. 1
+    Art. 2 (Obblighi del datore di lavoro) 1. Il datore di lavoro valuta tutti i rischi ...
+    from: bm25 #1 (score 4.7021) | dense #2 (score 0.9026)
+```
+
+Each result shows its fused rank and score, then a `from:` line with the rank
+and original score from every retriever that returned it. The second line
+says how many candidates each retriever contributed. If BM25 finds no chunk
+sharing a word with the query, the output says so, and the results come from
+dense retrieval alone. `--chunks`, `--model` and `--no-cache` work as in the
+dense command. Exit code `2` means a missing or malformed chunk file, an
+invalid query or `--top-k`, or a model that could not be loaded.
+
+**Python:**
+
+```python
+from pathlib import Path
+from src.hybrid_retrieval import HybridRetriever
+
+retriever = HybridRetriever.from_jsonl(
+    Path("data/processed/chunks.jsonl"), cache_dir=Path("data/indexes/embeddings")
+)
+for passage in retriever.search("obblighi del datore di lavoro", top_k=5):
+    print(passage.rank, round(passage.score, 4), passage.method_ranks, passage.chunk.chunk_id)
+```
+
+`HybridRetriever(bm25, dense, bm25_top_k=20, dense_top_k=20, rrf_k=60)` also
+accepts two retrievers you built yourself. Build both from the same chunks:
+this is your responsibility and is not verified (see the special cases
+below). Results are the usual `RetrievedPassage` objects with
+`method=RetrievalMethod.HYBRID`. `method_ranks` and `method_scores` hold each
+retriever's rank and original score; a retriever missing from them did not
+return that chunk. The pure function `reciprocal_rank_fusion(...)` fuses any
+ranked lists without a retriever.
+
+**Behavior in special cases**
+
+- *One retriever returns nothing:* the other's results are returned in their
+  order, and `method_ranks` shows which retriever they came from.
+- *Both return nothing:* an empty list.
+- *A retriever fails* (for example the embedding model cannot be loaded): the
+  error is raised. Hybrid retrieval never silently falls back to BM25 alone.
+- *The two retrievers were built from different chunks:* this is detected only
+  in one case. If a chunk ID returned by both retrievers has different content
+  in each, a `ValueError` is raised. Nothing else is checked: two corpora that
+  share no chunk ID are fused without any error, as if they were one corpus.
+- *Validation* of `query` and `top_k` is identical to the other retrievers.
+
+**Limitations**
+
+- **Untuned defaults.** `RRF_K=60` and the depths of 20 are conventional
+  starting values. Nothing has been tuned, because there is no benchmark to
+  tune against.
+- **Ranks only.** RRF ignores how large the original scores were: a decisive
+  first place counts the same as a narrow one.
+- **The fused score is not a confidence.** It only orders results. It is not a
+  probability, and it cannot be compared across queries or used as a
+  relevance threshold.
+- **"Found by both" always wins at the defaults.** A chunk returned by both
+  retrievers outranks any chunk returned by only one, whenever the candidate
+  depth is below `RRF_K + 2`.
+- **Small corpora.** Dense retrieval returns candidates for every query. On a
+  corpus with no more chunks than `DENSE_TOP_K`, its list is the whole corpus,
+  so every BM25 match counts as "found by both" and hybrid results say little.
+  This applies to the nine-chunk synthetic fixture.
+- **Ties are common, and the tie-break is arbitrary.** Two chunks ranked 1st
+  and 2nd by one retriever and 2nd and 1st by the other score exactly the same.
+  The chunk ID then decides. On the synthetic fixture this decides the top
+  result for one query.
+- **Needs the embedding model.** Hybrid retrieval cannot run without it, and
+  each search costs a BM25 scan plus a dense scan.
+- **No filters.** Filtering by jurisdiction, document type or date is not
+  implemented.
 
 ## Retrieval evaluation
 
@@ -525,7 +672,9 @@ k. The `--output` JSON report records:
 - the retriever name and the k values;
 - the chunk count, and the path and SHA-256 of the chunk, query and judgment files;
 - per query: the retrieved IDs, the duplicate count, the metrics or the skip reason;
-- the means.
+- the means;
+- `warnings`: empty unless a cutoff is larger than the retriever can serve
+  (see "Comparing retrievers" below).
 
 The report is deterministic: same files and retriever, same report. It
 contains no timestamps. Exit codes: `0` evaluated; `1` no query had a
@@ -534,11 +683,14 @@ relevant judgment; `2` missing or invalid files or arguments.
 `--retriever` accepts:
 - `bm25`, the default, with positive IDF;
 - `bm25-okapi`, the library's original IDF;
-- `dense`, with the `EMBEDDING_MODEL` setting and the embedding cache.
+- `dense`, with the `EMBEDDING_MODEL` setting and the embedding cache;
+- `hybrid`, which fuses `bm25` and `dense` using `BM25_TOP_K`, `DENSE_TOP_K`
+  and `RRF_K`.
 
-For dense runs the report adds `retriever_details` (model and input prefixes),
-and the terminal summary shows the model. BM25 reports carry an empty
-`retriever_details`.
+For dense and hybrid runs the report adds `retriever_details`, and the
+terminal summary shows the model. The details are the model and input
+prefixes, plus the fusion method, `rrf_k` and both candidate depths for
+hybrid. BM25 reports carry an empty `retriever_details`.
 
 **Synthetic tests vs a curated benchmark**
 - `tests/fixtures/synthetic_retrieval/` holds invented passages and judgments.
@@ -550,14 +702,42 @@ and the terminal summary shows the model. BM25 reports carry an empty
 - The evaluation reports say which files were used (path and hash), so it is
   always visible which data a score came from.
 
-**Comparing retrievers.** Run the same command on the same files with
-`--retriever bm25` and `--retriever dense`, write each to its own `--output`
-file, and compare the two JSON reports query by query:
+**Comparing retrievers.** Run the same command on the same files once per
+retriever, write each to its own `--output` file, and compare the JSON
+reports query by query:
 
 ```powershell
-.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever bm25  --output data/processed/eval_bm25.json
-.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever dense --output data/processed/eval_dense.json
+.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever bm25   --output data/processed/eval_bm25.json
+.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever dense  --output data/processed/eval_dense.json
+.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever hybrid --output data/processed/eval_hybrid.json
 ```
+
+All three use the same queries, judgments, metrics and report format, and
+each report records the hashes of its input files. Compare only reports whose
+hashes and k values match.
+
+When comparing, keep three things in mind:
+- BM25 returns only chunks that share a word with the query, while dense and
+  hybrid always return results. At a k close to the corpus size, recall
+  therefore favors them for a reason unrelated to quality. Compare at a k well
+  below the number of chunks.
+- Hybrid results depend on `BM25_TOP_K`, `DENSE_TOP_K` and `RRF_K`. Keep them
+  fixed across the runs being compared; the report records them.
+- **Keep k within hybrid's candidate depths.** Hybrid returns at most
+  `BM25_TOP_K + DENSE_TOP_K` results per query (40 by default), while BM25 and
+  dense can return as many as you ask for. At a larger k, hybrid's ranking
+  simply ends, so its recall looks worse for a reason unrelated to ranking
+  quality.
+  - The evaluator does not change or hide those numbers. It adds a
+    `WARNING:` line to the summary and an entry to `warnings` in the report,
+    saying which cutoffs are affected. The run still succeeds.
+  - The warning covers only cutoffs above that maximum. Hybrid can return
+    fewer results than the maximum when both retrievers pick the same chunks,
+    so a k between the smaller candidate depth and the maximum may also be
+    cut short. Each query's `retrieved` list in the report shows how many
+    results it really had.
+  - For a clean comparison, use a k no larger than the smaller of
+    `BM25_TOP_K` and `DENSE_TOP_K` (20 by default), or raise the depths.
 
 Only a curated benchmark can say which retriever is better for legal
 questions. Synthetic-fixture numbers cannot. A new retriever needs a
@@ -591,10 +771,10 @@ defaults are listed in [.env.example](.env.example).
 | `LLM_PROVIDER` | `mock` | `mock`, `anthropic`, or `openai`; `mock` never calls an external service |
 | `LLM_MODEL` | *(empty)* | Required when a real provider is selected |
 | `LLM_API_KEY` | *(empty)* | Required only by real providers; keep it in `.env`, never commit it |
-| `BM25_TOP_K` / `DENSE_TOP_K` | `20` | Candidates retrieved by each method |
+| `BM25_TOP_K` / `DENSE_TOP_K` | `20` | Candidates each retriever contributes to hybrid fusion |
 | `RERANK_TOP_K` | `20` | Candidates passed to the reranker |
 | `FINAL_EVIDENCE_COUNT` | `5` | Passages given to the LLM |
-| `RRF_K` | `60` | Reciprocal Rank Fusion constant |
+| `RRF_K` | `60` | Reciprocal Rank Fusion constant used by hybrid retrieval |
 | `CONTEXT_TOKEN_BUDGET` | `3000` | Maximum evidence size in the prompt |
 | `CHUNK_SIZE` / `CHUNK_OVERLAP` | `1200` / `150` | Chunking size and overlap in characters |
 | `MIN_RETRIEVAL_SCORE` / `MIN_RERANK_SCORE` | *(empty = disabled)* | Abstention thresholds |
