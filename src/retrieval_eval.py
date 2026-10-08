@@ -51,6 +51,7 @@ from typing import Any, Protocol
 from src.chunk_store import read_chunks
 from src.config import ConfigError, load_settings
 from src.dense_retrieval import DenseRetriever
+from src.hybrid_retrieval import HybridRetriever
 from src.ingestion import display_path
 from src.models import LegalChunk, RetrievedPassage
 from src.retrieval import BM25Retriever
@@ -65,7 +66,9 @@ class EvaluationDataError(ValueError):
 
 class Retriever(Protocol):
     """What the evaluator needs. A retriever may also define `describe() -> dict`
-    to record its settings (e.g. the embedding model) in the report."""
+    to record its settings (e.g. the embedding model) in the report, and
+    `max_results`, the most results it can return, so that cutoffs above it
+    are flagged in the report."""
 
     def search(self, query: str, top_k: int = ...) -> list[RetrievedPassage]: ...
 
@@ -78,11 +81,24 @@ def _dense_retriever(chunks: list[LegalChunk]) -> DenseRetriever:
     )
 
 
+def _hybrid_retriever(chunks: list[LegalChunk]) -> HybridRetriever:
+    """BM25 and dense retrieval fused with RRF, using BM25_TOP_K, DENSE_TOP_K and RRF_K."""
+    settings = load_settings()
+    return HybridRetriever(
+        BM25Retriever(chunks),
+        _dense_retriever(chunks),
+        bm25_top_k=settings.bm25_top_k,
+        dense_top_k=settings.dense_top_k,
+        rrf_k=settings.rrf_k,
+    )
+
+
 # Retriever name -> constructor from chunks. Add new retrievers here.
 RETRIEVERS: dict[str, Callable[[list[LegalChunk]], Retriever]] = {
     "bm25": lambda chunks: BM25Retriever(chunks),
     "bm25-okapi": lambda chunks: BM25Retriever(chunks, positive_idf=False),
     "dense": _dense_retriever,
+    "hybrid": _hybrid_retriever,
 }
 
 
@@ -321,6 +337,25 @@ def _file_info(path: Path) -> dict[str, str]:
     return {"path": display_path(path), "sha256": digest}
 
 
+def _cutoff_warnings(retriever_name: str, retriever: Retriever, ks: Sequence[int]) -> list[str]:
+    """Flag cutoffs above what the retriever can return; the metrics are left as computed.
+
+    Hybrid retrieval returns at most BM25_TOP_K + DENSE_TOP_K results. Beyond
+    that its ranking simply ends, which lowers recall for a reason unrelated
+    to ranking quality.
+    """
+    limit = getattr(retriever, "max_results", None)
+    too_large = [k for k in ks if limit is not None and k > limit]
+    if not too_large:
+        return []
+    cutoffs = ", ".join(f"@{k}" for k in too_large)
+    return [
+        f"The {retriever_name} retriever returns at most {limit} results per query, so its "
+        f"rankings end before the cutoff(s) {cutoffs}. Recall and the other metrics at "
+        f"{cutoffs} cannot be compared directly with retrievers that can return more results."
+    ]
+
+
 def run_evaluation(
     retriever_name: str,
     chunks_path: Path,
@@ -346,6 +381,7 @@ def run_evaluation(
     return {
         "retriever": retriever_name,
         "retriever_details": describe() if callable(describe) else {},
+        "warnings": _cutoff_warnings(retriever_name, retriever, results["ks"]),
         "config": {
             "ks": results.pop("ks"),
             "chunk_count": len(chunks),
@@ -371,6 +407,7 @@ def format_summary(report: dict[str, Any]) -> str:
     ]
     if report["queries_skipped"]:
         lines.append(f"Skipped (no relevant judgments): {', '.join(report['queries_skipped'])}")
+    lines += [f"WARNING: {warning}" for warning in report.get("warnings", [])]
     if report["metrics"] is None:
         lines.append("No query has a relevant judgment; nothing was evaluated.")
         return "\n".join(lines)
