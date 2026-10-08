@@ -17,10 +17,12 @@ See [PROJECT_SPEC.md](PROJECT_SPEC.md) for the specification and
 - **Phase 3 (lexical retrieval):** in-memory BM25 search over the chunks.
 - **Phase 4A (retrieval evaluation):** Recall@k, MRR@k and nDCG@k over
   labelled queries, with a BM25 baseline runner.
+- **Phase 4B (dense retrieval):** embedding-based search with
+  `intfloat/multilingual-e5-small`, selectable in the evaluator.
 
-Dense and hybrid retrieval, reranking, generation, verification, grounding
-evaluation, and the UI are **not implemented yet**. No curated legal benchmark
-exists yet; only a synthetic test fixture.
+Hybrid retrieval, reranking, generation, verification, grounding evaluation,
+and the UI are **not implemented yet**. No curated legal benchmark exists yet;
+only a synthetic test fixture.
 
 ## Repository layout
 
@@ -32,12 +34,14 @@ src/
   chunking.py    # legal-aware chunking
   chunk_store.py # JSONL serialization of chunks
   retrieval.py   # tokenizer and BM25 retriever, search CLI
+  dense_retrieval.py # embedding-based retriever, embedding cache, search CLI
   retrieval_eval.py # retrieval metrics, evaluation data loading, evaluation CLI
 tests/           # pytest suite; builds synthetic TXT/PDF fixtures on the fly
   fixtures/synthetic_retrieval/ # SYNTHETIC chunks, queries and judgments for tests only
 data/
   raw/           # your source documents (git-ignored)
   processed/     # parsed documents and chunks (git-ignored)
+  indexes/embeddings/ # dense embedding cache (git-ignored; safe to delete)
   evaluation/    # curated queries.jsonl and qrels.jsonl (version-controlled; none yet)
 ```
 
@@ -69,9 +73,15 @@ deactivate  # when finished
 
 On macOS/Linux, use `.venv/bin/python` instead of `.\.venv\Scripts\python.exe`.
 
-Dependencies: `python-dotenv` (loads `.env`), `PyMuPDF` (PDF text extraction;
-licensed AGPL-3.0 or commercial), `rank-bm25` (BM25 scoring; installs
-`numpy`), and `pytest` (tests).
+Dependencies:
+- `python-dotenv` loads `.env`.
+- `PyMuPDF` extracts PDF text; it is licensed AGPL-3.0 or commercial.
+- `rank-bm25` computes BM25 scores and installs `numpy`.
+- `sentence-transformers` computes embeddings for dense retrieval. It installs
+  `torch` (the CPU build on Windows, about 500 MB installed; the whole
+  environment is about 1 GB), `transformers` and `huggingface-hub`. The first `import` can take tens of seconds; it happens
+  only when a real embedding model is needed.
+- `pytest` runs the tests.
 
 ## Usage
 
@@ -84,6 +94,9 @@ licensed AGPL-3.0 or commercial), `rank-bm25` (BM25 scoring; installs
 
 # Search the ingested chunks with BM25 (see "Lexical retrieval (BM25)" below)
 .\.venv\Scripts\python.exe -m src.retrieval "obblighi del datore di lavoro" --top-k 5
+
+# Search them by embedding similarity (see "Dense retrieval" below; downloads the model on first use)
+.\.venv\Scripts\python.exe -m src.dense_retrieval "obblighi del datore di lavoro" --top-k 5
 
 # Evaluate retrieval against labelled queries (see "Retrieval evaluation" below)
 .\.venv\Scripts\python.exe -m src.retrieval_eval --k 1 5 10 --output data/processed/eval_bm25.json
@@ -299,6 +312,153 @@ IDs, text, source location, and metadata.
 - A high score only means the words match. It is not evidence that a passage
   answers a legal question.
 
+## Dense retrieval
+
+Dense retrieval turns every chunk and every query into an embedding (a vector
+of numbers) with a neural model. It then ranks chunks by the cosine similarity
+between query and chunk vectors. The aim is to match paraphrases,
+inflections and translations that BM25 misses (`licenziamento` vs `recesso
+del datore`, `obblighi` vs `obbligo`), since similar meanings should get
+similar vectors. Whether it does so on a given corpus has to be measured with
+the evaluator. It can also rank a passage highly for being loosely on-topic.
+
+**Model.** The default is `intfloat/multilingual-e5-small`: 12 layers,
+384-dimensional embeddings, multilingual, MIT-licensed, about 470 MB. It is an
+initial general-purpose baseline, **not a legally validated or legal-domain
+fine-tuned model**. Configure it with `EMBEDDING_MODEL` in `.env`, or with
+`--model` for one command. Any sentence-transformers model name or local path
+works.
+
+- E5 models expect every input to start with `query: ` (queries) or
+  `passage: ` (chunks), including non-English text, as stated on the model
+  card. These prefixes are added automatically when the model name contains
+  an `e5` part (for example `multilingual-e5-small`). Other models get no
+  prefix. `DenseRetriever(..., query_prefix=..., passage_prefix=...)`
+  overrides this.
+- Embeddings are L2-normalized, so the dot product equals the cosine
+  similarity (−1 to 1).
+
+**First run and installation.** `sentence-transformers` is installed by
+`requirements.txt`. The model itself is downloaded from Hugging Face the
+first time a dense search, or a dense evaluation, needs it. It is stored in
+the Hugging Face cache (`%USERPROFILE%\.cache\huggingface`), and later runs
+work offline. The model is loaded once per retriever, and not at all when
+the corpus is empty. To forbid downloads, set `HF_HUB_OFFLINE=1`.
+
+**Command line** (run ingestion first):
+
+```powershell
+.\.venv\Scripts\python.exe -m src.dense_retrieval "notifica di una violazione dei dati" --top-k 3
+.\.venv\Scripts\python.exe -m src.dense_retrieval "recesso" --chunks path\to\chunks.jsonl --model intfloat/multilingual-e5-base --no-cache
+```
+
+Output has the same layout as the BM25 command: rank, cosine score, chunk ID,
+source, and an excerpt. The first line also names the model and the cache
+status. Exit code `2` means a missing or malformed chunk file, an invalid query
+or `--top-k`/`--batch-size`, or a model that could not be loaded.
+
+**Python:**
+
+```python
+from pathlib import Path
+from src.dense_retrieval import DenseRetriever
+
+retriever = DenseRetriever.from_jsonl(
+    Path("data/processed/chunks.jsonl"), cache_dir=Path("data/indexes/embeddings")
+)
+for passage in retriever.search("obblighi del datore di lavoro", top_k=5):
+    print(passage.rank, round(passage.score, 3), passage.chunk.chunk_id)
+```
+
+Results are the same `RetrievedPassage` objects as BM25's, with
+`method=RetrievalMethod.DENSE`, a 1-based `rank`, the cosine similarity as
+`score`, and the unchanged chunk. Validation of `query` and `top_k` is
+identical to BM25's. Ties keep corpus order, and an empty corpus returns `[]`.
+
+**Embedding cache.** Encoding the corpus is the slow step, so the CLI and the
+evaluator save chunk embeddings in `data/indexes/embeddings/` (under
+`INDEX_DIR`, git-ignored). `--no-cache` disables this in the CLI; in Python
+the cache is off unless `cache_dir` is given.
+
+- *Keying.* The file name is a SHA-256 of the model name, the passage prefix,
+  and every chunk's ID and text. Changing the chunks or the model identifier
+  therefore uses a new file.
+- *Validation.* A file is used only if it loads without pickle and has the
+  right shape, float32 values, and unit-length rows. Otherwise it is
+  recomputed and replaced.
+- *Model updates.* The key does not cover model weights: after updating a
+  model under the same name, clear the cache.
+- *Clearing it:* `Remove-Item -Recurse data\indexes\embeddings`. This is
+  always safe, and old files are not cleaned up automatically.
+
+**Testing with the real model (opt-in).** The default test suite never loads
+a real model: it uses fake encoders, forces Hugging Face offline mode, and
+skips the one real-model test. To run that test:
+
+```powershell
+$env:RUN_REAL_MODEL_TESTS="1"
+.\.venv\Scripts\python.exe -m pytest tests/test_dense_retrieval.py -k real_model -v
+```
+
+It requires `intfloat/multilingual-e5-small` to be in the local Hugging Face
+cache already, and it never downloads. Run a dense search once to fetch the
+model. The test checks integration (the model loads, embeddings are valid,
+results are well-formed and same-language queries rank their passage first).
+It is not a quality benchmark.
+
+**Troubleshooting: `CERTIFICATE_VERIFY_FAILED` when downloading a model.**
+Some antivirus products and corporate proxies inspect HTTPS traffic by
+re-signing every site's certificate with their own root certificate. Windows
+and browsers trust that root, but the Hugging Face client verifies against
+Python's bundled certificate list, so the download fails with `certificate
+verify failed: unable to get local issuer certificate`.
+
+- Do **not** disable certificate verification, and do not turn off your
+  antivirus protection, to get around it.
+- *Use another trusted network or machine* that does not inspect HTTPS,
+  download the model there, and copy the Hugging Face cache folder across.
+- *Or use a properly verified certificate configuration:*
+  1. Confirm that the inspecting root certificate in your Windows certificate
+     store really belongs to your security software, and that it is the root
+     presented on the connection.
+  2. Create a certificate file made of the standard `certifi` bundle plus that
+     one root.
+  3. Point `SSL_CERT_FILE` at it for the download command only.
+     Verification stays on; setting `HF_HUB_DISABLE_XET=1` for the same
+     command keeps every file on the client that reads `SSL_CERT_FILE`.
+- Keep certificate files outside the repository and never commit them.
+- Once the model is cached, no network access or certificate setup is needed.
+
+**Limitations**
+
+- **Not legal-domain.** The model has no legal fine-tuning. Similar scores
+  do not mean legal equivalence, and exact identifiers such as article numbers
+  or `2016/679` are typically matched less reliably than by BM25 (not measured
+  here yet).
+- **Short cross-language queries.** A short query in one language may not
+  retrieve the matching passage in another language at rank 1. In the
+  project's three-passage synthetic check, the Italian query `notifica di una
+  violazione dei dati` ranked the English data-breach passage last (0.776),
+  behind two unrelated Italian passages (0.822 and 0.808). The English query
+  `notification of a personal data breach` ranked it first, and so did a
+  longer Italian query that added `personali entro 72 ore`. This is one
+  observation on a synthetic fixture, not a general conclusion about the
+  model's multilingual retrieval quality; that needs a curated benchmark.
+- **Truncation.** Inputs longer than the model limit (512 tokens for E5) are
+  cut off, and the tail of the chunk is left out of the embedding without any
+  warning. Measured with the model's tokenizer on synthetic text, a default
+  1200-character chunk is about 260–280 tokens of Italian or English prose,
+  and about 480 tokens when it is dense with citations and numbers. Prose
+  passes the limit between 2,000 and 2,400 characters; citation-dense text
+  passes it just above 1,200. Keep `CHUNK_SIZE` near the default for this
+  model.
+- **No relevance cut-off.** Every chunk has a similarity, so `top_k` results
+  come back even when nothing is relevant; there is no threshold yet. Scores
+  are not probabilities, and they are not comparable across models.
+- **Search cost.** Search is a brute-force comparison with every chunk in
+  memory. That is fine for prototype corpora, but there is no vector database.
+- **Speed.** Encoding runs on CPU unless a GPU build of `torch` is installed.
+
 ## Retrieval evaluation
 
 `src/retrieval_eval.py` measures whether a retriever ranks the chunks a person
@@ -371,8 +531,14 @@ The report is deterministic: same files and retriever, same report. It
 contains no timestamps. Exit codes: `0` evaluated; `1` no query had a
 relevant judgment; `2` missing or invalid files or arguments.
 
-`--retriever` accepts `bm25` (the default, positive IDF) and `bm25-okapi`
-(the library's original IDF).
+`--retriever` accepts:
+- `bm25`, the default, with positive IDF;
+- `bm25-okapi`, the library's original IDF;
+- `dense`, with the `EMBEDDING_MODEL` setting and the embedding cache.
+
+For dense runs the report adds `retriever_details` (model and input prefixes),
+and the terminal summary shows the model. BM25 reports carry an empty
+`retriever_details`.
 
 **Synthetic tests vs a curated benchmark**
 - `tests/fixtures/synthetic_retrieval/` holds invented passages and judgments.
@@ -384,11 +550,19 @@ relevant judgment; `2` missing or invalid files or arguments.
 - The evaluation reports say which files were used (path and hash), so it is
   always visible which data a score came from.
 
-**Comparing retrievers later.** A retriever only needs a
-`search(query, top_k) -> list[RetrievedPassage]` method and an entry in
-`RETRIEVERS` in `src/retrieval_eval.py`. A future dense retriever is compared
-with BM25 by running the same command with `--retriever dense` on the same
-files, and comparing the two JSON reports query by query.
+**Comparing retrievers.** Run the same command on the same files with
+`--retriever bm25` and `--retriever dense`, write each to its own `--output`
+file, and compare the two JSON reports query by query:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever bm25  --output data/processed/eval_bm25.json
+.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever dense --output data/processed/eval_dense.json
+```
+
+Only a curated benchmark can say which retriever is better for legal
+questions. Synthetic-fixture numbers cannot. A new retriever needs a
+`search(query, top_k) -> list[RetrievedPassage]` method, optionally
+`describe()`, and an entry in `RETRIEVERS` in `src/retrieval_eval.py`.
 
 **Limitations**
 
@@ -411,7 +585,7 @@ defaults are listed in [.env.example](.env.example).
 |---|---|---|
 | `DATA_DIR` | `data` | Data root; relative paths resolve against the project root |
 | `INDEX_DIR` | `data/indexes` | Where local search indexes will be stored |
-| `EMBEDDING_MODEL` | `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` | Dense embedding model |
+| `EMBEDDING_MODEL` | `intfloat/multilingual-e5-small` | Dense embedding model |
 | `RERANKER_ENABLED` | `false` | Enable cross-encoder reranking |
 | `RERANKER_MODEL` | `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1` | Reranker model |
 | `LLM_PROVIDER` | `mock` | `mock`, `anthropic`, or `openai`; `mock` never calls an external service |

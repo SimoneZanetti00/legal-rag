@@ -50,6 +50,7 @@ from typing import Any, Protocol
 
 from src.chunk_store import read_chunks
 from src.config import ConfigError, load_settings
+from src.dense_retrieval import DenseRetriever
 from src.ingestion import display_path
 from src.models import LegalChunk, RetrievedPassage
 from src.retrieval import BM25Retriever
@@ -63,13 +64,25 @@ class EvaluationDataError(ValueError):
 
 
 class Retriever(Protocol):
+    """What the evaluator needs. A retriever may also define `describe() -> dict`
+    to record its settings (e.g. the embedding model) in the report."""
+
     def search(self, query: str, top_k: int = ...) -> list[RetrievedPassage]: ...
+
+
+def _dense_retriever(chunks: list[LegalChunk]) -> DenseRetriever:
+    """Dense retriever using the EMBEDDING_MODEL setting and the <INDEX_DIR> embedding cache."""
+    settings = load_settings()
+    return DenseRetriever(
+        chunks, model_name=settings.embedding_model, cache_dir=settings.index_dir / "embeddings"
+    )
 
 
 # Retriever name -> constructor from chunks. Add new retrievers here.
 RETRIEVERS: dict[str, Callable[[list[LegalChunk]], Retriever]] = {
     "bm25": lambda chunks: BM25Retriever(chunks),
     "bm25-okapi": lambda chunks: BM25Retriever(chunks, positive_idf=False),
+    "dense": _dense_retriever,
 }
 
 
@@ -327,9 +340,12 @@ def run_evaluation(
     chunks = list(read_chunks(chunks_path))
     check_judged_chunks_exist(qrels, {c.chunk_id for c in chunks})
 
-    results = evaluate(RETRIEVERS[retriever_name](chunks), queries, qrels, ks)
+    retriever = RETRIEVERS[retriever_name](chunks)
+    results = evaluate(retriever, queries, qrels, ks)
+    describe = getattr(retriever, "describe", None)
     return {
         "retriever": retriever_name,
+        "retriever_details": describe() if callable(describe) else {},
         "config": {
             "ks": results.pop("ks"),
             "chunk_count": len(chunks),
@@ -344,8 +360,11 @@ def run_evaluation(
 def format_summary(report: dict[str, Any]) -> str:
     config = report["config"]
     ks = config["ks"]
-    lines = [
-        f"Retriever: {report['retriever']}",
+    lines = [f"Retriever: {report['retriever']}"]
+    details = report.get("retriever_details", {})
+    if "model" in details:
+        lines.append(f"Model:     {details['model']}")
+    lines += [
         f"Chunks:    {config['chunks']['path']} ({config['chunk_count']} chunks)",
         f"Queries:   {config['queries']['path']} ({report['queries_total']} total, "
         f"{report['queries_evaluated']} evaluated, {len(report['queries_skipped'])} skipped)",
@@ -413,6 +432,9 @@ def main(argv: list[str] | None = None) -> int:
         )
     except (FileNotFoundError, ValueError) as exc:  # EvaluationDataError is a ValueError
         print(f"Error: {exc}", file=sys.stderr)
+        return 2
+    except OSError as exc:  # e.g. an embedding model that cannot be downloaded or loaded
+        print(f"Error: could not load the retriever: {exc}", file=sys.stderr)
         return 2
 
     print(format_summary(report))

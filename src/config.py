@@ -40,7 +40,7 @@ class Settings:
     index_dir: Path = PROJECT_ROOT / "data" / "indexes"
 
     # Models.
-    embedding_model: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    embedding_model: str = "intfloat/multilingual-e5-small"
     reranker_enabled: bool = False
     reranker_model: str = "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"
     llm_provider: str = "mock"
