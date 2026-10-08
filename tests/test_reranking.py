@@ -536,3 +536,104 @@ def test_a_model_that_cannot_be_loaded_raises_without_fallback(monkeypatch):
     monkeypatch.setitem(sys.modules, "sentence_transformers", module)
     with pytest.raises(OSError, match="couldn't connect"):
         Reranker().rerank("query", CANDIDATES)
+
+
+# --- The model that is reported, and local_files_only ------------------------------------------
+
+DESCRIBE_KEYS = {"reranker_model", "reranker_scorer", "reranker_batch_size", "reranker_scores"}
+
+
+def test_describe_reports_the_model_of_an_injected_cross_encoder_scorer(no_model_allowed):
+    engine = Reranker(scorer=CrossEncoderScorer("other-org/other-model"))
+    details = engine.describe()
+    assert engine.model_name == "other-org/other-model"
+    assert details["reranker_model"] == "other-org/other-model"
+    assert details["reranker_scorer"]["model"] == "other-org/other-model"
+    assert DEFAULT_MODEL not in repr(details)  # the unused default appears nowhere
+
+
+def test_the_injected_scorer_model_wins_over_a_different_model_name(no_model_allowed):
+    scorer = CrossEncoderScorer("other-org/other-model")
+    engine = Reranker(model_name="some/label", scorer=scorer)
+    assert engine.describe()["reranker_model"] == "other-org/other-model"
+    assert scorer.model_name == "other-org/other-model"  # the scorer was not renamed
+
+
+def test_describe_of_the_default_reranker_reports_the_default_model(no_model_allowed):
+    assert Reranker().describe() == {
+        "reranker_model": DEFAULT_MODEL,
+        "reranker_scorer": {
+            "type": "cross-encoder",
+            "library": "sentence-transformers",
+            "model": DEFAULT_MODEL,
+            "scores": "raw model output (no sigmoid)",
+        },
+        "reranker_batch_size": DEFAULT_BATCH_SIZE,
+        "reranker_scores": "raw scorer output; orders passages, not a probability",
+    }
+
+
+def test_an_injected_scorer_without_a_model_name_reports_no_model(no_model_allowed):
+    details = reranker().describe()
+    assert details["reranker_model"] is None  # not a default that is not in use
+    assert details["reranker_scorer"] == "FakeScorer"
+
+
+@pytest.mark.parametrize(
+    "engine_factory",
+    [
+        lambda: Reranker(),
+        lambda: Reranker(local_files_only=True),
+        lambda: Reranker(scorer=CrossEncoderScorer("other-org/other-model")),
+        lambda: reranker(),
+        lambda: reranker(model_name="fake/model", local_files_only=True),
+    ],
+    ids=["default", "local-files-only", "injected-cross-encoder", "fake", "fake-with-label"],
+)
+def test_describe_fields_are_the_same_for_every_configuration(no_model_allowed, engine_factory):
+    details = engine_factory().describe()
+    assert set(details) == DESCRIBE_KEYS
+    assert details["reranker_batch_size"] == DEFAULT_BATCH_SIZE
+    assert details["reranker_scores"] == "raw scorer output; orders passages, not a probability"
+
+
+@pytest.mark.parametrize("local_files_only", [True, False])
+def test_local_files_only_reaches_the_cross_encoder_the_reranker_creates(
+    fake_cross_encoder, local_files_only
+):
+    engine = Reranker(model_name="fake/cross-encoder", local_files_only=local_files_only)
+    assert fake_cross_encoder.instances == []  # nothing is loaded until a score is needed
+    engine.rerank("query", CANDIDATES)
+    [model] = fake_cross_encoder.instances
+    assert model.model_name == "fake/cross-encoder"
+    assert model.local_files_only is local_files_only
+
+
+def test_local_files_only_is_off_by_default(fake_cross_encoder):
+    Reranker().rerank("query", CANDIDATES)
+    [model] = fake_cross_encoder.instances
+    assert (model.model_name, model.local_files_only) == (DEFAULT_MODEL, False)
+
+
+def test_local_files_only_does_not_change_an_injected_cross_encoder_scorer(fake_cross_encoder):
+    scorer = CrossEncoderScorer("other-org/other-model", local_files_only=False)
+    before = dict(vars(scorer))
+    engine = Reranker(scorer=scorer, local_files_only=True)
+    assert vars(scorer) == before
+
+    engine.rerank("query", CANDIDATES)
+    # The injected scorer did the scoring, with its own settings.
+    [model] = fake_cross_encoder.instances
+    assert (model.model_name, model.local_files_only) == ("other-org/other-model", False)
+    assert scorer.local_files_only is False
+
+
+def test_local_files_only_does_not_replace_or_change_an_injected_fake_scorer(no_model_allowed):
+    scorer = FakeScorer(SCORES)
+    before = copy.deepcopy(vars(scorer))
+    engine = Reranker(scorer=scorer, local_files_only=True)
+    assert vars(scorer) == before  # no attribute added, none changed
+
+    results = engine.rerank("query", CANDIDATES)
+    assert ids(results)[0] == "chunk-C"
+    assert len(scorer.calls) == 1  # this object, not a replacement, was asked for the scores

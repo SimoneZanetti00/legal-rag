@@ -45,7 +45,8 @@ Model
 `CrossEncoderScorer` uses a sentence-transformers cross-encoder. The model is
 loaded the first time a score is needed, not when the object is created, and
 the library is imported only then. The first use downloads the model unless
-`local_files_only=True`. Inputs longer than the model's limit are truncated by
+`local_files_only=True`, which `Reranker(local_files_only=True)` passes on to
+the scorer it creates. Inputs longer than the model's limit are truncated by
 the model, so the end of a long passage may not be read.
 """
 
@@ -114,26 +115,41 @@ class CrossEncoderScorer:
 class Reranker:
     """Reorders retrieved passages by a pair scorer's relevance scores.
 
-    `scorer` replaces the cross-encoder (tests use fakes). `model_name` names
-    the cross-encoder to load when no scorer is given, and is what `describe`
-    reports as the model.
+    Without `scorer`, a `CrossEncoderScorer` is created for `model_name`
+    (`DEFAULT_MODEL` if not given), with `local_files_only` passed on to it.
+
+    With `scorer` (tests use fakes), that object is used as it is:
+    `local_files_only` is ignored and the scorer is never replaced or changed.
+
+    `model_name` on the instance, and in `describe`, is the model actually in
+    use: the scorer's own `model_name` if it has one, otherwise the
+    `model_name` argument as a label, otherwise None.
     """
 
     def __init__(
         self,
         *,
-        model_name: str = DEFAULT_MODEL,
+        model_name: str | None = None,
         scorer: PairScorer | None = None,
         batch_size: int = DEFAULT_BATCH_SIZE,
+        local_files_only: bool = False,
     ) -> None:
         require_positive_int(batch_size, "batch_size")
-        self.model_name = model_name
         self.batch_size = batch_size
-        # A CrossEncoderScorer is cheap to create: it loads its model on first use.
-        self._scorer: PairScorer = scorer if scorer is not None else CrossEncoderScorer(model_name)
+        if scorer is None:
+            # Cheap to create: a CrossEncoderScorer loads its model on first use.
+            scorer = CrossEncoderScorer(
+                model_name or DEFAULT_MODEL, local_files_only=local_files_only
+            )
+        self._scorer: PairScorer = scorer
+        self.model_name: str | None = getattr(scorer, "model_name", None) or model_name
 
     def describe(self) -> dict[str, Any]:
-        """Settings that identify this reranker's results."""
+        """Settings that identify this reranker's results.
+
+        `reranker_model` is the model of the scorer in use (see the class
+        docstring), never a default that is not being used.
+        """
         scorer_describe = getattr(self._scorer, "describe", None)
         return {
             "reranker_model": self.model_name,
