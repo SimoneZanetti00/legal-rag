@@ -48,6 +48,16 @@ the library is imported only then. The first use downloads the model unless
 `local_files_only=True`, which `Reranker(local_files_only=True)` passes on to
 the scorer it creates. Inputs longer than the model's limit are truncated by
 the model, so the end of a long passage may not be read.
+
+Retrieval and reranking as one retriever
+----------------------------------------
+`RerankingRetriever` puts the two steps of the example above behind the usual
+`search(query, top_k)`:
+
+    retriever = RerankingRetriever(hybrid_retriever, Reranker(), candidate_top_k=20)
+    best = retriever.search("obblighi del datore di lavoro", top_k=5)
+
+The wrapped retriever chooses the candidates; the reranker only reorders them.
 """
 
 from __future__ import annotations
@@ -57,11 +67,13 @@ from collections.abc import Sequence
 from typing import Any, Protocol
 
 from src.models import RetrievalMethod, RetrievedPassage
-from src.retrieval_common import require_positive_int, require_query
+from src.retrieval_common import Retriever, require_positive_int, require_query
 
 # Same value as the RERANKER_MODEL default in src/config.py.
 DEFAULT_MODEL = "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"
 DEFAULT_BATCH_SIZE = 16
+# Same value as the RERANK_TOP_K default in src/config.py.
+DEFAULT_CANDIDATE_TOP_K = 20
 
 
 class PairScorer(Protocol):
@@ -218,3 +230,83 @@ class Reranker:
                     raise ValueError(f"scorer returned a non-finite score: {score!r}.")
                 scores.append(score)
         return scores
+
+
+class RerankingRetriever:
+    """A retriever whose results are reordered by a reranker (second-stage retrieval).
+
+    One search has two stages:
+
+    1. `retriever.search(query, top_k=candidate_top_k)` returns the candidates.
+       This is the only search of the corpus, and it is made once.
+    2. `reranker.rerank(query, candidates, top_k=top_k)` reorders those
+       candidates and keeps the best `top_k`.
+
+    The wrapped retriever alone decides which passages are candidates. The
+    reranker only reorders them: every result is one of the candidates, and no
+    other passage of the corpus can appear. A relevant passage that the
+    retriever did not return within `candidate_top_k` cannot be recovered.
+
+    Any object with `search(query, top_k)` can be wrapped (BM25, dense, hybrid,
+    or a later retriever), and both stages are passed in: nothing is built or
+    loaded here.
+
+    Results are what `Reranker.rerank` returns. Each one keeps its original
+    chunk and, in `method_ranks` and `method_scores`, the rank and score from
+    the wrapped retriever and from any stage before it.
+
+    The reranker's score estimates how well a passage matches the query. It
+    says nothing about whether the passage is valid, in force or authoritative.
+    """
+
+    def __init__(
+        self,
+        retriever: Retriever,
+        reranker: Reranker,
+        *,
+        candidate_top_k: int = DEFAULT_CANDIDATE_TOP_K,
+    ) -> None:
+        require_positive_int(candidate_top_k, "candidate_top_k")
+        self._retriever = retriever
+        self._reranker = reranker
+        self.candidate_top_k = candidate_top_k
+
+    @property
+    def max_results(self) -> int:
+        """The most results one search can return: no more than the candidates."""
+        limit = getattr(self._retriever, "max_results", None)
+        return self.candidate_top_k if limit is None else min(self.candidate_top_k, limit)
+
+    def describe(self) -> dict[str, Any]:
+        """Settings that identify this retriever's results: those of both stages."""
+        details: dict[str, Any] = {}
+        for stage in (self._retriever, self._reranker):
+            stage_describe = getattr(stage, "describe", None)
+            if callable(stage_describe):
+                details.update(stage_describe())
+        details["reranker_candidate_top_k"] = self.candidate_top_k
+        return details
+
+    def search(self, query: str, top_k: int = 5) -> list[RetrievedPassage]:
+        """Return up to `top_k` of the retriever's candidates, best first by reranker score.
+
+        Fewer are returned when the retriever returns fewer candidates, and []
+        when it returns none; the reranker is not used in that case.
+
+        Validation matches the other retrievers. In addition `top_k` must not
+        exceed `candidate_top_k`: ValueError is raised, and neither value is
+        adjusted. Errors raised by the retriever or the reranker are not
+        caught, and the candidates are never returned in their original order
+        in place of a reranked result.
+        """
+        require_query(query)
+        require_positive_int(top_k, "top_k")
+        if top_k > self.candidate_top_k:
+            raise ValueError(
+                f"top_k must be <= candidate_top_k (got top_k={top_k}, "
+                f"candidate_top_k={self.candidate_top_k})."
+            )
+        candidates = self._retriever.search(query, top_k=self.candidate_top_k)
+        if not candidates:
+            return []
+        return self._reranker.rerank(query, candidates, top_k=top_k)

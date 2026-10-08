@@ -2,6 +2,7 @@
 scorer, and where the cross-encoder path is exercised the `sentence_transformers`
 module is replaced by a fake. No real model is loaded."""
 
+import ast
 import copy
 import sys
 import types
@@ -9,10 +10,18 @@ import types
 import numpy as np
 import pytest
 
-from src.config import Settings
-from src.hybrid_retrieval import reciprocal_rank_fusion
+from src.config import PROJECT_ROOT, Settings
+from src.hybrid_retrieval import HybridRetriever, reciprocal_rank_fusion
 from src.models import LegalChunk, RetrievalMethod, RetrievedPassage, SourceLocation
-from src.reranking import DEFAULT_BATCH_SIZE, DEFAULT_MODEL, CrossEncoderScorer, Reranker
+from src.reranking import (
+    DEFAULT_BATCH_SIZE,
+    DEFAULT_CANDIDATE_TOP_K,
+    DEFAULT_MODEL,
+    CrossEncoderScorer,
+    Reranker,
+    RerankingRetriever,
+)
+from src.retrieval import BM25Retriever
 
 BM25, DENSE = RetrievalMethod.BM25, RetrievalMethod.DENSE
 HYBRID, RERANKED = RetrievalMethod.HYBRID, RetrievalMethod.RERANKED
@@ -637,3 +646,359 @@ def test_local_files_only_does_not_replace_or_change_an_injected_fake_scorer(no_
     results = engine.rerank("query", CANDIDATES)
     assert ids(results)[0] == "chunk-C"
     assert len(scorer.calls) == 1  # this object, not a replacement, was asked for the scores
+
+
+# --- RerankingRetriever: a retriever followed by the reranker ----------------------------------
+
+MANY = [chunk(f"n{i:02d}") for i in range(30)]
+
+
+class StubRetriever:
+    """Returns fixed passages (or raises); records its calls and the lists it returned."""
+
+    def __init__(self, passages=(), error: Exception | None = None, log: list | None = None):
+        self.passages, self.error = list(passages), error
+        self.log = log if log is not None else []
+        self.calls: list[tuple[str, int]] = []
+        self.returned: list[list[RetrievedPassage]] = []
+
+    def search(self, query: str, top_k: int = 5) -> list[RetrievedPassage]:
+        self.calls.append((query, top_k))
+        self.log.append("retriever")
+        if self.error is not None:
+            raise self.error
+        self.returned.append(self.passages[:top_k])
+        return self.returned[-1]
+
+
+class StubReranker:
+    """Stands in for Reranker: records its calls and returns the passages reversed."""
+
+    def __init__(self, error: Exception | None = None, log: list | None = None):
+        self.error = error
+        self.log = log if log is not None else []
+        self.calls: list[tuple[str, list[RetrievedPassage], int | None]] = []
+        self.result: list[RetrievedPassage] | None = None
+
+    def rerank(self, query, passages, top_k=None):
+        self.calls.append((query, list(passages), top_k))
+        self.log.append("reranker")
+        if self.error is not None:
+            raise self.error
+        self.result = list(reversed(passages))[:top_k]
+        return self.result
+
+
+def test_search_calls_the_retriever_then_the_reranker_and_returns_its_result():
+    log: list[str] = []
+    first, second = StubRetriever(CANDIDATES, log=log), StubReranker(log=log)
+    results = RerankingRetriever(first, second).search("query", top_k=2)
+    assert log == ["retriever", "reranker"]  # one call each, in this order
+    assert results is second.result
+    assert ids(results) == ["chunk-D", "chunk-C"]
+
+
+def test_the_exact_query_reaches_both_stages():
+    query = "  Obblighi del DATORE di lavoro?  "  # passed on as given, not cleaned
+    first, second = StubRetriever(CANDIDATES), StubReranker()
+    RerankingRetriever(first, second).search(query, top_k=2)
+    assert first.calls[0][0] == query
+    assert second.calls[0][0] == query
+
+
+@pytest.mark.parametrize("top_k", [1, 3, 7])
+def test_the_retriever_is_asked_for_candidate_top_k_whatever_top_k_is(top_k):
+    first = StubRetriever(ranked(BM25, MANY))
+    RerankingRetriever(first, StubReranker(), candidate_top_k=7).search("query", top_k=top_k)
+    assert first.calls == [("query", 7)]
+
+
+def test_candidate_top_k_defaults_to_the_configured_rerank_top_k():
+    assert DEFAULT_CANDIDATE_TOP_K == Settings().rerank_top_k == 20
+    first = StubRetriever(ranked(BM25, MANY))
+    engine = RerankingRetriever(first, StubReranker())
+    engine.search("query")
+    assert engine.candidate_top_k == 20
+    assert first.calls == [("query", 20)]
+
+
+def test_top_k_reaches_the_reranker_together_with_every_candidate():
+    first, second = StubRetriever(ranked(BM25, MANY)), StubReranker()
+    results = RerankingRetriever(first, second, candidate_top_k=7).search("query", top_k=3)
+    [(_, passages, top_k)] = second.calls
+    assert top_k == 3
+    assert len(passages) == 7  # all the candidates are reranked, not only the first three
+    assert all(given is returned for given, returned in zip(passages, first.returned[0]))
+    assert len(results) == 3
+
+
+def test_top_k_defaults_to_five_like_the_other_retrievers():
+    second = StubReranker()
+    RerankingRetriever(StubRetriever(ranked(BM25, MANY)), second).search("query")
+    assert second.calls[0][2] == 5
+
+
+def test_reranked_results_have_the_reranker_order_rank_and_score():
+    results = RerankingRetriever(StubRetriever(CANDIDATES), reranker(SCORES)).search("query")
+    assert ids(results) == ["chunk-C", "chunk-D", "chunk-A", "chunk-B"]
+    assert [p.rank for p in results] == [1, 2, 3, 4]
+    assert [p.score for p in results] == [3.0, 1.1, 0.2, -1.5]
+    assert all(p.method is RERANKED for p in results)
+
+
+def test_fewer_candidates_than_top_k_are_returned_without_a_second_search():
+    first = StubRetriever(ranked(BM25, [A, B]))
+    results = RerankingRetriever(first, reranker(SCORES), candidate_top_k=10).search("query", 5)
+    assert sorted(ids(results)) == ["chunk-A", "chunk-B"]
+    assert first.calls == [("query", 10)]  # the corpus is searched once, never again for more
+
+
+def test_a_passage_outside_the_candidates_is_never_scored_or_returned():
+    # D and E would get the best scores, but the retriever's top three are A, B and C.
+    scorer = FakeScorer({"A": 0.3, "B": 0.2, "C": 0.1, "D": 50.0, "E": 99.0})
+    first = StubRetriever(ranked(BM25, [A, B, C, D, E]))
+    engine = RerankingRetriever(first, Reranker(scorer=scorer), candidate_top_k=3)
+    results = engine.search("query", top_k=3)
+    assert ids(results) == ["chunk-A", "chunk-B", "chunk-C"]
+    assert scorer.calls == [("query", ["text of A", "text of B", "text of C"])]
+    assert all(any(p.chunk is c.chunk for c in first.returned[0]) for p in results)
+
+
+def test_search_order_does_not_depend_on_top_k():
+    engine = RerankingRetriever(StubRetriever(CANDIDATES), reranker(SCORES))
+    assert engine.search("query", top_k=2) == engine.search("query", top_k=4)[:2]
+    assert engine.search("query", top_k=4) == engine.search("query", top_k=4)
+
+
+def test_no_candidates_return_nothing_without_using_the_reranker():
+    first, second = StubRetriever([]), StubReranker()
+    assert RerankingRetriever(first, second).search("query") == []
+    assert first.calls == [("query", 20)]
+    assert second.calls == []
+
+
+def test_no_candidates_and_construction_load_no_model(no_model_allowed):
+    engine = RerankingRetriever(StubRetriever([]), Reranker())
+    engine.describe()
+    assert engine.search("query") == []
+
+
+def test_hybrid_then_reranking_keeps_every_stage_of_provenance():
+    hybrid = HybridRetriever(
+        StubRetriever(ranked(BM25, [A, B, C], [7.5, 4.0, 1.5])),
+        StubRetriever(ranked(DENSE, [C, A, D], [0.91, 0.88, 0.80])),
+    )
+    assert ids(hybrid.search("query", top_k=4)) == ["chunk-A", "chunk-C", "chunk-B", "chunk-D"]
+    engine = RerankingRetriever(hybrid, reranker({"A": 0.1, "B": 0.4, "C": 0.3, "D": 0.2}))
+    results = {p.chunk.chunk_id: p for p in engine.search("query", top_k=4)}
+
+    a = results["chunk-A"]
+    assert a.chunk is A  # which chunk, and through it which source
+    assert a.chunk.location.source_path == "data/raw/doc.txt"
+    assert (a.method, a.rank, a.score) == (RERANKED, 4, 0.1)  # the reranker's rank and score
+    assert (a.method_ranks[HYBRID], a.method_scores[HYBRID]) == (1, pytest.approx(1 / 61 + 1 / 62))
+    assert a.method_ranks == {BM25: 1, DENSE: 2, HYBRID: 1}  # which methods returned it
+    assert a.method_scores == {BM25: 7.5, DENSE: 0.88, HYBRID: pytest.approx(1 / 61 + 1 / 62)}
+
+    d = results["chunk-D"]  # found by dense retrieval only: BM25 stays absent
+    assert d.method_ranks == {DENSE: 3, HYBRID: 4}
+    assert d.method_scores == {DENSE: 0.80, HYBRID: pytest.approx(1 / 63)}
+    assert (results["chunk-B"].rank, results["chunk-B"].method_ranks) == (1, {BM25: 2, HYBRID: 3})
+
+
+@pytest.mark.parametrize("method", [BM25, DENSE, HYBRID])
+def test_any_first_stage_method_is_recorded_as_the_previous_stage(method):
+    candidates = ranked(method, [A, B, C, D], [7.5, 6.0, 4.5, 3.0])
+    results = RerankingRetriever(StubRetriever(candidates), reranker(SCORES)).search("query")
+    top = results[0]
+    assert top.chunk is C
+    assert top.method_ranks == {method: 3}
+    assert top.method_scores == {method: 4.5}
+
+
+def test_a_real_bm25_retriever_can_be_wrapped():
+    bm25 = BM25Retriever([A, B, C, D, E])
+    first_stage = bm25.search("text of C", top_k=3)
+    assert len(first_stage) == 3
+    engine = RerankingRetriever(bm25, reranker({"A": 1.0, "B": 2.0, "C": 3.0}), candidate_top_k=3)
+    results = engine.search("text of C", top_k=3)
+    assert sorted(ids(results)) == sorted(ids(first_stage))
+    assert all(p.method is RERANKED for p in results)
+    for passage in first_stage:
+        [result] = [r for r in results if r.chunk is passage.chunk]
+        assert result.method_ranks == {BM25: passage.rank}
+        assert result.method_scores == {BM25: passage.score}
+
+
+def test_the_reranking_module_does_not_depend_on_any_particular_retriever():
+    tree = ast.parse((PROJECT_ROOT / "src" / "reranking.py").read_text(encoding="utf-8"))
+    imported = {
+        node.module for node in ast.walk(tree) if isinstance(node, ast.ImportFrom) and node.module
+    }
+    assert {m for m in imported if m.startswith("src")} == {"src.models", "src.retrieval_common"}
+
+
+@pytest.mark.parametrize(
+    "error", [RuntimeError("index unavailable"), OSError("model not found"), ValueError("bad")]
+)
+def test_retriever_errors_propagate_and_the_reranker_is_not_used(error):
+    second = StubReranker()
+    with pytest.raises(type(error)) as raised:
+        RerankingRetriever(StubRetriever(error=error), second).search("query")
+    assert raised.value is error
+    assert second.calls == []
+
+
+@pytest.mark.parametrize("error", [RuntimeError("model crashed"), OSError("model not found")])
+def test_reranker_errors_propagate_without_fallback(error):
+    engine = RerankingRetriever(StubRetriever(CANDIDATES), StubReranker(error=error))
+    with pytest.raises(type(error)) as raised:
+        engine.search("query")
+    assert raised.value is error  # not an empty list, not the candidates in their first order
+
+
+def test_an_invalid_scorer_output_is_an_error_not_the_first_stage_order():
+    engine = RerankingRetriever(StubRetriever(CANDIDATES), Reranker(scorer=FixedOutputScorer([1.0])))
+    with pytest.raises(ValueError, match="scorer returned 1 score"):
+        engine.search("query")
+
+
+def test_a_model_that_cannot_be_loaded_fails_the_search(monkeypatch):
+    class Unloadable:
+        def __init__(self, *args, **kwargs):
+            raise OSError("We couldn't connect to 'https://huggingface.co'")
+
+    module = types.ModuleType("sentence_transformers")
+    module.CrossEncoder = Unloadable
+    monkeypatch.setitem(sys.modules, "sentence_transformers", module)
+    with pytest.raises(OSError, match="couldn't connect"):
+        RerankingRetriever(StubRetriever(CANDIDATES), Reranker()).search("query")
+
+
+@pytest.mark.parametrize(
+    ("top_k", "error", "message"),
+    [
+        (0, ValueError, "top_k must be >= 1 (got 0)."),
+        (-1, ValueError, "top_k must be >= 1 (got -1)."),
+        (True, TypeError, "top_k must be an int (got bool)."),
+        (2.0, TypeError, "top_k must be an int (got float)."),
+        ("3", TypeError, "top_k must be an int (got str)."),
+        (None, TypeError, "top_k must be an int (got NoneType)."),
+    ],
+)
+def test_invalid_top_k_is_rejected_before_either_stage_runs(top_k, error, message):
+    first, second = StubRetriever(CANDIDATES), StubReranker()
+    with pytest.raises(error) as raised:
+        RerankingRetriever(first, second).search("query", top_k=top_k)
+    assert str(raised.value) == message
+    assert first.calls == [] and second.calls == []
+
+
+@pytest.mark.parametrize(
+    ("query", "error", "message"),
+    [
+        ("", ValueError, "query must not be empty or whitespace."),
+        ("   ", ValueError, "query must not be empty or whitespace."),
+        (None, TypeError, "query must be a string (got NoneType)."),
+        (7, TypeError, "query must be a string (got int)."),
+    ],
+)
+def test_invalid_query_is_rejected_before_either_stage_runs(query, error, message):
+    first, second = StubRetriever(CANDIDATES), StubReranker()
+    with pytest.raises(error) as raised:
+        RerankingRetriever(first, second).search(query)
+    assert str(raised.value) == message
+    assert first.calls == [] and second.calls == []
+
+
+@pytest.mark.parametrize(
+    ("candidate_top_k", "error", "message"),
+    [
+        (0, ValueError, "candidate_top_k must be >= 1 (got 0)."),
+        (-5, ValueError, "candidate_top_k must be >= 1 (got -5)."),
+        (True, TypeError, "candidate_top_k must be an int (got bool)."),
+        (20.0, TypeError, "candidate_top_k must be an int (got float)."),
+        (None, TypeError, "candidate_top_k must be an int (got NoneType)."),
+    ],
+)
+def test_invalid_candidate_top_k_is_rejected(candidate_top_k, error, message):
+    with pytest.raises(error) as raised:
+        RerankingRetriever(StubRetriever(), StubReranker(), candidate_top_k=candidate_top_k)
+    assert str(raised.value) == message
+
+
+@pytest.mark.parametrize(("candidate_top_k", "top_k"), [(3, 4), (3, 5), (20, 21), (1, 100)])
+def test_top_k_above_candidate_top_k_is_rejected_and_nothing_is_adjusted(candidate_top_k, top_k):
+    first, second = StubRetriever(ranked(BM25, MANY)), StubReranker()
+    engine = RerankingRetriever(first, second, candidate_top_k=candidate_top_k)
+    with pytest.raises(ValueError) as raised:
+        engine.search("query", top_k=top_k)
+    assert str(raised.value) == (
+        f"top_k must be <= candidate_top_k (got top_k={top_k}, candidate_top_k={candidate_top_k})."
+    )
+    assert first.calls == [] and second.calls == []
+    assert engine.candidate_top_k == candidate_top_k
+
+
+def test_top_k_equal_to_candidate_top_k_is_accepted():
+    first, second = StubRetriever(ranked(BM25, MANY)), StubReranker()
+    results = RerankingRetriever(first, second, candidate_top_k=4).search("query", top_k=4)
+    assert len(results) == 4
+    assert (first.calls, second.calls[0][2]) == ([("query", 4)], 4)
+
+
+def test_the_default_top_k_is_also_checked_against_candidate_top_k():
+    engine = RerankingRetriever(StubRetriever(CANDIDATES), StubReranker(), candidate_top_k=3)
+    with pytest.raises(ValueError, match=r"got top_k=5, candidate_top_k=3"):
+        engine.search("query")
+
+
+def test_the_candidates_from_the_retriever_are_not_mutated():
+    first = StubRetriever(
+        reciprocal_rank_fusion(
+            {
+                BM25: ranked(BM25, [A, B, C], [7.5, 4.0, 1.5]),
+                DENSE: ranked(DENSE, [C, A, D], [0.91, 0.88, 0.80]),
+            }
+        )
+    )
+    engine = RerankingRetriever(first, reranker({"A": 0.1, "B": 0.4, "C": 0.3, "D": 0.2}))
+    snapshot = copy.deepcopy(first.passages)
+    results = engine.search("query", top_k=2)
+
+    [returned] = first.returned
+    assert returned == snapshot  # same passages, same order, same content
+    assert all(now is before for now, before in zip(returned, first.passages))
+    assert ids(results) == ["chunk-B", "chunk-C"]
+    assert all(result is not candidate for result in results for candidate in returned)
+
+
+def test_max_results_is_the_candidate_count_capped_by_the_retriever():
+    plain = StubRetriever(CANDIDATES)  # no max_results of its own
+    assert RerankingRetriever(plain, StubReranker()).max_results == 20
+    assert RerankingRetriever(plain, StubReranker(), candidate_top_k=7).max_results == 7
+
+    hybrid = HybridRetriever(StubRetriever(), StubRetriever(), bm25_top_k=4, dense_top_k=5)
+    assert RerankingRetriever(hybrid, StubReranker()).max_results == 9
+    assert RerankingRetriever(hybrid, StubReranker(), candidate_top_k=6).max_results == 6
+
+
+def test_describe_combines_both_stages_and_the_candidate_depth():
+    hybrid = HybridRetriever(StubRetriever(), StubRetriever(), bm25_top_k=4, dense_top_k=5)
+    engine = RerankingRetriever(hybrid, reranker(model_name="fake/model", batch_size=8))
+    assert engine.describe() == {
+        "fusion": "rrf",
+        "rrf_k": 60,
+        "bm25_top_k": 4,
+        "dense_top_k": 5,
+        "reranker_model": "fake/model",
+        "reranker_scorer": "FakeScorer",
+        "reranker_batch_size": 8,
+        "reranker_scores": "raw scorer output; orders passages, not a probability",
+        "reranker_candidate_top_k": 20,
+    }
+
+
+def test_describe_works_when_neither_stage_describes_itself():
+    engine = RerankingRetriever(StubRetriever(), StubReranker(), candidate_top_k=7)
+    assert engine.describe() == {"reranker_candidate_top_k": 7}

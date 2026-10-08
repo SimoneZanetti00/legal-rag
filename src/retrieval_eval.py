@@ -34,6 +34,14 @@ Metric definitions (k = cutoff; only the first k retrieved chunk IDs count)
 - Queries without any relevant judgment are not evaluated: they are listed as
   skipped and excluded from the averages.
 - Aggregate scores are unweighted means over the evaluated queries.
+
+Reranked retrieval
+------------------
+`--retriever hybrid-rerank` evaluates the `hybrid` retriever followed by the
+RERANKER_MODEL cross-encoder, which reorders the first RERANK_TOP_K hybrid
+results. A cutoff above RERANK_TOP_K is rejected before anything is loaded.
+The metrics are computed exactly as for the other retrievers; they measure
+ranking on the labelled queries, not legal correctness.
 """
 
 from __future__ import annotations
@@ -54,11 +62,13 @@ from src.dense_retrieval import DenseRetriever
 from src.hybrid_retrieval import HybridRetriever
 from src.ingestion import display_path
 from src.models import LegalChunk
+from src.reranking import Reranker, RerankingRetriever
 from src.retrieval import BM25Retriever
 from src.retrieval_common import Retriever
 
 DEFAULT_KS = (1, 5, 10)
 METRIC_NAMES = ("recall", "mrr", "ndcg")
+RERANKED_RETRIEVER = "hybrid-rerank"
 
 
 class EvaluationDataError(ValueError):
@@ -85,12 +95,27 @@ def _hybrid_retriever(chunks: list[LegalChunk]) -> HybridRetriever:
     )
 
 
+def _reranked_hybrid_retriever(chunks: list[LegalChunk]) -> RerankingRetriever:
+    """The `hybrid` retriever, its first RERANK_TOP_K results reordered by RERANKER_MODEL.
+
+    The hybrid retriever alone chooses the candidates. The reranker model is
+    loaded when the first query is scored, not here.
+    """
+    settings = load_settings()
+    return RerankingRetriever(
+        _hybrid_retriever(chunks),
+        Reranker(model_name=settings.reranker_model),
+        candidate_top_k=settings.rerank_top_k,
+    )
+
+
 # Retriever name -> constructor from chunks. Add new retrievers here.
 RETRIEVERS: dict[str, Callable[[list[LegalChunk]], Retriever]] = {
     "bm25": lambda chunks: BM25Retriever(chunks),
     "bm25-okapi": lambda chunks: BM25Retriever(chunks, positive_idf=False),
     "dense": _dense_retriever,
     "hybrid": _hybrid_retriever,
+    RERANKED_RETRIEVER: _reranked_hybrid_retriever,
 }
 
 
@@ -348,6 +373,30 @@ def _cutoff_warnings(retriever_name: str, retriever: Retriever, ks: Sequence[int
     ]
 
 
+def _check_reranked_evaluation(ks: Sequence[int]) -> None:
+    """Reject a `hybrid-rerank` evaluation that cannot be run as requested.
+
+    Only RERANK_TOP_K candidates are reranked, so a reranked ranking has at
+    most that many results. A larger cutoff is an error here, not a warning:
+    it would measure where the candidate list ends, not the reranking. This
+    runs before any file or model is loaded.
+    """
+    settings = load_settings()
+    if not settings.reranker_model.strip():
+        raise ValueError(f"RERANKER_MODEL must be set to evaluate {RERANKED_RETRIEVER}.")
+    limit = settings.rerank_top_k
+    # Cutoffs that are not positive ints are rejected later, as for every retriever.
+    too_large = sorted({k for k in ks if isinstance(k, int) and k > limit})
+    if too_large:
+        cutoffs = ", ".join(f"@{k}" for k in too_large)
+        subject = "cutoff" if len(too_large) == 1 else "cutoffs"
+        verb = "exceeds" if len(too_large) == 1 else "exceed"
+        raise ValueError(
+            f"evaluation {subject} {cutoffs} {verb} RERANK_TOP_K={limit}. "
+            f"Increase RERANK_TOP_K or use evaluation cutoffs <= {limit}."
+        )
+
+
 def run_evaluation(
     retriever_name: str,
     chunks_path: Path,
@@ -358,6 +407,8 @@ def run_evaluation(
     """Load everything, validate it, and evaluate the named retriever."""
     if retriever_name not in RETRIEVERS:
         raise ValueError(f"unknown retriever {retriever_name!r}; choose from {sorted(RETRIEVERS)}.")
+    if retriever_name == RERANKED_RETRIEVER:
+        _check_reranked_evaluation(ks)
     if not chunks_path.is_file():
         raise FileNotFoundError(
             f"chunk file not found: {chunks_path}. Run `python -m src.ingestion` first."
@@ -392,6 +443,13 @@ def format_summary(report: dict[str, Any]) -> str:
     details = report.get("retriever_details", {})
     if "model" in details:
         lines.append(f"Model:     {details['model']}")
+    if "reranker_candidate_top_k" in details:
+        first_stage = f" (fusion: {details['fusion']})" if "fusion" in details else ""
+        lines.append(f"Reranker:  {details.get('reranker_model')}")
+        lines.append(
+            f"Reranking: the first {details['reranker_candidate_top_k']} results of the first "
+            f"stage{first_stage}, batch size {details.get('reranker_batch_size')}"
+        )
     lines += [
         f"Chunks:    {config['chunks']['path']} ({config['chunk_count']} chunks)",
         f"Queries:   {config['queries']['path']} ({report['queries_total']} total, "
