@@ -8,9 +8,10 @@ from pathlib import Path
 import pytest
 
 from src.chunk_store import read_chunks, write_chunks
+from src.chunking import chunk_document
 from src.config import PROJECT_ROOT
 from src.ingestion import ingest
-from src.models import DocumentMetadata, LegalChunk, RetrievalMethod, SourceLocation
+from src.models import DocumentMetadata, LegalChunk, LegalDocument, RetrievalMethod, SourceLocation
 from src.retrieval import BM25Retriever, index_tokens, main, tokenize
 
 
@@ -291,6 +292,36 @@ def test_from_jsonl_on_real_ingestion_output(tmp_path):
     assert result.chunk.location.section == "Capo I"
     assert result.chunk.location.source_path.endswith("legge.txt")
     assert result.chunk.metadata.jurisdiction == "IT"
+
+
+def test_long_ordinal_suffix_is_indexed_as_its_own_article():
+    # Regression: "2-undecies" used to be labelled article "2", so it was indexed as
+    # "art:2" and competed with article 2 for "articolo 2".
+    #
+    # The continuation chunk of article 2-undecies repeats neither its heading nor any
+    # number, so only its structural token can connect it to a query: the search
+    # assertions below depend on the article label, not on words in the text.
+    content = (
+        "Art. 2 (Definizioni)\n1. Testo sintetico del secondo articolo.\n\n"
+        "Art. 2-undecies (Limitazioni)\n1. Le limitazioni sono previste dalla legge.\n\n"
+        "Le limitazioni restano soggette a revisione periodica da parte del titolare.\n"
+    )
+    document = LegalDocument(doc_id="doc-x", title="x", content=content)
+    article_2, heading_chunk, continuation = chunk_document(document, 120, 0)
+    assert continuation.text.startswith("Le limitazioni restano")  # no heading text
+    assert [c.location.article for c in (heading_chunk, continuation)] == ["2-undecies"] * 2
+
+    for chunk in (heading_chunk, continuation):
+        tokens = index_tokens(chunk)
+        assert "art:2-undecies" in tokens
+        assert "art:2" not in tokens
+
+    retriever = BM25Retriever([article_2, heading_chunk, continuation])
+    found_by_suffix = [p.chunk for p in retriever.search("art. 2-undecies", top_k=3)]
+    found_by_number = [p.chunk for p in retriever.search("articolo 2", top_k=3)]
+    assert continuation in found_by_suffix  # reached only through "art:2-undecies"
+    assert continuation not in found_by_number  # no longer indexed as article 2
+    assert found_by_number[0] is article_2
 
 
 def test_from_jsonl_empty_file(tmp_path):

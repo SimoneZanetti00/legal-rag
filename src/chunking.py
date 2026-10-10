@@ -40,8 +40,30 @@ from src.models import LegalChunk, LegalDocument, SourceLocation
 
 _MAX_HEADING_LENGTH = 150
 
-# Latin ordinal suffixes used in Italian legislation (e.g. "2-bis").
-_ORDINAL_SUFFIX = r"(?:[-\s]?(?:bis|ter|quater|quinquies|sexies|septies|octies|novies|decies))?"
+# Latin ordinal suffixes used in Italian legislation for inserted articles and
+# paragraphs ("2-bis", "2-undecies"). This is the only list of supported
+# suffixes, in two groups that differ in how a suffix may follow its number:
+# - the original suffixes, after a hyphen, a space or nothing ("2-bis",
+#   "2 bis", "2bis"), as before;
+# - the suffixes added later, after a hyphen only ("2-undecies"), so that adding
+#   them does not make new forms such as "Art. 2 undecies" recognisable.
+# The list is not exhaustive: an unlisted form (e.g. "tricies", or the two-word
+# "vicies semel") is not part of the identifier, so "Art. 2-tricies" is read as
+# article "2".
+_ORDINAL_SUFFIXES_ANY_JOINER = (
+    "bis", "ter", "quater", "quinquies", "sexies", "septies", "octies", "novies", "decies",
+)
+_ORDINAL_SUFFIXES_AFTER_HYPHEN = (
+    "undecies", "duodecies", "terdecies", "quaterdecies", "quinquiesdecies", "sexiesdecies",
+    "septiesdecies", "octiesdecies", "noviesdecies", "vicies",
+    # Alternative forms of 15, 16, 18 and 19.
+    "quindecies", "sedecies", "duodevicies", "undevicies",
+)
+# The hyphen-only group is tried first, so "-terdecies" is never read as "-ter".
+_ORDINAL_SUFFIX = (
+    r"(?:-(?:" + "|".join(_ORDINAL_SUFFIXES_AFTER_HYPHEN) + r")"
+    r"|[-\s]?(?:" + "|".join(_ORDINAL_SUFFIXES_ANY_JOINER) + r"))?"
+)
 # After the number: nothing, a separator plus a title, or a parenthesized title.
 _HEADING_TAIL = r"\s*(?:[-–—:.]\s*\S.*|\(.+\))?\s*$"
 
