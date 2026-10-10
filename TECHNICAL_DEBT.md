@@ -101,6 +101,7 @@ the phase reports and are not asserted by the test suite.
 | TD-055 | Metadata and temporal filters are not implemented | Retrieval | Confirmed | Medium | Deferred |
 | TD-056 | Real-model runs print library progress output | Environment | Observed | Low | Open |
 | TD-057 | Evaluation cutoffs above the hybrid candidate depth are not comparable | Hybrid, evaluation | Confirmed | Medium | Open |
+| TD-058 | Long ordinal suffixes: unverified list, unsupported forms, partial boundary tests | Chunking | Confirmed | Medium | Open |
 
 ## Ingestion and chunking (Phase 2)
 
@@ -169,6 +170,27 @@ the phase reports and are not asserted by the test suite.
 - **Evidence:** `requirements.txt` pins `PyMuPDF==1.28.2` and notes the AGPL-3.0 or commercial licence.
 - **Impact:** Constrains distributing the project as part of a closed product.
 - **Follow-up:** Revisit if the project's licensing goals change.
+
+### TD-058 · Long ordinal suffixes: unverified list, unsupported forms, partial boundary tests
+- **Kind:** Confirmed (current behaviour, read from the code and tested where noted); the suffix list itself is unverified · **Priority:** Medium (a wrong or missing identifier changes article labels, BM25 structural tokens and chunk boundaries) · **Status:** Open
+- **Current implementation (commit `722c075`):** `src/chunking.py` accepts the nine original suffixes (`bis` to `decies`) after a hyphen, a space or nothing, as before. It adds fourteen suffixes, accepted only after a hyphen: `undecies`, `duodecies`, `terdecies`, `quaterdecies`, `quinquiesdecies`, `sexiesdecies`, `septiesdecies`, `octiesdecies`, `noviesdecies`, `vicies`, and the alternative forms `quindecies`, `sedecies`, `duodevicies`, `undevicies`. Article headings and paragraph numbers use the same list, so a recognised suffix also decides where blocks split.
+- **Limitations of the current implementation:**
+  - The fourteen added forms come from general knowledge of Italian drafting practice. None has been checked against a real Italian legal text (TD-002).
+  - Unsupported forms:
+    - An added suffix after a space or with no separator (`Art. 2 undecies`, `Art. 2undecies`, `1 undecies.`) is not recognised as part of a heading or a paragraph number (tested).
+    - Any separator other than the ASCII hyphen-minus before an added suffix, such as an en dash, a non-breaking hyphen (U+2011) or a line break inside `2-undecies`, is not matched (follows from the pattern; not tested).
+    - Suffixes outside the list (`2-tricies`) and two-word forms (`2-vicies semel`) are read as article `2` (tested as a known limitation).
+  - Boundary tests cover one layout: an inserted paragraph written `1-<suffix>.` after a long paragraph, and a `2-<suffix>` article heading between two other articles. Not covered by any label or boundary test: parenthesised paragraph labels with an added suffix (`(1-undecies)`, `1-undecies)`), and an added-suffix paragraph reached through an overlapping cut inside an oversized block.
+- **Impact:**
+  - An article heading with an unlisted suffix, or with a dash other than the hyphen-minus, is labelled with its bare number, as every long suffix was before `722c075`. It is then indexed as `art:<number>` and competes with that article in BM25 (TD-011).
+  - An article heading with an added suffix after a space or with no separator is not recognised at all, as before `722c075`. Its text stays in the previous unit and carries that unit's article label.
+  - A paragraph number with an unsupported form gets no label and does not start a new block, so a chunk may be cut inside it.
+- **Proposed follow-up (not done):**
+  - At the TD-002 trial ingestion, compare the detected article labels with each act's official list of articles. Record which suffix spellings and dash characters actually occur.
+  - Extend the suffix list or the accepted separators only for forms found there, each with a test.
+  - Add label and boundary tests for parenthesised added-suffix paragraph numbers, and for an added-suffix paragraph reached through an overlapping in-block cut.
+  - Make any change before relevance judgments exist: it changes chunk IDs (TD-016).
+- **Depends on:** TD-002.
 
 ## BM25 retrieval (Phase 3)
 
