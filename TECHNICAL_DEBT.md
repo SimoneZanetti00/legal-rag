@@ -174,8 +174,15 @@ the phase reports and are not asserted by the test suite.
 ### TD-058 · Long ordinal suffixes: unverified list, unsupported forms, partial boundary tests
 - **Kind:** Confirmed (current behaviour, read from the code and tested where noted); the suffix list itself is unverified · **Priority:** Medium (a wrong or missing identifier changes article labels, BM25 structural tokens and chunk boundaries) · **Status:** Open
 - **Current implementation (commit `722c075`):** `src/chunking.py` accepts the nine original suffixes (`bis` to `decies`) after a hyphen, a space or nothing, as before. It adds fourteen suffixes, accepted only after a hyphen: `undecies`, `duodecies`, `terdecies`, `quaterdecies`, `quinquiesdecies`, `sexiesdecies`, `septiesdecies`, `octiesdecies`, `noviesdecies`, `vicies`, and the alternative forms `quindecies`, `sedecies`, `duodevicies`, `undevicies`. Article headings and paragraph numbers use the same list, so a recognised suffix also decides where blocks split.
+- **Update after the 2026-11-05 trial audit (the change following `dc93ef8`):**
+  - Two hyphenated spellings found in the Privacy Code were added to the hyphen-only group: `sex-decies` and `septies-decies`. Before, `Art. 2-sex-decies` was labelled `2` and `Art. 2-septies-decies` was labelled `2-septies`, each colliding with another article. Paragraph numbers use the same list, so `1-sex-decies.` and `1-septies-decies.` now get a label and start a block (tested).
+  - Article headings accept a numeric sub-number directly after a suffix: `Art. 2-quaterdecies.1`, previously labelled `2-quaterdecies`, keeps its full label (tested). A sub-number is not accepted after a bare number (`Art. 12.1` is still read as article `12`, `Art. 5. Scope` as `5`) or in paragraph numbers.
+  - On the trial's real PDFs (`data/raw/trial-2026-10-10/`, git-ignored), the block structure before and after this change is identical except for these three labels on page 9 of the Privacy Code.
+- **Observed in real text (2026-11-05):** in the main body of the trial's Privacy Code, a user-provided transcription whose text has not been verified against an official source, every suffix in an article heading follows an ASCII hyphen-minus (36 headings) and no other dash occurs before a suffix anywhere in the text. The suffixes found beyond `decies` are `undecies`, `duodecies`, `terdecies`, `quaterdecies`, `quaterdecies.1`, `quindecies`, `quinquiesdecies`, `sex-decies` and `septies-decies`. Normattiva's (non-official) HTML of the same act, saved on 2026-10-10, uses the same labels.
 - **Limitations of the current implementation:**
-  - The fourteen added forms come from general knowledge of Italian drafting practice. None has been checked against a real Italian legal text (TD-002).
+  - The fourteen forms added in `722c075` come from general knowledge of Italian drafting practice. Six of them (`undecies`, `duodecies`, `terdecies`, `quaterdecies`, `quindecies`, `quinquiesdecies`), and the two hyphenated spellings, occur in the trial transcription described above; none has been checked against an authentic legal text (TD-002).
+  - Variant spellings are not linked: `2-sexiesdecies` and `2-sex-decies` would be two different article labels, as would `2-quindecies` and `2-quinquiesdecies`. The trial transcription has both `Art. 2-quindecies` and `Art. 2-quinquiesdecies` on page 9; whether they are one article or two is unresolved.
+  - The meaning of a sub-number (`.1`) is not recorded; it is kept as part of the label only.
   - Unsupported forms:
     - An added suffix after a space or with no separator (`Art. 2 undecies`, `Art. 2undecies`, `1 undecies.`) is not recognised as part of a heading or a paragraph number (tested).
     - Any separator other than the ASCII hyphen-minus before an added suffix, such as an en dash, a non-breaking hyphen (U+2011) or a line break inside `2-undecies`, is not matched (follows from the pattern; not tested).
@@ -185,9 +192,9 @@ the phase reports and are not asserted by the test suite.
   - An article heading with an unlisted suffix, or with a dash other than the hyphen-minus, is labelled with its bare number, as every long suffix was before `722c075`. It is then indexed as `art:<number>` and competes with that article in BM25 (TD-011).
   - An article heading with an added suffix after a space or with no separator is not recognised at all, as before `722c075`. Its text stays in the previous unit and carries that unit's article label.
   - A paragraph number with an unsupported form gets no label and does not start a new block, so a chunk may be cut inside it.
-- **Proposed follow-up (not done):**
-  - At the TD-002 trial ingestion, compare the detected article labels with each act's official list of articles. Record which suffix spellings and dash characters actually occur.
-  - Extend the suffix list or the accepted separators only for forms found there, each with a test.
+- **Proposed follow-up (not done unless stated):**
+  - At the TD-002 trial ingestion, compare the detected article labels with each act's official list of articles. Record which suffix spellings and dash characters actually occur. *Partly done for the Privacy Code main body, on a transcription (see above); not done against an official list or for the GDPR, which has no suffixed articles.*
+  - Extend the suffix list or the accepted separators only for forms found there, each with a test. *Done for `sex-decies`, `septies-decies` and the `.1` sub-number.*
   - Add label and boundary tests for parenthesised added-suffix paragraph numbers, and for an added-suffix paragraph reached through an overlapping in-block cut.
   - Make any change before relevance judgments exist: it changes chunk IDs (TD-016).
 - **Depends on:** TD-002.

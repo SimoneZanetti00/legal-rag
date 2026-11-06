@@ -239,6 +239,82 @@ def test_unsupported_ordinal_suffixes_are_a_known_limitation(heading):
     assert [c.location.article for c in chunks] == ["2"]
 
 
+# Compound article numbers in the Privacy Code (trial transcription, PDF page 9). Before the
+# fix they were read as "2-quaterdecies", "2" and "2-septies", colliding with other articles.
+@pytest.mark.parametrize(
+    "article", ["2-quaterdecies.1", "2-sex-decies", "2-septies-decies"]
+)
+@pytest.mark.parametrize(
+    "layout", ["Art. {article}\n(( (Titolo). ))\n1. Testo.", "Art. {article} (Titolo)\n1. Testo."]
+)
+def test_compound_article_numbers_keep_their_full_identifier(article, layout):
+    chunks = chunk_document(make_doc(layout.format(article=article)), 1200, 150)
+    assert [c.location.article for c in chunks] == [article]
+
+
+@pytest.mark.parametrize("suffix", ["sex-decies", "septies-decies"])
+def test_hyphenated_spellings_are_read_in_paragraph_numbers_too(suffix):
+    # The suffix list is shared with paragraph numbers, so these now label and split a
+    # paragraph like any other suffix. The ".1" sub-number is accepted in headings only.
+    text = f"Art. 3 (Titolo)\n1. Primo comma.\n1-{suffix}. Comma inserito.\n2. Secondo comma."
+    chunks = chunk_document(make_doc(text), 1200, 150)
+    assert [c.location.paragraph for c in chunks] == [f"1, 1-{suffix}, 2"]
+
+
+# The order of headings on PDF page 9, with shortened titles and text.
+PRIVACY_CODE_PAGE_9 = (
+    "Art. 2-quaterdecies\n(( (Attribuzione di funzioni e compiti a soggetti designati). ))\n"
+    "1. Testo.\n\n"
+    "Art. 2-quaterdecies.1\n(( (Procedura di notifica delle violazioni di dati personali). ))\n"
+    "1. Testo.\n\n"
+    "Art. 2-quinquiesdecies\n((ARTICOLO ABROGATO DAL D.L. 8 OTTOBRE 2021, N. 139))\n\n"
+    "Art. 2-sex-decies\n(( (Responsabile della protezione dei dati). ))\n((1. Testo.))\n\n"
+    "Art. 2-septies-decies\n(( (Organismo nazionale di accreditamento). ))\n((1. Testo.))\n\n"
+    "Art. 3\n(( (Principi). ))\n1. Testo."
+)
+
+
+def test_page_9_headings_get_distinct_article_labels():
+    chunks = chunk_document(make_doc(PRIVACY_CODE_PAGE_9), 1200, 150)
+    labels = [c.location.article for c in chunks]
+    assert labels == [
+        "2-quaterdecies", "2-quaterdecies.1", "2-quinquiesdecies",
+        "2-sex-decies", "2-septies-decies", "3",
+    ]
+    assert len(set(labels)) == len(labels)
+
+
+# Identifiers read correctly before the fix; they must not change.
+PRIVACY_CODE_PRESERVED_LABELS = [
+    "2-bis", "2-ter", "2-quater", "2-undecies", "2-duodecies", "2-terdecies",
+    "2-quaterdecies", "2-quinquiesdecies", "32-bis", "45-bis", "89-bis", "110-bis",
+    "132-ter", "154-ter", "162-ter", "167-ter",
+]
+
+
+@pytest.mark.parametrize("article", PRIVACY_CODE_PRESERVED_LABELS)
+@pytest.mark.parametrize(
+    "layout", ["Art. {article}\n(( (Titolo). ))\n1. Testo.", "Art. {article} (Titolo)\n1. Testo."]
+)
+def test_existing_article_identifiers_are_unchanged(article, layout):
+    chunks = chunk_document(make_doc(layout.format(article=article)), 1200, 150)
+    assert [c.location.article for c in chunks] == [article]
+
+
+@pytest.mark.parametrize(
+    ("heading", "article"),
+    [
+        ("Art. 5. Scope", "5"),  # a full stop after a bare number is still a separator
+        ("Art. 12.1", "12"),  # no sub-number after a bare number (unchanged behaviour)
+        ("Art. 2-quaterdecies. Titolo", "2-quaterdecies"),  # full stop plus title
+        ("Art. 1.", None),  # trailing-period headings are still not recognised
+    ],
+)
+def test_a_sub_number_is_read_only_directly_after_a_suffix(heading, article):
+    chunks = chunk_document(make_doc(f"{heading}\n1. Testo."), 1200, 150)
+    assert [c.location.article for c in chunks] == [article]
+
+
 def test_bare_number_after_article_word_is_not_a_heading():
     # "Article 5." ending a wrapped line is running text, not a heading.
     chunks = chunk_document(make_doc("As required by\nArticle 5.\nThe rest follows."), 1200, 150)
