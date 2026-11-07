@@ -157,7 +157,35 @@ Output:              data/processed/chunks.jsonl
 
 Exit codes: `0` means every file was ingested. `1` means at least one file
 failed or no files were found; the successful files are still written. `2`
-means invalid arguments, paths, or configuration.
+means invalid arguments, paths, or configuration, or an end boundary
+(below) that could not be applied.
+
+**Ingesting only the start of a document (`--end-before`).** For a single input
+file, `--end-before LINE` keeps only the text before one exact line and leaves
+out that line and everything after it. It is used to ingest a code's main body
+without its annexes:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.ingestion --input data/raw/codice.pdf `
+    --output data/processed/codice_main_body.jsonl --end-before "ALLEGATO A.1"
+```
+
+- *Matching:* a line matches only if its whole text, ignoring spaces at its
+  start and end, is exactly `LINE`. Case matters, and text that merely contains
+  `LINE` (for example "si veda l'ALLEGATO A.1 al Codice") does not match.
+- *Uniqueness:* the line must occur exactly once. If it is missing or appears
+  more than once (the error names the pages), nothing is written, an existing
+  output file is left unchanged, and the exit code is `2`. There is no fallback
+  to ingesting the whole file.
+- *Provenance:* the source file is not changed or copied. The kept text is the
+  unchanged beginning of the extracted text, so chunk page numbers are the
+  original PDF page numbers, including on a page shared with the excluded part.
+  The document ID is still the hash of the whole source file, so a whole-file
+  run and a boundary run of the same file produce chunks with the same document
+  ID; keep the two outputs in separate files and record which is which.
+- The report adds a `WARNING` line saying on which page the text was cut and how
+  many characters were left out. The option cannot be combined with a directory
+  input.
 
 **Output.** `data/processed/chunks.jsonl` is git-ignored UTF-8 JSON Lines, one
 chunk per line:
@@ -400,20 +428,45 @@ the cache is off unless `cache_dir` is given.
 - *Clearing it:* `Remove-Item -Recurse data\indexes\embeddings`. This is
   always safe, and old files are not cleaned up automatically.
 
-**Testing with the real model (opt-in).** The default test suite never loads
-a real model: it uses fake encoders, forces Hugging Face offline mode, and
-skips the one real-model test. To run that test:
+**Testing with the real models (opt-in).** The default test suite never loads
+a real model: it uses fake encoders and scorers, forces Hugging Face offline
+mode in every test (`tests/conftest.py`), and skips the three real-model
+tests, so a default run reports `3 skipped`. One variable,
+`RUN_REAL_MODEL_TESTS=1`, enables all three:
+
+| Test | Model | If the model is not cached |
+|---|---|---|
+| `tests/test_dense_retrieval.py::test_real_model_smoke` | `intfloat/multilingual-e5-small` | fails |
+| `tests/test_hybrid_retrieval.py::test_real_model_smoke` | `intfloat/multilingual-e5-small` | fails |
+| `tests/test_reranking.py::test_real_model_smoke` | `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1` | skipped |
 
 ```powershell
 $env:RUN_REAL_MODEL_TESTS="1"
+# All three:
+.\.venv\Scripts\python.exe -m pytest -k real_model -v
+# Or one at a time (-s shows the reranker test's printed scores and timings):
 .\.venv\Scripts\python.exe -m pytest tests/test_dense_retrieval.py -k real_model -v
+.\.venv\Scripts\python.exe -m pytest tests/test_hybrid_retrieval.py -k real_model -v
+.\.venv\Scripts\python.exe -m pytest tests/test_reranking.py -k real_model -v -s
+Remove-Item Env:RUN_REAL_MODEL_TESTS
 ```
 
-It requires `intfloat/multilingual-e5-small` to be in the local Hugging Face
-cache already, and it never downloads. Run a dense search once to fetch the
-model. The test checks integration (the model loads, embeddings are valid,
-results are well-formed and same-language queries rank their passage first).
-It is not a quality benchmark.
+Each model must already be in the local Hugging Face cache. The tests load
+it with `local_files_only=True` and run offline, so they never download
+anything, and `HF_HUB_OFFLINE` does not need to be set. They use the default
+model names above, not `EMBEDDING_MODEL` or `RERANKER_MODEL`. To fetch a
+model, run a dense search once (embedding model) or an evaluation with
+`--retriever hybrid-rerank` once (reranker).
+
+The tests check integration, and none of them is a quality benchmark:
+- *Dense:* the model loads, embeddings are valid, results are well-formed and
+  same-language queries rank their passage first.
+- *Hybrid:* fused results over the synthetic fixture are valid and
+  repeatable; no ranking is expected.
+- *Reranker:* scores are finite, repeatable and not all equal; reranked
+  results keep their first-stage provenance; an input longer than the model's
+  limit still gets a finite score; 20 passages are reranked and timed. No
+  order is expected.
 
 **Troubleshooting: `CERTIFICATE_VERIFY_FAILED` when downloading a model.**
 Some antivirus products and corporate proxies inspect HTTPS traffic by

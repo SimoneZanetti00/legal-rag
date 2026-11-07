@@ -84,7 +84,7 @@ the phase reports and are not asserted by the test suite.
 | TD-038 | Behind HTTPS inspection, model downloads fail and cached loads are slow | Environment | Observed | Low | Open |
 | TD-039 | Heavy environment and slow first import | Environment | Observed | Low | Open |
 | TD-040 | Hybrid retrieval: fusion and comparison questions | Hybrid | Risk | High | Resolved |
-| TD-041 | Reranking: unverified model and input limits | Reranking (future) | Risk | Medium | Open |
+| TD-041 | Reranking: real model runs; suitability and input limits unverified | Reranking | Risk | Medium | Open |
 | TD-042 | Generation: token budget, citations and provenance | Generation (future) | Risk | Medium | Open |
 | TD-043 | Abstention thresholds need calibrated scores | Abstention (future) | Risk | High | Open |
 | TD-044 | Temporal filtering has no data to work on | Abstention (future) | Confirmed | Medium | Open |
@@ -102,6 +102,7 @@ the phase reports and are not asserted by the test suite.
 | TD-056 | Real-model runs print library progress output | Environment | Observed | Low | Open |
 | TD-057 | Evaluation cutoffs above the hybrid candidate depth are not comparable | Hybrid, evaluation | Confirmed | Medium | Open |
 | TD-058 | Long ordinal suffixes: unverified list, unsupported forms, partial boundary tests | Chunking | Confirmed | Medium | Open |
+| TD-059 | `doc_id` identifies the source file, not the ingestion variant | Ingestion, provenance | Confirmed | Medium | Open |
 
 ## Ingestion and chunking (Phase 2)
 
@@ -198,6 +199,12 @@ the phase reports and are not asserted by the test suite.
   - Add label and boundary tests for parenthesised added-suffix paragraph numbers, and for an added-suffix paragraph reached through an overlapping in-block cut.
   - Make any change before relevance judgments exist: it changes chunk IDs (TD-016).
 - **Depends on:** TD-002.
+
+### TD-059 · `doc_id` identifies the source file, not the ingestion variant
+- **Kind:** Confirmed · **Priority:** Medium (needed before the provision store and retrieval corpus are built) · **Status:** Open
+- **Evidence:** `load_document` in `src/ingestion.py` sets `doc_id` to `doc-` plus the first 16 hex characters of the SHA-256 of the source file's bytes. The optional end boundary (`--end-before`, added during P0) does not change it, so a whole-file run and a boundary-limited run of the same file produce chunks with the same `doc_id`, and their chunk IDs coincide for every chunk the cut does not affect (411 of 412 in the trial's Privacy Code run). Chunk records do not record the boundary or any other processing option. In the real-corpus trial the two outputs are told apart only by the git-ignored trial manifest (output path, output hash, recorded boundary).
+- **Impact:** If chunks from two ingestion variants of one source were mixed, or if a judgment, citation or evidence record referred only to `doc_id` or `chunk_id`, it could not be stated which corpus build the passage came from.
+- **Follow-up (P1 requirement):** the provision store and the retrieval corpus must identify the corpus build / ingestion variant (source hash plus processing options such as the end boundary and chunk settings) for every passage, and must not rely on `doc_id` alone. Whether `doc_id` itself should change is a separate decision.
 
 ## BM25 retrieval (Phase 3)
 
@@ -323,7 +330,9 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-028 · Model revision is not pinned
 - **Kind:** Confirmed · **Priority:** Medium (reproducibility) · **Status:** Open
-- **Evidence:** `SentenceTransformerEncoder` loads the model by name with no `revision`. The revision cached during verification was `614241f`.
+- **Evidence:**
+  - `SentenceTransformerEncoder` loads the embedding model by name with no `revision`. The revision cached during verification was `614241f`.
+  - `CrossEncoderScorer` (`src/reranking.py`) also loads the reranker by name with no `revision`. The revision of `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1` downloaded on 2026-11-06 and used by the first real smoke run is `1427fd652930e4ba29e8149678df786c240d8825` (recorded only; nothing is pinned).
 - **Impact:** Two installations can use different weights under the same model name.
 - **Follow-up:** Add an optional revision setting and record the resolved revision (TD-019).
 
@@ -450,7 +459,7 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-037 · The real model is exercised only by opt-in tests
 - **Kind:** Confirmed · **Priority:** Medium (integration regressions would go unnoticed) · **Status:** Open
-- **Evidence:** The default suite uses fake encoders and replaces the `sentence_transformers` module. Two tests named `test_real_model_smoke`, one for dense and one for hybrid retrieval, run only with `RUN_REAL_MODEL_TESTS=1` and a model already in the local cache.
+- **Evidence:** The default suite uses fake encoders and scorers and replaces the `sentence_transformers` module. Three tests named `test_real_model_smoke` run only with `RUN_REAL_MODEL_TESTS=1` and a model already in the local cache: dense retrieval, hybrid retrieval, and the cross-encoder reranker (`tests/test_reranking.py`, added after `c284fc2`). The reranker test skips when the model is not cached, instead of failing.
 - **Follow-up:** Run the opt-in tests in a scheduled or manual CI job with a cached model.
 - **Depends on:** TD-036.
 
@@ -460,7 +469,8 @@ the phase reports and are not asserted by the test suite.
   - Behind antivirus HTTPS inspection, the Hugging Face client failed with `CERTIFICATE_VERIFY_FAILED`. The README documents a manual, verification-preserving procedure.
   - Found in Phase 5: with the model already cached, a dense search without `HF_HUB_OFFLINE=1` still took 238 seconds, logging 48 certificate errors and 40 retries before using the cache. The same command with `HF_HUB_OFFLINE=1` took 24 seconds. The README now recommends the variable.
   - On Windows without symlink support the model cache also runs in a degraded mode that uses more disk space.
-- **Impact:** Every dense, hybrid or dense-evaluation run on such a machine is about four minutes slower unless the variable is set.
+  - On 2026-11-06, on the same Windows development machine, the reranker model (`cross-encoder/mmarco-mMiniLMv2-L12-H384-v1`, about 470 MB) downloaded successfully in 123 seconds with the default certificate handling: `SSL_CERT_FILE` was not set and no certificate or TLS error occurred. At that time no antivirus root certificate was present in the Windows certificate stores and no Avast process was running, so HTTPS inspection was apparently not active. Why it was not active (reconfiguration, removal or another cause) was not established, and the slow cached load without `HF_HUB_OFFLINE=1` was not re-measured.
+- **Impact:** Every dense, hybrid or dense-evaluation run on such a machine is about four minutes slower unless the variable is set. This applies to any machine where HTTPS inspection is active, including this one if it is re-enabled.
 - **Follow-up:** None planned beyond the documentation. An option to load local files only would remove the need for the variable.
 
 ### TD-039 · Heavy environment and slow first import
@@ -470,13 +480,17 @@ the phase reports and are not asserted by the test suite.
 
 ## Risks and questions for later phases
 
-### TD-041 · Reranking: unverified model and input limits
+### TD-041 · Reranking: real model runs; suitability and input limits unverified
 - **Kind:** Risk · **Priority:** Medium · **Status:** Open
-- **Questions:**
-  - The default `RERANKER_MODEL` has never been loaded. Does it exist and suit Italian legal text?
-  - Cross-encoders also truncate their input (compare TD-022).
-  - What is the CPU cost per query for the configured candidate count?
-  - Model downloads face the same obstacle as TD-038.
+- **Observed on 2026-11-06** (development machine, Windows 11, CPU; model revision `1427fd652930e4ba29e8149678df786c240d8825`, see TD-028):
+  - The default `RERANKER_MODEL` exists, downloads (470 MB of weights, 123 s, no certificate error) and loads from the local cache. The opt-in `test_real_model_smoke` in `tests/test_reranking.py` passed with `HF_HUB_OFFLINE=1`: finite and repeatable raw scores, not all equal, valid reranked order with first-stage provenance kept.
+  - Timings across four runs of the test that day: importing the model library 18–25 s; loading the model 2.5–6.4 s; scoring 3 short passages 0.03–0.04 s; scoring 20 passages of about 1,200 characters 1.7–2.4 s.
+  - The model's input limit is 512 tokens. A 5,999-character test passage was 1,210 tokens with the query and still got a finite score; that the tail is ignored is library behaviour and was not checked.
+- **Questions still open:**
+  - Does the model suit Italian legal text? Nothing measured; needs the TD-015 benchmark.
+  - How often do real chunks exceed 512 tokens together with a query (compare TD-022)?
+  - Is the CPU cost acceptable at the configured candidate count in a real pipeline?
+  - The download did not hit the TD-038 certificate obstacle on 2026-11-06; whether that holds elsewhere is unknown.
 - **Depends on:** TD-015.
 
 ### TD-042 · Generation: token budget, citations and provenance
