@@ -36,6 +36,7 @@ src/
   ingestion.py   # TXT/PDF loading, batch ingestion, CLI
   chunking.py    # legal-aware chunking
   chunk_store.py # JSONL serialization of chunks
+  corpus_identity.py # ingestion-variant and corpus-build IDs (not yet used by the pipeline)
   retrieval_common.py # shared by the retrievers: argument checks, result formatting, Retriever interface
   retrieval.py   # tokenizer and BM25 retriever, search CLI
   dense_retrieval.py # embedding-based retriever, embedding cache, search CLI
@@ -235,6 +236,38 @@ Use `src.chunk_store.read_chunks(path)` to load the file back as `LegalChunk` ob
   paragraph or heading boundaries are not overlapped.
 - Chunk text is always an exact excerpt of the extracted document text.
   PDF page ranges (`page` to `page_end`) are computed from character offsets.
+
+**Ingestion variants and corpus builds** (`src/corpus_identity.py`; not yet
+used by ingestion, retrieval or evaluation). A document ID names a file's
+bytes only, so a whole-file run and an `--end-before` run of the same file
+share it (TECHNICAL_DEBT.md TD-059). Two further IDs make the processing
+explicit:
+
+- `variant_id` (`var-` plus 32 hex characters) names one processing of one
+  file. It is the hash of the source file's SHA-256, the reader (`pdf` or
+  `txt`), its `.meta.json` sidecar's SHA-256 (or none), `end_before`,
+  `CHUNK_SIZE`, `CHUNK_OVERLAP`, the Git commit with its clean or dirty
+  state, and the PyMuPDF and Python versions. The reader is included because
+  ingestion chooses it from the file extension, not from the bytes, so the
+  same bytes saved as `.txt` and as `.pdf` are processed differently. An
+  unsupported extension gets no variant.
+- `build_id` (`build-` plus 32 hex characters) names one corpus. It is the
+  hash of its variant IDs, in sorted order, and the assembly format. A build
+  holds at most one variant per source file.
+- *Recorded, not hashed:* where the output was written, its SHA-256, size and
+  chunk count, and the source path. They describe a result, so they never
+  change an ID. Chunk records contain the source path, so a re-run of the
+  same variant reproduces the output hash only if the source is at the same
+  path.
+- *Code version:* a commit is required. Uncommitted changes give the state
+  `dirty` with a fingerprint of the changed files, so a dirty run never gets
+  the ID of the clean commit. They are: a modified, deleted or renamed
+  tracked file; a file marked assume-unchanged or skip-worktree; or an
+  untracked file not ignored by the repository's `.gitignore` files. Local
+  excludes do not count as ignored.
+- IDs are computed from canonical JSON (sorted keys, no whitespace, UTF-8, no
+  Unicode normalization), which includes a schema version, so a change to
+  these rules changes every ID.
 
 ## Lexical retrieval (BM25)
 
