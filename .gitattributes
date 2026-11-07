@@ -1,0 +1,5 @@
+# Reference inventories and their reports (P1.2): LF in the repository and in every
+# checkout, whatever core.autocrlf says, so the SHA-256 values recorded for them
+# hold on every platform.
+data/reference/*.json text eol=lf
+data/reference/*.md text eol=lf

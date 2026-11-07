@@ -37,11 +37,14 @@ src/
   chunking.py    # legal-aware chunking
   chunk_store.py # JSONL serialization of chunks
   corpus_identity.py # ingestion-variant and corpus-build IDs (not yet used by the pipeline)
+  reference_inventory.py # format and validation of the reference inventories (P1.2)
   retrieval_common.py # shared by the retrievers: argument checks, result formatting, Retriever interface
   retrieval.py   # tokenizer and BM25 retriever, search CLI
   dense_retrieval.py # embedding-based retriever, embedding cache, search CLI
   hybrid_retrieval.py # Reciprocal Rank Fusion, hybrid retriever, search CLI
   retrieval_eval.py # retrieval metrics, evaluation data loading, evaluation CLI
+tools/
+  reference_inventory/ # build and cross-check the reference inventories (see data/reference/README.md)
 tests/           # pytest suite; builds synthetic TXT/PDF fixtures on the fly
   fixtures/synthetic_retrieval/ # SYNTHETIC chunks, queries and judgments for tests only
 data/
@@ -49,6 +52,8 @@ data/
   processed/     # parsed documents and chunks (git-ignored)
   indexes/embeddings/ # dense embedding cache (git-ignored; safe to delete)
   evaluation/    # curated queries.jsonl and qrels.jsonl (version-controlled; none yet)
+  reference/     # article inventories of the GDPR and the Privacy Code, built from the
+                 # source PDFs, pending human review (version-controlled; see its README.md)
 ```
 
 ## Setup (Windows, PowerShell)
