@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "name": "first-prototype",
-  "description": "GDPR as originally published in the Official Journal (L 119, 4.5.2016) and the Privacy Code transcription, main body only: the corpus of the first LEXROOM prototype.",
+  "description": "GDPR as originally published in the Official Journal (L 119, 4.5.2016) and the Privacy Code transcription, main body only: the corpus of the first prototype.",
   "chunk_size": 1200,
   "chunk_overlap": 150,
   "assembly_format": "concatenated-jsonl/1",
