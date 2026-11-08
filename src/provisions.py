@@ -13,7 +13,10 @@ Each provision keeps three separate axes:
 - legal_validity: always "not_established". Nothing here establishes that a
   provision is valid or in force.
 
-Eligibility as a citation is computed from these (see `eligibility`).
+Eligibility as a citation is computed from these (see `eligibility`). A review record
+may also say how the reviewer compared the text with an official source
+(`official_check`); a text found to differ is not cited as primary evidence. A match
+with an official source says nothing about legal validity either.
 """
 
 from __future__ import annotations
@@ -27,9 +30,11 @@ from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 from src.config import PROJECT_ROOT
 from src.reference_inventory import REPEAL_MARKER, serialize_inventory, validate_inventory
+from src.text_normalization import DIFFERS, MATCH_STATUSES, PROFILES, TextDifference, compare_texts
 
 REGISTRY_PATH = PROJECT_ROOT / "data" / "reference" / "instruments.json"
 LEDGER_PATH = PROJECT_ROOT / "data" / "reference" / "review_ledger.json"
@@ -72,6 +77,9 @@ REASONS = {
     "Repealed provisions are excluded from primary citations in the first demonstration; the "
     "marking is kept for historical research.",
     "division_context_only": "Divisions give context only and are never cited as evidence.",
+    "official_text_differs": "The reviewer compared its text with the official source named "
+    "in the review ledger and found differences (listed there), so it is not cited as primary "
+    "evidence.",
 }
 # Statements that accompany every use of a provision, eligible or not.
 QUALIFICATIONS = {
@@ -106,6 +114,20 @@ CORRECTABLE_FIELDS = (
     "parent_path",
     "structural_status",
 )
+# Official sources a review may compare a provision with, and the only host each may
+# be retrieved from (over HTTPS). Being official does not make a text authentic: only
+# the Official Journal and the Gazzetta Ufficiale are; consolidated texts and Normattiva
+# are documentation.
+OFFICIAL_SOURCE_HOSTS = {
+    "oj_original": "eur-lex.europa.eu",  # Official Journal publication, as on EUR-Lex
+    "oj_corrigendum": "eur-lex.europa.eu",
+    "eurlex_consolidated": "eur-lex.europa.eu",  # EUR-Lex consolidated version
+    "normattiva_vigente": "www.normattiva.it",  # Normattiva, text in force
+}
+OFFICIAL_CHECK_KEYS = frozenset({
+    "source_url", "source_type", "consolidation_date", "retrieved_on", "official_text_sha256",
+    "normalisation", "match_status", "differences",
+})
 _SHA256 = re.compile(r"[0-9a-f]{64}")
 _ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 _ID_SAFE = re.compile(r"[0-9a-z][0-9a-z.\-]*")
@@ -396,6 +418,26 @@ class Correction:
 
 
 @dataclass(frozen=True)
+class OfficialCheck:
+    """How a reviewer compared a provision's text with an official source.
+
+    `official_text_sha256` is the SHA-256 of the official text exactly as acquired
+    and compared (UTF-8, before any normalisation). `match_status` and `differences`
+    come from src.text_normalization.compare_texts under `normalisation`. A match
+    does not establish legal validity or authenticity.
+    """
+
+    source_url: str
+    source_type: str  # a key of OFFICIAL_SOURCE_HOSTS
+    consolidation_date: str | None  # date the source is consolidated or updated to
+    retrieved_on: str
+    official_text_sha256: str
+    normalisation: str  # a profile in src.text_normalization.PROFILES
+    match_status: str  # one of src.text_normalization.MATCH_STATUSES
+    differences: tuple[TextDifference, ...]  # ours vs official; only when "differs"
+
+
+@dataclass(frozen=True)
 class ReviewRecord:
     inventory_id: str
     entry_id: str
@@ -404,6 +446,85 @@ class ReviewRecord:
     checked_on: str
     corrections: tuple[Correction, ...]
     note: str | None
+    official_check: OfficialCheck | None = None  # optional; absent in older records
+
+
+_LEDGER_KEYS = frozenset({"inventory_id", "entry_id", "outcome", "checked_by", "checked_on",
+                          "corrections", "note"})
+
+
+def parse_official_check(raw: Any, where: str, *, checked_on: datetime.date) -> OfficialCheck:
+    """Validate one `official_check` object (see data/reference/README.md)."""
+    _check_keys(raw, set(OFFICIAL_CHECK_KEYS), where)
+    source_type = raw["source_type"]
+    _require(source_type in OFFICIAL_SOURCE_HOSTS,
+             f"{where}: source_type must be one of {sorted(OFFICIAL_SOURCE_HOSTS)}")
+    url = raw["source_url"]
+    _require(_is_text(url) and not any(c.isspace() for c in url), f"{where}: source_url")
+    parts = urlsplit(url)
+    host = OFFICIAL_SOURCE_HOSTS[source_type]
+    _require(parts.scheme == "https" and parts.netloc == host,
+             f"{where}: source_url must be https://{host}/... for {source_type}")
+    retrieved = _date(raw["retrieved_on"], f"{where}.retrieved_on")
+    _require(retrieved <= checked_on, f"{where}: retrieved_on is after checked_on")
+    if raw["consolidation_date"] is None:
+        _require(source_type != "eurlex_consolidated",
+                 f"{where}: a consolidated text needs its consolidation_date")
+    else:
+        consolidated = _date(raw["consolidation_date"], f"{where}.consolidation_date")
+        _require(consolidated <= retrieved, f"{where}: consolidation_date is after retrieved_on")
+    sha = raw["official_text_sha256"]
+    _require(isinstance(sha, str) and bool(_SHA256.fullmatch(sha)),
+             f"{where}: official_text_sha256 must be 64 lowercase hex characters")
+    _require(raw["normalisation"] in PROFILES, f"{where}: normalisation must be one of {PROFILES}")
+    status = raw["match_status"]
+    _require(status in MATCH_STATUSES, f"{where}: match_status must be one of {MATCH_STATUSES}")
+    _require(isinstance(raw["differences"], list), f"{where}: differences must be a list")
+    differences = []
+    for j, d in enumerate(raw["differences"]):
+        at = f"{where}.differences[{j}]"
+        _check_keys(d, {"ours", "official"}, at)
+        _require(isinstance(d["ours"], str) and isinstance(d["official"], str),
+                 f"{at}: ours and official must be strings")
+        _require(compare_texts(d["ours"], d["official"], raw["normalisation"]).status == DIFFERS,
+                 f"{at}: ours and official are the same text after normalisation")
+        differences.append(TextDifference(d["ours"], d["official"]))
+    if status == DIFFERS:
+        _require(bool(differences), f"{where}: match_status differs needs its differences")
+    else:
+        _require(not differences, f"{where}: differences are listed only when the text differs")
+    return OfficialCheck(url, source_type, raw["consolidation_date"], raw["retrieved_on"], sha,
+                         raw["normalisation"], status, tuple(differences))
+
+
+def official_check_record(
+    our_text: str,
+    official_text: str,
+    *,
+    source_url: str,
+    source_type: str,
+    consolidation_date: str | None,
+    retrieved_on: str,
+    normalisation: str = PROFILES[0],
+) -> dict[str, Any]:
+    """A validated `official_check` object for a reviewer to put in a ledger record.
+
+    Compares our anchored text with the official text and hashes the official text as
+    given. It only prepares the object: it writes nothing and records no review.
+    """
+    comparison = compare_texts(our_text, official_text, normalisation)
+    raw = {
+        "source_url": source_url,
+        "source_type": source_type,
+        "consolidation_date": consolidation_date,
+        "retrieved_on": retrieved_on,
+        "official_text_sha256": hashlib.sha256(official_text.encode("utf-8")).hexdigest(),
+        "normalisation": normalisation,
+        "match_status": comparison.status,
+        "differences": [{"ours": d.ours, "official": d.theirs} for d in comparison.differences],
+    }
+    parse_official_check(raw, "official_check", checked_on=datetime.date.today())
+    return raw
 
 
 def parse_ledger(data: Any, *, today: datetime.date | None = None) -> tuple[ReviewRecord, ...]:
@@ -413,19 +534,22 @@ def parse_ledger(data: Any, *, today: datetime.date | None = None) -> tuple[Revi
     records, seen = [], set()
     for i, raw in enumerate(data):
         where = f"review_ledger[{i}]"
-        _check_keys(
-            raw,
-            {"inventory_id", "entry_id", "outcome", "checked_by", "checked_on", "corrections",
-             "note"},
-            where,
-        )
+        has_check = isinstance(raw, Mapping) and "official_check" in raw
+        _check_keys(raw, set(_LEDGER_KEYS | {"official_check"} if has_check else _LEDGER_KEYS),
+                    where)
         key = (raw["inventory_id"], raw["entry_id"])
         _require(all(_is_text(k) for k in key), f"{where}: inventory_id and entry_id")
         _require(key not in seen, f"{where}: a second record for {key[1]}")
         _require(raw["outcome"] in ("confirmed", "corrected"), f"{where}: outcome")
         _require(_is_text(raw["checked_by"]), f"{where}: checked_by must name the reviewer")
-        _require(_date(raw["checked_on"], f"{where}.checked_on") <= today,
-                 f"{where}: checked_on is in the future")
+        checked_on = _date(raw["checked_on"], f"{where}.checked_on")
+        _require(checked_on <= today, f"{where}: checked_on is in the future")
+        official_check = None
+        if has_check:
+            _require(raw["official_check"] is not None,
+                     f"{where}: leave official_check out rather than null")
+            official_check = parse_official_check(raw["official_check"],
+                                                  f"{where}.official_check", checked_on=checked_on)
         _require(raw["note"] is None or _is_text(raw["note"]), f"{where}: note")
         _require(isinstance(raw["corrections"], list), f"{where}: corrections must be a list")
         corrections = []
@@ -443,7 +567,8 @@ def parse_ledger(data: Any, *, today: datetime.date | None = None) -> tuple[Revi
         seen.add(key)
         records.append(
             ReviewRecord(raw["inventory_id"], raw["entry_id"], raw["outcome"],
-                         raw["checked_by"], raw["checked_on"], tuple(corrections), raw["note"])
+                         raw["checked_by"], raw["checked_on"], tuple(corrections), raw["note"],
+                         official_check)
         )
     return tuple(records)
 
@@ -466,6 +591,7 @@ class Review:
     checked_on: str | None = None
     outcome: str | None = None  # "confirmed" or "corrected" when reviewed
     corrections: tuple[Correction, ...] = ()
+    official_check: OfficialCheck | None = None
 
 
 @dataclass(frozen=True)
@@ -524,6 +650,9 @@ def eligibility(provision: Provision, version: Version, *, anchored: bool) -> El
         blocking.append("no_anchored_text")
     if provision.review.status != "reviewed":  # also listed for an ambiguous provision
         limiting.append("structure_not_reviewed")
+    check = provision.review.official_check
+    if check is not None and check.match_status == DIFFERS:
+        limiting.append("official_text_differs")
     if provision.source_status_representation == SourceStatus.MARKED_REPEALED:
         limiting.append("source_marks_repealed_excluded_from_first_demo")
     tier = Tier.BLOCKED if blocking else Tier.INTERNAL_ONLY if limiting else Tier.PRIMARY
@@ -723,7 +852,7 @@ def _review(entry: Mapping[str, Any], record: ReviewRecord | None, inv_id: str) 
         _require(entry[c.field] == c.after,
                  f"{where}: corrected {c.field} is {entry[c.field]!r}, ledger says {c.after!r}")
     return Review("reviewed", record.checked_by, record.checked_on, record.outcome,
-                  record.corrections)
+                  record.corrections, record.official_check)
 
 
 def _structural_status(inventory_status: str, review: Review) -> StructuralStatus:

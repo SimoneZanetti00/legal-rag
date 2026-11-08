@@ -935,8 +935,10 @@ or invalid arguments. Errors say which command to run.
   each with reason codes and mandatory qualifications (for example "original
   publication, not a consolidated text" for the GDPR, "user-provided
   transcription" for the Privacy Code). In the first demonstration only
-  reviewed, not repealed, unambiguous articles are `primary`. The review ledger
-  is empty, so no provision is `primary` yet.
+  reviewed, not repealed, unambiguous articles are `primary`. An article whose
+  text a reviewer found to differ from an official source (the ledger's
+  optional `official_check`) is not `primary` either (`official_text_differs`).
+  The review ledger is empty, so no provision is `primary` yet.
 
 **Limitations**
 

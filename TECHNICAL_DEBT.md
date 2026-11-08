@@ -242,6 +242,23 @@ the phase reports and are not asserted by the test suite.
 - **Impact:** a different source formatting fails the build instead of being misclassified, unless it keeps every count unchanged.
 - **Follow-up:** check segment boundaries by hand for the provisions of the first demonstration.
 
+### TD-064 · Official-source checks are recorded but neither shown nor re-verifiable
+- **Kind:** Confirmed · **Priority:** Low · **Status:** Open
+- **Evidence:**
+  - The review ledger's optional `official_check` (`src/provisions.py`, `parse_official_check`) stores the official text's SHA-256, not the text itself.
+  - The explorer output (`legal-rag.provision-explorer/2`) shows the review's status, reviewer, date, outcome and corrections, but not the check. Only its effect appears, through the reason `official_text_differs`.
+  - The shipped GDPR text is the 2016 original publication. Its Art. 56 differs from the EUR-Lex consolidated text by corrigenda C2 and C3 (two words). A check against that text would record `differs`.
+- **Impact:**
+  - Without a saved copy of the official text, a later reader cannot recompute a recorded `match_status` from the repository alone.
+  - A reviewer reads the check in the ledger, not in the explorer.
+- **Follow-up:** if needed, keep the compared official texts beside the ledger and show the check in a later explorer schema version.
+
+### TD-065 · Comparison normalisation is minimal by design
+- **Kind:** Confirmed · **Priority:** Low · **Status:** Open
+- **Evidence:** profile `ws-markers-softhyphen-v1` (`src/text_normalization.py`) applies no Unicode normalisation: precomposed `è` and `e` with a combining grave accent compare as different. It accepts only the EUR-Lex marker labels `B`, `M<n>`, `A<n>` and `C<n>`, and only when the label stands apart from the next word.
+- **Impact:** a text that differs only in these respects is reported as `differs`, a false difference. No difference is ever hidden.
+- **Follow-up:** if a real case needs it, add a new profile (for example with NFC). Never change `ws-markers-softhyphen-v1` in place, because recorded checks name it.
+
 ## BM25 retrieval (Phase 3)
 
 ### TD-010 · No stemming, abbreviation or synonym matching

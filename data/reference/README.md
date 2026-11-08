@@ -98,6 +98,41 @@ Entries with `uncertain`, `ambiguous` or `duplicate_label`, and every `expected_
   - `corrected`: list every changed field as `{"field", "before", "after"}`, and edit the inventory so that it holds the `after` values. The provision becomes `manually_curated`, never `auto_verified`.
   - A record for an entry that is not marked reviewed, or a reviewed entry without a record, fails the build. Records must describe real reviews by named people; none exists yet.
 
+- **Official-source check (optional):** a record may also say how the reviewer compared the provision's text with an official source, in an `official_check` object. Records without it stay valid. Leave it out rather than writing `null`.
+
+  ```json
+  "official_check": {
+    "source_url": "https://eur-lex.europa.eu/legal-content/IT/TXT/?uri=CELEX:02016R0679-20160504",
+    "source_type": "eurlex_consolidated",
+    "consolidation_date": "2016-05-04",
+    "retrieved_on": "YYYY-MM-DD",
+    "official_text_sha256": "<64 lowercase hex>",
+    "normalisation": "ws-markers-softhyphen-v1",
+    "match_status": "identical_after_normalisation",
+    "differences": []
+  }
+  ```
+
+  - `source_type` and the only host allowed for it, always over `https://` with no port or user name:
+
+    | `source_type` | Host |
+    |---|---|
+    | `oj_original`, `oj_corrigendum`, `eurlex_consolidated` | `eur-lex.europa.eu` |
+    | `normattiva_vigente` | `www.normattiva.it` |
+
+  - `consolidation_date`: the date the source is consolidated or updated to, as `YYYY-MM-DD`, or `null` when the source states none. It is required for `eurlex_consolidated`.
+  - Dates must be in order: `consolidation_date` ≤ `retrieved_on` ≤ `checked_on`.
+  - `official_text_sha256`: the SHA-256 of the official text exactly as acquired and compared (UTF-8, before any normalisation).
+  - `normalisation`: the comparison profile. The only one is `ws-markers-softhyphen-v1`; its permitted transformations are listed in `src/text_normalization.py`.
+  - `match_status`:
+    - `identical`: equal as they are;
+    - `identical_after_normalisation`: equal after the profile's transformations;
+    - `differs`: they differ.
+  - `differences`: one `{"ours", "official"}` pair per place where the words differ, listed exactly when `match_status` is `differs`. Each pair must still differ after normalisation.
+  - `src.provisions.official_check_record(our_text, official_text, ...)` computes the hash, the status and the differences and validates the object. It writes nothing.
+  - **Effect:** `differs` keeps the provision out of primary citations (reason `official_text_differs`), even when the structural review confirmed it. A match changes nothing else: it does not make a text authentic and does not establish legal validity, which stays `not_established`. Like the rest of the review, the check does not make anchors stale.
+  - **Authenticity:** only the Official Journal and the Gazzetta Ufficiale are authentic. EUR-Lex consolidated texts and Normattiva are official but not authentic.
+
 The validator, `src.reference_inventory.validate_inventory`, rejects:
 - a `reviewed` entry without `checked_by`, or without a `checked_on` that is a real `YYYY-MM-DD` date not in the future;
 - a pending entry that has either;
