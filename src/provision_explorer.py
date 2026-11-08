@@ -57,7 +57,9 @@ from src.provisions import (
 )
 from src.retrieval import BM25Retriever
 
-SCHEMA = "lexroom.provision-explorer/1"
+# Version 2 has the same keys as version 1; only the namespace changed, from the
+# previous project-specific name to the neutral `legal-rag`.
+SCHEMA = "legal-rag.provision-explorer/2"
 SCORE_NOTE = (
     "BM25 scores are uncalibrated relevance signals for ranking, not probabilities or "
     "confidence. Running headers are still inside the indexed chunk text and can affect "

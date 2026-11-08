@@ -173,7 +173,7 @@ def test_lookup_json_has_a_stable_schema(explored, capsys):
     build_dir, _ = explored
     result = run_json(capsys, "lookup", "prova", "2", "--build-dir", build_dir)
     assert set(result) == LOOKUP_KEYS and result["schema"] == SCHEMA == (
-        "lexroom.provision-explorer/1")
+        "legal-rag.provision-explorer/2")
     p = result["provision"]
     assert set(p) == PROVISION_KEYS
     assert set(result["build"]) == BUILD_KEYS
@@ -251,6 +251,16 @@ RESULT_KEYS = {"rank", "score", "chunk_id", "chunk_index", "doc_id", "variant_id
 
 def search(capsys, build_dir, question, top_k=10):
     return run_json(capsys, "search", question, "--top-k", top_k, "--build-dir", build_dir)
+
+
+def test_the_schema_identifier_is_neutral_and_shared_by_every_command(explored, capsys):
+    build_dir, _ = explored
+    namespace, _, version = SCHEMA.partition(".provision-explorer/")
+    assert (namespace, version) == ("legal-rag", "2")
+    outputs = [run_json(capsys, "lookup", "prova", "2", "--build-dir", build_dir),
+               search(capsys, build_dir, "violazione")]
+    assert {r["schema"] for r in outputs} == {"legal-rag.provision-explorer/2"}
+    assert all("lexroom" not in json.dumps(r).lower() for r in outputs)
 
 
 def test_search_json_has_a_stable_schema(explored, capsys):
