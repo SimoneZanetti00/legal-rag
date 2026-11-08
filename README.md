@@ -47,6 +47,7 @@ src/
   provision_anchors.py # segment maps and exact passage links (P1.3)
   provision_explorer.py # article lookup and BM25 search mapped to provisions (P1.3)
   provision_cli.py # command line for the explorer (P1.3)
+  text_normalization.py # comparison-only text normalisation, profile ws-markers-softhyphen-v1
   retrieval_common.py # shared by the retrievers: argument checks, result formatting, Retriever interface
   retrieval.py   # tokenizer and BM25 retriever, search CLI
   dense_retrieval.py # embedding-based retriever, embedding cache, search CLI
@@ -914,6 +915,9 @@ or invalid arguments. Errors say which command to run.
 - Chunks are placed by exact text only, in order, with exactly one possible
   position each; every non-whitespace character must be in some chunk. There is
   no fuzzy or normalised matching anywhere, and article lookup is exact too.
+  (`src/text_normalization.py` is used only to compare two renderings of a
+  text, for example ours and an official source; it never changes anchors,
+  evidence or stored text.)
 
 **Evidence, context and eligibility**
 
