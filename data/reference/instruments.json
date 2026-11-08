@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "instruments": [
+    {
+      "instrument_id": "eu-reg-2016-679",
+      "type": "regulation",
+      "jurisdiction": "EU",
+      "aliases": [
+        "gdpr",
+        "rgpd",
+        "regolamento 2016/679",
+        "reg. 2016/679"
+      ],
+      "official_identifiers": null,
+      "notes": [
+        "Official identifiers (CELEX, ELI) are not printed in the source file and are left null."
+      ]
+    },
+    {
+      "instrument_id": "it-dlgs-2003-196",
+      "type": "decreto_legislativo",
+      "jurisdiction": "IT",
+      "aliases": [
+        "codice privacy",
+        "d.lgs. 196/2003",
+        "dlgs 196/2003",
+        "196/2003"
+      ],
+      "official_identifiers": null,
+      "notes": [
+        "Official identifiers (URN, Gazzetta Ufficiale reference) are not established for the source file and are left null."
+      ]
+    }
+  ],
+  "versions": [
+    {
+      "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+      "instrument_id": "eu-reg-2016-679",
+      "version_kind": "original_publication",
+      "description": "Regulation (EU) 2016/679 as originally published in the Official Journal of the European Union, L 119 of 4 May 2016 (Italian). This is the 2016 original publication, not a consolidated text: later corrigenda and amendments are not reflected.",
+      "language": "it",
+      "authenticity": null,
+      "publication": {
+        "date": "2016-05-04",
+        "basis": "stated_in_text"
+      },
+      "corpus_reference_date": null,
+      "provision_status_representation": "no_status_representation",
+      "inventory": "data/reference/gdpr_2016_679_it.inventory.json",
+      "source_sha256": "8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b",
+      "segmentation": {
+        "page_furniture": {
+          "line_patterns": [
+            "4\\.5\\.2016",
+            "L 119/\\d+",
+            "Gazzetta ufficiale dell'Unione europea",
+            "IT"
+          ],
+          "expected_lines": 352
+        },
+        "markers": [
+          {
+            "kind": "preamble",
+            "line_starts_with": "IL PARLAMENTO EUROPEO E IL CONSIGLIO DELL'UNIONE EUROPEA,"
+          },
+          {
+            "kind": "recitals",
+            "line_starts_with": "considerando quanto segue:"
+          },
+          {
+            "kind": "enacting_formula",
+            "line_starts_with": "HANNO ADOTTATO IL PRESENTE REGOLAMENTO:"
+          },
+          {
+            "kind": "closing_formula",
+            "line_starts_with": "Il presente regolamento è obbligatorio in tutti i suoi elementi"
+          }
+        ],
+        "editorial_notes": null,
+        "footnotes": {
+          "start_line_pattern": "\\(\\d+\\) ",
+          "end_text_pattern": "pag\\. \\d+\\)\\.",
+          "max_chars": 600,
+          "expected": 3
+        }
+      },
+      "notes": [
+        "The publication date is the one printed in the running header ('4.5.2016', 'L 119/N').",
+        "Authenticity of this PDF file is not established and is left null."
+      ]
+    },
+    {
+      "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+      "instrument_id": "it-dlgs-2003-196",
+      "version_kind": "transcription",
+      "description": "User-provided transcription of the consolidated Personal Data Protection Code (d.lgs. 30 giugno 2003, n. 196), main body only. It is not an official Normattiva document and has not been verified against an official text.",
+      "language": "it",
+      "authenticity": "user_transcription",
+      "publication": null,
+      "corpus_reference_date": {
+        "date": "2026-11-05",
+        "basis": "stated_in_text",
+        "verified": false
+      },
+      "provision_status_representation": "represented_in_force_at_reference_date",
+      "inventory": "data/reference/codice_privacy_dlgs_196_2003.main_body.inventory.json",
+      "source_sha256": "0d264a29f564b4baec978b1786898c09329e1d4de0d57cfad9673bda9116ffe5",
+      "segmentation": {
+        "page_furniture": {
+          "line_patterns": [
+            "D\\.Lgs\\. 30 giugno 2003, n\\. 196 — testo trascritto",
+            "Pagina \\d+"
+          ],
+          "expected_lines": 106
+        },
+        "markers": [
+          {
+            "kind": "enacting_formula",
+            "line_starts_with": "IL PRESIDENTE DELLA REPUBBLICA"
+          },
+          {
+            "kind": "closing_formula",
+            "line_starts_with": "Il presente decreto, munito del sigillo dello Stato"
+          }
+        ],
+        "editorial_notes": {
+          "separator_pattern": "-{10,}",
+          "label_pattern": "AGGIORNAMENTO \\(\\d+\\)",
+          "expected": 20
+        },
+        "footnotes": null
+      },
+      "notes": [
+        "The reference date is the transcription's own statement 'Vigente al: 5-11-2026' (page 1), unverified.",
+        "'represented_in_force_at_reference_date' describes what the source presents, not a legal status established by this system."
+      ]
+    }
+  ]
+}

@@ -103,6 +103,10 @@ the phase reports and are not asserted by the test suite.
 | TD-057 | Evaluation cutoffs above the hybrid candidate depth are not comparable | Hybrid, evaluation | Confirmed | Medium | Open |
 | TD-058 | Long ordinal suffixes: unverified list, unsupported forms, partial boundary tests | Chunking | Confirmed | Medium | Open |
 | TD-059 | `doc_id` identifies the source file, not the ingestion variant | Ingestion, provenance | Confirmed | Medium | Open |
+| TD-060 | Division headings printed with `((` are not recognised by the chunker | Chunking | Confirmed | Medium | Open |
+| TD-061 | Running headers stay in chunk text and can affect BM25 ranking | Ingestion, BM25 | Confirmed | Medium | Open |
+| TD-062 | Corpus builds and anchors are tied to the whole-repository code version | Provenance | Confirmed | Low | Open |
+| TD-063 | Segmentation rules rest on the sources' formatting | Provision anchors | Confirmed | Medium | Open |
 
 ## Ingestion and chunking (Phase 2)
 
@@ -206,6 +210,37 @@ the phase reports and are not asserted by the test suite.
 - **Impact:** If chunks from two ingestion variants of one source were mixed, or if a judgment, citation or evidence record referred only to `doc_id` or `chunk_id`, it could not be stated which corpus build the passage came from.
 - **Follow-up (P1 requirement):** the provision store and the retrieval corpus must identify the corpus build / ingestion variant (source hash plus processing options such as the end boundary and chunk settings) for every passage, and must not rely on `doc_id` alone. Whether `doc_id` itself should change is a separate decision.
 - **Progress (P1.1):** `src/corpus_identity.py` defines `IngestionVariant` (`variant_id` from the source and sidecar hashes, the reader selected by the file extension, `end_before`, chunk settings, the Git commit with its clean or dirty state, and the PyMuPDF and Python versions) and `CorpusBuild` (`build_id` from the sorted variant IDs and the assembly format, at most one variant per source file). Output path, hash, size and chunk count are recorded beside them, not hashed. Still open: ingestion, corpus assembly, chunk records, retrieval and evaluation do not use these IDs yet, so no existing output carries a `variant_id` or `build_id`.
+- **Progress (P1.3):** corpus builds (`src/corpus_build.py`) create one `IngestionVariant` per source and a `CorpusBuild`, and record them with every output hash in `data/processed/builds/<build_id>/build.json`. Segment maps and passage links carry the build and variant IDs, and the explorer shows them with every result. Chunk records themselves still carry only `doc_id`; a passage is identified by its build directory and links. Still open until a recorded build exists (it needs a clean tree after the P1.3 commit).
+
+## Provision store and corpus explorer (P1.3)
+
+### TD-060 · Division headings printed with `((` are not recognised by the chunker
+- **Kind:** Confirmed · **Priority:** Medium · **Status:** Open
+- **Evidence:** `data/reference/parser_crosscheck.md`. The section rule in `src/chunking.py` accepts only lines that start with the division word, so `(( CAPO II`, `(( CAPO III`, `(( CAPO IV` and `(( CAPO 0.I` in the Privacy Code are read as text. 21 articles get a wrong `section` (`CAPO I` or `TITOLO I`), and the headings with their titles end up in the chunk text of the article before them (chunks 8, 33 and 42, under Articles 2-bis, 2-decies and 2-terdecies) or of a division chunk (chunk 300).
+- **Impact:** the chunk `section` field is wrong for those passages, and chunk text attributed to an article contains a division heading.
+- **Mitigation (P1.3):** the provision store takes the hierarchy from the inventory, never from the chunk. Passage links report the heading text as `division_heading` context of the chunk, and article evidence comes only from article segments. The chunker is unchanged.
+- **Follow-up:** accept a leading `((` in the section rule. That changes chunks and their IDs, so it needs a new build and is a separate decision.
+
+### TD-061 · Running headers stay in chunk text and can affect BM25 ranking
+- **Kind:** Confirmed · **Priority:** Medium · **Status:** Open
+- **Evidence:** the segment maps classify 352 running-header lines of the GDPR (`4.5.2016`, `L 119/N`, `Gazzetta ufficiale dell'Unione europea`, `IT`) and 106 of the Privacy Code (`D.Lgs. 30 giugno 2003, n. 196 — testo trascritto`, `Pagina N`) as `page_furniture`. The chunker keeps them in chunk text, and BM25 indexes chunk text, so their words count towards the score of the chunks they fall in.
+- **Impact:** the effect on ranking is not measured (no benchmark, TD-015). Evidence text and passage links exclude the headers; the ranking does not. Scores are uncalibrated in any case.
+- **Follow-up:** index text without page furniture, or strip headers before chunking (which changes chunks and IDs). Decide with the P2 benchmark.
+
+### TD-062 · Corpus builds and anchors are tied to the whole-repository code version
+- **Kind:** Confirmed · **Priority:** Low · **Status:** Open
+- **Evidence:** a variant records the P1.1 code version of the whole repository (commit plus dirty fingerprint). Any commit or uncommitted change, including documentation, gives new variant and build IDs, and segment maps can be written only with the code the build was made with.
+- **Impact:** a new build is needed after every change, and build IDs differ across commits that did not touch ingestion. Builds are cheap, but directories accumulate.
+- **Follow-up:** scope the code identity to the files that affect extraction and chunking (a P1.1 decision).
+
+### TD-063 · Segmentation rules rest on the sources' formatting
+- **Kind:** Confirmed (the rules) · Hypothesis (that they hold beyond the checked cases) · **Priority:** Medium · **Status:** Open
+- **Evidence:** the rules in `data/reference/instruments.json` are exact markers and patterns, each with an expected count:
+  - an editorial note (`AGGIORNAMENTO (n)`) runs from its separator line to the next heading; this holds in all 20 cases, but only a person can confirm that no article text follows a note;
+  - GDPR footnotes are recognised only inside articles and end at the first `pag. N).` within 600 characters (3 cases); footnote lines in the recitals stay recitals text;
+  - region markers are line prefixes that must occur exactly once.
+- **Impact:** a different source formatting fails the build instead of being misclassified, unless it keeps every count unchanged.
+- **Follow-up:** check segment boundaries by hand for the provisions of the first demonstration.
 
 ## BM25 retrieval (Phase 3)
 

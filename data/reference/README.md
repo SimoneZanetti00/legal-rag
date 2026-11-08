@@ -11,6 +11,8 @@ Every entry is a **candidate awaiting human review**. Nothing here has been chec
 | `gdpr_2016_679_it.inventory.json` | `gdpr_2016_679_it.pdf`: GDPR, Official Journal L 119 of 4.5.2016, Italian. The original publication, **not a consolidated text**. | Enacting terms: Articles 1–99 |
 | `codice_privacy_dlgs_196_2003.main_body.inventory.json` | `codice_privacy_dlgs_196_2003.pdf`: a **user-provided transcription** of d.lgs. 196/2003. **Not an official Normattiva document.** | Main body only, ending before the line `ALLEGATO A.1` (page 53); the annexes are excluded |
 | `parser_crosscheck.md` | — | The parser's article labels compared with both inventories |
+| `instruments.json` | — | Instrument registry (P1.3): instruments, versions, source hashes and segmentation rules |
+| `review_ledger.json` | — | Review ledger (P1.3): how each human review ended, with corrections; empty so far |
 
 The source PDFs are in `data/raw/trial-2026-10-10/documents/`, which is git-ignored. Each inventory records the source file's path, SHA-256 and page count, and every entry repeats the SHA-256 so that it can be traced back to its source.
 
@@ -84,6 +86,17 @@ Entries with `uncertain`, `ambiguous` or `duplicate_label`, and every `expected_
 - **Recording a review:** only a person who has checked an entry against the source PDF may set `reviewed`. They must fill in `checked_by` (their name) and `checked_on`: the review date written exactly as `YYYY-MM-DD`, for example `2026-11-10`, and not later than the day the file is validated.
 - **Corrections:** if they correct a field, they add a note saying what was changed and why.
 - **Independent fields:** an entry can be `present` and still `pending_human_review`. Review never changes the structural status by itself.
+- **The review ledger (P1.3):** every reviewed entry also needs one record in `review_ledger.json`, with the same reviewer and date, saying how the review ended. The provision store refuses to build otherwise:
+
+  ```json
+  {"inventory_id": "gdpr-2016-679-oj-it", "entry_id": "gdpr-2016-679-oj-it:art:33",
+   "outcome": "confirmed", "checked_by": "<reviewer>", "checked_on": "YYYY-MM-DD",
+   "corrections": [], "note": null}
+  ```
+
+  - `confirmed`: nothing was changed. The provision becomes `auto_verified`.
+  - `corrected`: list every changed field as `{"field", "before", "after"}`, and edit the inventory so that it holds the `after` values. The provision becomes `manually_curated`, never `auto_verified`.
+  - A record for an entry that is not marked reviewed, or a reviewed entry without a record, fails the build. Records must describe real reviews by named people; none exists yet.
 
 The validator, `src.reference_inventory.validate_inventory`, rejects:
 - a `reviewed` entry without `checked_by`, or without a `checked_on` that is a real `YYYY-MM-DD` date not in the future;
@@ -146,10 +159,20 @@ The tools are in `tools/reference_inventory/`. Both need the project's virtual e
 
 Each entry's `notes` give the details.
 
-## Deferred to P1.3
+## Instrument registry (P1.3)
 
-These validator checks are not implemented yet:
+`instruments.json` lists the instruments (ID, type, jurisdiction, lookup aliases, official identifiers, left null when unknown) and their versions:
+- the version kind (the GDPR file is the 2016 Official Journal original publication, not a consolidated text; the Privacy Code file is a user transcription);
+- authenticity, the reference date with its basis, and what the source says about the status of its provisions;
+- the inventory and the SHA-256 of the source file;
+- the segmentation rules used by `src/provision_anchors.py`: running-header patterns, region markers (preamble, recitals, enacting formula, closing formula), editorial notes and footnotes. Each rule states how often it must match, and any other count fails. See TECHNICAL_DEBT.md TD-063 for what the rules assume.
+
+The registry's SHA-256 is recorded in every segment map, so editing it makes existing anchors stale.
+
+## Still open
+
+These validator checks are not implemented yet (deferred from P1.2; not part of the P1.3 scope):
 - **V5:** page order across entries, and pages within the inventory's `scope`, are not checked. Neither is the heading's prefix word (`Art.` or `Articolo`).
 - **V7:** a division's `kind` is not restricted to a fixed list.
 
-Text that belongs to no article (enacting and closing formulas, editorial notes) is described only in `scope` and in `notes`, with no structured anchor. P1.3 has to decide how passages of that text are attributed.
+Text that belongs to no article (front matter, recitals, enacting and closing formulas, division headings, editorial notes, footnotes, running headers) now has its own segment kinds in the P1.3 segment maps; see the root README, "Provision store and corpus explorer".

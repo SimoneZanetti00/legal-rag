@@ -3,3 +3,5 @@
 # hold on every platform.
 data/reference/*.json text eol=lf
 data/reference/*.md text eol=lf
+# Corpus build specifications (P1.3): their SHA-256 is recorded in every build record.
+data/corpus_specs/*.json text eol=lf

@@ -21,6 +21,10 @@ See [PROJECT_SPEC.md](PROJECT_SPEC.md) for the specification and
   `intfloat/multilingual-e5-small`, selectable in the evaluator.
 - **Phase 5 (hybrid retrieval):** BM25 and dense results fused with Reciprocal
   Rank Fusion, selectable in the evaluator.
+- **P1 (provision store, in progress):** reference inventories of both acts
+  (P1.2); reproducible corpus builds, segment maps, exact passage links and a
+  corpus explorer CLI (P1.3). No provision has been reviewed by a person yet, so
+  none is eligible as a primary citation.
 
 Metadata and temporal filters, reranking, generation, verification, grounding
 evaluation, and the UI are **not implemented yet**. No curated legal benchmark
@@ -36,8 +40,13 @@ src/
   ingestion.py   # TXT/PDF loading, batch ingestion, CLI
   chunking.py    # legal-aware chunking
   chunk_store.py # JSONL serialization of chunks
-  corpus_identity.py # ingestion-variant and corpus-build IDs (not yet used by the pipeline)
+  corpus_identity.py # ingestion-variant and corpus-build IDs (used by corpus_build.py)
   reference_inventory.py # format and validation of the reference inventories (P1.2)
+  provisions.py  # instrument registry, review ledger, provisions, eligibility (P1.3)
+  corpus_build.py # reproducible corpus builds of ingestion variants, CLI (P1.3)
+  provision_anchors.py # segment maps and exact passage links (P1.3)
+  provision_explorer.py # article lookup and BM25 search mapped to provisions (P1.3)
+  provision_cli.py # command line for the explorer (P1.3)
   retrieval_common.py # shared by the retrievers: argument checks, result formatting, Retriever interface
   retrieval.py   # tokenizer and BM25 retriever, search CLI
   dense_retrieval.py # embedding-based retriever, embedding cache, search CLI
@@ -53,7 +62,10 @@ data/
   indexes/embeddings/ # dense embedding cache (git-ignored; safe to delete)
   evaluation/    # curated queries.jsonl and qrels.jsonl (version-controlled; none yet)
   reference/     # article inventories of the GDPR and the Privacy Code, built from the
-                 # source PDFs, pending human review (version-controlled; see its README.md)
+                 # source PDFs, pending human review; instrument registry and review
+                 # ledger (version-controlled; see its README.md)
+  corpus_specs/  # corpus build specifications (version-controlled)
+  processed/builds/<build_id>/ # corpus builds with their anchors and links (git-ignored)
 ```
 
 ## Setup (Windows, PowerShell)
@@ -114,6 +126,11 @@ Dependencies:
 
 # Evaluate retrieval against labelled queries (see "Retrieval evaluation" below)
 .\.venv\Scripts\python.exe -m src.retrieval_eval --k 1 5 10 --output data/processed/eval_bm25.json
+
+# Look up an article and search a question over a verified corpus build
+# (see "Provision store and corpus explorer" below)
+.\.venv\Scripts\python.exe -m src.provision_cli lookup gdpr 33
+.\.venv\Scripts\python.exe -m src.provision_cli search "Quando devo notificare una violazione dei dati personali al Garante?"
 
 # Run the tests
 .\.venv\Scripts\python.exe -m pytest -v
@@ -845,6 +862,89 @@ questions. Synthetic-fixture numbers cannot. A new retriever needs a
   intervals are computed.
 - Only chunk-level relevance is supported, not document-level relevance.
 - Answer quality and grounding are evaluated separately, in a later phase.
+
+## Provision store and corpus explorer (P1.3)
+
+The provision store turns the reference inventories (`data/reference/`) into
+provisions with stable IDs, and anchors them to the exact text of a corpus
+build. The explorer looks up an article or searches a question with the
+existing BM25 retriever, and shows which provisions the retrieved passages
+belong to, with their exact text, pages, provenance and citation eligibility.
+It is a development interface: the CLI is a thin layer over
+`src/provision_explorer.py`, whose results (`--json`) a chat interface can use.
+
+**Workflow**
+
+```powershell
+# 1. Build the corpus from the tracked specification (both acts). A recorded build
+#    needs a clean Git tree and is written to data/processed/builds/<build_id>/.
+.\.venv\Scripts\python.exe -m src.provision_cli build
+#    From a dirty tree, only a temporary verification build is possible, outside
+#    data/processed/builds/:
+.\.venv\Scripts\python.exe -m src.provision_cli build --allow-dirty --output-root <temp-dir>
+
+# 2. Segment maps: the exact text of each source divided into articles, division
+#    headings, recitals, editorial notes, footnotes, running headers and so on.
+.\.venv\Scripts\python.exe -m src.provision_cli build-anchors [--build-dir <build>]
+
+# 3. Passage links: every chunk placed at exact offsets, with the provisions it overlaps.
+.\.venv\Scripts\python.exe -m src.provision_cli link [--build-dir <build>]
+
+# 4. Look up an article (label exactly as printed, or in lower case) and search.
+.\.venv\Scripts\python.exe -m src.provision_cli lookup gdpr 33 [--json]
+.\.venv\Scripts\python.exe -m src.provision_cli lookup "codice privacy" 2-bis
+.\.venv\Scripts\python.exe -m src.provision_cli search "<domanda>" [--top-k 5] [--full] [--json]
+```
+
+`--build-dir` defaults to the only recorded build in `data/processed/builds/`;
+a verification build must be named. Exit codes: 0 success, 1 no such instrument
+or article, 2 missing, damaged or stale build, anchors or links, refused build,
+or invalid arguments. Errors say which command to run.
+
+**What is checked before anything is shown**
+
+- The build record, every chunk file and the corpus file match their recorded
+  hashes; each source is the one the instrument registry expects.
+- Each segment map was extracted with the build's code, PyMuPDF and Python
+  versions, end boundary and page separator, from the expected source and
+  document; its text matches `content_sha256`; and the inventory structure
+  (headings, pages, labels) and the registry are those it was made from. A
+  review recorded later does not make it stale; a structural change does.
+- Each links file matches its chunk file, segment map and the provision store.
+- Chunks are placed by exact text only, in order, with exactly one possible
+  position each; every non-whitespace character must be in some chunk. There is
+  no fuzzy or normalised matching anywhere, and article lookup is exact too.
+
+**Evidence, context and eligibility**
+
+- Only article text is evidence. Recitals, front matter, the enacting and
+  closing formulas, division headings, editorial notes, footnotes and running
+  headers are shown as context and never offered as citations. A retrieved
+  chunk without article text is marked `CONTEXT ONLY`.
+- Each provision shows three separate things: its structural review
+  (`auto_unreviewed`, `auto_verified`, `manually_curated` or `ambiguous`), what
+  the source prints about its status (for example `marked_repealed`), and its
+  legal validity, which is always `not_established`: nothing here says a
+  provision is valid or in force.
+- Eligibility tiers: `primary` (may be cited), `internal_only` (inspect only),
+  `context_only` (divisions) and `blocked` (ambiguous or without anchored text),
+  each with reason codes and mandatory qualifications (for example "original
+  publication, not a consolidated text" for the GDPR, "user-provided
+  transcription" for the Privacy Code). In the first demonstration only
+  reviewed, not repealed, unambiguous articles are `primary`. The review ledger
+  is empty, so no provision is `primary` yet.
+
+**Limitations**
+
+- BM25 scores are uncalibrated ranking signals, not probabilities. Running
+  headers are excluded from evidence but remain inside the indexed chunk text,
+  so they can affect the ranking (TECHNICAL_DEBT.md TD-061).
+- A build and its anchors belong to one code version: after any change to the
+  repository, make a new build (TD-062).
+- Segmentation rules rest on the sources' formatting, with expected counts that
+  make any deviation fail (TD-063). The chunker's section field is wrong for
+  division headings printed with `((` (TD-060); the explorer does not use it.
+- No recorded build exists until P1.3 is committed and built from a clean tree.
 
 ## Configuration
 
