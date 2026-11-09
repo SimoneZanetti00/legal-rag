@@ -22,7 +22,7 @@ The M1 download of the Official Journal PDF is not archived. It is byte-identica
 | `structure.py` | Reads paragraph and point labels from line starts |
 | `generate.py` | Writes the Markdown package, or checks it with `--check` |
 
-These are the scripts that generated the package on 2026-11-08. They now read the archived sources instead of a temporary folder; the generated text is unchanged.
+These are the scripts that generated the package on 2026-11-08. They now read the archived sources instead of a temporary folder. Revision 2 of the package (2026-11-09) changes only the text about where the sources are and how the package is made; the evidence, comparisons and worksheets are unchanged.
 
 ## Running
 
