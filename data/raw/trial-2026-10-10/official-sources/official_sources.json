@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "description": "Provenance of the official sources used for the M1 official-text comparison (docs/reviews/m1-human-review-package.md). The original files in this directory are kept byte for byte, unmodified (no line-ending conversion: see .gitattributes). Everything under 'derived' is computed from them by the review-package tooling and is not stored as a file. Attribution and reuse conditions: NOTICE.md.",
+  "archive_dir": "data/raw/trial-2026-10-10/official-sources",
+  "original_files": [
+    {
+      "file": "gdpr_consolidated_it.html",
+      "url": "https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504",
+      "retrieved_at": "2026-11-08T12:28:58+01:00",
+      "retrieved_at_basis": "modification time of the downloaded file, i.e. when the download finished",
+      "retrieved_by": "AI assistant (Claude Code) during M1, with curl -sS -L and User-Agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) research-check'",
+      "sha256": "90d0710134489e08fc26f142c416028d2ee6f3cf049f83c084e772da3ac8d260",
+      "size_bytes": 504451,
+      "source_type": "eurlex_consolidated",
+      "identifier": "CELEX 02016R0679-20160504: Regulation (EU) 2016/679, consolidated text, Italian",
+      "consolidation_date": "2016-05-04",
+      "authenticity": "Not authentic. EUR-Lex legal notice: 'Only European Union documents published in the Official Journal of the European Union are deemed authentic' (Council Regulation (EU) No 216/2013). The notice does not state the legal value of consolidated versions.",
+      "reuse": "EUR-Lex legal notice: the reuse policy 'is based on Decision 2011/833/EU'; consolidated texts are under CC BY 4.0: 'you can re-use the content provided you acknowledge the source and indicate any changes you have made' (https://eur-lex.europa.eu/content/legal-notice/legal-notice.html, read 2026-11-08).",
+      "used_for": ["GDPR Art. 4", "GDPR Art. 33", "GDPR Art. 34", "GDPR Art. 55"]
+    },
+    {
+      "file": "normattiva_2bis.html",
+      "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-06-30;196~art2bis",
+      "retrieved_at": "2026-11-08T12:30:57+01:00",
+      "retrieved_at_basis": "modification time of the downloaded file, i.e. when the download finished",
+      "retrieved_by": "AI assistant (Claude Code) during M1, with curl -sS -L and User-Agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) research-check'",
+      "sha256": "f95c865efdc99dedd1993e993b343d1d31dbc902b72ae6992a5f3d4dcd4435ce",
+      "size_bytes": 440685,
+      "source_type": "normattiva_vigente",
+      "identifier": "d.lgs. 30 giugno 2003, n. 196, Art. 2-bis, text in force (Normattiva)",
+      "consolidation_date": null,
+      "consolidation_date_note": "The page's 'vigente al' field has no date. It states 'Testo in vigore dal: 19-9-2018' and 'ultimo aggiornamento all'atto: 19/02/2026'.",
+      "authenticity": "Not authentic. Normattiva legal notes: 'I testi presenti nella banca dati \"Normattiva\" non hanno carattere di ufficialità. L'unico testo ufficiale e definitivo è quello pubblicato sulla Gazzetta Ufficiale Italiana a mezzo stampa, che prevale in casi di discordanza.'",
+      "reuse": "Normattiva legal notes: 'La riproduzione dei testi forniti nel formato elettronico è consentita purchè venga menzionata la fonte, il carattere non autentico e gratuito.' (saved copy: data/raw/trial-2026-10-10/source-pages/normattiva_note_legali.html).",
+      "used_for": ["Privacy Code Art. 2-bis"]
+    }
+  ],
+  "related_download_not_archived": {
+    "url": "https://eur-lex.europa.eu/legal-content/IT/TXT/PDF/?uri=CELEX:32016R0679",
+    "retrieved_at": "2026-11-08T12:30:56+01:00",
+    "sha256": "8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b",
+    "note": "The PDF EUR-Lex serves for the Official Journal publication. Byte-identical to the corpus source data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf, so it is not archived a second time. It carries no digital signature."
+  },
+  "extraction": {
+    "steps": [
+      "Remove <script> and <style> elements.",
+      "Replace every HTML tag with a line break and decode HTML entities.",
+      "Strip each line of surrounding whitespace (no-break spaces included) and drop empty lines.",
+      "EUR-Lex: cut from the line 'Articolo N' to just before the next 'Articolo N', 'CAPO ...' or 'Sezione N' line.",
+      "Normattiva: cut from 'Art. 2-bis' to just before the page's 'articolo precedente' navigation text."
+    ],
+    "hash": "official_text_sha256 is the SHA-256 of the extracted text (UTF-8), before any normalisation.",
+    "normalisation": "ws-markers-softhyphen-v1 (src/text_normalization.py), used only to compare the extracted text with our anchored text."
+  },
+  "derived": {
+    "note": "Extracted official texts and comparison results; computed, not stored. Recorded here so they can be verified.",
+    "official_texts": {
+      "GDPR Art. 4": {"file": "gdpr_consolidated_it.html", "chars": 9707, "official_text_sha256": "2053253a4edb5c7693a4dcb39c87ba8018858cb9148745ed625a852f414a394b", "match_status": "identical_after_normalisation"},
+      "GDPR Art. 33": {"file": "gdpr_consolidated_it.html", "chars": 1979, "official_text_sha256": "35ad52b17f064957bddf880c32e094841e7e9142c112dc0a1906e07315a420b2", "match_status": "identical_after_normalisation"},
+      "GDPR Art. 34": {"file": "gdpr_consolidated_it.html", "chars": 1805, "official_text_sha256": "7ca3656e2b8e999733da88d3329f772969f667d722dd77c3a9a8c758555ffc88", "match_status": "identical_after_normalisation"},
+      "GDPR Art. 55": {"file": "gdpr_consolidated_it.html", "chars": 649, "official_text_sha256": "c782e12897b6fe7cde260f76ff478177b32c6792290c5588c6767183d8ab1a54", "match_status": "identical_after_normalisation"},
+      "Privacy Code Art. 2-bis": {"file": "normattiva_2bis.html", "chars": 225, "official_text_sha256": "73c7c3bd222f87bf114e18e1c8ab1a04f5722ce888104572de4b1c85f8acc988", "match_status": "identical_after_normalisation"}
+    }
+  }
+}
