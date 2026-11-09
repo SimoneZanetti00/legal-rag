@@ -1,0 +1,1527 @@
+# M1 human-review package: the five demonstration provisions
+
+> **Status: prepared, not reviewed.** This package was prepared on 2026-11-08 by an AI assistant (Claude Code) from the recorded build and the official-source downloads made during M1. It is not a human review, an approval or a legal opinion. Every decision field is blank and must be filled in by the human reviewer. Legal validity is outside this review and stays `not_established`.
+
+**Contents**
+
+1. [How to use this package](#1-how-to-use-this-package)
+2. [Recorded build and inputs](#2-recorded-build-and-inputs)
+3. [Official sources used for the comparison](#3-official-sources-used-for-the-comparison)
+4. [Summary](#4-summary)
+5. [GDPR Article 4(12)](#5-gdpr-article-412)
+6. [GDPR Article 33](#6-gdpr-article-33)
+7. [GDPR Article 34](#7-gdpr-article-34)
+8. [GDPR Article 55](#8-gdpr-article-55)
+9. [Italian Privacy Code Article 2-bis](#9-italian-privacy-code-article-2-bis)
+10. [Issues that affect several provisions](#10-issues-that-affect-several-provisions)
+11. [Missing artifacts and open questions](#11-missing-artifacts-and-open-questions)
+12. [After the review (not part of this package)](#12-after-the-review-not-part-of-this-package)
+13. [Appendix: how to re-check this package](#13-appendix-how-to-re-check-this-package)
+
+## 1. How to use this package
+
+**Demonstration question:** «When is a personal data breach required to be notified to the Italian Data Protection Authority?»
+
+**Closure:** GDPR Art. 4(12), 33, 34 and 55, and Privacy Code Art. 2-bis. GDPR Art. 56 is excluded (see section 10).
+
+**For each provision**, sections A–D give the evidence and section E is the worksheet:
+
+- **A. Identity:** IDs, the inventory entry, the build, the segments and the chunks.
+- **B. Extracted text:** the stored article text and the anomalies found in it.
+- **C. Official-source comparison:** source, dates, hashes, match status and differences.
+- **D. Structural and completeness checks:** paragraphs, cross-references, markers and the points that need your judgment.
+- **E. Review decision worksheet:** five separate decisions, all blank.
+
+**Keep the decisions separate.** Structure, extraction fidelity, completeness and source-status markers are four independent checks. Primary-citation eligibility is computed by the system from the recorded review; your field records your view of it. Legal validity is not assessed anywhere in this package.
+
+**What you need:**
+
+- the source PDFs, to check against the printed pages:
+  - `data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf`;
+  - `data/raw/trial-2026-10-10/documents/codice_privacy_dlgs_196_2003.pdf`;
+- optionally, the official URLs in section 3, to re-download and re-compare yourself.
+
+**How the texts are shown**
+
+- Text blocks show the stored text exactly, line breaks included. Invisible characters are made visible: `⟨SHY⟩` is a soft hyphen (U+00AD), `⟨NBSP⟩` a no-break space, `⟨U+XXXX⟩` any other invisible character. Spaces at line ends are present but cannot be seen.
+- Lines written as `⟦ … ⟧` mark where one stored piece ends and the next begins. They are not part of the text.
+- In tables, `⏎` stands for a line break.
+- Offsets (`Chars`) are character positions in the source's full extracted text, whose SHA-256 is the segment map's `content_sha256` (section 2). «Offset in text» counts from the start of the article text.
+
+## 2. Recorded build and inputs
+
+| Item | Value |
+|---|---|
+| Build ID | `build-f76ff6031f2fc82c4852f0a2bde27807` |
+| Build kind | `recorded` |
+| Code | `clean` at commit `e29a1b43033204338b0bdb4c013e67b88c3b4254` |
+| Build record | `data/processed/builds/build-f76ff6031f2fc82c4852f0a2bde27807/build.json` (sha256 `12492400b40cbc64e2a18dfef5814be24027859d7ea59a739d64725d0abef10f`) |
+| Corpus file | `data/processed/builds/build-f76ff6031f2fc82c4852f0a2bde27807/corpus.jsonl`: 880 chunks, sha256 `f9d1ac881cd5bfe75c6f83a5f697f085078788f9eb9a90b9c481534b5eb0997f` |
+| Corpus specification | `data/corpus_specs/first_prototype.json` (canonical-JSON sha256 `fb8bc313a58ee8db0c2352ca27eea753393e1c26f6d8efb573a5539e954cc1df`) |
+| Instrument registry | `data/reference/instruments.json` (sha256 `405a5ceb266bdaaf8800793f57b69197ef9c1cc52d0cae807becec07559f9c4f`) |
+| Review ledger | `data/reference/review_ledger.json`: empty (`[]`); no provision has been reviewed |
+| Verification on 2026-11-08 | The explorer opened the build with all its checks (record, chunk and corpus hashes, segment-map provenance, links). The build is reproducible: an independent second build gave the same build ID and byte-identical chunk, corpus, segment and links files. |
+
+| Version | Source file | Kind | Variant and chunks | Segment map (under `anchors/`) | Links (under `anchors/`) |
+|---|---|---|---|---|---|
+| `eu-reg-2016-679@oj-l119-2016-it` | `data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf`<br>sha256 `8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b` | `original_publication`, authenticity `null` (not established) | `var-30da24d25055784cba1e38b5475791c1`: chunks `var-30da24d25055784cba1e38b5475791c1.jsonl` (468), sha256 `6b470f40f267f337…` | `var-30da24d25055784cba1e38b5475791c1.segments.json`<br>file sha256 `2e04889722a2584e…`<br>content_sha256 `5cbcdc93cbf40bc3…` | `var-30da24d25055784cba1e38b5475791c1.links.jsonl`<br>sha256 `620e784032ee1a31…` |
+| `it-dlgs-2003-196@transcription-vigente-2026-11-05` | `data/raw/trial-2026-10-10/documents/codice_privacy_dlgs_196_2003.pdf`<br>sha256 `0d264a29f564b4baec978b1786898c09329e1d4de0d57cfad9673bda9116ffe5` | `transcription`, authenticity `user_transcription` | `var-73eec6712eff509c69f66380241cc2b7`: chunks `var-73eec6712eff509c69f66380241cc2b7.jsonl` (412), sha256 `e2c443d550e6dbf9…` | `var-73eec6712eff509c69f66380241cc2b7.segments.json`<br>file sha256 `b14f7e2ee87c1207…`<br>content_sha256 `8812be43e551ea9c…` | `var-73eec6712eff509c69f66380241cc2b7.links.jsonl`<br>sha256 `30939ad1cd3ce6ff…` |
+
+- **`eu-reg-2016-679@oj-l119-2016-it`:** Regulation (EU) 2016/679 as originally published in the Official Journal of the European Union, L 119 of 4 May 2016 (Italian). This is the 2016 original publication, not a consolidated text: later corrigenda and amendments are not reflected.
+- **`it-dlgs-2003-196@transcription-vigente-2026-11-05`:** User-provided transcription of the consolidated Personal Data Protection Code (d.lgs. 30 giugno 2003, n. 196), main body only. It is not an official Normattiva document and has not been verified against an official text.
+
+## 3. Official sources used for the comparison
+
+These sources were established in M1. The texts compared in section C were extracted from the files downloaded then, by the method in section 13.
+
+| Item | GDPR (Arts. 4, 33, 34, 55) | Privacy Code (Art. 2-bis) |
+|---|---|---|
+| Source | EUR-Lex consolidated text, Regulation (EU) 2016/679, Italian, CELEX 02016R0679-20160504 | Normattiva, d.lgs. 30 giugno 2003, n. 196, Art. 2-bis, text in force |
+| URL | https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504 | https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-06-30;196~art2bis |
+| `source_type` | `eurlex_consolidated` | `normattiva_vigente` |
+| Consolidation or update date | 2016-05-04. The only consolidated version on EUR-Lex, which lists no amending act (EUR-Lex ALL page, checked in M1). | **Unavailable.** The page's «vigente al» field had no date. The page states «Testo in vigore dal: 19-9-2018» and «ultimo aggiornamento all'atto: 19/02/2026». |
+| Retrieved | 2026-11-08 12:28:58 +01:00, by the assistant during M1 (curl; time taken from the file). | 2026-11-08 12:30:57 +01:00, by the assistant during M1 (curl; time taken from the file). |
+| Downloaded file sha256 | `90d0710134489e08fc26f142c416028d2ee6f3cf049f83c084e772da3ac8d260` | `f95c865efdc99dedd1993e993b343d1d31dbc902b72ae6992a5f3d4dcd4435ce` |
+| Where the file is | **Not in the repository.** Only a temporary local copy exists (section 11). | **Not in the repository.** Only a temporary local copy exists (section 11). |
+| Authentic? | No. EUR-Lex: only the Official Journal is authentic; consolidated texts are documentation. | No. Normattiva texts are not authentic; the printed Gazzetta Ufficiale prevails. |
+| Reuse | CC BY 4.0 (EUR-Lex legal notice): credit the source and say what was changed. | Reproduction allowed if the source is cited and its non-authentic, free character is stated (Normattiva legal notes). |
+
+**About our own sources**
+
+- **GDPR PDF:** byte-identical to the PDF EUR-Lex serves for CELEX 32016R0679 (sha256 `8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b`, downloaded in M1). It is the 2016 original publication, not consolidated. It has no digital signature, so its authenticity is not established.
+- **Privacy Code PDF:** a user-provided transcription, not an official document.
+- **Corrigenda (M1):** R(01) changes only Art. 47(2)(h). R(02) makes 75 corrections; near the demonstration it changes only Art. 56(3). R(03) changes recital 158 and Art. 56(1). **None changes Arts. 4, 33, 34 or 55.**
+
+## 4. Summary
+
+| Provision | ID (after `/body/`) | Pages | Pieces / chars | Chunks | Official comparison | Anomalies flagged | Current tier |
+|---|---|---|---|---|---|---|---|
+| GDPR Article 4(12) | `article:4` | 33–35 | 3 / 9791 | 10 | identical_after_normalisation (point 12: identical_after_normalisation) | 14 | `internal_only` |
+| GDPR Article 33 | `article:33` | 52–52 | 1 / 2007 | 2 | identical_after_normalisation | 3 | `internal_only` |
+| GDPR Article 34 | `article:34` | 52–53 | 2 / 1826 | 2 | identical_after_normalisation | 3 | `internal_only` |
+| GDPR Article 55 | `article:55` | 67–67 | 1 / 658 | 1 | identical_after_normalisation | 0 | `internal_only` |
+| Italian Privacy Code Article 2-bis | `article:2-bis` | 2–2 | 1 / 230 | 1 | identical_after_normalisation | 0 | `internal_only` |
+
+- **Comparison:** all five match their official source **only after** normalisation `ws-markers-softhyphen-v1`; none is identical as stored. No word differs.
+- **Structure:** all expected paragraphs and points are present, with no numbering gaps (section D of each provision).
+- **Tier:** every provision is `internal_only` because no review is recorded yet (`structure_not_reviewed`).
+
+## 5. GDPR Article 4(12)
+
+**Articolo 4 — Definizioni**
+
+The demonstration uses point 12 only («violazione dei dati personali»). The inventory entry, the review record and the eligibility tier cover the whole of Article 4 (26 points): confirming Article 4 confirms all of them.
+
+### A. Identity
+
+| Field | Value |
+|---|---|
+| Provision ID | `eu-reg-2016-679@oj-l119-2016-it/body/article:4` |
+| Source | Regulation (EU) 2016/679 as originally published in the Official Journal of the European Union, L 119 of 4 May 2016 (Italian). This is the 2016 original publication, not a consolidated text: later corrigenda and amendments are not reflected. File `data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf` (sha256 `8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b`). |
+| Article reference | «Articolo 4», title «Definizioni», printed path «CAPO I > Articolo 4», pages 33–35 |
+| Inventory | `data/reference/gdpr_2016_679_it.inventory.json` · inventory `gdpr-2016-679-oj-it` (sha256 `e6fbaba9a996dfd0329501bc636bdaa1d54c52d5a8f21b6264a1247538efd25f`) · entry `gdpr-2016-679-oj-it:art:4` |
+| Build | `build-f76ff6031f2fc82c4852f0a2bde27807` · variant `var-30da24d25055784cba1e38b5475791c1` · segment map `anchors/var-30da24d25055784cba1e38b5475791c1.segments.json` |
+| Structural status | `auto_unreviewed` |
+| Review | `pending_human_review` (checked_by and checked_on empty) |
+| Source status representation | `no_status_representation` |
+| Legal validity | `not_established` |
+| Eligibility (now) | `internal_only`; reasons: `structure_not_reviewed` (Its structure has not been reviewed by a person; it can be inspected but not cited.) |
+| Qualifications | `original_publication_not_consolidated`: Original publication, not a consolidated text: later corrigenda and amendments are not reflected.<br>`authenticity_not_established`: The authenticity of the source file is not established.<br>`legal_validity_not_established`: This system does not establish whether the provision is legally valid or in force. |
+
+Inventory entry, as stored:
+
+```json
+{
+  "entry_id": "gdpr-2016-679-oj-it:art:4",
+  "document_id": "doc-8f7504d289853f57",
+  "ordinal": 4,
+  "kind": "article",
+  "heading_as_printed": "Articolo 4",
+  "label": "4",
+  "title": "Definizioni",
+  "status_marker": null,
+  "page_start": 33,
+  "page_end": 35,
+  "parent_id": "gdpr-2016-679-oj-it:capo:I",
+  "parent_path": "CAPO I",
+  "structural_status": "present",
+  "review_status": "pending_human_review",
+  "checked_by": null,
+  "checked_on": null,
+  "source_sha256": "8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b",
+  "notes": []
+}
+```
+
+Article text pieces (the article text is these segments, joined in order):
+
+| Piece | Segment | Kind | Chars | Page | Segment `text_sha256` |
+|---|---|---|---|---|---|
+| 1 | 72 | article | 181738–185161 | 33 | `9d574ae8791bbe443d5a1a846a787c80809f77f68b56b0989370935ebb0e2be5` |
+| 2 | 74 | article | 185225–189528 | 34 | `34e20c5765c83d5587d6b8c70e439dae20cd0c3ada81ab1d6c807cfa8ec50265` |
+| 3 | 76 | article | 189592–191657 | 35 | `c531cb557e70a87de4e110a484ce0e334648f5d0e1bf61da139df5e22224f35e` |
+
+Segments between the pieces (context, **not** article text):
+
+| Segment | Kind | Chars | Page | Text |
+|---|---|---|---|---|
+| 73 | page_furniture | 185161–185225 | 33 | `4.5.2016 ⏎L 119/33 ⏎Gazzetta ufficiale dell'Unione europea ⏎IT⏎⏎` |
+| 75 | page_furniture | 189528–189592 | 34 | `4.5.2016 ⏎L 119/34 ⏎Gazzetta ufficiale dell'Unione europea ⏎IT⏎⏎` |
+
+Neighbours: before is segment 71 (`article`, `article:3`), after is segment 77 (`division_heading`, `chapter:ii`): «CAPO II⏎⏎Principi⏎⏎».
+
+Chunks overlapping this provision (from the links file):
+
+| # | Chunk ID | Chunk chars | Pages | This provision (non-space chars) | Other provisions | Context in chunk |
+|---|---|---|---|---|---|---|
+| 208 | `doc-8f7504d289853f57-0208-336ba52d` | 181738–182851 | 33 | 181738–182851 (961) | — | — |
+| 209 | `doc-8f7504d289853f57-0209-7efc9279` | 182853–183894 | 33 | 182853–183894 (896) | — | — |
+| 210 | `doc-8f7504d289853f57-0210-59dcfe99` | 183896–184801 | 33 | 183896–184801 (771) | — | — |
+| 211 | `doc-8f7504d289853f57-0211-aab127ca` | 184803–185739 | 33–34 | 184803–185739 (740) | — | page_furniture |
+| 212 | `doc-8f7504d289853f57-0212-16381185` | 185741–186929 | 34 | 185741–186929 (1021) | — | — |
+| 213 | `doc-8f7504d289853f57-0213-95018f19` | 186931–187836 | 34 | 186931–187836 (762) | — | — |
+| 214 | `doc-8f7504d289853f57-0214-e3555ec8` | 187838–188931 | 34 | 187838–188931 (941) | — | — |
+| 215 | `doc-8f7504d289853f57-0215-c87d2e91` | 188933–190123 | 34–35 | 188933–190123 (951) | — | page_furniture |
+| 216 | `doc-8f7504d289853f57-0216-26208c67` | 190125–191252 | 35 | 190125–191252 (951) | — | — |
+| 217 | `doc-8f7504d289853f57-0217-8c0b3224` | 191254–191655 | 35 | 191254–191655 (343) | — | — |
+
+### B. Extracted text
+
+- **Length:** 9791 characters in 3 piece(s).
+- **SHA-256** of the exact text (UTF-8, pieces joined in order): `c51bc38c149752871af6c92948ca344654d27570a6a521482c8d02ba8179d5c7`.
+
+```text
+Articolo 4
+
+Definizioni
+
+Ai fini del presente regolamento s'intende per:
+
+1) «dato personale»: qualsiasi informazione riguardante una persona fisica identificata o identificabile («interessato»); si 
+considera identificabile la persona fisica che può essere identificata, direttamente o indirettamente, con particolare 
+riferimento a un identificativo come il nome, un numero di identificazione, dati relativi all'ubicazione, un identifi⟨SHY⟩
+cativo online o a uno o più elementi caratteristici della sua identità fisica, fisiologica, genetica, psichica, economica, 
+culturale o sociale;
+
+2) «trattamento»: qualsiasi operazione o insieme di operazioni, compiute con o senza l'ausilio di processi automatizzati 
+e applicate a dati personali o insiemi di dati personali, come la raccolta, la registrazione, l'organizzazione, la struttu⟨SHY⟩
+razione, la conservazione, l'adattamento o la modifica, l'estrazione, la consultazione, l'uso, la comunicazione 
+mediante trasmissione, diffusione o qualsiasi altra forma di messa a disposizione, il raffronto o l'interconnessione, la 
+limitazione, la cancellazione o la distruzione;
+
+3) «limitazione di trattamento»: il contrassegno dei dati personali conservati con l'obiettivo di limitarne il trattamento 
+in futuro;
+
+4) «profilazione»: qualsiasi forma di trattamento automatizzato di dati personali consistente nell'utilizzo di tali dati 
+personali per valutare determinati aspetti personali relativi a una persona fisica, in particolare per analizzare o 
+prevedere aspetti riguardanti il rendimento professionale, la situazione economica, la salute, le preferenze personali, 
+gli interessi, l'affidabilità, il comportamento, l'ubicazione o gli spostamenti di detta persona fisica;
+
+5) «pseudonimizzazione»: il trattamento dei dati personali in modo tale che i dati personali non possano più essere 
+attribuiti a un interessato specifico senza l'utilizzo di informazioni aggiuntive, a condizione che tali informazioni 
+aggiuntive siano conservate separatamente e soggette a misure tecniche e organizzative intese a garantire che tali 
+dati personali non siano attribuiti a una persona fisica identificata o identificabile;
+
+6) «archivio»: qualsiasi insieme strutturato di dati personali accessibili secondo criteri determinati, indipendentemente 
+dal fatto che tale insieme sia centralizzato, decentralizzato o ripartito in modo funzionale o geografico;
+
+7) «titolare del trattamento»: la persona fisica o giuridica, l'autorità pubblica, il servizio o altro organismo che, 
+singolarmente o insieme ad altri, determina le finalità e i mezzi del trattamento di dati personali; quando le finalità 
+e i mezzi di tale trattamento sono determinati dal diritto dell'Unione o degli Stati membri, il titolare del trattamento 
+o i criteri specifici applicabili alla sua designazione possono essere stabiliti dal diritto dell'Unione o degli Stati 
+membri;
+
+8) «responsabile del trattamento»: la persona fisica o giuridica, l'autorità pubblica, il servizio o altro organismo che 
+tratta dati personali per conto del titolare del trattamento;
+
+9) «destinatario»: la persona fisica o giuridica, l'autorità pubblica, il servizio o un altro organismo che riceve comuni⟨SHY⟩
+cazione di dati personali, che si tratti o meno di terzi. Tuttavia, le autorità pubbliche che possono ricevere comuni⟨SHY⟩
+cazione di dati personali nell'ambito di una specifica indagine conformemente al diritto dell'Unione o degli Stati
+⟦ end of piece 1 · start of piece 2: segment 74, page 34, chars 185225–189528 ⟧
+membri non sono considerate destinatari; il trattamento di tali dati da parte di dette autorità pubbliche è conforme 
+alle norme applicabili in materia di protezione dei dati secondo le finalità del trattamento;
+
+10) «terzo»: la persona fisica o giuridica, l'autorità pubblica, il servizio o altro organismo che non sia l'interessato, il 
+titolare del trattamento, il responsabile del trattamento e le persone autorizzate al trattamento dei dati personali 
+sotto l'autorità diretta del titolare o del responsabile;
+
+11) «consenso dell'interessato»: qualsiasi manifestazione di volontà libera, specifica, informata e inequivocabile dell'inte⟨SHY⟩
+ressato, con la quale lo stesso manifesta il proprio assenso, mediante dichiarazione o azione positiva inequivocabile, 
+che i dati personali che lo riguardano siano oggetto di trattamento;
+
+12) «violazione dei dati personali»: la violazione di sicurezza che comporta accidentalmente o in modo illecito la 
+distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati 
+o comunque trattati;
+
+13) «dati genetici»: i dati personali relativi alle caratteristiche genetiche ereditarie o acquisite di una persona fisica che 
+forniscono informazioni univoche sulla fisiologia o sulla salute di detta persona fisica, e che risultano in particolare 
+dall'analisi di un campione biologico della persona fisica in questione;
+
+14) «dati biometrici»: i dati personali ottenuti da un trattamento tecnico specifico relativi alle caratteristiche fisiche, 
+fisiologiche o comportamentali di una persona fisica che ne consentono o confermano l'identificazione univoca, 
+quali l'immagine facciale o i dati dattiloscopici;
+
+15) «dati relativi alla salute»: i dati personali attinenti alla salute fisica o mentale di una persona fisica, compresa la 
+prestazione di servizi di assistenza sanitaria, che rivelano informazioni relative al suo stato di salute;
+
+16) «stabilimento principale»:
+
+a)  per quanto riguarda un titolare del trattamento con stabilimenti in più di uno Stato membro, il luogo della sua
+
+amministrazione centrale nell'Unione, salvo che le decisioni sulle finalità e i mezzi del trattamento di dati 
+personali siano adottate in un altro stabilimento del titolare del trattamento nell'Unione e che quest'ultimo 
+stabilimento abbia facoltà di ordinare l'esecuzione di tali decisioni, nel qual caso lo stabilimento che ha adottato 
+siffatte decisioni è considerato essere lo stabilimento principale;
+
+b)  con riferimento a un responsabile del trattamento con stabilimenti in più di uno Stato membro, il luogo in cui
+
+ha sede la sua amministrazione centrale nell'Unione o, se il responsabile del trattamento non ha un'ammini⟨SHY⟩
+strazione centrale nell'Unione, lo stabilimento del responsabile del trattamento nell'Unione in cui sono condotte 
+le principali attività di trattamento nel contesto delle attività di uno stabilimento del responsabile del trattamento 
+nella misura in cui tale responsabile è soggetto a obblighi specifici ai sensi del presente regolamento;
+
+17) «rappresentante»: la persona fisica o giuridica stabilita nell'Unione che, designata dal titolare del trattamento o dal 
+responsabile del trattamento per iscritto ai sensi dell'articolo 27, li rappresenta per quanto riguarda gli obblighi 
+rispettivi a norma del presente regolamento;
+
+18) «impresa»: la persona fisica o giuridica, indipendentemente dalla forma giuridica rivestita, che eserciti un'attività 
+economica, comprendente le società di persone o le associazioni che esercitano regolarmente un'attività economica;
+
+19) «gruppo imprenditoriale»: un gruppo costituito da un'impresa controllante e dalle imprese da questa controllate;
+
+20) «norme vincolanti d'impresa»: le politiche in materia di protezione dei dati personali applicate da un titolare del 
+trattamento o responsabile del trattamento stabilito nel territorio di uno Stato membro al trasferimento o al 
+complesso di trasferimenti di dati personali a un titolare del trattamento o responsabile del trattamento in uno o 
+più paesi terzi, nell'ambito di un gruppo imprenditoriale o di un gruppo di imprese che svolge un'attività 
+economica comune;
+
+21) «autorità di controllo»: l'autorità pubblica indipendente istituita da uno Stato membro ai sensi dell'articolo 51;
+⟦ end of piece 2 · start of piece 3: segment 76, page 35, chars 189592–191657 ⟧
+22) «autorità di controllo interessata»: un'autorità di controllo interessata dal trattamento di dati personali in quanto:
+
+a)  il titolare del trattamento o il responsabile del trattamento è stabilito sul territorio dello Stato membro di tale
+
+autorità di controllo;
+
+b)  gli interessati che risiedono nello Stato membro dell'autorità di controllo sono o sono probabilmente influenzati
+
+in modo sostanziale dal trattamento; oppure
+
+c)  un reclamo è stato proposto a tale autorità di controllo;
+
+23) «trattamento transfrontaliero»:
+
+a)  trattamento di dati personali che ha luogo nell'ambito delle attività di stabilimenti in più di uno Stato membro di
+
+un titolare del trattamento o responsabile del trattamento nell'Unione ove il titolare del trattamento o il 
+responsabile del trattamento siano stabiliti in più di uno Stato membro; oppure
+
+b)  trattamento di dati personali che ha luogo nell'ambito delle attività di un unico stabilimento di un titolare del
+
+trattamento o responsabile del trattamento nell'Unione, ma che incide o probabilmente incide in modo 
+sostanziale su interessati in più di uno Stato membro;
+
+24) «obiezione pertinente e motivata»: un'obiezione al progetto di decisione sul fatto che vi sia o meno una violazione 
+del presente regolamento, oppure che l'azione prevista in relazione al titolare del trattamento o responsabile del 
+trattamento sia conforme al presente regolamento, la quale obiezione dimostra chiaramente la rilevanza dei rischi 
+posti dal progetto di decisione riguardo ai diritti e alle libertà fondamentali degli interessati e, ove applicabile, alla 
+libera circolazione dei dati personali all'interno dell'Unione;
+
+25) «servizio della società dell'informazione»: il servizio definito all'articolo 1, paragrafo 1, lettera b), della direttiva 
+(UE) 2015/1535 del Parlamento europeo e del Consiglio (1);
+
+26) «organizzazione internazionale»: un'organizzazione e gli organismi di diritto internazionale pubblico a essa 
+subordinati o qualsiasi altro organismo istituito da o sulla base di un accordo tra due o più Stati.
+```
+
+**Paragraphs and points found** (read from line starts):
+
+| Unit | Starts with |
+|---|---|
+| (1) | «dato personale»: qualsiasi informazione riguardante una persona fisica identificata o ide… |
+| (2) | «trattamento»: qualsiasi operazione o insieme di operazioni, compiute con o senza l'ausili… |
+| (3) | «limitazione di trattamento»: il contrassegno dei dati personali conservati con l'obiettiv… |
+| (4) | «profilazione»: qualsiasi forma di trattamento automatizzato di dati personali consistente… |
+| (5) | «pseudonimizzazione»: il trattamento dei dati personali in modo tale che i dati personali … |
+| (6) | «archivio»: qualsiasi insieme strutturato di dati personali accessibili secondo criteri de… |
+| (7) | «titolare del trattamento»: la persona fisica o giuridica, l'autorità pubblica, il servizi… |
+| (8) | «responsabile del trattamento»: la persona fisica o giuridica, l'autorità pubblica, il ser… |
+| (9) | «destinatario»: la persona fisica o giuridica, l'autorità pubblica, il servizio o un altro… |
+| (10) | «terzo»: la persona fisica o giuridica, l'autorità pubblica, il servizio o altro organismo… |
+| (11) | «consenso dell'interessato»: qualsiasi manifestazione di volontà libera, specifica, inform… |
+| (12) | «violazione dei dati personali»: la violazione di sicurezza che comporta accidentalmente o… |
+| (13) | «dati genetici»: i dati personali relativi alle caratteristiche genetiche ereditarie o acq… |
+| (14) | «dati biometrici»: i dati personali ottenuti da un trattamento tecnico specifico relativi … |
+| (15) | «dati relativi alla salute»: i dati personali attinenti alla salute fisica o mentale di un… |
+| (16) | «stabilimento principale»: |
+| (16)(a) | per quanto riguarda un titolare del trattamento con stabilimenti in più di uno Stato membr… |
+| (16)(b) | con riferimento a un responsabile del trattamento con stabilimenti in più di uno Stato mem… |
+| (17) | «rappresentante»: la persona fisica o giuridica stabilita nell'Unione che, designata dal t… |
+| (18) | «impresa»: la persona fisica o giuridica, indipendentemente dalla forma giuridica rivestit… |
+| (19) | «gruppo imprenditoriale»: un gruppo costituito da un'impresa controllante e dalle imprese … |
+| (20) | «norme vincolanti d'impresa»: le politiche in materia di protezione dei dati personali app… |
+| (21) | «autorità di controllo»: l'autorità pubblica indipendente istituita da uno Stato membro ai… |
+| (22) | «autorità di controllo interessata»: un'autorità di controllo interessata dal trattamento … |
+| (22)(a) | il titolare del trattamento o il responsabile del trattamento è stabilito sul territorio d… |
+| (22)(b) | gli interessati che risiedono nello Stato membro dell'autorità di controllo sono o sono pr… |
+| (22)(c) | un reclamo è stato proposto a tale autorità di controllo; |
+| (23) | «trattamento transfrontaliero»: |
+| (23)(a) | trattamento di dati personali che ha luogo nell'ambito delle attività di stabilimenti in p… |
+| (23)(b) | trattamento di dati personali che ha luogo nell'ambito delle attività di un unico stabilim… |
+| (24) | «obiezione pertinente e motivata»: un'obiezione al progetto di decisione sul fatto che vi … |
+| (25) | «servizio della società dell'informazione»: il servizio definito all'articolo 1, paragrafo… |
+| (26) | «organizzazione internazionale»: un'organizzazione e gli organismi di diritto internaziona… |
+
+**Anomalies and suspicious formatting**
+
+| # | Offset in text | In | Kind | Excerpt | Effect |
+|---|---|---|---|---|---|
+| 1 | 437 | (1) | Soft hyphen (U+00AD) at a line end | `ne, un identifi⟨SHY⟩⏎cativo onl` | Word split by PDF hyphenation; same words after normalisation. |
+| 2 | 829 | (2) | Soft hyphen (U+00AD) at a line end | `one, la struttu⟨SHY⟩⏎razione, l` | Word split by PDF hyphenation; same words after normalisation. |
+| 3 | 3186 | (9) | Soft hyphen (U+00AD) at a line end | `e riceve comuni⟨SHY⟩⏎cazione di` | Word split by PDF hyphenation; same words after normalisation. |
+| 4 | 3305 | (9) | Soft hyphen (U+00AD) at a line end | `ricevere comuni⟨SHY⟩⏎cazione di` | Word split by PDF hyphenation; same words after normalisation. |
+| 5 | 3420 | (9) | Page break inside a sentence | ` dell'Unione o degli Stati⏎⏎membri non sono cons` | Page join: the running header between the pieces is excluded; no word affected. |
+| 6 | 4063 | (11) | Soft hyphen (U+00AD) at a line end | `abile dell'inte⟨SHY⟩⏎ressato, c` | Word split by PDF hyphenation; same words after normalisation. |
+| 7 | 5508 | (16)(a) | Blank line inside a sentence | `membro, il luogo della sua⏎⏎amministrazione cent` | Layout only (hanging indent in the PDF); no word affected. Matters only if something splits text on blank lines. |
+| 8 | 6033 | (16)(b) | Blank line inside a sentence | `to membro, il luogo in cui⏎⏎ha sede la sua ammin` | Layout only (hanging indent in the PDF); no word affected. Matters only if something splits text on blank lines. |
+| 9 | 6142 | (16)(b) | Soft hyphen (U+00AD) at a line end | `on ha un'ammini⟨SHY⟩⏎strazione ` | Word split by PDF hyphenation; same words after normalisation. |
+| 10 | 7968 | (22)(a) | Blank line inside a sentence | `dello Stato membro di tale⏎⏎autorità di controll` | Layout only (hanging indent in the PDF); no word affected. Matters only if something splits text on blank lines. |
+| 11 | 8111 | (22)(b) | Blank line inside a sentence | ` probabilmente influenzati⏎⏎in modo sostanziale ` | Layout only (hanging indent in the PDF); no word affected. Matters only if something splits text on blank lines. |
+| 12 | 8377 | (23)(a) | Blank line inside a sentence | `più di uno Stato membro di⏎⏎un titolare del trat` | Layout only (hanging indent in the PDF); no word affected. Matters only if something splits text on blank lines. |
+| 13 | 8686 | (23)(b) | Blank line inside a sentence | `limento di un titolare del⏎⏎trattamento o respon` | Layout only (hanging indent in the PDF); no word affected. Matters only if something splits text on blank lines. |
+| 14 | 9569 | (25) | Footnote reference | `mento europeo e del Consiglio (1);⏎` | The footnote text is stored as a separate context segment. |
+
+- **Duplicated lines** (longer than 40 characters): none.
+- **Missing text:** none detected. Every paragraph and point of the official text is present, and the comparison in C finds no missing or extra word.
+- **Running headers:** excluded from the article text; they are context segments (table above).
+- **Whitespace only:** 7 double space(s) (after point letters, e.g. `a)  `) and 50 line(s) ending with a space. These do not affect the words.
+- **Footnote text** (segment 80, `footnote`, page 35, chars 192740–193017; context, not article text): `(1) Direttiva (UE) 2015/1535 del Parlamento europeo e del Consiglio, del 9 settembre 2015, che prevede una procedura d'informazione nel⏎⏎settore delle regolamentazioni tecniche delle regole relative ai servizi della società dell'informazione (GU L 241 del 17.9.2015, pag. 1).⏎⏎`
+
+### C. Official-source comparison
+
+| Item | Value |
+|---|---|
+| Official source | EUR-Lex consolidated text, Regulation (EU) 2016/679, Italian, CELEX 02016R0679-20160504 |
+| URL | https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504 |
+| `source_type` | `eurlex_consolidated` |
+| Consolidation or update date | 2016-05-04. The only consolidated version on EUR-Lex, which lists no amending act (EUR-Lex ALL page, checked in M1). |
+| Retrieved | 2026-11-08 12:28:58 +01:00, by the assistant during M1 (curl; time taken from the file). |
+| Downloaded file | sha256 `90d0710134489e08fc26f142c416028d2ee6f3cf049f83c084e772da3ac8d260` (not in the repository) |
+| Compared official text | 9707 characters extracted from that file (method in section 13) |
+| `official_text_sha256` | `2053253a4edb5c7693a4dcb39c87ba8018858cb9148745ed625a852f414a394b`: SHA-256 of the extracted official text, UTF-8, before normalisation |
+| Our text SHA-256 | `c51bc38c149752871af6c92948ca344654d27570a6a521482c8d02ba8179d5c7` |
+| Normalisation | `ws-markers-softhyphen-v1` (`src/text_normalization.py`) |
+| Identical as stored? | **No** |
+| Match status | **`identical_after_normalisation`**: identical only after normalisation |
+| Differences | None after normalisation |
+| Transformations that changed our text | soft hyphens, whitespace and line breaks |
+| Transformations that changed the official text | whitespace and line breaks, spacing before punctuation |
+| EUR-Lex markers (▼ ► ◄) inside the official article | none |
+
+**Point 12 on its own** (the part the demonstration uses):
+
+| Item | Value |
+|---|---|
+| Ours | `12) «violazione dei dati personali»: la violazione di sicurezza che comporta accidentalmente o in modo illecito la ⏎distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati ⏎o comunque trattati;⏎⏎` (SHA-256 `3676f0a17f18e28de48984054f62580334c8ec1ccd1852533d673ed086f517b1`) |
+| Official | `12)⏎«violazione dei dati personali» : la violazione di sicurezza che comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati o comunque trattati;⏎` (SHA-256 `fd812d72703d3be4535ac265007fe3a97101b2138c71a1059027b664d04d9b36`) |
+| Match status | **`identical_after_normalisation`**; differences: none |
+| What differs before normalisation | Line breaks; the official text has a line break after «12)» and a space before «:». |
+
+<details><summary>Official text as extracted and compared (click to open)</summary>
+
+```text
+Articolo 4
+Definizioni
+Ai fini del presente regolamento s'intende per:
+1)
+«dato personale» : qualsiasi informazione riguardante una persona fisica identificata o identificabile («interessato»); si considera identificabile la persona fisica che può essere identificata, direttamente o indirettamente, con particolare riferimento a un identificativo come il nome, un numero di identificazione, dati relativi all'ubicazione, un identificativo online o a uno o più elementi caratteristici della sua identità fisica, fisiologica, genetica, psichica, economica, culturale o sociale;
+2)
+«trattamento» : qualsiasi operazione o insieme di operazioni, compiute con o senza l'ausilio di processi automatizzati e applicate a dati personali o insiemi di dati personali, come la raccolta, la registrazione, l'organizzazione, la strutturazione, la conservazione, l'adattamento o la modifica, l'estrazione, la consultazione, l'uso, la comunicazione mediante trasmissione, diffusione o qualsiasi altra forma di messa a disposizione, il raffronto o l'interconnessione, la limitazione, la cancellazione o la distruzione;
+3)
+«limitazione di trattamento» : il contrassegno dei dati personali conservati con l'obiettivo di limitarne il trattamento in futuro;
+4)
+«profilazione» : qualsiasi forma di trattamento automatizzato di dati personali consistente nell'utilizzo di tali dati personali per valutare determinati aspetti personali relativi a una persona fisica, in particolare per analizzare o prevedere aspetti riguardanti il rendimento professionale, la situazione economica, la salute, le preferenze personali, gli interessi, l'affidabilità, il comportamento, l'ubicazione o gli spostamenti di detta persona fisica;
+5)
+«pseudonimizzazione» : il trattamento dei dati personali in modo tale che i dati personali non possano più essere attribuiti a un interessato specifico senza l'utilizzo di informazioni aggiuntive, a condizione che tali informazioni aggiuntive siano conservate separatamente e soggette a misure tecniche e organizzative intese a garantire che tali dati personali non siano attribuiti a una persona fisica identificata o identificabile;
+6)
+«archivio» : qualsiasi insieme strutturato di dati personali accessibili secondo criteri determinati, indipendentemente dal fatto che tale insieme sia centralizzato, decentralizzato o ripartito in modo funzionale o geografico;
+7)
+«titolare del trattamento» : la persona fisica o giuridica, l'autorità pubblica, il servizio o altro organismo che, singolarmente o insieme ad altri, determina le finalità e i mezzi del trattamento di dati personali; quando le finalità e i mezzi di tale trattamento sono determinati dal diritto dell'Unione o degli Stati membri, il titolare del trattamento o i criteri specifici applicabili alla sua designazione possono essere stabiliti dal diritto dell'Unione o degli Stati membri;
+8)
+«responsabile del trattamento» : la persona fisica o giuridica, l'autorità pubblica, il servizio o altro organismo che tratta dati personali per conto del titolare del trattamento;
+9)
+«destinatario» : la persona fisica o giuridica, l'autorità pubblica, il servizio o un altro organismo che riceve comunicazione di dati personali, che si tratti o meno di terzi. Tuttavia, le autorità pubbliche che possono ricevere comunicazione di dati personali nell'ambito di una specifica indagine conformemente al diritto dell'Unione o degli Stati membri non sono considerate destinatari; il trattamento di tali dati da parte di dette autorità pubbliche è conforme alle norme applicabili in materia di protezione dei dati secondo le finalità del trattamento;
+10)
+«terzo» : la persona fisica o giuridica, l'autorità pubblica, il servizio o altro organismo che non sia l'interessato, il titolare del trattamento, il responsabile del trattamento e le persone autorizzate al trattamento dei dati personali sotto l'autorità diretta del titolare o del responsabile;
+11)
+«consenso dell'interessato» : qualsiasi manifestazione di volontà libera, specifica, informata e inequivocabile dell'interessato, con la quale lo stesso manifesta il proprio assenso, mediante dichiarazione o azione positiva inequivocabile, che i dati personali che lo riguardano siano oggetto di trattamento;
+12)
+«violazione dei dati personali» : la violazione di sicurezza che comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati o comunque trattati;
+13)
+«dati genetici» : i dati personali relativi alle caratteristiche genetiche ereditarie o acquisite di una persona fisica che forniscono informazioni univoche sulla fisiologia o sulla salute di detta persona fisica, e che risultano in particolare dall'analisi di un campione biologico della persona fisica in questione;
+14)
+«dati biometrici» : i dati personali ottenuti da un trattamento tecnico specifico relativi alle caratteristiche fisiche, fisiologiche o comportamentali di una persona fisica che ne consentono o confermano l'identificazione univoca, quali l'immagine facciale o i dati dattiloscopici;
+15)
+«dati relativi alla salute» : i dati personali attinenti alla salute fisica o mentale di una persona fisica, compresa la prestazione di servizi di assistenza sanitaria, che rivelano informazioni relative al suo stato di salute;
+16)
+«stabilimento principale» :
+a)
+per quanto riguarda un titolare del trattamento con stabilimenti in più di uno Stato membro, il luogo della sua amministrazione centrale nell'Unione, salvo che le decisioni sulle finalità e i mezzi del trattamento di dati personali siano adottate in un altro stabilimento del titolare del trattamento nell'Unione e che quest'ultimo stabilimento abbia facoltà di ordinare l'esecuzione di tali decisioni, nel qual caso lo stabilimento che ha adottato siffatte decisioni è considerato essere lo stabilimento principale;
+b)
+con riferimento a un responsabile del trattamento con stabilimenti in più di uno Stato membro, il luogo in cui ha sede la sua amministrazione centrale nell'Unione o, se il responsabile del trattamento non ha un'amministrazione centrale nell'Unione, lo stabilimento del responsabile del trattamento nell'Unione in cui sono condotte le principali attività di trattamento nel contesto delle attività di uno stabilimento del responsabile del trattamento nella misura in cui tale responsabile è soggetto a obblighi specifici ai sensi del presente regolamento;
+17)
+«rappresentante» : la persona fisica o giuridica stabilita nell'Unione che, designata dal titolare del trattamento o dal responsabile del trattamento per iscritto ai sensi dell'articolo 27, li rappresenta per quanto riguarda gli obblighi rispettivi a norma del presente regolamento;
+18)
+«impresa» : la persona fisica o giuridica, indipendentemente dalla forma giuridica rivestita, che eserciti un'attività economica, comprendente le società di persone o le associazioni che esercitano regolarmente un'attività economica;
+19)
+«gruppo imprenditoriale» : un gruppo costituito da un'impresa controllante e dalle imprese da questa controllate;
+20)
+«norme vincolanti d'impresa» : le politiche in materia di protezione dei dati personali applicate da un titolare del trattamento o responsabile del trattamento stabilito nel territorio di uno Stato membro al trasferimento o al complesso di trasferimenti di dati personali a un titolare del trattamento o responsabile del trattamento in uno o più paesi terzi, nell'ambito di un gruppo imprenditoriale o di un gruppo di imprese che svolge un'attività economica comune;
+21)
+«autorità di controllo» : l'autorità pubblica indipendente istituita da uno Stato membro ai sensi dell'articolo 51;
+22)
+«autorità di controllo interessata» :
+un'autorità di controllo interessata dal trattamento di dati personali in quanto:
+a)
+il titolare del trattamento o il responsabile del trattamento è stabilito sul territorio dello Stato membro di tale autorità di controllo;
+b)
+gli interessati che risiedono nello Stato membro dell'autorità di controllo sono o sono probabilmente influenzati in modo sostanziale dal trattamento; oppure
+c)
+un reclamo è stato proposto a tale autorità di controllo;
+23)
+«trattamento transfrontaliero» :
+a)
+trattamento di dati personali che ha luogo nell'ambito delle attività di stabilimenti in più di uno Stato membro di un titolare del trattamento o responsabile del trattamento nell'Unione ove il titolare del trattamento o il responsabile del trattamento siano stabiliti in più di uno Stato membro; oppure
+b)
+trattamento di dati personali che ha luogo nell'ambito delle attività di un unico stabilimento di un titolare del trattamento o responsabile del trattamento nell'Unione, ma che incide o probabilmente incide in modo sostanziale su interessati in più di uno Stato membro;
+24)
+«obiezione pertinente e motivata» : un'obiezione al progetto di decisione sul fatto che vi sia o meno una violazione del presente regolamento, oppure che l'azione prevista in relazione al titolare del trattamento o responsabile del trattamento sia conforme al presente regolamento, la quale obiezione dimostra chiaramente la rilevanza dei rischi posti dal progetto di decisione riguardo ai diritti e alle libertà fondamentali degli interessati e, ove applicabile, alla libera circolazione dei dati personali all'interno dell'Unione;
+25)
+«servizio della società dell'informazione» : il servizio definito all'articolo 1, paragrafo 1, lettera b), della direttiva (UE) 2015/1535 del Parlamento europeo e del Consiglio⟨NBSP⟩(
+1
+);
+26)
+«organizzazione internazionale» : un'organizzazione e gli organismi di diritto internazionale pubblico a essa subordinati o qualsiasi altro organismo istituito da o sulla base di un accordo tra due o più Stati.
+```
+
+Source: EUR-Lex consolidated text, Regulation (EU) 2016/679, Italian, CELEX 02016R0679-20160504, https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504. Extracted text; line breaks come from the HTML markup. Not authentic: only the Official Journal is.
+
+</details>
+
+Candidate `official_check` object, computed by `src.provisions.official_check_record` from the two texts above. **It is not a review result.** It belongs in a ledger record only if you verify the comparison and decide to record it. If you extract the official text yourself, the hash will differ: recompute it from your own text.
+
+```json
+{
+  "source_url": "https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504",
+  "source_type": "eurlex_consolidated",
+  "consolidation_date": "2016-05-04",
+  "retrieved_on": "2026-11-08",
+  "official_text_sha256": "2053253a4edb5c7693a4dcb39c87ba8018858cb9148745ed625a852f414a394b",
+  "normalisation": "ws-markers-softhyphen-v1",
+  "match_status": "identical_after_normalisation",
+  "differences": []
+}
+```
+
+### D. Structural and completeness checks
+
+| Check | Result |
+|---|---|
+| Units in the official text | (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15), (16), (16)(a), (16)(b), (17), (18), (19), (20), (21), (22), (22)(a), (22)(b), (22)(c), (23), (23)(a), (23)(b), (24), (25), (26) |
+| Units in the stored text | (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15), (16), (16)(a), (16)(b), (17), (18), (19), (20), (21), (22), (22)(a), (22)(b), (22)(c), (23), (23)(a), (23)(b), (24), (25), (26) |
+| Missing / extra units | none / none |
+| Numbering gaps | none |
+| Article heading and title | «Articolo 4» / «Definizioni»: the first lines of the stored text are «Articolo 4» and «Definizioni» |
+| Inventory `status_marker` | `null` |
+| Inventory `structural_status` | `present` |
+| Repeal or amendment words in the text («abrogat», «soppress», «modificat», «AGGIORNAMENTO») | none |
+| Normattiva amendment markers «((» «))» | none |
+
+**Cross-references**
+
+| Reference (as printed) | Target | In the demonstration closure? | Note |
+|---|---|---|---|
+| «articolo 27» | GDPR Art. 27 «Rappresentanti di titolari del trattamento o dei responsabili del trattamento non stabiliti nell'Unione» | No | In point 17. |
+| «articolo 51» | GDPR Art. 51 «Autorità di controllo» | No | In point 21. Privacy Code Art. 2-bis also refers to it. |
+| «articolo 1, paragrafo 1, lettera b), della direttiva (UE) 2015/1535» | Directive (EU) 2015/1535 | No | In point 25, followed by the footnote reference «(1)». |
+| «presente regolamento» | The GDPR itself | — | General reference. |
+
+**Needs human judgment**
+
+- **Scope:** decide whether to review all 26 points now. The demonstration needs only point 12, but a ledger record for Article 4 covers the whole article.
+- **Hyphenation:** six words are split by a soft hyphen at a line end (see B). Confirm that each is PDF hyphenation and that the joined word is the printed word.
+- **Footnote:** point 25 keeps the footnote reference «(1)» in the article text, while the footnote itself is stored separately as context (segment 80, page 35, shown in B). Confirm that this split is right.
+- **Page join** between piece 1 (page 33) and piece 2 (page 34), inside unit (9), mid-sentence. Piece 1 ends «ndagine conformemente al diritto dell'Unione o degli Stati⏎⏎»; piece 2 starts «membri non sono considerate destinatari; il trattamento di t». Confirm against the PDF that nothing is lost or duplicated there. The running header between them is context.
+- **Page join** between piece 2 (page 34) and piece 3 (page 35), between unit (21) and the next unit. Piece 2 ends «e istituita da uno Stato membro ai sensi dell'articolo 51;⏎⏎»; piece 3 starts «22) «autorità di controllo interessata»: un'autorità di cont». Confirm against the PDF that nothing is lost or duplicated there. The running header between them is context.
+- **Blank lines inside sentences** in (16)(a), (16)(b), (22)(a), (22)(b), (23)(a), (23)(b): confirm that they are layout only and that no text is missing at those points.
+
+### E. Review decision worksheet
+
+*To be completed by the human reviewer. Nothing is pre-filled.*
+
+Reviewer (name): ____________________  Review date (YYYY-MM-DD): ____________
+
+| Decision | What to confirm | Decision (tick one) | Notes and corrections |
+|---|---|---|---|
+| 1. Structure | The article starts and ends at the right place, heading and title belong to it, numbering is as printed, and context (running headers, footnotes, next headings) is excluded. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 2. Extraction fidelity | The stored text matches the printed source word for word; the anomalies in B are layout only. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 3. Completeness | Every paragraph and point is present, with nothing truncated or duplicated (D). | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 4. Source status markers | The status markers are recorded as the source prints them (status marker, amendment markers, source status representation). This is not a legal status. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 5. Primary-citation eligibility | Your view of whether the provision should be citable as primary evidence once the review is recorded. The system computes the tier; record any reason against it. | ☐ should become primary ☐ should not become primary |  |
+
+Official-source check: ☐ recorded as computed in C ☐ recorded with my own extraction ☐ not recorded
+
+Ledger outcome to record: ☐ `confirmed` (no change) ☐ `corrected` (list each field, before and after) ☐ no record yet
+
+## 6. GDPR Article 33
+
+**Articolo 33 — Notifica di una violazione dei dati personali all'autorità di controllo**
+
+Core provision of the demonstration: notification of a personal data breach to the supervisory authority.
+
+### A. Identity
+
+| Field | Value |
+|---|---|
+| Provision ID | `eu-reg-2016-679@oj-l119-2016-it/body/article:33` |
+| Source | Regulation (EU) 2016/679 as originally published in the Official Journal of the European Union, L 119 of 4 May 2016 (Italian). This is the 2016 original publication, not a consolidated text: later corrigenda and amendments are not reflected. File `data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf` (sha256 `8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b`). |
+| Article reference | «Articolo 33», title «Notifica di una violazione dei dati personali all'autorità di controllo», printed path «CAPO IV > Sezione 2 > Articolo 33», pages 52–52 |
+| Inventory | `data/reference/gdpr_2016_679_it.inventory.json` · inventory `gdpr-2016-679-oj-it` (sha256 `e6fbaba9a996dfd0329501bc636bdaa1d54c52d5a8f21b6264a1247538efd25f`) · entry `gdpr-2016-679-oj-it:art:33` |
+| Build | `build-f76ff6031f2fc82c4852f0a2bde27807` · variant `var-30da24d25055784cba1e38b5475791c1` · segment map `anchors/var-30da24d25055784cba1e38b5475791c1.segments.json` |
+| Structural status | `auto_unreviewed` |
+| Review | `pending_human_review` (checked_by and checked_on empty) |
+| Source status representation | `no_status_representation` |
+| Legal validity | `not_established` |
+| Eligibility (now) | `internal_only`; reasons: `structure_not_reviewed` (Its structure has not been reviewed by a person; it can be inspected but not cited.) |
+| Qualifications | `original_publication_not_consolidated`: Original publication, not a consolidated text: later corrigenda and amendments are not reflected.<br>`authenticity_not_established`: The authenticity of the source file is not established.<br>`legal_validity_not_established`: This system does not establish whether the provision is legally valid or in force. |
+
+Inventory entry, as stored:
+
+```json
+{
+  "entry_id": "gdpr-2016-679-oj-it:art:33",
+  "document_id": "doc-8f7504d289853f57",
+  "ordinal": 33,
+  "kind": "article",
+  "heading_as_printed": "Articolo 33",
+  "label": "33",
+  "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+  "status_marker": null,
+  "page_start": 52,
+  "page_end": 52,
+  "parent_id": "gdpr-2016-679-oj-it:capo:IV/sezione:2",
+  "parent_path": "CAPO IV > Sezione 2",
+  "structural_status": "present",
+  "review_status": "pending_human_review",
+  "checked_by": null,
+  "checked_on": null,
+  "source_sha256": "8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b",
+  "notes": []
+}
+```
+
+Article text pieces (the article text is these segments, joined in order):
+
+| Piece | Segment | Kind | Chars | Page | Segment `text_sha256` |
+|---|---|---|---|---|---|
+| 1 | 148 | article | 253118–255125 | 52 | `17ad07bbee1cd8bef89280dd2d4847f0a71d6f6eb5097b0a0f0508b536c23a8f` |
+
+Neighbours: before is segment 147 (`article`, `article:32`), after is segment 149 (`article`, `article:34`): «Articolo 34⏎⏎Comunicazione di una violazione dei dati personali all'in…».
+
+Chunks overlapping this provision (from the links file):
+
+| # | Chunk ID | Chunk chars | Pages | This provision (non-space chars) | Other provisions | Context in chunk |
+|---|---|---|---|---|---|---|
+| 296 | `doc-8f7504d289853f57-0296-c5e96e79` | 253118–254301 | 52 | 253118–254301 (987) | — | — |
+| 297 | `doc-8f7504d289853f57-0297-0683bb04` | 254303–255123 | 52 | 254303–255123 (695) | — | — |
+
+### B. Extracted text
+
+- **Length:** 2007 characters in 1 piece(s).
+- **SHA-256** of the exact text (UTF-8, pieces joined in order): `17ad07bbee1cd8bef89280dd2d4847f0a71d6f6eb5097b0a0f0508b536c23a8f`.
+
+```text
+Articolo 33
+
+Notifica di una violazione dei dati personali all'autorità di controllo
+
+1.
+In caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo 
+competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è 
+venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le 
+libertà delle persone fisiche. Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei 
+motivi del ritardo.
+
+2.
+Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a 
+conoscenza della violazione.
+
+3.
+La notifica di cui al paragrafo 1 deve almeno:
+
+a) descrivere la natura della violazione dei dati personali compresi, ove possibile, le categorie e il numero approssi⟨SHY⟩
+
+mativo di interessati in questione nonché le categorie e il numero approssimativo di registrazioni dei dati personali in 
+questione;
+
+b)  comunicare il nome e i dati di contatto del responsabile della protezione dei dati o di altro punto di contatto presso
+
+cui ottenere più informazioni;
+
+c)  descrivere le probabili conseguenze della violazione dei dati personali;
+
+d)  descrivere le misure adottate o di cui si propone l'adozione da parte del titolare del trattamento per porre rimedio
+
+alla violazione dei dati personali e anche, se del caso, per attenuarne i possibili effetti negativi.
+
+4.
+Qualora e nella misura in cui non sia possibile fornire le informazioni contestualmente, le informazioni possono 
+essere fornite in fasi successive senza ulteriore ingiustificato ritardo.
+
+5.
+Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, 
+le sue conseguenze e i provvedimenti adottati per porvi rimedio. Tale documentazione consente all'autorità di controllo 
+di verificare il rispetto del presente articolo.
+```
+
+**Paragraphs and points found** (read from line starts):
+
+| Unit | Starts with |
+|---|---|
+| 1 | In caso di violazione dei dati personali, il titolare del trattamento notifica la violazio… |
+| 2 | Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato r… |
+| 3 | La notifica di cui al paragrafo 1 deve almeno: |
+| 3(a) | descrivere la natura della violazione dei dati personali compresi, ove possibile, le categ… |
+| 3(b) | comunicare il nome e i dati di contatto del responsabile della protezione dei dati o di al… |
+| 3(c) | descrivere le probabili conseguenze della violazione dei dati personali; |
+| 3(d) | descrivere le misure adottate o di cui si propone l'adozione da parte del titolare del tra… |
+| 4 | Qualora e nella misura in cui non sia possibile fornire le informazioni contestualmente, l… |
+| 5 | Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le… |
+
+**Anomalies and suspicious formatting**
+
+| # | Offset in text | In | Kind | Excerpt | Effect |
+|---|---|---|---|---|---|
+| 1 | 924 | 3(a) | Soft hyphen (U+00AD) across a block break | `numero approssi⟨SHY⟩⏎⏎mativo di ` | Word split by PDF hyphenation; same words after normalisation. |
+| 2 | 1182 | 3(b) | Blank line inside a sentence | `o punto di contatto presso⏎⏎cui ottenere più inf` | Layout only (hanging indent in the PDF); no word affected. Matters only if something splits text on blank lines. |
+| 3 | 1414 | 3(d) | Blank line inside a sentence | `ttamento per porre rimedio⏎⏎alla violazione dei ` | Layout only (hanging indent in the PDF); no word affected. Matters only if something splits text on blank lines. |
+
+- **Duplicated lines** (longer than 40 characters): none.
+- **Missing text:** none detected. Every paragraph and point of the official text is present, and the comparison in C finds no missing or extra word.
+- **Running headers:** none inside this article.
+- **Whitespace only:** 3 double space(s) (after point letters, e.g. `a)  `) and 9 line(s) ending with a space. These do not affect the words.
+
+### C. Official-source comparison
+
+| Item | Value |
+|---|---|
+| Official source | EUR-Lex consolidated text, Regulation (EU) 2016/679, Italian, CELEX 02016R0679-20160504 |
+| URL | https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504 |
+| `source_type` | `eurlex_consolidated` |
+| Consolidation or update date | 2016-05-04. The only consolidated version on EUR-Lex, which lists no amending act (EUR-Lex ALL page, checked in M1). |
+| Retrieved | 2026-11-08 12:28:58 +01:00, by the assistant during M1 (curl; time taken from the file). |
+| Downloaded file | sha256 `90d0710134489e08fc26f142c416028d2ee6f3cf049f83c084e772da3ac8d260` (not in the repository) |
+| Compared official text | 1979 characters extracted from that file (method in section 13) |
+| `official_text_sha256` | `35ad52b17f064957bddf880c32e094841e7e9142c112dc0a1906e07315a420b2`: SHA-256 of the extracted official text, UTF-8, before normalisation |
+| Our text SHA-256 | `17ad07bbee1cd8bef89280dd2d4847f0a71d6f6eb5097b0a0f0508b536c23a8f` |
+| Normalisation | `ws-markers-softhyphen-v1` (`src/text_normalization.py`) |
+| Identical as stored? | **No** |
+| Match status | **`identical_after_normalisation`**: identical only after normalisation |
+| Differences | None after normalisation |
+| Transformations that changed our text | soft hyphens, whitespace and line breaks |
+| Transformations that changed the official text | whitespace and line breaks |
+| EUR-Lex markers (▼ ► ◄) inside the official article | none |
+
+<details><summary>Official text as extracted and compared (click to open)</summary>
+
+```text
+Articolo 33
+Notifica di una violazione dei dati personali all'autorità di controllo
+1.
+In caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche. Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei motivi del ritardo.
+2.
+Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione.
+3.
+La notifica di cui al paragrafo 1 deve almeno:
+a)
+descrivere la natura della violazione dei dati personali compresi, ove possibile, le categorie e il numero approssimativo di interessati in questione nonché le categorie e il numero approssimativo di registrazioni dei dati personali in questione;
+b)
+comunicare il nome e i dati di contatto del responsabile della protezione dei dati o di altro punto di contatto presso cui ottenere più informazioni;
+c)
+descrivere le probabili conseguenze della violazione dei dati personali;
+d)
+descrivere le misure adottate o di cui si propone l'adozione da parte del titolare del trattamento per porre rimedio alla violazione dei dati personali e anche, se del caso, per attenuarne i possibili effetti negativi.
+4.
+Qualora e nella misura in cui non sia possibile fornire le informazioni contestualmente, le informazioni possono essere fornite in fasi successive senza ulteriore ingiustificato ritardo.
+5.
+Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, le sue conseguenze e i provvedimenti adottati per porvi rimedio. Tale documentazione consente all'autorità di controllo di verificare il rispetto del presente articolo.
+```
+
+Source: EUR-Lex consolidated text, Regulation (EU) 2016/679, Italian, CELEX 02016R0679-20160504, https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504. Extracted text; line breaks come from the HTML markup. Not authentic: only the Official Journal is.
+
+</details>
+
+Candidate `official_check` object, computed by `src.provisions.official_check_record` from the two texts above. **It is not a review result.** It belongs in a ledger record only if you verify the comparison and decide to record it. If you extract the official text yourself, the hash will differ: recompute it from your own text.
+
+```json
+{
+  "source_url": "https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504",
+  "source_type": "eurlex_consolidated",
+  "consolidation_date": "2016-05-04",
+  "retrieved_on": "2026-11-08",
+  "official_text_sha256": "35ad52b17f064957bddf880c32e094841e7e9142c112dc0a1906e07315a420b2",
+  "normalisation": "ws-markers-softhyphen-v1",
+  "match_status": "identical_after_normalisation",
+  "differences": []
+}
+```
+
+### D. Structural and completeness checks
+
+| Check | Result |
+|---|---|
+| Units in the official text | 1, 2, 3, 3(a), 3(b), 3(c), 3(d), 4, 5 |
+| Units in the stored text | 1, 2, 3, 3(a), 3(b), 3(c), 3(d), 4, 5 |
+| Missing / extra units | none / none |
+| Numbering gaps | none |
+| Article heading and title | «Articolo 33» / «Notifica di una violazione dei dati personali all'autorità di controllo»: the first lines of the stored text are «Articolo 33» and «Notifica di una violazione dei dati personali all'autorità di controllo» |
+| Inventory `status_marker` | `null` |
+| Inventory `structural_status` | `present` |
+| Repeal or amendment words in the text («abrogat», «soppress», «modificat», «AGGIORNAMENTO») | none |
+| Normattiva amendment markers «((» «))» | none |
+
+**Cross-references**
+
+| Reference (as printed) | Target | In the demonstration closure? | Note |
+|---|---|---|---|
+| «articolo 55» | GDPR Art. 55 «Competenza» | Yes | 33(1): the competent authority. |
+| «paragrafo 1» | Art. 33(1) | Yes (internal) | In 33(3). |
+| «presente articolo» | Art. 33 itself | Yes (internal) | In 33(5). |
+
+**Needs human judgment**
+
+- **Hyphenation across a block break:** in 33(3)(a) the word «approssimativo» is stored as «approssi⟨SHY⟩⏎⏎mativo». The words are right, but an exact quotation check against the stored text needs the shared normalisation.
+- **Pending proposal:** the Digital Omnibus proposal COM(2025) 837 would replace Art. 33(1). As established in M1, it had not been adopted or published on 2026-11-08. This affects how an answer is worded, not this structural review: the stored text is the 2016 original publication, and EUR-Lex lists no amending act.
+- **Blank lines inside sentences** in 3(b), 3(d): confirm that they are layout only and that no text is missing at those points.
+
+### E. Review decision worksheet
+
+*To be completed by the human reviewer. Nothing is pre-filled.*
+
+Reviewer (name): ____________________  Review date (YYYY-MM-DD): ____________
+
+| Decision | What to confirm | Decision (tick one) | Notes and corrections |
+|---|---|---|---|
+| 1. Structure | The article starts and ends at the right place, heading and title belong to it, numbering is as printed, and context (running headers, footnotes, next headings) is excluded. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 2. Extraction fidelity | The stored text matches the printed source word for word; the anomalies in B are layout only. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 3. Completeness | Every paragraph and point is present, with nothing truncated or duplicated (D). | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 4. Source status markers | The status markers are recorded as the source prints them (status marker, amendment markers, source status representation). This is not a legal status. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 5. Primary-citation eligibility | Your view of whether the provision should be citable as primary evidence once the review is recorded. The system computes the tier; record any reason against it. | ☐ should become primary ☐ should not become primary |  |
+
+Official-source check: ☐ recorded as computed in C ☐ recorded with my own extraction ☐ not recorded
+
+Ledger outcome to record: ☐ `confirmed` (no change) ☐ `corrected` (list each field, before and after) ☐ no record yet
+
+## 7. GDPR Article 34
+
+**Articolo 34 — Comunicazione di una violazione dei dati personali all'interessato**
+
+Communication of a personal data breach to the data subject.
+
+### A. Identity
+
+| Field | Value |
+|---|---|
+| Provision ID | `eu-reg-2016-679@oj-l119-2016-it/body/article:34` |
+| Source | Regulation (EU) 2016/679 as originally published in the Official Journal of the European Union, L 119 of 4 May 2016 (Italian). This is the 2016 original publication, not a consolidated text: later corrigenda and amendments are not reflected. File `data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf` (sha256 `8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b`). |
+| Article reference | «Articolo 34», title «Comunicazione di una violazione dei dati personali all'interessato», printed path «CAPO IV > Sezione 2 > Articolo 34», pages 52–53 |
+| Inventory | `data/reference/gdpr_2016_679_it.inventory.json` · inventory `gdpr-2016-679-oj-it` (sha256 `e6fbaba9a996dfd0329501bc636bdaa1d54c52d5a8f21b6264a1247538efd25f`) · entry `gdpr-2016-679-oj-it:art:34` |
+| Build | `build-f76ff6031f2fc82c4852f0a2bde27807` · variant `var-30da24d25055784cba1e38b5475791c1` · segment map `anchors/var-30da24d25055784cba1e38b5475791c1.segments.json` |
+| Structural status | `auto_unreviewed` |
+| Review | `pending_human_review` (checked_by and checked_on empty) |
+| Source status representation | `no_status_representation` |
+| Legal validity | `not_established` |
+| Eligibility (now) | `internal_only`; reasons: `structure_not_reviewed` (Its structure has not been reviewed by a person; it can be inspected but not cited.) |
+| Qualifications | `original_publication_not_consolidated`: Original publication, not a consolidated text: later corrigenda and amendments are not reflected.<br>`authenticity_not_established`: The authenticity of the source file is not established.<br>`legal_validity_not_established`: This system does not establish whether the provision is legally valid or in force. |
+
+Inventory entry, as stored:
+
+```json
+{
+  "entry_id": "gdpr-2016-679-oj-it:art:34",
+  "document_id": "doc-8f7504d289853f57",
+  "ordinal": 34,
+  "kind": "article",
+  "heading_as_printed": "Articolo 34",
+  "label": "34",
+  "title": "Comunicazione di una violazione dei dati personali all'interessato",
+  "status_marker": null,
+  "page_start": 52,
+  "page_end": 53,
+  "parent_id": "gdpr-2016-679-oj-it:capo:IV/sezione:2",
+  "parent_path": "CAPO IV > Sezione 2",
+  "structural_status": "present",
+  "review_status": "pending_human_review",
+  "checked_by": null,
+  "checked_on": null,
+  "source_sha256": "8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b",
+  "notes": []
+}
+```
+
+Article text pieces (the article text is these segments, joined in order):
+
+| Piece | Segment | Kind | Chars | Page | Segment `text_sha256` |
+|---|---|---|---|---|---|
+| 1 | 149 | article | 255125–255446 | 52 | `1a368992c09d6303e5aea2db7436b9cddfeb334cd226ed0c326a21a499cb68af` |
+| 2 | 151 | article | 255510–257015 | 53 | `fdd07ed2758a703a1e1f064f40127660507102d245ca606cec8e15f761d943f1` |
+
+Segments between the pieces (context, **not** article text):
+
+| Segment | Kind | Chars | Page | Text |
+|---|---|---|---|---|
+| 150 | page_furniture | 255446–255510 | 52 | `4.5.2016 ⏎L 119/52 ⏎Gazzetta ufficiale dell'Unione europea ⏎IT⏎⏎` |
+
+Neighbours: before is segment 148 (`article`, `article:33`), after is segment 152 (`division_heading`, `chapter:iv/section:3`): «Sezione 3⏎⏎Valutazione d'impatto sulla protezione dei dati e consultaz…».
+
+Chunks overlapping this provision (from the links file):
+
+| # | Chunk ID | Chunk chars | Pages | This provision (non-space chars) | Other provisions | Context in chunk |
+|---|---|---|---|---|---|---|
+| 298 | `doc-8f7504d289853f57-0298-036e8f92` | 255125–256239 | 52–53 | 255125–256239 (883) | — | page_furniture |
+| 299 | `doc-8f7504d289853f57-0299-eb81eca8` | 256241–257013 | 53 | 256241–257013 (647) | — | — |
+
+### B. Extracted text
+
+- **Length:** 1826 characters in 2 piece(s).
+- **SHA-256** of the exact text (UTF-8, pieces joined in order): `c9ce5d93754c678cdd1f8f3f1f3dd2ffe584e5da085206fbce38976f119091e6`.
+
+```text
+Articolo 34
+
+Comunicazione di una violazione dei dati personali all'interessato
+
+1.
+Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle 
+persone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.
+⟦ end of piece 1 · start of piece 2: segment 151, page 53, chars 255510–257015 ⟧
+2.
+La comunicazione all'interessato di cui al paragrafo 1 del presente articolo descrive con un linguaggio semplice e 
+chiaro la natura della violazione dei dati personali e contiene almeno le informazioni e le misure di cui all'articolo 33, 
+paragrafo 3, lettere b), c) e d).
+
+3.
+Non è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:
+
+a)  il titolare del trattamento ha messo in atto le misure tecniche e organizzative adeguate di protezione e tali misure
+
+erano state applicate ai dati personali oggetto della violazione, in particolare quelle destinate a rendere i dati personali 
+incomprensibili a chiunque non sia autorizzato ad accedervi, quali la cifratura;
+
+b)  il titolare del trattamento ha successivamente adottato misure atte a scongiurare il sopraggiungere di un rischio
+
+elevato per i diritti e le libertà degli interessati di cui al paragrafo 1;
+
+c)  detta comunicazione richiederebbe sforzi sproporzionati. In tal caso, si procede invece a una comunicazione pubblica
+
+o a una misura simile, tramite la quale gli interessati sono informati con analoga efficacia.
+
+4.
+Nel caso in cui il titolare del trattamento non abbia ancora comunicato all'interessato la violazione dei dati 
+personali, l'autorità di controllo può richiedere, dopo aver valutato la probabilità che la violazione dei dati personali 
+presenti un rischio elevato, che vi provveda o può decidere che una delle condizioni di cui al paragrafo 3 è soddisfatta.
+```
+
+**Paragraphs and points found** (read from line starts):
+
+| Unit | Starts with |
+|---|---|
+| 1 | Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato pe… |
+| 2 | La comunicazione all'interessato di cui al paragrafo 1 del presente articolo descrive con … |
+| 3 | Non è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta un… |
+| 3(a) | il titolare del trattamento ha messo in atto le misure tecniche e organizzative adeguate d… |
+| 3(b) | il titolare del trattamento ha successivamente adottato misure atte a scongiurare il sopra… |
+| 3(c) | detta comunicazione richiederebbe sforzi sproporzionati. In tal caso, si procede invece a … |
+| 4 | Nel caso in cui il titolare del trattamento non abbia ancora comunicato all'interessato la… |
+
+**Anomalies and suspicious formatting**
+
+| # | Offset in text | In | Kind | Excerpt | Effect |
+|---|---|---|---|---|---|
+| 1 | 841 | 3(a) | Blank line inside a sentence | `i protezione e tali misure⏎⏎erano state applicat` | Layout only (hanging indent in the PDF); no word affected. Matters only if something splits text on blank lines. |
+| 2 | 1168 | 3(b) | Blank line inside a sentence | `praggiungere di un rischio⏎⏎elevato per i diritt` | Layout only (hanging indent in the PDF); no word affected. Matters only if something splits text on blank lines. |
+| 3 | 1367 | 3(c) | Blank line inside a sentence | `una comunicazione pubblica⏎⏎o a una misura simil` | Layout only (hanging indent in the PDF); no word affected. Matters only if something splits text on blank lines. |
+
+- **Duplicated lines** (longer than 40 characters): none.
+- **Missing text:** none detected. Every paragraph and point of the official text is present, and the comparison in C finds no missing or extra word.
+- **Running headers:** excluded from the article text; they are context segments (table above).
+- **Whitespace only:** 3 double space(s) (after point letters, e.g. `a)  `) and 6 line(s) ending with a space. These do not affect the words.
+
+### C. Official-source comparison
+
+| Item | Value |
+|---|---|
+| Official source | EUR-Lex consolidated text, Regulation (EU) 2016/679, Italian, CELEX 02016R0679-20160504 |
+| URL | https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504 |
+| `source_type` | `eurlex_consolidated` |
+| Consolidation or update date | 2016-05-04. The only consolidated version on EUR-Lex, which lists no amending act (EUR-Lex ALL page, checked in M1). |
+| Retrieved | 2026-11-08 12:28:58 +01:00, by the assistant during M1 (curl; time taken from the file). |
+| Downloaded file | sha256 `90d0710134489e08fc26f142c416028d2ee6f3cf049f83c084e772da3ac8d260` (not in the repository) |
+| Compared official text | 1805 characters extracted from that file (method in section 13) |
+| `official_text_sha256` | `7ca3656e2b8e999733da88d3329f772969f667d722dd77c3a9a8c758555ffc88`: SHA-256 of the extracted official text, UTF-8, before normalisation |
+| Our text SHA-256 | `c9ce5d93754c678cdd1f8f3f1f3dd2ffe584e5da085206fbce38976f119091e6` |
+| Normalisation | `ws-markers-softhyphen-v1` (`src/text_normalization.py`) |
+| Identical as stored? | **No** |
+| Match status | **`identical_after_normalisation`**: identical only after normalisation |
+| Differences | None after normalisation |
+| Transformations that changed our text | whitespace and line breaks |
+| Transformations that changed the official text | whitespace and line breaks |
+| EUR-Lex markers (▼ ► ◄) inside the official article | none |
+
+<details><summary>Official text as extracted and compared (click to open)</summary>
+
+```text
+Articolo 34
+Comunicazione di una violazione dei dati personali all'interessato
+1.
+Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.
+2.
+La comunicazione all'interessato di cui al paragrafo 1 del presente articolo descrive con un linguaggio semplice e chiaro la natura della violazione dei dati personali e contiene almeno le informazioni e le misure di cui all'articolo 33, paragrafo 3, lettere b), c) e d).
+3.
+Non è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:
+a)
+il titolare del trattamento ha messo in atto le misure tecniche e organizzative adeguate di protezione e tali misure erano state applicate ai dati personali oggetto della violazione, in particolare quelle destinate a rendere i dati personali incomprensibili a chiunque non sia autorizzato ad accedervi, quali la cifratura;
+b)
+il titolare del trattamento ha successivamente adottato misure atte a scongiurare il sopraggiungere di un rischio elevato per i diritti e le libertà degli interessati di cui al paragrafo 1;
+c)
+detta comunicazione richiederebbe sforzi sproporzionati. In tal caso, si procede invece a una comunicazione pubblica o a una misura simile, tramite la quale gli interessati sono informati con analoga efficacia.
+4.
+Nel caso in cui il titolare del trattamento non abbia ancora comunicato all'interessato la violazione dei dati personali, l'autorità di controllo può richiedere, dopo aver valutato la probabilità che la violazione dei dati personali presenti un rischio elevato, che vi provveda o può decidere che una delle condizioni di cui al paragrafo 3 è soddisfatta.
+```
+
+Source: EUR-Lex consolidated text, Regulation (EU) 2016/679, Italian, CELEX 02016R0679-20160504, https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504. Extracted text; line breaks come from the HTML markup. Not authentic: only the Official Journal is.
+
+</details>
+
+Candidate `official_check` object, computed by `src.provisions.official_check_record` from the two texts above. **It is not a review result.** It belongs in a ledger record only if you verify the comparison and decide to record it. If you extract the official text yourself, the hash will differ: recompute it from your own text.
+
+```json
+{
+  "source_url": "https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504",
+  "source_type": "eurlex_consolidated",
+  "consolidation_date": "2016-05-04",
+  "retrieved_on": "2026-11-08",
+  "official_text_sha256": "7ca3656e2b8e999733da88d3329f772969f667d722dd77c3a9a8c758555ffc88",
+  "normalisation": "ws-markers-softhyphen-v1",
+  "match_status": "identical_after_normalisation",
+  "differences": []
+}
+```
+
+### D. Structural and completeness checks
+
+| Check | Result |
+|---|---|
+| Units in the official text | 1, 2, 3, 3(a), 3(b), 3(c), 4 |
+| Units in the stored text | 1, 2, 3, 3(a), 3(b), 3(c), 4 |
+| Missing / extra units | none / none |
+| Numbering gaps | none |
+| Article heading and title | «Articolo 34» / «Comunicazione di una violazione dei dati personali all'interessato»: the first lines of the stored text are «Articolo 34» and «Comunicazione di una violazione dei dati personali all'interessato» |
+| Inventory `status_marker` | `null` |
+| Inventory `structural_status` | `present` |
+| Repeal or amendment words in the text («abrogat», «soppress», «modificat», «AGGIORNAMENTO») | none |
+| Normattiva amendment markers «((» «))» | none |
+
+**Cross-references**
+
+| Reference (as printed) | Target | In the demonstration closure? | Note |
+|---|---|---|---|
+| «articolo 33, paragrafo 3, lettere b), c) e d)» | Art. 33(3)(b)–(d) | Yes | In 34(2). |
+| «paragrafo 1 del presente articolo» | Art. 34(1) | Yes (internal) | In 34(2). |
+| «paragrafo 1» | Art. 34(1) | Yes (internal) | In 34(3) and 34(3)(b). |
+| «paragrafo 3» | Art. 34(3) | Yes (internal) | In 34(4). |
+
+**Needs human judgment**
+
+- **Page join** between piece 1 (page 52) and piece 2 (page 53), between unit 1 and the next unit. Piece 1 ends «a violazione all'interessato senza ingiustificato ritardo.⏎⏎»; piece 2 starts «2.⏎La comunicazione all'interessato di cui al paragrafo 1 de». Confirm against the PDF that nothing is lost or duplicated there. The running header between them is context.
+- **Blank lines inside sentences** in 3(a), 3(b), 3(c): confirm that they are layout only and that no text is missing at those points.
+
+### E. Review decision worksheet
+
+*To be completed by the human reviewer. Nothing is pre-filled.*
+
+Reviewer (name): ____________________  Review date (YYYY-MM-DD): ____________
+
+| Decision | What to confirm | Decision (tick one) | Notes and corrections |
+|---|---|---|---|
+| 1. Structure | The article starts and ends at the right place, heading and title belong to it, numbering is as printed, and context (running headers, footnotes, next headings) is excluded. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 2. Extraction fidelity | The stored text matches the printed source word for word; the anomalies in B are layout only. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 3. Completeness | Every paragraph and point is present, with nothing truncated or duplicated (D). | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 4. Source status markers | The status markers are recorded as the source prints them (status marker, amendment markers, source status representation). This is not a legal status. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 5. Primary-citation eligibility | Your view of whether the provision should be citable as primary evidence once the review is recorded. The system computes the tier; record any reason against it. | ☐ should become primary ☐ should not become primary |  |
+
+Official-source check: ☐ recorded as computed in C ☐ recorded with my own extraction ☐ not recorded
+
+Ledger outcome to record: ☐ `confirmed` (no change) ☐ `corrected` (list each field, before and after) ☐ no record yet
+
+## 8. GDPR Article 55
+
+**Articolo 55 — Competenza**
+
+Competence of each supervisory authority on the territory of its Member State (the link from Art. 33(1) to the national authority).
+
+### A. Identity
+
+| Field | Value |
+|---|---|
+| Provision ID | `eu-reg-2016-679@oj-l119-2016-it/body/article:55` |
+| Source | Regulation (EU) 2016/679 as originally published in the Official Journal of the European Union, L 119 of 4 May 2016 (Italian). This is the 2016 original publication, not a consolidated text: later corrigenda and amendments are not reflected. File `data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf` (sha256 `8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b`). |
+| Article reference | «Articolo 55», title «Competenza», printed path «CAPO VI > Sezione 2 > Articolo 55», pages 67–67 |
+| Inventory | `data/reference/gdpr_2016_679_it.inventory.json` · inventory `gdpr-2016-679-oj-it` (sha256 `e6fbaba9a996dfd0329501bc636bdaa1d54c52d5a8f21b6264a1247538efd25f`) · entry `gdpr-2016-679-oj-it:art:55` |
+| Build | `build-f76ff6031f2fc82c4852f0a2bde27807` · variant `var-30da24d25055784cba1e38b5475791c1` · segment map `anchors/var-30da24d25055784cba1e38b5475791c1.segments.json` |
+| Structural status | `auto_unreviewed` |
+| Review | `pending_human_review` (checked_by and checked_on empty) |
+| Source status representation | `no_status_representation` |
+| Legal validity | `not_established` |
+| Eligibility (now) | `internal_only`; reasons: `structure_not_reviewed` (Its structure has not been reviewed by a person; it can be inspected but not cited.) |
+| Qualifications | `original_publication_not_consolidated`: Original publication, not a consolidated text: later corrigenda and amendments are not reflected.<br>`authenticity_not_established`: The authenticity of the source file is not established.<br>`legal_validity_not_established`: This system does not establish whether the provision is legally valid or in force. |
+
+Inventory entry, as stored:
+
+```json
+{
+  "entry_id": "gdpr-2016-679-oj-it:art:55",
+  "document_id": "doc-8f7504d289853f57",
+  "ordinal": 55,
+  "kind": "article",
+  "heading_as_printed": "Articolo 55",
+  "label": "55",
+  "title": "Competenza",
+  "status_marker": null,
+  "page_start": 67,
+  "page_end": 67,
+  "parent_id": "gdpr-2016-679-oj-it:capo:VI/sezione:2",
+  "parent_path": "CAPO VI > Sezione 2",
+  "structural_status": "present",
+  "review_status": "pending_human_review",
+  "checked_by": null,
+  "checked_on": null,
+  "source_sha256": "8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b",
+  "notes": []
+}
+```
+
+Article text pieces (the article text is these segments, joined in order):
+
+| Piece | Segment | Kind | Chars | Page | Segment `text_sha256` |
+|---|---|---|---|---|---|
+| 1 | 206 | article | 314231–314889 | 67 | `8d10a5c3289f0c5dbd423d534a5f1b696f07b59cffac248cd33165596c2ee606` |
+
+Neighbours: before is segment 205 (`division_heading`, `chapter:vi/section:2`), after is segment 207 (`article`, `article:56`): «Articolo 56⏎⏎Competenza dell'autorità di controllo capofila⏎⏎1.⏎Fatto …».
+
+Chunks overlapping this provision (from the links file):
+
+| # | Chunk ID | Chunk chars | Pages | This provision (non-space chars) | Other provisions | Context in chunk |
+|---|---|---|---|---|---|---|
+| 370 | `doc-8f7504d289853f57-0370-1927af3b` | 314231–314887 | 67 | 314231–314887 (552) | — | — |
+
+### B. Extracted text
+
+- **Length:** 658 characters in 1 piece(s).
+- **SHA-256** of the exact text (UTF-8, pieces joined in order): `8d10a5c3289f0c5dbd423d534a5f1b696f07b59cffac248cd33165596c2ee606`.
+
+```text
+Articolo 55
+
+Competenza
+
+1.
+Ogni autorità di controllo è competente a eseguire i compiti assegnati e a esercitare i poteri a essa conferiti a 
+norma del presente regolamento nel territorio del rispettivo Stato membro.
+
+2.
+Se il trattamento è effettuato da autorità pubbliche o organismi privati che agiscono sulla base dell'articolo 6, 
+paragrafo 1, lettera c) o e), è competente l'autorità di controllo dello Stato membro interessato. In tal caso, non si 
+applica l'articolo 56.
+
+3.
+Le autorità di controllo non sono competenti per il controllo dei trattamenti effettuati dalle autorità giurisdizionali 
+nell'esercizio delle loro funzioni giurisdizionali.
+```
+
+**Paragraphs and points found** (read from line starts):
+
+| Unit | Starts with |
+|---|---|
+| 1 | Ogni autorità di controllo è competente a eseguire i compiti assegnati e a esercitare i po… |
+| 2 | Se il trattamento è effettuato da autorità pubbliche o organismi privati che agiscono sull… |
+| 3 | Le autorità di controllo non sono competenti per il controllo dei trattamenti effettuati d… |
+
+**Anomalies and suspicious formatting**
+
+None found.
+
+- **Duplicated lines** (longer than 40 characters): none.
+- **Missing text:** none detected. Every paragraph and point of the official text is present, and the comparison in C finds no missing or extra word.
+- **Running headers:** none inside this article.
+- **Whitespace only:** 0 double space(s) and 4 line(s) ending with a space. These do not affect the words.
+
+### C. Official-source comparison
+
+| Item | Value |
+|---|---|
+| Official source | EUR-Lex consolidated text, Regulation (EU) 2016/679, Italian, CELEX 02016R0679-20160504 |
+| URL | https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504 |
+| `source_type` | `eurlex_consolidated` |
+| Consolidation or update date | 2016-05-04. The only consolidated version on EUR-Lex, which lists no amending act (EUR-Lex ALL page, checked in M1). |
+| Retrieved | 2026-11-08 12:28:58 +01:00, by the assistant during M1 (curl; time taken from the file). |
+| Downloaded file | sha256 `90d0710134489e08fc26f142c416028d2ee6f3cf049f83c084e772da3ac8d260` (not in the repository) |
+| Compared official text | 649 characters extracted from that file (method in section 13) |
+| `official_text_sha256` | `c782e12897b6fe7cde260f76ff478177b32c6792290c5588c6767183d8ab1a54`: SHA-256 of the extracted official text, UTF-8, before normalisation |
+| Our text SHA-256 | `8d10a5c3289f0c5dbd423d534a5f1b696f07b59cffac248cd33165596c2ee606` |
+| Normalisation | `ws-markers-softhyphen-v1` (`src/text_normalization.py`) |
+| Identical as stored? | **No** |
+| Match status | **`identical_after_normalisation`**: identical only after normalisation |
+| Differences | None after normalisation |
+| Transformations that changed our text | whitespace and line breaks |
+| Transformations that changed the official text | whitespace and line breaks |
+| EUR-Lex markers (▼ ► ◄) inside the official article | none |
+
+<details><summary>Official text as extracted and compared (click to open)</summary>
+
+```text
+Articolo 55
+Competenza
+1.
+Ogni autorità di controllo è competente a eseguire i compiti assegnati e a esercitare i poteri a essa conferiti a norma del presente regolamento nel territorio del rispettivo Stato membro.
+2.
+Se il trattamento è effettuato da autorità pubbliche o organismi privati che agiscono sulla base dell'articolo 6, paragrafo 1, lettera c) o e), è competente l'autorità di controllo dello Stato membro interessato. In tal caso, non si applica l'articolo 56.
+3.
+Le autorità di controllo non sono competenti per il controllo dei trattamenti effettuati dalle autorità giurisdizionali nell'esercizio delle loro funzioni giurisdizionali.
+```
+
+Source: EUR-Lex consolidated text, Regulation (EU) 2016/679, Italian, CELEX 02016R0679-20160504, https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504. Extracted text; line breaks come from the HTML markup. Not authentic: only the Official Journal is.
+
+</details>
+
+Candidate `official_check` object, computed by `src.provisions.official_check_record` from the two texts above. **It is not a review result.** It belongs in a ledger record only if you verify the comparison and decide to record it. If you extract the official text yourself, the hash will differ: recompute it from your own text.
+
+```json
+{
+  "source_url": "https://eur-lex.europa.eu/legal-content/IT/TXT/HTML/?uri=CELEX:02016R0679-20160504",
+  "source_type": "eurlex_consolidated",
+  "consolidation_date": "2016-05-04",
+  "retrieved_on": "2026-11-08",
+  "official_text_sha256": "c782e12897b6fe7cde260f76ff478177b32c6792290c5588c6767183d8ab1a54",
+  "normalisation": "ws-markers-softhyphen-v1",
+  "match_status": "identical_after_normalisation",
+  "differences": []
+}
+```
+
+### D. Structural and completeness checks
+
+| Check | Result |
+|---|---|
+| Units in the official text | 1, 2, 3 |
+| Units in the stored text | 1, 2, 3 |
+| Missing / extra units | none / none |
+| Numbering gaps | none |
+| Article heading and title | «Articolo 55» / «Competenza»: the first lines of the stored text are «Articolo 55» and «Competenza» |
+| Inventory `status_marker` | `null` |
+| Inventory `structural_status` | `present` |
+| Repeal or amendment words in the text («abrogat», «soppress», «modificat», «AGGIORNAMENTO») | none |
+| Normattiva amendment markers «((» «))» | none |
+
+**Cross-references**
+
+| Reference (as printed) | Target | In the demonstration closure? | Note |
+|---|---|---|---|
+| «articolo 6, paragrafo 1, lettera c) o e)» | GDPR Art. 6(1)(c) or (e) «Liceità del trattamento» | No | In 55(2). |
+| «articolo 56» | GDPR Art. 56 «Competenza dell'autorità di controllo capofila» | No | In 55(2). Excluded from the demonstration: our stored text of Art. 56 differs from the EUR-Lex consolidated text by corrigenda C2 and C3 (M1). |
+| «presente regolamento» | The GDPR itself | — | In 55(1). |
+
+**Needs human judgment**
+
+- **Dependence on Art. 56:** 55(2) refers to Art. 56 (lead supervisory authority), which is outside the demonstration and whose stored text is pre-corrigendum. Decide whether Art. 55 can be cited for the demonstration question without Art. 56.
+
+### E. Review decision worksheet
+
+*To be completed by the human reviewer. Nothing is pre-filled.*
+
+Reviewer (name): ____________________  Review date (YYYY-MM-DD): ____________
+
+| Decision | What to confirm | Decision (tick one) | Notes and corrections |
+|---|---|---|---|
+| 1. Structure | The article starts and ends at the right place, heading and title belong to it, numbering is as printed, and context (running headers, footnotes, next headings) is excluded. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 2. Extraction fidelity | The stored text matches the printed source word for word; the anomalies in B are layout only. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 3. Completeness | Every paragraph and point is present, with nothing truncated or duplicated (D). | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 4. Source status markers | The status markers are recorded as the source prints them (status marker, amendment markers, source status representation). This is not a legal status. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 5. Primary-citation eligibility | Your view of whether the provision should be citable as primary evidence once the review is recorded. The system computes the tier; record any reason against it. | ☐ should become primary ☐ should not become primary |  |
+
+Official-source check: ☐ recorded as computed in C ☐ recorded with my own extraction ☐ not recorded
+
+Ledger outcome to record: ☐ `confirmed` (no change) ☐ `corrected` (list each field, before and after) ☐ no record yet
+
+## 9. Italian Privacy Code Article 2-bis
+
+**Art. 2-bis — (( (Autorità di controllo). ))**
+
+Designates the Garante as the Italian supervisory authority under GDPR Art. 51.
+
+### A. Identity
+
+| Field | Value |
+|---|---|
+| Provision ID | `it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis` |
+| Source | User-provided transcription of the consolidated Personal Data Protection Code (d.lgs. 30 giugno 2003, n. 196), main body only. It is not an official Normattiva document and has not been verified against an official text. File `data/raw/trial-2026-10-10/documents/codice_privacy_dlgs_196_2003.pdf` (sha256 `0d264a29f564b4baec978b1786898c09329e1d4de0d57cfad9673bda9116ffe5`). |
+| Article reference | «Art. 2-bis», title «(( (Autorità di controllo). ))», printed path «PARTE I > TITOLO I > CAPO I > Art. 2-bis», pages 2–2 |
+| Inventory | `data/reference/codice_privacy_dlgs_196_2003.main_body.inventory.json` · inventory `dlgs-196-2003-transcription-main-body` (sha256 `6e4b06ddf1797ea5b2fbf4bd6b59b2338d03894292814e24406f835db598af24`) · entry `dlgs-196-2003-transcription:body:art:2-bis` |
+| Build | `build-f76ff6031f2fc82c4852f0a2bde27807` · variant `var-73eec6712eff509c69f66380241cc2b7` · segment map `anchors/var-73eec6712eff509c69f66380241cc2b7.segments.json` |
+| Structural status | `auto_unreviewed` |
+| Review | `pending_human_review` (checked_by and checked_on empty) |
+| Source status representation | `represented_in_force_at_reference_date` |
+| Legal validity | `not_established` |
+| Eligibility (now) | `internal_only`; reasons: `structure_not_reviewed` (Its structure has not been reviewed by a person; it can be inspected but not cited.) |
+| Qualifications | `unofficial_transcription`: User-provided transcription, not an official text.<br>`reference_date_unverified`: The reference date stated in the source is unverified.<br>`legal_validity_not_established`: This system does not establish whether the provision is legally valid or in force. |
+
+Inventory entry, as stored:
+
+```json
+{
+  "entry_id": "dlgs-196-2003-transcription:body:art:2-bis",
+  "document_id": "doc-0d264a29f564b4ba",
+  "ordinal": 3,
+  "kind": "article",
+  "heading_as_printed": "Art. 2-bis",
+  "label": "2-bis",
+  "title": "(( (Autorità di controllo). ))",
+  "status_marker": null,
+  "page_start": 2,
+  "page_end": 2,
+  "parent_id": "dlgs-196-2003-transcription:body:parte:I/titolo:I/capo:I",
+  "parent_path": "PARTE I > TITOLO I > CAPO I",
+  "structural_status": "present",
+  "review_status": "pending_human_review",
+  "checked_by": null,
+  "checked_on": null,
+  "source_sha256": "0d264a29f564b4baec978b1786898c09329e1d4de0d57cfad9673bda9116ffe5",
+  "notes": []
+}
+```
+
+Article text pieces (the article text is these segments, joined in order):
+
+| Piece | Segment | Kind | Chars | Page | Segment `text_sha256` |
+|---|---|---|---|---|---|
+| 1 | 10 | article | 3948–4178 | 2 | `db01a28beee7de84853c55e51c1bea397620c6f34cbd08cd25900c60f2e6294a` |
+
+Neighbours: before is segment 9 (`article`, `article:2`), after is segment 11 (`division_heading`, `part:i/title:i/chapter:ii`): «(( CAPO II⏎⏎(PRINCIPI) ))⏎⏎».
+
+Chunks overlapping this provision (from the links file):
+
+| # | Chunk ID | Chunk chars | Pages | This provision (non-space chars) | Other provisions | Context in chunk |
+|---|---|---|---|---|---|---|
+| 8 | `doc-0d264a29f564b4ba-0008-bd16fcea` | 3948–4203 | 2 | 3948–4178 (189) | — | division_heading |
+
+### B. Extracted text
+
+- **Length:** 230 characters in 1 piece(s).
+- **SHA-256** of the exact text (UTF-8, pieces joined in order): `db01a28beee7de84853c55e51c1bea397620c6f34cbd08cd25900c60f2e6294a`.
+
+```text
+Art. 2-bis
+
+(( (Autorità di controllo). ))
+
+((
+
+1. L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei
+dati personali, di seguito «Garante», di cui all'articolo 153.
+
+))
+```
+
+**Paragraphs and points found** (read from line starts):
+
+| Unit | Starts with |
+|---|---|
+| 1 | L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante p… |
+
+**Anomalies and suspicious formatting**
+
+None found.
+
+- **Duplicated lines** (longer than 40 characters): none.
+- **Missing text:** none detected. Every paragraph and point of the official text is present, and the comparison in C finds no missing or extra word.
+- **Running headers:** none inside this article.
+- **Whitespace:** no double spaces and no lines ending with a space.
+
+### C. Official-source comparison
+
+| Item | Value |
+|---|---|
+| Official source | Normattiva, d.lgs. 30 giugno 2003, n. 196, Art. 2-bis, text in force |
+| URL | https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-06-30;196~art2bis |
+| `source_type` | `normattiva_vigente` |
+| Consolidation or update date | **Unavailable.** The page's «vigente al» field had no date. The page states «Testo in vigore dal: 19-9-2018» and «ultimo aggiornamento all'atto: 19/02/2026». |
+| Retrieved | 2026-11-08 12:30:57 +01:00, by the assistant during M1 (curl; time taken from the file). |
+| Downloaded file | sha256 `f95c865efdc99dedd1993e993b343d1d31dbc902b72ae6992a5f3d4dcd4435ce` (not in the repository) |
+| Compared official text | 225 characters extracted from that file (method in section 13) |
+| `official_text_sha256` | `73c7c3bd222f87bf114e18e1c8ab1a04f5722ce888104572de4b1c85f8acc988`: SHA-256 of the extracted official text, UTF-8, before normalisation |
+| Our text SHA-256 | `db01a28beee7de84853c55e51c1bea397620c6f34cbd08cd25900c60f2e6294a` |
+| Normalisation | `ws-markers-softhyphen-v1` (`src/text_normalization.py`) |
+| Identical as stored? | **No** |
+| Match status | **`identical_after_normalisation`**: identical only after normalisation |
+| Differences | None after normalisation |
+| Transformations that changed our text | whitespace and line breaks, spacing before punctuation |
+| Transformations that changed the official text | whitespace and line breaks, spacing before punctuation |
+| EUR-Lex markers (▼ ► ◄) inside the official article | not applicable |
+
+<details><summary>Official text as extracted and compared (click to open)</summary>
+
+```text
+Art. 2-bis
+(( (Autorità di controllo). ))
+((
+1.
+L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali, di seguito «Garante», di cui all'articolo 153.
+))
+```
+
+Source: Normattiva, d.lgs. 30 giugno 2003, n. 196, Art. 2-bis, text in force, https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-06-30;196~art2bis. Extracted text; line breaks come from the HTML markup. Non-authentic text, freely available from Normattiva.
+
+</details>
+
+Candidate `official_check` object, computed by `src.provisions.official_check_record` from the two texts above. **It is not a review result.** It belongs in a ledger record only if you verify the comparison and decide to record it. If you extract the official text yourself, the hash will differ: recompute it from your own text.
+
+```json
+{
+  "source_url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-06-30;196~art2bis",
+  "source_type": "normattiva_vigente",
+  "consolidation_date": null,
+  "retrieved_on": "2026-11-08",
+  "official_text_sha256": "73c7c3bd222f87bf114e18e1c8ab1a04f5722ce888104572de4b1c85f8acc988",
+  "normalisation": "ws-markers-softhyphen-v1",
+  "match_status": "identical_after_normalisation",
+  "differences": []
+}
+```
+
+### D. Structural and completeness checks
+
+| Check | Result |
+|---|---|
+| Units in the official text | 1 |
+| Units in the stored text | 1 |
+| Missing / extra units | none / none |
+| Numbering gaps | none |
+| Article heading and title | «Art. 2-bis» / «(( (Autorità di controllo). ))»: the first lines of the stored text are «Art. 2-bis» and «(( (Autorità di controllo). ))» |
+| Inventory `status_marker` | `null` |
+| Inventory `structural_status` | `present` |
+| Repeal or amendment words in the text («abrogat», «soppress», «modificat», «AGGIORNAMENTO») | none |
+| Normattiva amendment markers «((» «))» | 2 opening / 2 closing |
+
+**Cross-references**
+
+| Reference (as printed) | Target | In the demonstration closure? | Note |
+|---|---|---|---|
+| «articolo 51 del regolamento» | GDPR Art. 51 «Autorità di controllo» | No | «regolamento» here means Regulation (EU) 2016/679: Code Art. 1 (same source) defines it as «… regolamento (UE) 2016/679 … di seguito «Regolamento»» (capital R; 2-bis prints it in lower case). |
+| «articolo 153» | Privacy Code Art. 153 «(Garante per la protezione dei dati personali)» | No | Defines the Garante. |
+
+**Needs human judgment**
+
+- **Source:** the stored text is a user-provided transcription, not an official document. It was compared only with Normattiva, which is official but not authentic. The authentic Gazzetta Ufficiale text was not compared (unavailable here).
+- **Amendment markers:** the title and paragraph 1 are entirely inside «((» … «))», Normattiva's marking for text introduced or changed by an amending act. The stored text does not name the amending act. Normattiva states «Testo in vigore dal: 19-9-2018». Decide how this marking should be represented; it is not a repeal marker.
+- **Title:** the inventory title is stored with the markers: «(( (Autorità di controllo). ))». Decide whether this is the right representation.
+- **Reference date:** Normattiva's «vigente al» field had no date. Its page states «ultimo aggiornamento all'atto: 19/02/2026». The transcription's reference date (2026-11-05, in the version ID) is unverified.
+
+### E. Review decision worksheet
+
+*To be completed by the human reviewer. Nothing is pre-filled.*
+
+Reviewer (name): ____________________  Review date (YYYY-MM-DD): ____________
+
+| Decision | What to confirm | Decision (tick one) | Notes and corrections |
+|---|---|---|---|
+| 1. Structure | The article starts and ends at the right place, heading and title belong to it, numbering is as printed, and context (running headers, footnotes, next headings) is excluded. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 2. Extraction fidelity | The stored text matches the printed source word for word; the anomalies in B are layout only. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 3. Completeness | Every paragraph and point is present, with nothing truncated or duplicated (D). | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 4. Source status markers | The status markers are recorded as the source prints them (status marker, amendment markers, source status representation). This is not a legal status. | ☐ confirmed ☐ correction needed ☐ cannot confirm |  |
+| 5. Primary-citation eligibility | Your view of whether the provision should be citable as primary evidence once the review is recorded. The system computes the tier; record any reason against it. | ☐ should become primary ☐ should not become primary |  |
+
+Official-source check: ☐ recorded as computed in C ☐ recorded with my own extraction ☐ not recorded
+
+Ledger outcome to record: ☐ `confirmed` (no change) ☐ `corrected` (list each field, before and after) ☐ no record yet
+
+## 10. Issues that affect several provisions
+
+- **GDPR text is the 2016 original publication**, not a consolidated text. The qualification `original_publication_not_consolidated` stays on every GDPR provision whatever the review says. No corrigendum touches Arts. 4, 33, 34 or 55 (section 3).
+- **GDPR Art. 56 is excluded** from the demonstration: our stored text differs from the consolidated text by corrigenda C2 and C3 (M1). Art. 55(2) refers to it (section 8).
+- **Soft hyphens:** Art. 4 has six and Art. 33 has one. They are stored as printed in the PDF text layer. Retrieval is unaffected, but an exact-quotation check must use the shared normalisation.
+- **Blank lines inside sentences** (Arts. 4, 33, 34): layout from the PDF's hanging indents.
+- **Digital Omnibus:** COM(2025) 837 would amend Art. 33. It was not adopted on 2026-11-08 (M1). This concerns how an answer is worded, not the structural review.
+- **Legal validity** is `not_established` for all five and is not part of this review.
+
+## 11. Missing artifacts and open questions
+
+| Artifact or fact | Status |
+|---|---|
+| Official source files (EUR-Lex HTML, Normattiva HTML) | **Not in the repository.** The only copies are temporary files on the preparing machine (`<scratchpad>/m1/gdpr_consolidated_it.html`, `<scratchpad>/m1/normattiva_2bis.html`), which will not be kept. The texts compared are reproduced in section C, but their hashes cannot be recomputed from this Markdown (rendering may change whitespace). To verify independently, re-download from the URLs in section 3. |
+| Authentic GDPR text (signed electronic Official Journal) | **Unavailable.** Not acquired. Our PDF matches the EUR-Lex PDF, which has no signature. |
+| Authentic Privacy Code text (Gazzetta Ufficiale) | **Unavailable.** Not acquired. The comparison is against Normattiva only. |
+| Normattiva consolidation date | **Unavailable.** The «vigente al» field had no date; `consolidation_date` is `null` in the candidate. |
+| Amending act behind Art. 2-bis's «(( ))» markers | **Unverified.** Not named in the stored text, and not checked in M1. |
+| Who retrieved the official sources | The assistant, during M1 (2026-11-08). If you rely on these retrievals, the ledger record still describes your review. |
+
+## 12. After the review (not part of this package)
+
+This package does not change any file. Recording a review is a separate, deliberate step (`data/reference/README.md`, «Human review»):
+
+1. In the inventory entry, set `review_status` to `reviewed` and fill in `checked_by` and `checked_on`. For a correction, also edit the corrected fields.
+2. Add one record to `data/reference/review_ledger.json`, with the same reviewer and date, outcome `confirmed` or `corrected`, the corrections, and optionally `official_check`.
+
+**Known effects of recording reviews:**
+
+- The recorded build stays usable: review fields do not make anchors stale.
+- Two tests assume an empty ledger and will need updating in the same change:
+  - `test_shipped_files_load_and_the_ledger_is_empty`;
+  - `test_nothing_is_primary_while_the_ledger_is_empty` (319 `internal_only`, 2 `blocked`).
+- The README sentences saying the ledger is empty will need updating too.
+- Whether a new recorded build is wanted after that commit is a policy decision (TECHNICAL_DEBT.md TD-062).
+
+## 13. Appendix: how to re-check this package
+
+Look up a provision in the recorded build (the default build):
+
+```powershell
+.\.venv\Scripts\python.exe -m src.provision_cli lookup gdpr 33 --json
+.\.venv\Scripts\python.exe -m src.provision_cli lookup "codice privacy" 2-bis --json
+```
+
+Recompute the length and SHA-256 of a stored article text (example: Art. 33):
+
+```powershell
+.\.venv\Scripts\python.exe -c "import json,hashlib; m=json.load(open(r'data\processed\builds\build-f76ff6031f2fc82c4852f0a2bde27807\anchors\var-30da24d25055784cba1e38b5475791c1.segments.json',encoding='utf-8')); t=''.join(s['text'] for s in m['segments'] if s['kind']=='article' and s['provision_id']=='eu-reg-2016-679@oj-l119-2016-it/body/article:33'); print(len(t), hashlib.sha256(t.encode('utf-8')).hexdigest())"
+```
+
+Compare with an official text you extracted yourself (this writes nothing):
+
+```python
+from src.provisions import official_check_record
+check = official_check_record(our_text, official_text, source_url=..., source_type=...,
+                              consolidation_date=..., retrieved_on=...)
+```
+
+**How the official texts in section C were extracted** from the downloaded HTML:
+
+1. `<script>` and `<style>` elements were removed.
+2. Every tag was replaced by a line break, and HTML entities were decoded.
+3. Each line was stripped of surrounding whitespace (no-break spaces included), and empty lines were dropped.
+4. The article was cut out:
+   - **EUR-Lex:** from the line `Articolo N` to just before the next `Articolo N`, `CAPO …` or `Sezione N` line;
+   - **Normattiva:** from `Art. 2-bis` to just before the page's «articolo precedente» navigation text.
+
+Step 3 changes only whitespace, but it does change the `official_text_sha256`.
+
+This package was generated by a script outside the repository from the recorded build, the tracked inventories and registry, and the M1 downloads.
