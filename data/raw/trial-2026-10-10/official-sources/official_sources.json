@@ -15,6 +15,7 @@
       "identifier": "CELEX 02016R0679-20160504: Regulation (EU) 2016/679, consolidated text, Italian",
       "consolidation_date": "2016-05-04",
       "authenticity": "Not authentic. EUR-Lex legal notice: 'Only European Union documents published in the Official Journal of the European Union are deemed authentic' (Council Regulation (EU) No 216/2013). The notice does not state the legal value of consolidated versions.",
+      "page_disclaimer": {"text": "Il presente testo è un semplice strumento di documentazione e non produce alcun effetto giuridico. Le istituzioni dell’Unione non assumono alcuna responsabilità per i suoi contenuti. Le versioni facenti fede degli atti pertinenti, compresi i loro preamboli, sono quelle pubblicate nella Gazzetta ufficiale dell’Unione europea e disponibili in EUR-Lex. Tali testi ufficiali sono direttamente accessibili attraverso i link inseriti nel presente documento", "location": "the page's only <p class=\"disclaimer\"> paragraph, at the top of the document, under the reference line '02016R0679 — IT — 04.05.2016 — 000.003' (character offset 1849 of the archived file)", "language": "it"},
       "reuse": "EUR-Lex legal notice: the reuse policy 'is based on Decision 2011/833/EU'; consolidated texts are under CC BY 4.0: 'you can re-use the content provided you acknowledge the source and indicate any changes you have made' (https://eur-lex.europa.eu/content/legal-notice/legal-notice.html, read 2026-11-08).",
       "used_for": ["GDPR Art. 4", "GDPR Art. 33", "GDPR Art. 34", "GDPR Art. 55"]
     },
