@@ -1,8 +1,11 @@
 # Official sources: notice and attribution
 
-This directory holds two web pages from official portals. They were downloaded on 2026-11-08 to compare our corpus text with official texts during the M1 human review. They are kept exactly as downloaded: not edited, not reformatted, with no line-ending conversion.
+This directory holds documents from official portals, kept exactly as downloaded: not edited, not reformatted, with no line-ending conversion. Their full provenance (hashes, sizes, how the article texts are extracted) is in [official_sources.json](official_sources.json).
 
-**Neither file is an authentic text.** Neither is a legal opinion, and neither establishes that any provision is valid or in force. Their full provenance (hashes, sizes, how the article texts are extracted) is in [official_sources.json](official_sources.json).
+- **Two web pages**, downloaded on 2026-11-08 to compare our corpus text with official texts during the M1 human review. **Neither is an authentic text.**
+- **Three complete Gazzetta Ufficiale issues**, downloaded on 2026-11-09 as provenance evidence for Privacy Code Art. 2-bis. **Their authenticity has not been verified** (see the last section).
+
+None of these files is a legal opinion. None establishes that any provision is legally valid, in force, or applicable at any date.
 
 ## `gdpr_consolidated_it.html`: EUR-Lex
 
@@ -39,3 +42,24 @@ Normattiva's legal notes (saved copy: `data/raw/trial-2026-10-10/source-pages/no
 **Changes:**
 - The file itself: none.
 - Texts derived from it: as for the EUR-Lex file above.
+
+## Gazzetta Ufficiale issues: D.Lgs. 101/2018 and its two corrigenda
+
+These are three complete online issues of the Gazzetta Ufficiale della Repubblica Italiana, Serie Generale. They were downloaded on 2026-11-09 from www.gazzettaufficiale.it.
+
+| File | Issue | Content | Downloaded from | SHA-256 |
+|---|---|---|---|---|
+| `gu_sg_2018-09-04_n205_dlgs_101_2018.pdf` | n. 205, 4 September 2018 | D.Lgs. 10 agosto 2018, n. 101 (18G00129). Its art. 2, comma 1, lettera e), on page 2, inserts Art. 2-bis into the Privacy Code. | https://www.gazzettaufficiale.it/eli/gu/2018/09/04/205/sg/pdf | `baa9b2eeea6f97591a0927a44ee0f2df5265466d56e471cb2f08010ba1213e97` |
+| `gu_sg_2018-09-12_n212_errata_corrige_18A05889.pdf` | n. 212, 12 September 2018 | ERRATA-CORRIGE for D.Lgs. 101/2018 (18A05889, page 25). It concerns Privacy Code art. 166, not Art. 2-bis. | https://www.gazzettaufficiale.it/eli/gu/2018/09/12/212/sg/pdf | `1c2757c6e7a80a13156b94cdf040f1af353148fe92bb9f93c05c57f7e4d3adf9` |
+| `gu_sg_2018-09-27_n225_avviso_rettifica_18A06204.pdf` | n. 225, 27 September 2018 | AVVISO DI RETTIFICA for D.Lgs. 101/2018 (18A06204, page 28). It concerns Privacy Code art. 130 and art. 166, not Art. 2-bis. | https://www.gazzettaufficiale.it/eli/gu/2018/09/27/225/sg/pdf | `1a676f49520d06cd4c93f56c648e69ddba78768f74c4237e3888be34ff5e7593` |
+
+**Authenticity: not verified.**
+- **What the site describes:** the Gazzetta website states that, since 2 January 2009, the authenticity of its online edition is attested by a process using a digital stamp («timbro digitale», a two-dimensional code on each page) and a digital signature («firma digitale»). It also states that an IPZS application verifies the stamp, both offline and against the copy held on the IPZS servers. The exact statements are quoted in `official_sources.json`, under `authenticity_verification`.
+- **What was observed:** pages 1 and 6 of the D.Lgs. 101/2018 issue carry such two-dimensional codes. The files contain no embedded PDF digital signature.
+- **What was not done:** **the IPZS verification application was not run.** The authenticity of these downloaded copies has therefore not been independently verified.
+
+**Why they are archived:** as provenance evidence for the wording of Art. 2-bis as introduced in 2018, and for the corrigenda check. They are not archived as a claim that any provision is legally valid, in force, or applicable at a particular date. Later amendments are outside these documents.
+
+**Reuse:** the reuse terms of www.gazzettaufficiale.it were not examined during this acquisition.
+
+**Changes:** none. The files are as downloaded.

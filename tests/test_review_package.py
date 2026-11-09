@@ -1,7 +1,8 @@
 """Official-source verification for the M1 review package (tools/review_package).
 
-Checks the two archived official HTML files against their recorded SHA-256, and the
-five official texts extracted from them against their expected official_text_sha256.
+Checks the archived official files (two HTML pages and three Gazzetta Ufficiale issues)
+against their recorded SHA-256, and the five official texts extracted from the HTML
+pages against their expected official_text_sha256.
 The expected values are written here, independently of official_sources.json, so that
 changing the provenance record alone cannot make the test pass. The tests skip, saying
 so, only when the archived sources are not present. A mismatch fails. The archive
@@ -27,6 +28,12 @@ from tools.review_package.official_texts import (
 EXPECTED_FILES = {
     "gdpr_consolidated_it.html": "90d0710134489e08fc26f142c416028d2ee6f3cf049f83c084e772da3ac8d260",
     "normattiva_2bis.html": "f95c865efdc99dedd1993e993b343d1d31dbc902b72ae6992a5f3d4dcd4435ce",
+    "gu_sg_2018-09-04_n205_dlgs_101_2018.pdf":
+        "baa9b2eeea6f97591a0927a44ee0f2df5265466d56e471cb2f08010ba1213e97",
+    "gu_sg_2018-09-12_n212_errata_corrige_18A05889.pdf":
+        "1c2757c6e7a80a13156b94cdf040f1af353148fe92bb9f93c05c57f7e4d3adf9",
+    "gu_sg_2018-09-27_n225_avviso_rettifica_18A06204.pdf":
+        "1a676f49520d06cd4c93f56c648e69ddba78768f74c4237e3888be34ff5e7593",
 }
 EXPECTED_TEXTS = {  # label: (characters, official_text_sha256)
     "4": (9707, "2053253a4edb5c7693a4dcb39c87ba8018858cb9148745ed625a852f414a394b"),

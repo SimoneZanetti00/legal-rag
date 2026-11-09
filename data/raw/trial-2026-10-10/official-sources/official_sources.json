@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "description": "Provenance of the official sources used for the M1 official-text comparison (docs/reviews/m1-human-review-package.md). The original files in this directory are kept byte for byte, unmodified (no line-ending conversion: see .gitattributes). Everything under 'derived' is computed from them by the review-package tooling and is not stored as a file. Attribution and reuse conditions: NOTICE.md.",
+  "description": "Provenance of the official sources used for the M1 official-text comparison (docs/reviews/m1-human-review-package.md). The original files in this directory are kept byte for byte, unmodified (no line-ending conversion: see .gitattributes). The three Gazzetta Ufficiale issues are archived as provenance evidence for Privacy Code Art. 2-bis (the introducing act and its two corrigenda); their authenticity has not been verified. Everything under 'derived' is computed from them by the review-package tooling and is not stored as a file. Attribution and reuse conditions: NOTICE.md.",
   "archive_dir": "data/raw/trial-2026-10-10/official-sources",
   "original_files": [
     {
@@ -34,6 +34,148 @@
       "authenticity": "Not authentic. Normattiva legal notes: 'I testi presenti nella banca dati \"Normattiva\" non hanno carattere di ufficialità. L'unico testo ufficiale e definitivo è quello pubblicato sulla Gazzetta Ufficiale Italiana a mezzo stampa, che prevale in casi di discordanza.'",
       "reuse": "Normattiva legal notes: 'La riproduzione dei testi forniti nel formato elettronico è consentita purchè venga menzionata la fonte, il carattere non autentico e gratuito.' (saved copy: data/raw/trial-2026-10-10/source-pages/normattiva_note_legali.html).",
       "used_for": ["Privacy Code Art. 2-bis"]
+    },
+    {
+      "file": "gu_sg_2018-09-04_n205_dlgs_101_2018.pdf",
+      "url": "https://www.gazzettaufficiale.it/eli/gu/2018/09/04/205/sg/pdf",
+      "retrieved_at": "2026-11-09T18:35:42+01:00",
+      "retrieved_at_basis": "modification time of the downloaded file, i.e. when the download finished (request logged at 2026-11-09T18:35:37+01:00)",
+      "retrieved_by": "AI assistant (Claude Code) on 2026-11-09, with curl -sS -L and User-Agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) research-check'",
+      "original_filename": "20180904_205.pdf",
+      "original_filename_basis": "Content-Disposition header of the server response",
+      "sha256": "baa9b2eeea6f97591a0927a44ee0f2df5265466d56e471cb2f08010ba1213e97",
+      "size_bytes": 3994687,
+      "format": "application/pdf (PDF 1.4, 136 pages)",
+      "source_type": "gu_serie_generale",
+      "issuing_institution": "Gazzetta Ufficiale della Repubblica Italiana. The Gazzetta website states that it «è edita dall’Istituto Poligrafico e Zecca dello Stato e pubblicata in collaborazione con il Ministero della Giustizia, il quale provvede alla direzione e redazione della stessa.»",
+      "identifier": "Gazzetta Ufficiale della Repubblica Italiana, Serie Generale n. 205 of 4 September 2018, complete issue",
+      "publication": {
+        "series": "Serie Generale",
+        "number": 205,
+        "date": "2018-09-04"
+      },
+      "completeness": "Complete issue, from the cover to the closing page.",
+      "consolidation_date": null,
+      "consolidation_date_note": "Not applicable: an original publication, not a consolidated text.",
+      "role": "main_act",
+      "act": {
+        "title_as_published": "DECRETO LEGISLATIVO 10 agosto 2018, n. 101 Disposizioni per l'adeguamento della normativa nazionale alle disposizioni del regolamento (UE) 2016/679 del Parlamento europeo e del Consiglio, del 27 aprile 2016, relativo alla protezione delle persone fisiche con riguardo al trattamento dei dati personali, nonche' alla libera circolazione di tali dati e che abroga la direttiva 95/46/CE (regolamento generale sulla protezione dei dati). (18G00129) (GU Serie Generale n.205 del 04-09-2018)",
+        "editorial_code": "18G00129",
+        "entry_into_force": "2018-09-19",
+        "act_page_url": "https://www.gazzettaufficiale.it/eli/id/2018/09/04/18G00129/sg",
+        "identity_basis": "The act page and the issue's cover and contents (Anno 159°, Numero 205, Martedì 4 settembre 2018; D.Lgs. 101/2018 at Pag. 1) were checked on 2026-11-09."
+      },
+      "relevant_provisions": [
+        "Art. 2, comma 1, lettera e) of D.Lgs. 101/2018 (printed page 2, PDF page 6, left column) inserts Art. 2-bis into D.Lgs. 30 giugno 2003, n. 196."
+      ],
+      "authenticity": "Not verified for this downloaded copy. The Gazzetta website describes a digital stamp and a digital signature attesting the authenticity of its online edition (see authenticity_verification); that verification was not performed.",
+      "authenticity_verification": {
+        "status": "not_verified",
+        "site_statement": [
+          "La Gazzetta Ufficiale telematica, distribuita in formato elettronico attraverso il sito www.gazzettaufficiale.it, a partire dal 2 gennaio 2009 ottempera alla disposizione legislativa indicata attraverso un complesso processo informatico che, avvalendosi anche di strumenti concettualmente avanzati quali \"timbro\" e \"firma digitale\", ne attesta l'autenticità.",
+          "Il \"timbro digitale\" apposto su ogni pagina della pubblicazione consente di garantire il processo produttivo della Gazzetta Ufficiale da parte dell'Istituto Poligrafico e Zecca dello Stato.",
+          "La \"firma digitale\", apposta dal responsabile del relativo processo di pubblicazione, assicura la conformità del contenuto della Gazzetta Ufficiale in versione digitale ovvero che l'oggetto della sottoscrizione non ha subito alcuna alterazione rispetto alla versione cartacea.",
+          "L'applicativo predisposto per la lettura del \"timbro digitale\", rappresentato da un codice grafico bidimensionale apposto su ciascuna pagina della Gazzetta Ufficiale, consente di verificare l'autenticità del documento"
+        ],
+        "observed_in_this_copy": "Every page (136 of 136) carries four two-dimensional graphic codes in the bottom margin (detected programmatically; pages 1 and 6 also inspected visually), consistent with the 'timbro digitale' the site describes. The PDF contains no embedded digital signature (no signature fields, no /ByteRange).",
+        "not_done": "The IPZS verification application was not run, so neither the digital stamp nor the correspondence with the copy held on the IPZS servers has been checked."
+      },
+      "reuse": "Not reviewed: the reuse terms of www.gazzettaufficiale.it were not examined during this acquisition.",
+      "used_for": [
+        "Privacy Code Art. 2-bis: text as introduced in 2018"
+      ]
+    },
+    {
+      "file": "gu_sg_2018-09-12_n212_errata_corrige_18A05889.pdf",
+      "url": "https://www.gazzettaufficiale.it/eli/gu/2018/09/12/212/sg/pdf",
+      "retrieved_at": "2026-11-09T18:37:17+01:00",
+      "retrieved_at_basis": "modification time of the downloaded file, i.e. when the download finished (request logged at 2026-11-09T18:37:14+01:00)",
+      "retrieved_by": "AI assistant (Claude Code) on 2026-11-09, with curl -sS -L and User-Agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) research-check'",
+      "original_filename": "20180912_212.pdf",
+      "original_filename_basis": "Content-Disposition header of the server response",
+      "sha256": "1c2757c6e7a80a13156b94cdf040f1af353148fe92bb9f93c05c57f7e4d3adf9",
+      "size_bytes": 2213347,
+      "format": "application/pdf (PDF 1.4, 32 pages)",
+      "source_type": "gu_serie_generale",
+      "issuing_institution": "Gazzetta Ufficiale della Repubblica Italiana. The Gazzetta website states that it «è edita dall’Istituto Poligrafico e Zecca dello Stato e pubblicata in collaborazione con il Ministero della Giustizia, il quale provvede alla direzione e redazione della stessa.»",
+      "identifier": "Gazzetta Ufficiale della Repubblica Italiana, Serie Generale n. 212 of 12 September 2018, complete issue",
+      "publication": {
+        "series": "Serie Generale",
+        "number": 212,
+        "date": "2018-09-12"
+      },
+      "completeness": "Complete issue, from the cover to the closing page.",
+      "consolidation_date": null,
+      "consolidation_date_note": "Not applicable: an original publication, not a consolidated text.",
+      "role": "corrigendum",
+      "corrects": {
+        "act": "D.Lgs. 10 agosto 2018, n. 101 (18G00129), GU Serie Generale n. 205 of 2018-09-04",
+        "notice": "ERRATA-CORRIGE, editorial code 18A05889, printed page 25",
+        "content_summary": "Corrects internal cross-references in the new text of Privacy Code art. 166 (commi 4, 5, 6, 7 and 9) as printed on page 19 of GU n. 205.",
+        "affects_privacy_code_art_2_bis": false
+      },
+      "authenticity": "Not verified for this downloaded copy. The Gazzetta website describes a digital stamp and a digital signature attesting the authenticity of its online edition (see authenticity_verification); that verification was not performed.",
+      "authenticity_verification": {
+        "status": "not_verified",
+        "site_statement": [
+          "La Gazzetta Ufficiale telematica, distribuita in formato elettronico attraverso il sito www.gazzettaufficiale.it, a partire dal 2 gennaio 2009 ottempera alla disposizione legislativa indicata attraverso un complesso processo informatico che, avvalendosi anche di strumenti concettualmente avanzati quali \"timbro\" e \"firma digitale\", ne attesta l'autenticità.",
+          "Il \"timbro digitale\" apposto su ogni pagina della pubblicazione consente di garantire il processo produttivo della Gazzetta Ufficiale da parte dell'Istituto Poligrafico e Zecca dello Stato.",
+          "La \"firma digitale\", apposta dal responsabile del relativo processo di pubblicazione, assicura la conformità del contenuto della Gazzetta Ufficiale in versione digitale ovvero che l'oggetto della sottoscrizione non ha subito alcuna alterazione rispetto alla versione cartacea.",
+          "L'applicativo predisposto per la lettura del \"timbro digitale\", rappresentato da un codice grafico bidimensionale apposto su ciascuna pagina della Gazzetta Ufficiale, consente di verificare l'autenticità del documento"
+        ],
+        "observed_in_this_copy": "Every page (32 of 32) carries four two-dimensional graphic codes in the bottom margin (detected programmatically), consistent with the 'timbro digitale' the site describes. The PDF contains no embedded digital signature (no signature fields, no /ByteRange).",
+        "not_done": "The IPZS verification application was not run, so neither the digital stamp nor the correspondence with the copy held on the IPZS servers has been checked."
+      },
+      "reuse": "Not reviewed: the reuse terms of www.gazzettaufficiale.it were not examined during this acquisition.",
+      "used_for": [
+        "Corrigendum check for D.Lgs. 101/2018"
+      ]
+    },
+    {
+      "file": "gu_sg_2018-09-27_n225_avviso_rettifica_18A06204.pdf",
+      "url": "https://www.gazzettaufficiale.it/eli/gu/2018/09/27/225/sg/pdf",
+      "retrieved_at": "2026-11-09T18:37:17+01:00",
+      "retrieved_at_basis": "modification time of the downloaded file, i.e. when the download finished (request logged at 2026-11-09T18:37:17+01:00)",
+      "retrieved_by": "AI assistant (Claude Code) on 2026-11-09, with curl -sS -L and User-Agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) research-check'",
+      "original_filename": "20180927_225.pdf",
+      "original_filename_basis": "Content-Disposition header of the server response",
+      "sha256": "1a676f49520d06cd4c93f56c648e69ddba78768f74c4237e3888be34ff5e7593",
+      "size_bytes": 2057802,
+      "format": "application/pdf (PDF 1.4, 32 pages)",
+      "source_type": "gu_serie_generale",
+      "issuing_institution": "Gazzetta Ufficiale della Repubblica Italiana. The Gazzetta website states that it «è edita dall’Istituto Poligrafico e Zecca dello Stato e pubblicata in collaborazione con il Ministero della Giustizia, il quale provvede alla direzione e redazione della stessa.»",
+      "identifier": "Gazzetta Ufficiale della Repubblica Italiana, Serie Generale n. 225 of 27 September 2018, complete issue",
+      "publication": {
+        "series": "Serie Generale",
+        "number": 225,
+        "date": "2018-09-27"
+      },
+      "completeness": "Complete issue, from the cover to the closing page.",
+      "consolidation_date": null,
+      "consolidation_date_note": "Not applicable: an original publication, not a consolidated text.",
+      "role": "corrigendum",
+      "corrects": {
+        "act": "D.Lgs. 10 agosto 2018, n. 101 (18G00129), GU Serie Generale n. 205 of 2018-09-04",
+        "notice": "AVVISO DI RETTIFICA, editorial code 18A06204, printed page 28",
+        "content_summary": "Renumbers points 6) and 7) as 5) and 6) in the new text of Privacy Code art. 130 (art. 11, comma 1, lettera g), page 13 of GU n. 205), and replaces '2-septies, comma 7' with 'comma 8' in Privacy Code art. 166, comma 2 (art. 15, comma 1, lettera a), page 19).",
+        "affects_privacy_code_art_2_bis": false
+      },
+      "authenticity": "Not verified for this downloaded copy. The Gazzetta website describes a digital stamp and a digital signature attesting the authenticity of its online edition (see authenticity_verification); that verification was not performed.",
+      "authenticity_verification": {
+        "status": "not_verified",
+        "site_statement": [
+          "La Gazzetta Ufficiale telematica, distribuita in formato elettronico attraverso il sito www.gazzettaufficiale.it, a partire dal 2 gennaio 2009 ottempera alla disposizione legislativa indicata attraverso un complesso processo informatico che, avvalendosi anche di strumenti concettualmente avanzati quali \"timbro\" e \"firma digitale\", ne attesta l'autenticità.",
+          "Il \"timbro digitale\" apposto su ogni pagina della pubblicazione consente di garantire il processo produttivo della Gazzetta Ufficiale da parte dell'Istituto Poligrafico e Zecca dello Stato.",
+          "La \"firma digitale\", apposta dal responsabile del relativo processo di pubblicazione, assicura la conformità del contenuto della Gazzetta Ufficiale in versione digitale ovvero che l'oggetto della sottoscrizione non ha subito alcuna alterazione rispetto alla versione cartacea.",
+          "L'applicativo predisposto per la lettura del \"timbro digitale\", rappresentato da un codice grafico bidimensionale apposto su ciascuna pagina della Gazzetta Ufficiale, consente di verificare l'autenticità del documento"
+        ],
+        "observed_in_this_copy": "Every page (32 of 32) carries four two-dimensional graphic codes in the bottom margin (detected programmatically), consistent with the 'timbro digitale' the site describes. The PDF contains no embedded digital signature (no signature fields, no /ByteRange).",
+        "not_done": "The IPZS verification application was not run, so neither the digital stamp nor the correspondence with the copy held on the IPZS servers has been checked."
+      },
+      "reuse": "Not reviewed: the reuse terms of www.gazzettaufficiale.it were not examined during this acquisition.",
+      "used_for": [
+        "Corrigendum check for D.Lgs. 101/2018"
+      ]
     }
   ],
   "related_download_not_archived": {

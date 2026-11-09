@@ -119,6 +119,7 @@ Entries with `uncertain`, `ambiguous` or `duplicate_label`, and every `expected_
     |---|---|
     | `oj_original`, `oj_corrigendum`, `eurlex_consolidated` | `eur-lex.europa.eu` |
     | `normattiva_vigente` | `www.normattiva.it` |
+    | `gu_serie_generale` (a Gazzetta Ufficiale, Serie Generale issue) | `www.gazzettaufficiale.it` |
 
   - `consolidation_date`: the date the source is consolidated or updated to, as `YYYY-MM-DD`, or `null` when the source states none. It is required for `eurlex_consolidated`.
   - Dates must be in order: `consolidation_date` ≤ `retrieved_on` ≤ `checked_on`.
@@ -131,7 +132,7 @@ Entries with `uncertain`, `ambiguous` or `duplicate_label`, and every `expected_
   - `differences`: one `{"ours", "official"}` pair per place where the words differ, listed exactly when `match_status` is `differs`. Each pair must still differ after normalisation.
   - `src.provisions.official_check_record(our_text, official_text, ...)` computes the hash, the status and the differences and validates the object. It writes nothing.
   - **Effect:** `differs` keeps the provision out of primary citations (reason `official_text_differs`), even when the structural review confirmed it. A match changes nothing else: it does not make a text authentic and does not establish legal validity, which stays `not_established`. Like the rest of the review, the check does not make anchors stale.
-  - **Authenticity:** only the Official Journal and the Gazzetta Ufficiale are authentic. EUR-Lex consolidated texts and Normattiva are official but not authentic.
+  - **Authenticity:** only the Official Journal and the Gazzetta Ufficiale are authentic. EUR-Lex consolidated texts and Normattiva are official but not authentic. A downloaded copy of the Journal or the Gazzetta is not shown to be authentic until it is verified. The archived Gazzetta issues have not been verified (`data/raw/trial-2026-10-10/official-sources/NOTICE.md`).
 
 The validator, `src.reference_inventory.validate_inventory`, rejects:
 - a `reviewed` entry without `checked_by`, or without a `checked_on` that is a real `YYYY-MM-DD` date not in the future;

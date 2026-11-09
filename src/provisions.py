@@ -117,12 +117,13 @@ CORRECTABLE_FIELDS = (
 # Official sources a review may compare a provision with, and the only host each may
 # be retrieved from (over HTTPS). Being official does not make a text authentic: only
 # the Official Journal and the Gazzetta Ufficiale are; consolidated texts and Normattiva
-# are documentation.
+# are not. A downloaded copy of either is not shown to be authentic until verified.
 OFFICIAL_SOURCE_HOSTS = {
     "oj_original": "eur-lex.europa.eu",  # Official Journal publication, as on EUR-Lex
     "oj_corrigendum": "eur-lex.europa.eu",
     "eurlex_consolidated": "eur-lex.europa.eu",  # EUR-Lex consolidated version
     "normattiva_vigente": "www.normattiva.it",  # Normattiva, text in force
+    "gu_serie_generale": "www.gazzettaufficiale.it",  # Gazzetta Ufficiale, Serie Generale issue
 }
 OFFICIAL_CHECK_KEYS = frozenset({
     "source_url", "source_type", "consolidation_date", "retrieved_on", "official_text_sha256",

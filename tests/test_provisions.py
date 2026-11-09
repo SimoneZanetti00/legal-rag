@@ -501,6 +501,8 @@ def test_the_official_text_differs_reason_is_documented():
      "source_url": NORMATTIVA_URL},
     {"source_type": "normattiva_vigente", "consolidation_date": "2026-02-19",
      "source_url": NORMATTIVA_URL},
+    {"source_type": "gu_serie_generale", "consolidation_date": None,
+     "source_url": "https://www.gazzettaufficiale.it/eli/gu/2018/09/04/205/sg/pdf"},
     {"retrieved_on": "2016-05-04"},  # same day as the consolidation
 ])
 def test_valid_official_checks(changes):
@@ -524,6 +526,9 @@ def test_valid_official_checks(changes):
     ({"source_url": "https://EUR-LEX.europa.eu/x"}, "must be https://eur-lex"),
     ({"source_url": NORMATTIVA_URL}, "must be https://eur-lex.europa.eu/"),
     ({"source_type": "normattiva_vigente"}, "must be https://www.normattiva.it/"),
+    ({"source_type": "gu_serie_generale"}, "must be https://www.gazzettaufficiale.it/"),
+    ({"source_type": "gu_serie_generale", "source_url": NORMATTIVA_URL},
+     "must be https://www.gazzettaufficiale.it/"),
     ({"source_url": "https://eur-lex.europa.eu/x y"}, "source_url"),
     ({"source_url": ""}, "source_url"),
     ({"source_url": 42}, "source_url"),
