@@ -8,10 +8,13 @@ an AnswerResult with one of three outcomes:
   part) or a claim was removed;
 - abstain: no claim survived, or the question cannot be answered from citable evidence.
 
-The application, not the model, decides the outcome. It abstains before any LLM call when the
-question is out of scope or needs clarification, and when there is no evidence or no citable
-evidence. Only citable items (tier "primary") are sent to the model. The other items are
-reported apart, as non-authoritative references, and never as citations.
+The application, not the model, decides the outcome. answer_question() first checks the corpus:
+if the build has no citable article at all, it abstains before any LLM call, so the question
+is never sent to a provider (corpus_preflight). After the analysis, generate_answer() abstains
+before the generation call when the question is out of scope or needs clarification, and when
+the assembled evidence is empty or has no citable item. Only citable items (tier "primary")
+are sent to the model. The other items are reported apart, as non-authoritative references,
+and never as citations.
 
 Every claim the model returns is checked in code (validate_claims):
 1. each issue ID it names exists in the analysis;
@@ -43,8 +46,10 @@ No semantic verification is done yet, so every claim keeps VerificationStatus.NO
 
 from __future__ import annotations
 
+import dataclasses
 import json
 import re
+from collections import Counter
 from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 from enum import StrEnum
@@ -62,12 +67,20 @@ from src.llm import (
 )
 from src.models import VerificationStatus
 from src.provision_explorer import ProvisionExplorer
-from src.query_analysis import CORPUS_INSTRUMENTS, QueryAnalysis, analyze, store_checker
+from src.query_analysis import (
+    CORPUS_INSTRUMENTS,
+    QueryAnalysis,
+    analyze,
+    check_question,
+    store_checker,
+)
 from src.text_normalization import PROFILE as QUOTE_PROFILE
 from src.text_normalization import normalise
 
 TASK = "answer_generation"
-PROMPT_VERSION = "answer-generation-v1"
+# v2: the evidence `source` label describes the Privacy Code as a user transcription
+# (query_analysis.CORPUS_INSTRUMENTS); the system prompt is unchanged.
+PROMPT_VERSION = "answer-generation-v2"
 
 MAX_CLAIMS = 12
 MAX_SUPPORT = 4  # quotations per claim
@@ -209,6 +222,21 @@ class GenerationProvenance:
 
 
 @dataclass(frozen=True)
+class CorpusPreflight:
+    """The corpus check made before any LLM call: can anything in this build be cited?"""
+
+    build_id: str
+    # (tier, number of article provisions), sorted by tier; a tuple so the result stays
+    # hashable. to_dict() shows it as {tier: count}.
+    article_tiers: tuple[tuple[str, int], ...]
+    citable_articles: int  # articles in the "primary" tier
+
+    @property
+    def passed(self) -> bool:
+        return self.citable_articles > 0
+
+
+@dataclass(frozen=True)
 class AnswerResult:
     question: str
     outcome: Outcome
@@ -226,12 +254,15 @@ class AnswerResult:
     analysis: QueryAnalysis | None
     evidence: EvidenceSet | None
     generation: GenerationProvenance | None
+    preflight: CorpusPreflight | None = None  # set by answer_question()
 
     def to_dict(self) -> dict[str, Any]:
         """Plain JSON-compatible data."""
         data = asdict(self)
         for claim, raw in zip(self.claims, data["claims"]):
             raw["evidence_ids"] = list(claim.evidence_ids)
+        if self.preflight is not None:
+            data["preflight"]["article_tiers"] = dict(self.preflight.article_tiers)
         data["analysis"] = self.analysis.to_dict() if self.analysis else None
         data["evidence"] = self.evidence.to_dict() if self.evidence else None
         return json.loads(json.dumps(data, ensure_ascii=False))
@@ -361,22 +392,48 @@ def answer_question(question: str, llm: LLMClient, explorer: ProvisionExplorer, 
                     settings: Settings | None = None) -> AnswerResult:
     """Analyse the question, assemble its evidence and generate a validated answer.
 
-    The analysis and generation run on `llm`; evidence limits come from `settings`
-    (FINAL_EVIDENCE_COUNT, CONTEXT_TOKEN_BUDGET). Provider and configuration errors
-    (llm.LLMTransportError, llm.LLMConfigError) propagate; an analysis that cannot be obtained
-    becomes an abstention.
+    In order, with no LLM call before step 3:
+    1. the question is checked (query_analysis.QueryAnalysisError if empty or too long);
+    2. corpus preflight: if no article of the build may be cited, the result is an abstention
+       (no_citable_evidence) and nothing is sent to any provider;
+    3. analysis, evidence assembly and generation (generate_answer), as before.
+    Every result carries the preflight. The analysis and generation run on `llm`; evidence
+    limits come from `settings` (FINAL_EVIDENCE_COUNT, CONTEXT_TOKEN_BUDGET). Provider and
+    configuration errors (llm.LLMTransportError, llm.LLMConfigError) propagate; an analysis
+    that cannot be obtained becomes an abstention.
     """
+    question = check_question(question)
+    preflight = corpus_preflight(explorer)
+    if not preflight.passed:
+        tiers = ", ".join(f"{count} {tier}" for tier, count in preflight.article_tiers)
+        return _abstain(question, NO_CITABLE_EVIDENCE,
+                        f"No article in build {preflight.build_id} may be cited ({tiers}); an "
+                        "answer needs provisions whose text has passed human review. The "
+                        "question was not sent to any model.", preflight=preflight)
     try:
         analysis = analyze(question, llm, provision_exists=store_checker(explorer.store))
     except LLMRefusalError as exc:
-        return _abstain(question.strip(), MODEL_REFUSED, _refusal_message(exc, "query analysis"))
+        return _abstain(question, MODEL_REFUSED, _refusal_message(exc, "query analysis"),
+                        preflight=preflight)
     except LLMOutputError as exc:
-        return _abstain(question.strip(), ANALYSIS_FAILED,
-                        _failure_message("The question could not be analysed", exc))
+        return _abstain(question, ANALYSIS_FAILED,
+                        _failure_message("The question could not be analysed", exc),
+                        preflight=preflight)
     evidence = None
     if analysis.in_scope and not analysis.needs_clarification:
         evidence = assemble(analysis.to_evidence_request(), explorer, settings=settings)
-    return generate_answer(question, analysis, evidence, llm)
+    return dataclasses.replace(generate_answer(question, analysis, evidence, llm),
+                               preflight=preflight)
+
+
+def corpus_preflight(explorer: ProvisionExplorer) -> CorpusPreflight:
+    """How many articles of the build may be cited, from their eligibility as the explorer
+    computes it. Deterministic, and makes no LLM call."""
+    tiers = Counter(explorer.provision_view(p)["eligibility"]["tier"]
+                    for p in explorer.store if p.is_article)
+    return CorpusPreflight(build_id=explorer.identity()["build_id"],
+                           article_tiers=tuple(sorted(tiers.items())),
+                           citable_articles=tiers.get("primary", 0))
 
 
 def generate_answer(question: str, analysis: QueryAnalysis, evidence: EvidenceSet | None,
@@ -496,7 +553,8 @@ def _abstain(question: str, reason: str, detail: str, *,
              analysis: QueryAnalysis | None = None, evidence: EvidenceSet | None = None,
              generation: GenerationProvenance | None = None,
              rejected: Iterable[RejectedClaim] = (), unanswered: Iterable[UnansweredIssue] = (),
-             model_notes: tuple[str, ...] = (), warnings: Iterable[str] = ()) -> AnswerResult:
+             model_notes: tuple[str, ...] = (), warnings: Iterable[str] = (),
+             preflight: CorpusPreflight | None = None) -> AnswerResult:
     """`detail` is always application text: never a reason written by a model."""
     return AnswerResult(
         question=question, outcome=Outcome.ABSTAIN, abstention_reason=reason,
@@ -506,7 +564,7 @@ def _abstain(question: str, reason: str, detail: str, *,
         model_notes=model_notes,
         qualifications=_qualifications(evidence, with_claims=False),
         warnings=(tuple(evidence.warnings) if evidence else ()) + tuple(warnings),
-        analysis=analysis, evidence=evidence, generation=generation,
+        analysis=analysis, evidence=evidence, generation=generation, preflight=preflight,
     )
 
 

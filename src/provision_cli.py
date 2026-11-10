@@ -359,12 +359,23 @@ def render_answer(result: AnswerResult) -> str:
 
     lines += ["", "qualifications:"]
     lines += [f"  - {q}" for q in result.qualifications]
+    preflight = result.preflight
+    corpus_lines = []  # one blank line before whichever of the two comes first
+    if preflight is not None:
+        tiers = ", ".join(f"{count} {tier}" for tier, count in preflight.article_tiers)
+        corpus_lines.append(f"corpus preflight: build {preflight.build_id}; articles: {tiers}; "
+                            f"{preflight.citable_articles} citable")
     if result.evidence is not None:
         ev = result.evidence
-        lines += ["", f"evidence: build {ev.build_id}; {len(ev.items)} items "
-                  f"({len(ev.citable_items)} citable); about {ev.total_tokens} tokens"]
+        corpus_lines.append(f"evidence: build {ev.build_id}; {len(ev.items)} items "
+                            f"({len(ev.citable_items)} citable); about {ev.total_tokens} tokens")
+    if corpus_lines:
+        lines += ["", *corpus_lines]
     if result.warnings:
         lines.append("warnings: " + "; ".join(result.warnings))
+    if preflight is not None and not preflight.passed:
+        lines.append("models: none called (no citable article in the corpus)")
+        return "\n".join(lines)
     models = []
     if analysis is not None:
         models.append(_model_line("analysis", analysis.provenance))

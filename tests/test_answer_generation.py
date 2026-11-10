@@ -4,6 +4,7 @@ The articles, issues and model replies below are synthetic test data. Scripted r
 in for model output; they test validation and the outcome rules, not what a real model writes.
 """
 
+import dataclasses
 import json
 import re
 
@@ -22,6 +23,7 @@ from src.answer_generation import (
     TASK,
     VALIDITY_QUALIFICATION,
     AnswerGenerationError,
+    CorpusPreflight,
     Outcome,
     _allowed_references,
     article_references,
@@ -47,6 +49,7 @@ from src.llm import (
 from src.models import VerificationStatus
 from src.provision_cli import render_answer
 from src.provision_explorer import ExplorerError, ProvisionExplorer, find_recorded_build
+from src.query_analysis import PROMPT_VERSION as QA_PROMPT_VERSION
 from src.query_analysis import CORPUS_INSTRUMENTS, AnalysisProvenance, Issue, QueryAnalysis
 
 QUESTION = "Quando va notificata una violazione e quando va comunicata all'interessato?"
@@ -93,7 +96,7 @@ def analysis(*questions, in_scope=True, clarification=None, uncertainty=None, la
         issues=tuple(Issue(f"I{n}", q) for n, q in enumerate(questions, 1)),
         search_queries_it=("notifica della violazione",), suggested_provisions=(),
         rejected_suggestions=(), uncertainty=uncertainty, clarification_question=clarification,
-        provenance=AnalysisProvenance("query_analysis", "query-analysis-v1", "mock", "mock",
+        provenance=AnalysisProvenance("query_analysis", QA_PROMPT_VERSION, "mock", "mock",
                                       "mock", 1, False, ()))
 
 
@@ -141,6 +144,17 @@ def test_prompt_states_the_rules_and_carries_no_demo_content():
 
 def test_instrument_numbers_cover_the_corpus():
     assert set(INSTRUMENT_NUMBERS) == set(CORPUS_INSTRUMENTS)
+
+
+def test_privacy_code_evidence_is_labelled_as_an_unofficial_transcription():
+    codice = evidence_set(item("E1", "1", ART1, instrument="it-dlgs-2003-196"))
+    _, llm = generate(reply(NOTIFY), evidence=codice,
+                      analysis_=analysis("Entro quando il titolare notifica?"))
+    user = llm.calls[0].user
+    assert f'source="{CORPUS_INSTRUMENTS["it-dlgs-2003-196"]}"' in user
+    assert "an unofficial transcription supplied by the user" in user
+    assert "consolidat" not in user.lower()
+    assert PROMPT_VERSION == "answer-generation-v2"
 
 
 def test_only_citable_evidence_is_sent_to_the_model():
@@ -615,6 +629,31 @@ def test_qualifications_report_dropped_candidates_and_item_qualifications():
     assert "1 further candidate provisions were left out by the evidence limits (max_items)." in (
         result.qualifications)
     assert result.citations[0].qualifications == ("unofficial_transcription",)
+
+
+def test_a_result_with_a_preflight_is_hashable_and_keeps_its_json_shape():
+    result, _ = generate(reply(NOTIFY, INFORM))
+    with_preflight = dataclasses.replace(
+        result, preflight=CorpusPreflight("build-test", (("blocked", 2), ("primary", 1)), 1))
+    same = dataclasses.replace(
+        result, preflight=CorpusPreflight("build-test", (("blocked", 2), ("primary", 1)), 1))
+    assert hash(with_preflight) == hash(same)
+    data = with_preflight.to_dict()
+    assert data["preflight"] == {"build_id": "build-test",
+                                 "article_tiers": {"blocked": 2, "primary": 1},
+                                 "citable_articles": 1}
+    assert json.loads(json.dumps(data)) == data
+    assert result.to_dict()["preflight"] is None
+
+
+def test_the_corpus_lines_follow_one_blank_line():
+    result, _ = generate(reply(NOTIFY, INFORM))
+    assert ("has not been verified.\n\nevidence: build build-test;"
+            in render_answer(result))  # no preflight: the evidence line comes first
+    with_preflight = dataclasses.replace(
+        result, preflight=CorpusPreflight("build-test", (("primary", 2),), 2))
+    assert ("has not been verified.\n\ncorpus preflight: build build-test; articles: "
+            "2 primary; 2 citable\nevidence: build build-test;") in render_answer(with_preflight)
 
 
 def test_results_are_deterministic_and_json_compatible():

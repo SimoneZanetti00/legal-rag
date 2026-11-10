@@ -27,7 +27,7 @@ from src.evidence import EvidenceRequest, ProvisionRequest
 from src.llm import LLMClient, LLMSchemaError
 
 TASK = "query_analysis"
-PROMPT_VERSION = "query-analysis-v1"
+PROMPT_VERSION = "query-analysis-v2"  # v2: the Privacy Code described as a user transcription
 
 MAX_QUESTION_CHARS = 2000
 MAX_ISSUES = 8
@@ -35,12 +35,16 @@ MAX_QUERIES = 8
 MAX_QUERY_CHARS = 200
 MAX_SUGGESTIONS = 10
 
-# The instruments in the corpus, by registry ID (data/reference/instruments.json; a test keeps
-# the two in step). The model may suggest articles of these instruments only.
+# The instruments in the corpus, by registry ID (data/reference/instruments.json; tests keep
+# the IDs, and how each text is described, in step with the registry). The model may suggest
+# articles of these instruments only. The descriptions must not claim more than the registry:
+# the Privacy Code text is a user transcription, not an official or consolidated text.
 CORPUS_INSTRUMENTS: dict[str, str] = {
     "eu-reg-2016-679": "Regolamento (UE) 2016/679 (GDPR), Italian text",
     "it-dlgs-2003-196": ("Decreto legislativo 30 giugno 2003, n. 196, «Codice in materia di "
-                         "protezione dei dati personali», consolidated Italian text"),
+                         "protezione dei dati personali»: an unofficial transcription supplied by "
+                         "the user (main body, without annexes), not verified against an official "
+                         "text; its legal validity is not established"),
 }
 
 LANGUAGES = ("it", "en", "other")
@@ -244,14 +248,7 @@ def analyze(question: str, llm: LLMClient, *,
     `provision_exists`, when given (see store_checker), moves suggestions for articles the
     corpus does not contain into `rejected_suggestions`.
     """
-    if not isinstance(question, str) or not question.strip():
-        raise QueryAnalysisError("the question is empty")
-    question = question.strip()
-    if len(question) > MAX_QUESTION_CHARS:
-        raise QueryAnalysisError(
-            f"the question is longer than {MAX_QUESTION_CHARS} characters ({len(question)})"
-        )
-
+    question = check_question(question)
     result = llm.complete_json(TASK, SYSTEM_PROMPT, build_user_message(question), SCHEMA,
                                check=_check_reply)
     data = result.data
@@ -275,6 +272,18 @@ def analyze(question: str, llm: LLMClient, *,
             fallback_used=result.fallback_used, request_ids=result.request_ids,
         ),
     )
+
+
+def check_question(question: str) -> str:
+    """The question, stripped, or QueryAnalysisError if it is empty or too long."""
+    if not isinstance(question, str) or not question.strip():
+        raise QueryAnalysisError("the question is empty")
+    question = question.strip()
+    if len(question) > MAX_QUESTION_CHARS:
+        raise QueryAnalysisError(
+            f"the question is longer than {MAX_QUESTION_CHARS} characters ({len(question)})"
+        )
+    return question
 
 
 def store_checker(store: Any) -> ProvisionExists:

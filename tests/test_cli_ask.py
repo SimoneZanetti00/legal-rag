@@ -7,6 +7,7 @@ present; the live test is opt-in (RUN_LIVE_LLM_TESTS=1) and calls the configured
 """
 
 import json
+import logging
 import os
 
 import pytest
@@ -15,11 +16,15 @@ import src.provision_cli as cli
 from src import cli as entry_point
 from src.answer_generation import Outcome, answer_question
 from src.config import load_settings
+from src.corpus_build import parse_spec, run_build
+from src.corpus_identity import current_dependency_versions, file_sha256
 from src.evidence import assemble
 from src.llm import LLMRateLimitError, MockLLM
+from src.provision_anchors import write_passage_links, write_segment_maps
 from src.provision_explorer import ExplorerError, ProvisionExplorer, find_recorded_build
 from src.provisions import load_ledger
 from src.query_analysis import analyze
+from tests.test_provision_cli import CLEAN, PAGES, make_store, prov, provisions
 from tests.test_provision_cli import built, explored  # noqa: F401  (fixtures)
 
 QUESTION = "Quando va notificata la violazione al Garante?"
@@ -107,8 +112,9 @@ def test_ask_json(explored, capsys):
     assert [c["evidence_id"] for c in result["citations"]] == ["E1"]
     assert all(c["citable"] for c in result["citations"])
     assert "E2" in [r["evidence_id"] for r in result["non_authoritative"]]
-    assert result["generation"]["prompt_version"] == "answer-generation-v1"
-    assert result["analysis"]["provenance"]["prompt_version"] == "query-analysis-v1"
+    assert result["generation"]["prompt_version"] == "answer-generation-v2"
+    assert result["analysis"]["provenance"]["prompt_version"] == "query-analysis-v2"
+    assert result["preflight"]["citable_articles"] == 1  # Art. 1
     assert result["evidence"]["build_id"]
 
 
@@ -119,6 +125,8 @@ def test_answer_question_runs_analysis_evidence_and_generation_on_one_llm(explor
                              settings=SETTINGS)
     assert [call.task for call in llm.calls] == ["query_analysis", "answer_generation"]
     assert result.outcome == Outcome.ANSWER_LIMITED
+    assert (result.preflight.passed, result.preflight.citable_articles) == (True, 1)
+    hash(result)  # hashable with a preflight, an analysis, evidence and generation
     assert result.evidence.build_id == ProvisionExplorer.open(
         build_dir, store=store).identity()["build_id"]
     assert result.generation.supplied_evidence_ids == ("E1",)  # only the citable item
@@ -203,6 +211,119 @@ def test_src_cli_is_the_same_command_line(capsys):
         assert command in out
 
 
+# --- Corpus preflight: no citable article, no model call ---------------------------------------
+
+
+@pytest.fixture
+def unreviewed(tmp_path, write_pdf, monkeypatch):
+    """The same synthetic act with Art. 1 not reviewed: no article may be cited (3 internal_only,
+    2 blocked)."""
+    pdf = write_pdf(tmp_path / "src" / "act.pdf", PAGES)
+    spec = parse_spec({
+        "schema_version": 1, "name": "x", "description": "x", "chunk_size": 1200,
+        "chunk_overlap": 150, "assembly_format": "concatenated-jsonl/1",
+        "sources": [{"version_id": "x-act@v1", "path": "src/act.pdf",
+                     "sha256": file_sha256(pdf), "end_before": None}],
+    }, "x.json")
+    result = run_build(spec, detect_code=lambda: CLEAN, output_root=tmp_path / "builds",
+                       recorded_root=tmp_path / "builds", base_dir=tmp_path,
+                       dependencies=current_dependency_versions())
+    store = make_store(file_sha256(pdf),
+                       [prov("1", 1, title="(Notifica della violazione)"), *provisions()[1:]])
+    write_segment_maps(result.directory, store=store, registry=store.registry,
+                       detect_code=lambda: CLEAN)
+    write_passage_links(result.directory, store=store, registry=store.registry)
+    monkeypatch.setattr(cli, "load_store", lambda: store)
+    return result.directory, store
+
+
+def test_without_a_citable_article_no_model_is_called(unreviewed, capsys):
+    llm = MockLLM()  # unscripted: any call would fail
+    code, out, err = ask(capsys, unreviewed, llm)
+    assert code == 0, err
+    assert "outcome: ABSTAIN (no_citable_evidence)" in out
+    assert "The question was not sent to any model." in out
+    assert "articles: 2 blocked, 3 internal_only; 0 citable" in out
+    assert out.rstrip().endswith("models: none called (no citable article in the corpus)")
+    assert "issues found by the query analysis" not in out
+    assert llm.calls == []
+
+
+def test_preflight_abstention_json(unreviewed, capsys):
+    code, out, err = ask(capsys, unreviewed, MockLLM(), "--json")
+    assert code == 0, err
+    result = json.loads(out)
+    assert (result["outcome"], result["abstention_reason"]) == ("abstain", "no_citable_evidence")
+    assert result["preflight"] == {"build_id": unreviewed[0].name,
+                                   "article_tiers": {"blocked": 2, "internal_only": 3},
+                                   "citable_articles": 0}
+    assert (result["analysis"], result["evidence"], result["generation"]) == (None, None, None)
+    assert result["citations"] == [] and result["non_authoritative"] == []
+
+
+def test_answer_question_runs_the_preflight_first(unreviewed):
+    build_dir, store = unreviewed
+    llm = MockLLM()
+    result = answer_question(QUESTION, llm, ProvisionExplorer.open(build_dir, store=store),
+                             settings=SETTINGS)
+    assert (result.outcome, result.abstention_reason) == (Outcome.ABSTAIN, "no_citable_evidence")
+    assert (result.preflight.passed, result.preflight.citable_articles) == (False, 0)
+    assert result.preflight.article_tiers == (("blocked", 2), ("internal_only", 3))
+    hash(result)  # a result carrying a preflight stays hashable
+    assert llm.calls == []
+
+
+def test_a_real_provider_client_sends_no_request_when_nothing_is_citable(unreviewed, capsys,
+                                                                        monkeypatch):
+    sdk = pytest.importorskip("anthropic")
+    httpx = pytest.importorskip("httpx2")
+    requests = []
+
+    def handle(request):
+        requests.append(request)
+        return httpx.Response(500)
+
+    real_client = sdk.Anthropic
+    monkeypatch.setattr(sdk, "Anthropic", lambda **kwargs: real_client(
+        **kwargs, http_client=httpx.Client(transport=httpx.MockTransport(handle))))
+    settings = load_settings({"LLM_PROVIDER": "anthropic", "LLM_MODEL": "test-model",
+                              "ANTHROPIC_API_KEY": "sk-ant-test-key"})
+    code = cli.main(["ask", QUESTION, "--build-dir", str(unreviewed[0])], settings=settings)
+    out = capsys.readouterr().out
+    assert code == 0
+    assert "outcome: ABSTAIN (no_citable_evidence)" in out
+    assert requests == []  # not one HTTP request to the provider
+
+
+@pytest.mark.parametrize("question", ["   ", "x" * 2001])
+def test_question_validation_still_comes_first(unreviewed, capsys, question):
+    code, _, err = ask(capsys, unreviewed, MockLLM(), question=question)
+    assert code == 2
+    assert err.startswith("error: the question is")
+
+
+# --- Privacy: question text and case details stay out of the logs ------------------------------
+
+CASE_DETAILS = "Rossi Mario della Clinica San Luca"
+
+
+def test_question_and_case_details_never_reach_the_log(explored, capsys, caplog):
+    ids = evidence_ids(explored)
+    english = {**ANALYSIS, "search_queries_it": [f"notification of the breach of {CASE_DETAILS}"]}
+    llm = MockLLM({"query_analysis": [english, ANALYSIS],
+                   "answer_generation": [generation_reply(ids)]})
+    question = f"Il mio cliente {CASE_DETAILS} ha subito una violazione: va notificata?"
+    with caplog.at_level(logging.DEBUG):
+        code, out, err = ask(capsys, explored, llm, question=question)
+    assert code == 0, err
+    assert "task=query_analysis: reply 1 rejected (LLMSchemaError), retrying once" in caplog.text
+    for detail in ("Rossi", "San Luca"):
+        assert detail not in caplog.text
+        assert detail not in err
+    # The rejection reason, which quotes the query, still goes to the model as feedback.
+    assert f"'notification of the breach of {CASE_DETAILS}': is English" in llm.calls[1].user
+
+
 # --- Recorded build ----------------------------------------------------------------------------
 
 DEMO_QUESTION = "Quando è obbligatorio notificare un data breach al Garante?"
@@ -229,6 +350,28 @@ DEMO_ANALYSIS = {
     ],
     "uncertainty": None, "clarification_question": None,
 }
+# A stand-in generation reply: a deterministic abstention, so the demo test runs to the end
+# whether or not the corpus has citable evidence.
+GENERATION_ABSTAIN = {"outcome": "abstain", "claims": [], "unanswered_issues": [],
+                      "limitations": [], "abstention_reason": "Test stand-in: no answer."}
+
+
+def demo_llm(analysis_reply=DEMO_ANALYSIS):
+    """The scripted LLM of the demo test: an analysis, then an abstaining generation reply."""
+    return MockLLM({"query_analysis": [analysis_reply], "answer_generation": [GENERATION_ABSTAIN]})
+
+
+def test_the_demo_script_completes_a_run_that_reaches_generation(explored, capsys):
+    """What the demo test's script does once something is citable: the run reaches the
+    generation step and ends in the scripted abstention, not in a configuration error."""
+    llm = demo_llm(ANALYSIS)
+    code, out, err = ask(capsys, explored, llm, "--json")
+    assert code == 0, err
+    result = json.loads(out)
+    assert (result["outcome"], result["abstention_reason"]) == ("abstain", "model_abstained")
+    assert [call.task for call in llm.calls] == ["query_analysis", "answer_generation"]
+    assert result["preflight"]["citable_articles"] == 1
+    assert "1" in {item["label"] for item in result["evidence"]["items"]}
 
 
 @pytest.fixture(scope="module")
@@ -240,21 +383,30 @@ def recorded_build():
 
 
 def test_demo_question_on_the_recorded_build(recorded_build, capsys):
-    llm = MockLLM({"query_analysis": [DEMO_ANALYSIS]})  # no generation script on purpose
+    llm = demo_llm()
     code = cli.main(["ask", DEMO_QUESTION, "--json"], llm=llm, settings=SETTINGS)
     out, err = capsys.readouterr()
     assert code == 0, err
     result = json.loads(out)
-    found = {r["label"] for r in result["non_authoritative"]} | {
-        c["label"] for c in result["citations"]}
-    assert {"4", "33", "34", "55", "2-bis"} <= found
     assert all(c["citable"] for c in result["citations"])
     assert not any(r["citable"] for r in result["non_authoritative"])
-    if not load_ledger():  # nothing reviewed yet: nothing may be cited, so no answer
+    if not load_ledger():  # nothing reviewed yet: the preflight stops before any model call
         assert (result["outcome"], result["abstention_reason"]) == ("abstain",
                                                                   "no_citable_evidence")
-        assert result["generation"] is None
-        assert [call.task for call in llm.calls] == ["query_analysis"]
+        assert llm.calls == []
+        assert (result["analysis"], result["evidence"], result["generation"]) == (
+            None, None, None)
+        preflight = result["preflight"]
+        assert preflight["citable_articles"] == 0
+        assert set(preflight["article_tiers"]) <= {"internal_only", "blocked", "context_only"}
+        assert preflight["build_id"] == recorded_build.name
+    else:  # once something is citable: analysis, evidence and (if a retrieved item is
+        # citable) the scripted abstaining generation; never a configuration error
+        assert llm.calls[0].task == "query_analysis"
+        assert result["outcome"] == "abstain"
+        assert result["abstention_reason"] in {"model_abstained", "no_citable_evidence"}
+        found = {item["label"] for item in result["evidence"]["items"]}
+        assert {"4", "33", "34", "55", "2-bis"} <= found
 
 
 # --- Opt-in live call --------------------------------------------------------------------------

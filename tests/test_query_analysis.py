@@ -7,6 +7,7 @@ LLM_MODEL and ANTHROPIC_API_KEY set) and is skipped by default.
 """
 
 import json
+import logging
 import os
 import re
 
@@ -37,6 +38,7 @@ from src.query_analysis import (
     QueryAnalysisError,
     analyze,
     build_user_message,
+    check_question,
     query_problem,
     store_checker,
 )
@@ -114,6 +116,25 @@ def test_corpus_instruments_match_the_registry():
     registry = json.loads((PROJECT_ROOT / "data" / "reference" / "instruments.json")
                           .read_text(encoding="utf-8"))
     assert set(CORPUS_INSTRUMENTS) == {i["instrument_id"] for i in registry["instruments"]}
+
+
+def test_corpus_descriptions_claim_no_more_than_the_registry():
+    registry = json.loads((PROJECT_ROOT / "data" / "reference" / "instruments.json")
+                          .read_text(encoding="utf-8"))
+    for version in registry["versions"]:
+        text = CORPUS_INSTRUMENTS[version["instrument_id"]].lower()
+        if version["version_kind"] != "consolidated_text":
+            assert "consolidat" not in text, version["version_id"]
+        if version["version_kind"] == "transcription":
+            assert "transcription" in text and "unofficial" in text
+        if version["authenticity"] in ("user_transcription", "unofficial"):
+            assert "not verified against an official text" in text
+            assert "legal validity is not established" in text
+    privacy_code = CORPUS_INSTRUMENTS["it-dlgs-2003-196"]
+    assert f"- it-dlgs-2003-196: {privacy_code}" in SYSTEM_PROMPT
+    for word in ("consolidat", "vigente", "in force", "current"):
+        assert word not in SYSTEM_PROMPT.lower(), word
+    assert PROMPT_VERSION == "query-analysis-v2"
 
 
 def test_prompt_states_the_task_and_does_not_carry_the_demo_answer():
@@ -218,7 +239,14 @@ def test_bad_questions_are_rejected_before_any_call(question):
     llm = mock(DEMO_REPLY)
     with pytest.raises(QueryAnalysisError):
         analyze(question, llm)
+    with pytest.raises(QueryAnalysisError):
+        check_question(question)  # the same check, usable before any other step
     assert llm.calls == []
+
+
+def test_check_question_strips_and_accepts_the_limit():
+    assert check_question("  Quando si notifica?  ") == "Quando si notifica?"
+    assert check_question("x" * 2000) == "x" * 2000
 
 
 # --- Fabricated provisions ---------------------------------------------------------------------
@@ -424,6 +452,17 @@ def test_english_queries_are_caught(query):
 )
 def test_malformed_queries_are_caught(query, fragment):
     assert fragment in query_problem(query)
+
+
+def test_query_text_never_reaches_the_log(caplog):
+    english = {**DEMO_REPLY, "search_queries_it": ["notification of the breach of Rossi Mario"]}
+    with caplog.at_level(logging.DEBUG):
+        analysis = analyze("Il cliente Rossi Mario ha subito una violazione: va notificata?",
+                           mock(english, DEMO_REPLY))
+    assert analysis.provenance.attempts == 2
+    assert "task=query_analysis: reply 1 rejected (LLMSchemaError), retrying once" in (
+        caplog.text)
+    assert "Rossi" not in caplog.text and "notification of the breach" not in caplog.text
 
 
 def test_english_queries_get_the_one_retry():

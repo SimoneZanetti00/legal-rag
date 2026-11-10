@@ -183,6 +183,16 @@ def test_schema_violation_is_retried_then_raised():
     assert "is not one of" in llm.calls[1].user
 
 
+def test_a_rejected_reply_is_logged_without_its_content(caplog):
+    sentinel = "SENSITIVE-CASE-DETAIL Rossi"
+    llm = MockLLM({"demo": [{**GOOD, "tags": [sentinel]}, GOOD]})  # breaks the enum, then fine
+    with caplog.at_level(logging.DEBUG):
+        assert llm.complete_json("demo", "s", f"question about {sentinel}", SCHEMA).attempts == 2
+    assert "llm mock task=demo: reply 1 rejected (LLMSchemaError), retrying once" in caplog.text
+    assert "SENSITIVE" not in caplog.text and "Rossi" not in caplog.text
+    assert f"'{sentinel}' is not one of" in llm.calls[1].user  # the model still gets the reason
+
+
 def test_caller_check_shares_the_retry_budget():
     def check(data):
         if data["answer"] != "fine":

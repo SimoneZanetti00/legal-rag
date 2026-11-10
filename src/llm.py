@@ -351,8 +351,10 @@ class _JSONClient:
                 if not exc.retryable or attempt == allowed:
                     raise type(exc)(f"{exc} [attempt {attempt} of {allowed}]",
                                     attempts=attempt) from None
-                logger.warning("llm %s task=%s: reply %d rejected, retrying once: %s",
-                               self.provider, task, attempt, exc)
+                # The reason can quote the reply, and so the user's question: it goes only to
+                # the model (as feedback), never to the log.
+                logger.warning("llm %s task=%s: reply %d rejected (%s), retrying once",
+                               self.provider, task, attempt, type(exc).__name__)
                 prompt = _with_feedback(user, exc)
                 continue
             return JSONResult(data=data, task=task, provider=self.provider, model=self.model,
