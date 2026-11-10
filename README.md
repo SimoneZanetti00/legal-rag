@@ -25,11 +25,48 @@ See [PROJECT_SPEC.md](PROJECT_SPEC.md) for the specification and
   (P1.2); reproducible corpus builds, segment maps, exact passage links and a
   corpus explorer CLI (P1.3). No provision has been reviewed by a person yet, so
   none is eligible as a primary citation.
+- **Answering (`ask`):** evidence assembly, query analysis, grounded answer
+  generation, citation resolution, deterministic claim validation, a model
+  support check and conservative abstention, plus an offline demo (below).
 
-Metadata and temporal filters, reranking, generation, verification, grounding
-evaluation, and the UI are **not implemented yet**. No curated legal benchmark
-exists yet; only a synthetic test fixture. Nothing here shows that any of the
-three retrievers is better than another on legal text.
+Metadata and temporal filters, grounding evaluation and a UI are **not
+implemented yet**. No curated legal benchmark exists yet; only a synthetic test
+fixture. Nothing here shows that any of the three retrievers is better than
+another on legal text. Planned work and known limits:
+[docs/ROADMAP.md](docs/ROADMAP.md).
+
+## Demo (offline, no API key)
+
+```powershell
+.\.venv\Scripts\python.exe -m src.demo
+```
+
+One command, two demonstrations. Nothing is sent to an LLM provider, no API key
+is needed, and the output is the same on every run. The exit code is 0, or 1
+only if the demonstration itself fails.
+
+1. **Real corpus.** The recorded build of the GDPR and the Italian Privacy Code,
+   for the question *"When is a personal data breach required to be notified to
+   the Italian Data Protection Authority?"*. A fixed retrieval plan, written by
+   hand (one Italian query, three article lookups), assembles the real evidence.
+   Each item is shown with its text, page and character anchors, source and
+   inventory hashes, eligibility tier, and the reasons it may not be cited. Then
+   the real `ask` pipeline runs on the question. It abstains at the corpus
+   preflight: no provision has passed human review yet, so nothing may be cited
+   and no model is called.
+2. **Synthetic, end to end.** A fictional act, the *Legge dimostrativa di
+   Valdoria*, is built in a temporary directory by the project's own build,
+   anchor and link steps. A synthetic review makes two of its articles citable.
+   The real pipeline runs on it with scripted MockLLM replies: six claims go in,
+   and two valid ones come out with their citations. Deterministic validation
+   removes a fabricated quotation, a fabricated article reference and a claim
+   that cites non-citable evidence; the support check removes an overstated
+   claim. Every part of the output is labelled SYNTHETIC DEMONSTRATION,
+   FICTIONAL LEGAL INSTRUMENT, SYNTHETIC REVIEW — NOT HUMAN LEGAL REVIEW,
+   SCRIPTED MOCK LLM OUTPUT — NOT A REAL MODEL RESPONSE, and NOT LEGAL ADVICE.
+
+Only the model replies in part 2 are scripted; everything else runs as it does
+in `ask`, which still needs a real provider (see "Asking a question" below).
 
 ## Repository layout
 

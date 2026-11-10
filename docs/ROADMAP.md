@@ -22,6 +22,7 @@ steps P0–P8) and [the research report](research/LEXROOM_TECHNICAL_REVERSE_ENGI
 | **Evidence-support check** of each claim by a model, which can be switched off (`SEMANTIC_VERIFICATION`) | `src/support_verification.py` |
 | Corpus preflight (no LLM call when nothing may be cited); privacy-safe logs; abstention with reason codes | `src/answer_generation.py`, `src/llm.py` |
 | CLI: `python -m src.cli ask`, `lookup`, `search` | `src/provision_cli.py`, `src/cli.py` |
+| **Offline demonstration** (`python -m src.demo`): real-corpus evidence, provenance and abstention; a synthetic end-to-end run with scripted MockLLM replies | `src/demo.py` |
 
 ## Known limitations
 
@@ -58,6 +59,9 @@ steps P0–P8) and [the research report](research/LEXROOM_TECHNICAL_REVERSE_ENGI
   the user means.
 - **Only two instruments,** with no historical versions: the GDPR as published in 2016, and
   the Privacy Code as an unverified transcription.
+- **The demo's model replies are scripted.** The synthetic part shows what the checks do with
+  a model's output, not how well a model answers. The real-corpus part uses a retrieval plan
+  written by hand, in place of the query analysis.
 
 ## Future improvements
 
