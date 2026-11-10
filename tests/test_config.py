@@ -34,8 +34,11 @@ def test_env_values_are_parsed():
             "UNDATED_SOURCE_POLICY": "EXCLUDE",
             "LLM_TIMEOUT_SECONDS": "30.5",
             "LLM_REFUSAL_FALLBACK": "true",
+            "SEMANTIC_VERIFICATION": "false",
         }
     )
+    assert settings.semantic_verification is False
+    assert load_settings({}).semantic_verification is True  # on by default
     assert settings.bm25_top_k == 42
     assert settings.reranker_enabled is True
     assert settings.min_rerank_score == 0.25

@@ -397,8 +397,8 @@ def test_refusal_means_abstention_and_provider_failures_propagate():
         ("Si applica anche l'articolo 3.", True, None),  # named in the cited text
         ("Lo prevede l'art. 34 del regolamento.", False, "unsupported_reference:articolo 34"),
         ("Si vedano gli articoli 1 e 55.", False, "unsupported_reference:articolo 55"),
-        ("Lo prevede l'articolo 2-bis del Codice.", False,
-         "unsupported_reference:articolo 2-bis"),
+        ("Lo prevede l'articolo 2-bis del Codice.", False,  # names the Privacy Code
+         "unsupported_reference:articolo 2-bis (it-dlgs-2003-196)"),
         ("Come chiarito dal D.Lgs. 101/2018.", False, "unsupported_reference:101/2018"),
     ],
 )
@@ -616,6 +616,70 @@ def real_items():
 )
 def test_reference_check_on_recorded_provisions(real_items, label, text, ok):
     assert (unsupported_references(text, _allowed_references([real_items[label]])) == []) is ok
+
+
+# --- Instrument-aware validation (M2) -----------------------------------------------------------
+
+GDPR_ID, CODE_ID = "eu-reg-2016-679", "it-dlgs-2003-196"
+G33 = ("1. In caso di violazione dei dati personali, il titolare del trattamento notifica la "
+       "violazione all'autorità di controllo competente a norma dell'articolo 55 senza "
+       "ingiustificato ritardo.")
+C33 = "1. Il titolare del trattamento adotta le misure minime di sicurezza previste dal codice."
+C2BIS = ("1. L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel "
+         "Garante per la protezione dei dati personali, di cui all'articolo 153.")
+QG33 = "il titolare del trattamento notifica la violazione all'autorità di controllo competente"
+QC33 = "Il titolare del trattamento adotta le misure minime di sicurezza"
+QC2BIS = "è individuata nel Garante per la protezione dei dati personali"
+MIXED = evidence_set(item("E1", "33", G33, instrument=GDPR_ID),
+                     item("E2", "33", C33, instrument=CODE_ID),
+                     item("E3", "2-bis", C2BIS, instrument=CODE_ID))
+ONE_ISSUE = analysis("Chi è l'autorità di controllo e quando le si notifica?")
+
+
+def checked(text, *support):
+    result, _ = generate(reply(claim(text, *support)), evidence=MIXED, analysis_=ONE_ISSUE)
+    return result
+
+
+@pytest.mark.parametrize(("text", "support", "reason"), [
+    # 24: the Code's article 33 is not GDPR article 33, although the label is the same
+    ("Lo prevede l'articolo 33 del Codice.", [("E1", QG33)],
+     "unsupported_reference:articolo 33 (it-dlgs-2003-196)"),
+    # 26: two cited articles 33, from two instruments, and the claim says neither
+    ("Lo prevede l'articolo 33.", [("E1", QG33), ("E2", QC33)],
+     "ambiguous_reference:articolo 33"),
+    # 28: references that the cited text does not make
+    ("L'autorità è quella dell'articolo 52 del regolamento.", [("E3", QC2BIS)],
+     "unsupported_reference:articolo 52"),
+    ("L'autorità è quella dell'articolo 51 del Codice.", [("E3", QC2BIS)],
+     "unsupported_reference:articolo 51"),
+    ("Lo prevede l'articolo 34 del GDPR.", [("E1", QG33)],
+     "unsupported_reference:articolo 34"),
+    ("Si applica l'articolo 2 del D.Lgs. 101/2018.", [("E3", QC2BIS)],
+     "unsupported_reference:articolo 2 (D.Lgs. 101/2018)"),
+])
+def test_instrument_and_article_are_checked_together(text, support, reason):
+    result = checked(text, *support)
+    assert result.claims == ()
+    assert reason in result.rejected_claims[0].reasons
+
+
+@pytest.mark.parametrize(("text", "support"), [
+    # 25: the cited items' instrument is the context
+    ("Lo prevede l'articolo 33.", [("E1", QG33)]),
+    ("Lo prevede l'articolo 33 del GDPR.", [("E1", QG33)]),
+    ("Si notifica all'autorità competente a norma dell'articolo 55.", [("E1", QG33)]),
+    # 27: Code Art. 2-bis names GDPR Art. 51 ("del regolamento", by the Code's definition)
+    ("Il Garante è l'autorità di controllo dell'articolo 51 del GDPR.", [("E3", QC2BIS)]),
+    ("Il Garante è l'autorità dell'articolo 51 del regolamento.", [("E3", QC2BIS)]),
+    ("Il Garante è quello dell'articolo 153 del Codice.", [("E3", QC2BIS)]),
+    # several instruments cited, one article 33 among them: the evidence settles it
+    ("Lo prevede l'articolo 33.", [("E1", QG33), ("E3", QC2BIS)]),
+])
+def test_instrument_aware_references_supported_by_the_evidence_are_kept(text, support):
+    result = checked(text, *support)
+    assert result.rejected_claims == ()
+    assert [c.text for c in result.claims] == [text]
 
 
 # --- Reporting ---------------------------------------------------------------------------------

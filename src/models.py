@@ -32,6 +32,8 @@ class VerificationStatus(StrEnum):
     PARTIALLY_SUPPORTED = "PARTIALLY_SUPPORTED"
     UNSUPPORTED = "UNSUPPORTED"
     CONTRADICTED = "CONTRADICTED"
+    # The evidence is insufficient, ambiguous or contradictory, so support cannot be decided.
+    UNCERTAIN = "UNCERTAIN"
 
 
 def _require_non_empty(value: str, name: str) -> None:

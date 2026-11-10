@@ -43,6 +43,7 @@ from src.config import PROJECT_ROOT, ConfigError, Settings, load_settings
 from src.corpus_build import CorpusBuildError
 from src.corpus_identity import CodeVersionError, detect_code_version
 from src.llm import LLMClient, LLMConfigError, LLMTransportError, make_llm
+from src.models import VerificationStatus
 from src.provision_anchors import AnchorError, write_passage_links, write_segment_maps
 from src.provision_explorer import ExplorerError, ProvisionExplorer, find_recorded_build
 from src.provisions import ProvisionError, load_store
@@ -312,6 +313,11 @@ def render_answer(result: AnswerResult) -> str:
         lines.append(f"outcome: {outcome}")
     lines.append("Experimental prototype. Not legal advice.")
 
+    if result.question_references:
+        lines += ["", "legal references in the question (only resolved ones are looked up):"]
+        lines += [f"  «{r.reference.raw_text}» {r.status.value}: {_resolution_text(r)}"
+                  for r in result.question_references]
+
     analysis = result.analysis
     if analysis is not None:
         lines += ["", "issues found by the query analysis (questions written by the model, not "
@@ -321,11 +327,15 @@ def render_answer(result: AnswerResult) -> str:
             lines.append("  search queries: " + "; ".join(analysis.search_queries_it))
 
     if result.claims:
+        checked = ("support was assessed by a model, which is not legal validation"
+                   if result.verification else "the claims themselves are not verified")
         lines += ["", "answer (each claim with its quotations; quotations are checked against "
-                  "the evidence, the claims themselves are not verified):"]
+                  f"the evidence, {checked}):"]
         for claim in result.claims:
             kind = claim.kind.replace("_", " ")
-            lines.append(f"  {claim.claim_id} [{', '.join(claim.issue_ids)}] ({kind}) "
+            support = ("" if claim.verification == VerificationStatus.NOT_VERIFIED
+                       else f"; support: {claim.verification.value.lower().replace('_', ' ')}")
+            lines.append(f"  {claim.claim_id} [{', '.join(claim.issue_ids)}] ({kind}{support}) "
                          f"{claim.text}")
             lines += [f"      {quote.evidence_id}: «{' '.join(quote.text.split())}»"
                       for quote in claim.quotes]
@@ -381,8 +391,28 @@ def render_answer(result: AnswerResult) -> str:
         models.append(_model_line("analysis", analysis.provenance))
     models.append(_model_line("generation", result.generation) if result.generation
                   else "generation: not run")
+    if result.verification is not None:
+        models.append(_model_line("support check", result.verification))
     lines.append("models: " + "; ".join(models))
     return "\n".join(lines)
+
+
+def _provision_name(provision_id: str) -> str:
+    """'eu-reg-2016-679@…/body/article:33' -> 'eu-reg-2016-679 art. 33'."""
+    return f"{provision_id.split('@', 1)[0]} art. {provision_id.rsplit(':', 1)[-1]}"
+
+
+def _resolution_text(resolution: Any) -> str:
+    ref = resolution.reference
+    if resolution.provision_id:
+        how = f" (act named: {ref.instrument_text})" if ref.instrument_text else (
+            f" (by {ref.basis.value})")
+        text = _provision_name(resolution.provision_id) + how
+        return text if resolution.reason == "found" else f"{text}; {resolution.explanation}"
+    if resolution.candidates:
+        names = ", ".join(_provision_name(c) for c in resolution.candidates)
+        return f"{resolution.explanation}. Candidates, not looked up: {names}"
+    return resolution.explanation
 
 
 def _model_line(task: str, provenance: Any) -> str:

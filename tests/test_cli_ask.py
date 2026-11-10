@@ -12,17 +12,19 @@ import os
 
 import pytest
 
+import src.answer_generation as answer_generation
 import src.provision_cli as cli
 from src import cli as entry_point
-from src.answer_generation import Outcome, answer_question
+from src.answer_generation import Outcome, _with_question_lookups, answer_question
+from src.citations import Basis, Reference, Resolution, Status, resolve_references
 from src.config import load_settings
 from src.corpus_build import parse_spec, run_build
 from src.corpus_identity import current_dependency_versions, file_sha256
-from src.evidence import assemble
+from src.evidence import EvidenceRequest, ProvisionRequest, assemble
 from src.llm import LLMRateLimitError, MockLLM
 from src.provision_anchors import write_passage_links, write_segment_maps
 from src.provision_explorer import ExplorerError, ProvisionExplorer, find_recorded_build
-from src.provisions import load_ledger
+from src.provisions import load_ledger, load_store
 from src.query_analysis import analyze
 from tests.test_provision_cli import CLEAN, PAGES, make_store, prov, provisions
 from tests.test_provision_cli import built, explored  # noqa: F401  (fixtures)
@@ -74,10 +76,15 @@ def ask(capsys, explored, llm, *extra, question=QUESTION, settings=SETTINGS):
     return code, out.out, out.err
 
 
+# The support check's stand-in verdict for the one claim that passes validation (C1).
+SUPPORTED_C1 = {"verdicts": [{"claim_id": "C1", "support": "supported"}]}
+
+
 def scripted(explored):
     ids = evidence_ids(explored)
     assert (ids["1"], ids["2"]) == ("E1", "E2")  # Art. 1 primary, Art. 2 internal_only
-    return MockLLM({"query_analysis": [ANALYSIS], "answer_generation": [generation_reply(ids)]})
+    return MockLLM({"query_analysis": [ANALYSIS], "answer_generation": [generation_reply(ids)],
+                    "claim_verification": [SUPPORTED_C1]})
 
 
 # --- The command -------------------------------------------------------------------------------
@@ -88,7 +95,8 @@ def test_ask_prints_citations_and_keeps_internal_only_evidence_apart(explored, c
     assert code == 0, err
     assert out.startswith(f"question: {QUESTION}\noutcome: ANSWER LIMITED\n")
     assert "Experimental prototype. Not legal advice." in out
-    assert ("C1 [I1] (source statement) Il titolare notifica la violazione al Garante entro "
+    assert ("C1 [I1] (source statement; support: supported) Il titolare notifica la violazione "
+            "al Garante entro "
             "settantadue ore.") in out
     assert "E1: «Il titolare notifica la violazione al Garante entro settantadue ore.»" in out
     citations = out.split("citations (citable provisions):")[1].split("\n\n")[0]
@@ -99,7 +107,9 @@ def test_ask_prints_citations_and_keeps_internal_only_evidence_apart(explored, c
         references)
     assert "inspect: python -m src.cli lookup x-act 2" in references
     assert "  I2  No validated claim addresses this issue." in out
-    assert "models: analysis mock/mock, 1 attempt(s); generation mock/mock, 1 attempt(s)" in out
+    assert ("models: analysis mock/mock, 1 attempt(s); generation mock/mock, 1 attempt(s); "
+            "support check mock/mock, 1 attempt(s)") in out
+    assert "support was assessed by a model, which is not legal validation" in out
 
 
 def test_ask_json(explored, capsys):
@@ -116,6 +126,10 @@ def test_ask_json(explored, capsys):
     assert result["analysis"]["provenance"]["prompt_version"] == "query-analysis-v2"
     assert result["preflight"]["citable_articles"] == 1  # Art. 1
     assert result["evidence"]["build_id"]
+    assert result["claims"][0]["verification"] == "SUPPORTED"
+    assert result["verification"]["prompt_version"] == "claim-verification-v1"
+    assert result["verification"]["supplied_evidence_ids"] == ["E1"]  # only what C1 cites
+    assert result["question_references"] == []  # the question names no article
 
 
 def test_answer_question_runs_analysis_evidence_and_generation_on_one_llm(explored):
@@ -123,7 +137,8 @@ def test_answer_question_runs_analysis_evidence_and_generation_on_one_llm(explor
     build_dir, store = explored
     result = answer_question(QUESTION, llm, ProvisionExplorer.open(build_dir, store=store),
                              settings=SETTINGS)
-    assert [call.task for call in llm.calls] == ["query_analysis", "answer_generation"]
+    assert [call.task for call in llm.calls] == ["query_analysis", "answer_generation",
+                                                 "claim_verification"]
     assert result.outcome == Outcome.ANSWER_LIMITED
     assert (result.preflight.passed, result.preflight.citable_articles) == (True, 1)
     hash(result)  # hashable with a preflight, an analysis, evidence and generation
@@ -311,7 +326,8 @@ def test_question_and_case_details_never_reach_the_log(explored, capsys, caplog)
     ids = evidence_ids(explored)
     english = {**ANALYSIS, "search_queries_it": [f"notification of the breach of {CASE_DETAILS}"]}
     llm = MockLLM({"query_analysis": [english, ANALYSIS],
-                   "answer_generation": [generation_reply(ids)]})
+                   "answer_generation": [generation_reply(ids)],
+                   "claim_verification": [SUPPORTED_C1]})
     question = f"Il mio cliente {CASE_DETAILS} ha subito una violazione: va notificata?"
     with caplog.at_level(logging.DEBUG):
         code, out, err = ask(capsys, explored, llm, question=question)
@@ -322,6 +338,112 @@ def test_question_and_case_details_never_reach_the_log(explored, capsys, caplog)
         assert detail not in err
     # The rejection reason, which quotes the query, still goes to the model as feedback.
     assert f"'notification of the breach of {CASE_DETAILS}': is English" in llm.calls[1].user
+
+
+# --- References in the question (M2) -----------------------------------------------------------
+
+BASE_REQUEST = EvidenceRequest(queries=("notifica della violazione",),
+                               provisions=(ProvisionRequest("eu-reg-2016-679", "4", "12"),))
+
+
+@pytest.fixture(scope="module")
+def real_store():
+    return load_store()
+
+
+def lookups_for(question, store):
+    return _with_question_lookups(BASE_REQUEST, resolve_references(question, store)).provisions
+
+
+def test_a_resolved_gdpr_reference_becomes_an_exact_lookup_first(real_store):
+    assert lookups_for("Cosa prevede l'articolo 33 GDPR?", real_store) == (
+        ProvisionRequest("eu-reg-2016-679", "33", None), *BASE_REQUEST.provisions)
+
+
+def test_a_resolved_code_reference_becomes_an_exact_lookup(real_store):
+    assert lookups_for("Cosa dice l'articolo 2-bis del Codice Privacy?", real_store)[0] == (
+        ProvisionRequest("it-dlgs-2003-196", "2-bis", None))
+    both = lookups_for("Qual è il rapporto tra l'articolo 2-bis del Codice Privacy e "
+                       "l'articolo 51 del GDPR?", real_store)
+    assert [(p.instrument, p.label) for p in both[:2]] == [("it-dlgs-2003-196", "2-bis"),
+                                                          ("eu-reg-2016-679", "51")]
+
+
+@pytest.mark.parametrize("question", [
+    "Cosa prevede l'articolo 33?",  # ambiguous: no act
+    "Quali sono gli obblighi previsti dall'articolo 34, paragrafo 2?",  # ambiguous
+    "Cosa prevede l'articolo 2 del D.Lgs. 101/2018?",  # outside the corpus
+    "Cosa prevede l'articolo 100 GDPR?",  # no such article
+    "Cosa prevede l'Article 34(2) GDPR?",  # partially resolved: no article text given here
+    "Quando si notifica una violazione al Garante?",  # no reference at all
+])
+def test_only_resolved_references_are_looked_up(real_store, question):
+    assert lookups_for(question, real_store) == BASE_REQUEST.provisions
+
+
+def test_a_lookup_already_requested_is_not_duplicated(real_store):
+    request = EvidenceRequest(provisions=(ProvisionRequest("eu-reg-2016-679", "33"),))
+    merged = _with_question_lookups(request, resolve_references("art. 33 GDPR", real_store))
+    assert merged.provisions == (ProvisionRequest("eu-reg-2016-679", "33", None),)
+
+
+ART_4_QUESTION = ("Cosa si intende per violazione dei dati personali ai sensi dell'articolo 4 "
+                  "del GDPR?")
+
+
+def test_a_whole_article_question_lookup_gives_way_to_a_requested_point(real_store):
+    # BASE_REQUEST already looks up point 12 of GDPR Art. 4: that lookup takes the question's place.
+    assert lookups_for(ART_4_QUESTION, real_store) == BASE_REQUEST.provisions
+    assert lookups_for("Cosa prevedono gli articoli 33 e 4 del GDPR?", real_store) == (
+        ProvisionRequest("eu-reg-2016-679", "33", None), *BASE_REQUEST.provisions)
+
+
+def test_a_requested_point_is_not_displaced_by_the_whole_article(recorded_build):
+    """GDPR Art. 4 in full exceeds the 3,000-token budget; its point 12 fits."""
+    explorer = ProvisionExplorer.open(recorded_build)
+    request = _with_question_lookups(BASE_REQUEST,
+                                     resolve_references(ART_4_QUESTION, explorer.store))
+    evidence = assemble(request, explorer, settings=SETTINGS)
+    first = evidence.items[0]
+    assert (first.instrument_id, first.label) == ("eu-reg-2016-679", "4")
+    assert first.text.startswith("12)") and first.tokens < 200  # the point, not the article
+    assert first.provision_id not in {d.provision_id for d in evidence.dropped}
+    # The whole article, had it been requested, would not have fitted at all.
+    whole = assemble(EvidenceRequest(provisions=(ProvisionRequest("eu-reg-2016-679", "4"),)),
+                     explorer, settings=SETTINGS)
+    assert whole.items == () and [d.reason for d in whole.dropped] == ["token_budget"]
+
+
+def test_question_references_do_not_bypass_the_preflight(recorded_build, capsys):
+    if load_ledger():
+        pytest.skip("the ledger has reviews: the preflight passes")
+    llm = MockLLM()  # any call would fail
+    code = cli.main(["ask", "Cosa prevede l'articolo 33 GDPR? E l'articolo 34?"], llm=llm,
+                    settings=SETTINGS)
+    out = capsys.readouterr().out
+    assert code == 0 and llm.calls == []
+    assert "outcome: ABSTAIN (no_citable_evidence)" in out
+    assert "«articolo 33» resolved: eu-reg-2016-679 art. 33 (act named: GDPR)" in out
+    assert "«articolo 34» ambiguous: the act of articolo 34 is not stated" in out
+    assert "Candidates, not looked up: eu-reg-2016-679 art. 34, it-dlgs-2003-196 art. 34" in out
+
+
+def test_a_question_lookup_keeps_its_eligibility(explored, capsys, monkeypatch):
+    """A lookup from the question goes through evidence assembly like any other: an
+    internal_only article stays non-citable, so nothing is generated from it."""
+    reference = Reference("articolo 2", 0, 10, "2", (), None, "x-act", Basis.EXPLICIT, "prova")
+    resolved = Resolution(reference, Status.RESOLVED, "found", "x-act@v1/body/article:2",
+                          "x-act@v1/body/article:2")
+    monkeypatch.setattr(answer_generation, "resolve_references", lambda *a, **k: (resolved,))
+    llm = MockLLM({"query_analysis": [ONLY_ART_2]})  # a generation call would fail
+    code, out, err = ask(capsys, explored, llm, "--json")
+    assert code == 0, err
+    result = json.loads(out)
+    assert result["abstention_reason"] == "no_citable_evidence"
+    [item] = result["evidence"]["items"]
+    assert (item["label"], item["citable"], item["origins"][0]) == ("2", False, "lookup")
+    assert result["question_references"][0]["status"] == "resolved"
+    assert [call.task for call in llm.calls] == ["query_analysis"]
 
 
 # --- Recorded build ----------------------------------------------------------------------------

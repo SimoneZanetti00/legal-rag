@@ -50,6 +50,9 @@ class Settings:
     anthropic_api_key: str | None = field(default=None, repr=False)
     llm_timeout_seconds: float = 120.0  # per request attempt
     llm_refusal_fallback: bool = False  # anthropic, opt-in: fallback model on a refusal
+    # ask: a model assesses whether each claim's cited evidence supports it (not legal
+    # validation); false keeps only the deterministic checks.
+    semantic_verification: bool = True
 
     # Retrieval and evidence selection.
     bm25_top_k: int = 20
@@ -211,6 +214,7 @@ _ENV_FIELDS = {
     "ANTHROPIC_API_KEY": ("anthropic_api_key", lambda raw: raw.strip() or None),
     "LLM_TIMEOUT_SECONDS": ("llm_timeout_seconds", float),
     "LLM_REFUSAL_FALLBACK": ("llm_refusal_fallback", _parse_bool),
+    "SEMANTIC_VERIFICATION": ("semantic_verification", _parse_bool),
     "BM25_TOP_K": ("bm25_top_k", int),
     "DENSE_TOP_K": ("dense_top_k", int),
     "RERANK_TOP_K": ("rerank_top_k", int),

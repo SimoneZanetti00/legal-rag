@@ -25,7 +25,7 @@ from src.evidence import (
     EvidenceError,
     EvidenceRequest,
     ProvisionRequest,
-    _referenced_labels,
+    _referenced_targets,
     assemble,
     estimate_tokens,
 )
@@ -217,19 +217,34 @@ def test_explicit_references_are_followed_one_hop_within_the_instrument(explorer
     assert not any("51" in w for w in evidence.warnings)  # "del regolamento": another act
 
 
-@pytest.mark.parametrize(("text", "labels"), [
-    ("competente a norma dell'articolo 55 senza ingiustificato ritardo", ["55"]),
+GDPR_ID, CODE_ID = "eu-reg-2016-679", "it-dlgs-2003-196"
+
+
+@pytest.mark.parametrize(("text", "instrument", "targets"), [
+    # In an act with no special rules (the synthetic act): unnamed references stay in it.
+    ("competente a norma dell'articolo 55 senza ingiustificato ritardo", "x-act",
+     [("x-act", "55")]),
     ("dell'articolo 6, paragrafo 1, lettera c) o e). In tal caso, non si applica l'articolo 56.",
-     ["6", "56"]),
-    ("di cui agli articoli 33 e 34, e all'articolo 2-quater del presente codice", ["33", "34",
-                                                                                   "2-quater"]),
-    ("di cui all'articolo 51 del regolamento è individuata", []),
-    ("all'articolo 1, paragrafo 1, lettera b), della direttiva (UE) 2015/1535", []),
-    ("si applicano l'articolo 2 e l'articolo 51 del regolamento", ["2"]),
-    ("nessun riferimento", []),
+     "x-act", [("x-act", "6"), ("x-act", "56")]),
+    ("di cui agli articoli 33 e 34, e all'articolo 2-quater del presente codice", "x-act",
+     [("x-act", "33"), ("x-act", "34"), ("x-act", "2-quater")]),
+    ("di cui all'articolo 51 del regolamento è individuata", "x-act", []),  # which regulation?
+    ("all'articolo 1, paragrafo 1, lettera b), della direttiva (UE) 2015/1535", "x-act", []),
+    ("si applicano l'articolo 2 e l'articolo 51 del regolamento", "x-act", [("x-act", "2")]),
+    ("nessun riferimento", "x-act", []),
+    # In the Privacy Code, «Regolamento» is the GDPR (Code Art. 1): a cross-instrument target.
+    ("di cui all'articolo 51 del regolamento è individuata nel Garante, di cui all'articolo "
+     "153.", CODE_ID, [(GDPR_ID, "51"), (CODE_ID, "153")]),
+    ("ai sensi dell'articolo 2 del decreto legislativo 10 agosto 2018, n. 101", CODE_ID, []),
+    ("l'articolo 40 sui codici di condotta", GDPR_ID, [(GDPR_ID, "40")]),  # not the Code
 ])
-def test_reference_parsing(text, labels):
-    assert _referenced_labels(text) == labels
+def test_reference_targets(text, instrument, targets):
+    assert _referenced_targets(text, instrument) == targets
+
+
+def test_cross_instrument_references_can_be_switched_off():
+    text = "di cui all'articolo 51 del regolamento, di cui all'articolo 153."
+    assert _referenced_targets(text, CODE_ID, cross_instrument=False) == [(CODE_ID, "153")]
 
 
 def test_references_can_be_switched_off(explorer):
@@ -347,6 +362,54 @@ def real_explorer():
         return ProvisionExplorer.open(find_recorded_build())
     except ExplorerError as exc:
         pytest.skip(f"recorded build unavailable: {exc}")
+
+
+def test_code_2_bis_expands_across_instruments_to_gdpr_51(real_explorer):
+    request = EvidenceRequest(provisions=(ProvisionRequest("codice privacy", "2-bis"),))
+    evidence = assemble(request, real_explorer, max_items=5, token_budget=3000)
+    found = by_provision(evidence)
+    assert list(found)[0] == CODICE + "2-bis"  # the requested provision comes first
+    gdpr51 = found[GDPR + "51"]
+    assert gdpr51.instrument_id == "eu-reg-2016-679"  # the target keeps its instrument...
+    assert gdpr51.origins == (f"reference:{CODICE}2-bis",)  # ...and records its source
+    assert CODICE + "153" in found  # the unnamed reference stays in the Code
+    without = assemble(dataclasses.replace(request, cross_instrument=False), real_explorer,
+                       max_items=5, token_budget=3000)
+    assert GDPR + "51" not in by_provision(without) and CODICE + "153" in by_provision(without)
+
+
+def test_cross_instrument_expansion_is_bounded_and_displaces_nothing(real_explorer):
+    requested = (ProvisionRequest("codice privacy", "2-bis"), ProvisionRequest("gdpr", "33"))
+    evidence = assemble(EvidenceRequest(provisions=requested), real_explorer, max_items=2,
+                        token_budget=3000)
+    assert [i.provision_id for i in evidence.items] == [CODICE + "2-bis", GDPR + "33"]
+    dropped = {d.provision_id: d.reason for d in evidence.dropped}
+    assert dropped[GDPR + "51"] == dropped[GDPR + "55"] == "max_items"
+    assert len(evidence.dropped) == len(dropped)  # one entry per provision, no duplicates
+    # The token budget bounds references the same way.
+    tight = assemble(EvidenceRequest(provisions=requested[:1]), real_explorer, max_items=5,
+                     token_budget=100)
+    assert [i.provision_id for i in tight.items] == [CODICE + "2-bis"]
+    assert {d.provision_id: d.reason for d in tight.dropped}[GDPR + "51"] == "token_budget"
+
+
+def expanded(explorer, instrument, label):
+    """Every provision the lookup brings in, selected or dropped (room for all of them)."""
+    evidence = assemble(EvidenceRequest(provisions=(ProvisionRequest(instrument, label),)),
+                        explorer, max_items=30, token_budget=50000)
+    return {i.provision_id for i in evidence.items} | {d.provision_id for d in evidence.dropped}
+
+
+def test_gdpr_40_does_not_expand_to_the_privacy_code(real_explorer):
+    # "l'organismo di cui all'articolo 41 ... le norme del codice": a code of conduct.
+    found = expanded(real_explorer, "gdpr", "40")
+    assert CODICE + "41" not in found and GDPR + "41" in found
+    assert not any(pid.startswith("it-dlgs-2003-196@") for pid in found)
+
+
+def test_code_120_does_not_expand_to_its_own_article_135(real_explorer):
+    # "l'articolo 135 del codice delle assicurazioni private": another code.
+    assert expanded(real_explorer, "codice privacy", "120") == {CODICE + "120"}
 
 
 def test_the_demonstration_evidence_on_the_recorded_build(real_explorer):

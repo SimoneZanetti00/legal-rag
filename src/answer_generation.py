@@ -55,8 +55,21 @@ from dataclasses import asdict, dataclass
 from enum import StrEnum
 from typing import Any
 
-from src.config import Settings
-from src.evidence import EvidenceItem, EvidenceSet, assemble
+from src.citations import (  # noqa: F401  (article_references, act_numbers: re-exported)
+    PART_WORDS,
+    Basis,
+    Part,
+    Resolution,
+    act_numbers,
+    article_label,
+    article_references,
+    part_markers,
+    resolve_references,
+    scan_text,
+)
+from src.citations import Status as ResolutionStatus
+from src.config import Settings, load_settings
+from src.evidence import EvidenceItem, EvidenceRequest, EvidenceSet, ProvisionRequest, assemble
 from src.llm import (
     LLMClient,
     LLMMalformedOutputError,
@@ -74,6 +87,8 @@ from src.query_analysis import (
     check_question,
     store_checker,
 )
+from src.support_verification import PROMPT_VERSION as SUPPORT_PROMPT_VERSION
+from src.support_verification import ClaimToVerify, verify_support
 from src.text_normalization import PROFILE as QUOTE_PROFILE
 from src.text_normalization import normalise
 
@@ -123,6 +138,10 @@ VALIDITY_QUALIFICATION = ("This system does not establish whether any provision 
                           "in force or applicable at any date.")
 NOT_VERIFIED_QUALIFICATION = ("Quotations were checked against the evidence text; whether each "
                               "claim follows from its quotations has not been verified.")
+SUPPORT_QUALIFICATION = ("Quotations were checked against the evidence text, and a model assessed "
+                         "whether each claim's cited evidence states it "
+                         f"({SUPPORT_PROMPT_VERSION}). That assessment is not legal validation; "
+                         "a claim marked partially supported or uncertain is not verified.")
 
 MODEL_NOTES_LABEL = "MODEL NOTES — UNVERIFIED — NOT PART OF THE LEGAL ANSWER"
 
@@ -255,6 +274,9 @@ class AnswerResult:
     evidence: EvidenceSet | None
     generation: GenerationProvenance | None
     preflight: CorpusPreflight | None = None  # set by answer_question()
+    # References written in the question, resolved before retrieval (answer_question()).
+    question_references: tuple[Resolution, ...] = ()
+    verification: GenerationProvenance | None = None  # the support check, when it ran
 
     def to_dict(self) -> dict[str, Any]:
         """Plain JSON-compatible data."""
@@ -392,38 +414,92 @@ def answer_question(question: str, llm: LLMClient, explorer: ProvisionExplorer, 
                     settings: Settings | None = None) -> AnswerResult:
     """Analyse the question, assemble its evidence and generate a validated answer.
 
-    In order, with no LLM call before step 3:
+    In order, with no LLM call before step 4:
     1. the question is checked (query_analysis.QueryAnalysisError if empty or too long);
-    2. corpus preflight: if no article of the build may be cited, the result is an abstention
+    2. its explicit legal references are resolved (src/citations.py), deterministically;
+    3. corpus preflight: if no article of the build may be cited, the result is an abstention
        (no_citable_evidence) and nothing is sent to any provider;
-    3. analysis, evidence assembly and generation (generate_answer), as before.
-    Every result carries the preflight. The analysis and generation run on `llm`; evidence
+    4. analysis, evidence assembly and generation (generate_answer). Only references resolved
+       in step 2 become exact lookups, ahead of the analysis's own suggestions; ambiguous or
+       unresolved ones are reported, never looked up by a guessed instrument. The lookups go
+       through the same evidence assembly, eligibility and limits as any other.
+    Every result carries the preflight and the question's references. The analysis,
+    generation and (with SEMANTIC_VERIFICATION) support verification run on `llm`; evidence
     limits come from `settings` (FINAL_EVIDENCE_COUNT, CONTEXT_TOKEN_BUDGET). Provider and
     configuration errors (llm.LLMTransportError, llm.LLMConfigError) propagate; an analysis
     that cannot be obtained becomes an abstention.
     """
+    settings = settings or load_settings()
     question = check_question(question)
+    references = resolve_references(question, explorer.store,
+                                    article_text=_article_text(explorer))
     preflight = corpus_preflight(explorer)
+
+    def finish(result: AnswerResult) -> AnswerResult:
+        return dataclasses.replace(result, preflight=preflight, question_references=references)
+
     if not preflight.passed:
         tiers = ", ".join(f"{count} {tier}" for tier, count in preflight.article_tiers)
-        return _abstain(question, NO_CITABLE_EVIDENCE,
-                        f"No article in build {preflight.build_id} may be cited ({tiers}); an "
-                        "answer needs provisions whose text has passed human review. The "
-                        "question was not sent to any model.", preflight=preflight)
+        return finish(_abstain(question, NO_CITABLE_EVIDENCE,
+                               f"No article in build {preflight.build_id} may be cited ({tiers}); "
+                               "an answer needs provisions whose text has passed human review. "
+                               "The question was not sent to any model."))
     try:
         analysis = analyze(question, llm, provision_exists=store_checker(explorer.store))
     except LLMRefusalError as exc:
-        return _abstain(question, MODEL_REFUSED, _refusal_message(exc, "query analysis"),
-                        preflight=preflight)
+        return finish(_abstain(question, MODEL_REFUSED,
+                               _refusal_message(exc, "query analysis")))
     except LLMOutputError as exc:
-        return _abstain(question, ANALYSIS_FAILED,
-                        _failure_message("The question could not be analysed", exc),
-                        preflight=preflight)
+        return finish(_abstain(question, ANALYSIS_FAILED,
+                               _failure_message("The question could not be analysed", exc)))
     evidence = None
     if analysis.in_scope and not analysis.needs_clarification:
-        evidence = assemble(analysis.to_evidence_request(), explorer, settings=settings)
-    return dataclasses.replace(generate_answer(question, analysis, evidence, llm),
-                               preflight=preflight)
+        request = _with_question_lookups(analysis.to_evidence_request(), references)
+        evidence = assemble(request, explorer, settings=settings)
+    return finish(generate_answer(question, analysis, evidence, llm,
+                                  verify_support=settings.semantic_verification))
+
+
+def _article_text(explorer: ProvisionExplorer):
+    """Provision -> its exact article text, for checking the parts a reference names."""
+    def text(provision: Any) -> str | None:
+        return "".join(piece["text"] for piece in explorer.provision_view(provision)["text"]) \
+            or None
+    return text
+
+
+def _with_question_lookups(request: EvidenceRequest,
+                           references: Iterable[Resolution]) -> EvidenceRequest:
+    """`request` with the question's resolved references as exact lookups, first.
+
+    A whole-article lookup from the question gives way, in its place, to the lookups of points
+    of that article already requested: assembly keeps one span per provision (the first one
+    requested), and the point is the more specific evidence. A long article in full can exceed
+    the token budget, where its point fits.
+    """
+    lookups: list[ProvisionRequest] = []
+    for resolution in references:
+        if resolution.status == ResolutionStatus.RESOLVED:
+            ref = resolution.reference
+            lookups.append(ProvisionRequest(ref.target_instrument, ref.article,
+                                            resolution.point))
+    if not lookups:
+        return request
+
+    def article(p: ProvisionRequest) -> tuple[str, str]:
+        return (p.instrument.casefold(), article_label(p.label))
+
+    points: dict[tuple[str, str], list[ProvisionRequest]] = {}
+    for provision in (*lookups, *request.provisions):
+        if provision.point is not None:
+            points.setdefault(article(provision), []).append(provision)
+    ordered = [specific for p in lookups
+               for specific in (points.get(article(p), [p]) if p.point is None else [p])]
+
+    merged: dict[tuple[str, str, str | None], ProvisionRequest] = {}
+    for provision in (*ordered, *request.provisions):
+        merged.setdefault((*article(provision), provision.point), provision)
+    return dataclasses.replace(request, provisions=tuple(merged.values()))
 
 
 def corpus_preflight(explorer: ProvisionExplorer) -> CorpusPreflight:
@@ -437,10 +513,13 @@ def corpus_preflight(explorer: ProvisionExplorer) -> CorpusPreflight:
 
 
 def generate_answer(question: str, analysis: QueryAnalysis, evidence: EvidenceSet | None,
-                    llm: LLMClient) -> AnswerResult:
+                    llm: LLMClient, *, verify_support: bool = False) -> AnswerResult:
     """A validated answer to `question` from `evidence`, or an abstention with its reason.
 
     `evidence` may be None only when the analysis is out of scope or needs clarification.
+    With `verify_support`, the claims that pass the deterministic checks also go through the
+    model support check (src/support_verification.py): unsupported claims are removed, and
+    only claims assessed as supported can make a complete answer.
     """
     question = question.strip()
     if question != analysis.question:
@@ -488,12 +567,14 @@ def generate_answer(question: str, analysis: QueryAnalysis, evidence: EvidenceSe
         fallback_used=result.fallback_used, request_ids=result.request_ids,
         quote_normalisation=QUOTE_PROFILE,
         supplied_evidence_ids=tuple(item.evidence_id for item in supplied))
-    return _decide(question, analysis, evidence, supplied, result.data, provenance)
+    return _decide(question, analysis, evidence, supplied, result.data, provenance,
+                   verifier=llm if verify_support else None)
 
 
 def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
             supplied: tuple[EvidenceItem, ...], data: Mapping[str, Any],
-            provenance: GenerationProvenance) -> AnswerResult:
+            provenance: GenerationProvenance, *,
+            verifier: LLMClient | None = None) -> AnswerResult:
     warnings: list[str] = []
     issue_ids = {issue.id for issue in analysis.issues}
 
@@ -519,19 +600,28 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
                         unanswered=unanswered, **common)
 
     claims, rejected = validate_claims(data["claims"], issue_ids=issue_ids, evidence=evidence)
+    verification = None
+    if claims and verifier is not None:
+        claims, rejected, verification = _verify_support(claims, rejected, evidence, verifier,
+                                                         warnings)
     if not claims:
         codes = sorted({reason.split(":")[0] for r in rejected for reason in r.reasons})
         return _abstain(question, NO_SUPPORTED_CLAIMS,
                         f"All {len(rejected)} claims were removed by validation (reasons: "
                         f"{', '.join(codes)}).", rejected=rejected, unanswered=unanswered,
-                        **common)
+                        verification=verification, **common)
 
     listed = {u.issue_id for u in unanswered}
     covered = {iid for claim in claims for iid in claim.issue_ids}
     for issue in analysis.issues:
         if issue.id not in covered and issue.id not in listed:
             unanswered.append(UnansweredIssue(issue.id, NOT_COVERED))
-    complete = data["outcome"] == Outcome.ANSWER and not rejected and not unanswered
+    # With the support check on, only claims it assessed as supported make a complete answer
+    # (if it could not run, nothing was assessed and the answer stays limited).
+    supported = verifier is None or (verification is not None and all(
+        claim.verification == VerificationStatus.SUPPORTED for claim in claims))
+    complete = (data["outcome"] == Outcome.ANSWER and not rejected and not unanswered
+                and supported)
     cited = {eid for claim in claims for eid in claim.evidence_ids}
     return AnswerResult(
         question=question,
@@ -543,10 +633,46 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
         rejected_claims=tuple(rejected),
         unanswered_issues=tuple(unanswered),
         model_notes=model_notes,
-        qualifications=_qualifications(evidence, with_claims=True),
+        qualifications=_qualifications(evidence, with_claims=True,
+                                       support_checked=verification is not None),
         warnings=tuple(evidence.warnings) + tuple(warnings),
         analysis=analysis, evidence=evidence, generation=provenance,
+        verification=verification,
     )
+
+
+def _verify_support(claims: list[AnswerClaim], rejected: list[RejectedClaim],
+                    evidence: EvidenceSet, llm: LLMClient, warnings: list[str],
+                    ) -> tuple[list[AnswerClaim], list[RejectedClaim],
+                               GenerationProvenance | None]:
+    """The model support check on the claims that passed the deterministic checks.
+
+    Unsupported claims are removed (reason not_supported_by_evidence); the others keep their
+    assessed level. If the check cannot run (malformed replies, refusal), the claims stay
+    NOT_VERIFIED and a warning says so. Provider errors propagate, as elsewhere.
+    """
+    to_check = [ClaimToVerify(c.claim_id, c.text, c.evidence_ids) for c in claims]
+    try:
+        outcome = verify_support(to_check, evidence, llm)
+    except (LLMRefusalError, LLMOutputError) as exc:
+        warnings.append(f"support_verification_unavailable: {type(exc).__name__}")
+        return claims, rejected, None
+    result = outcome.result
+    provenance = GenerationProvenance(
+        task=result.task, prompt_version=SUPPORT_PROMPT_VERSION, provider=result.provider,
+        model=result.model, served_by=result.served_by, attempts=result.attempts,
+        fallback_used=result.fallback_used, request_ids=result.request_ids,
+        quote_normalisation=QUOTE_PROFILE, supplied_evidence_ids=outcome.evidence_ids)
+    kept: list[AnswerClaim] = []
+    removed = list(rejected)
+    for claim in claims:
+        status = outcome.statuses[claim.claim_id]
+        if status == VerificationStatus.UNSUPPORTED:
+            removed.append(RejectedClaim(claim.issue_ids, claim.kind, claim.text, claim.quotes,
+                                         ("not_supported_by_evidence",)))
+        else:
+            kept.append(dataclasses.replace(claim, verification=status))
+    return kept, removed, provenance
 
 
 def _abstain(question: str, reason: str, detail: str, *,
@@ -554,7 +680,8 @@ def _abstain(question: str, reason: str, detail: str, *,
              generation: GenerationProvenance | None = None,
              rejected: Iterable[RejectedClaim] = (), unanswered: Iterable[UnansweredIssue] = (),
              model_notes: tuple[str, ...] = (), warnings: Iterable[str] = (),
-             preflight: CorpusPreflight | None = None) -> AnswerResult:
+             preflight: CorpusPreflight | None = None,
+             verification: GenerationProvenance | None = None) -> AnswerResult:
     """`detail` is always application text: never a reason written by a model."""
     return AnswerResult(
         question=question, outcome=Outcome.ABSTAIN, abstention_reason=reason,
@@ -565,6 +692,7 @@ def _abstain(question: str, reason: str, detail: str, *,
         qualifications=_qualifications(evidence, with_claims=False),
         warnings=(tuple(evidence.warnings) if evidence else ()) + tuple(warnings),
         analysis=analysis, evidence=evidence, generation=generation, preflight=preflight,
+        verification=verification,
     )
 
 
@@ -587,10 +715,11 @@ def _non_authoritative(evidence: EvidenceSet) -> tuple[SourceReference, ...]:
     return tuple(SourceReference.of(item) for item in evidence.items if not item.citable)
 
 
-def _qualifications(evidence: EvidenceSet | None, *, with_claims: bool) -> tuple[str, ...]:
+def _qualifications(evidence: EvidenceSet | None, *, with_claims: bool,
+                    support_checked: bool = False) -> tuple[str, ...]:
     out = [VALIDITY_QUALIFICATION]
     if with_claims:
-        out.append(NOT_VERIFIED_QUALIFICATION)
+        out.append(SUPPORT_QUALIFICATION if support_checked else NOT_VERIFIED_QUALIFICATION)
     if evidence is not None and evidence.dropped:
         reasons = ", ".join(sorted({d.reason for d in evidence.dropped}))
         out.append(f"{len(evidence.dropped)} further candidate provisions were left out by the "
@@ -658,8 +787,8 @@ def validate_claims(raw_claims: Iterable[Mapping[str, Any]], *, issue_ids: set[s
             else:
                 cited.append(item)
         if not reasons:
-            reasons += [f"unsupported_reference:{ref}" for ref in
-                        unsupported_references(raw["text"], _allowed_references(cited))]
+            reasons += [f"{code}:{ref}" for code, ref in
+                        _reference_problems(raw["text"], _allowed_references(cited))]
         if reasons:
             rejected.append(RejectedClaim(claim_issues, raw["kind"], raw["text"], quotes,
                                           tuple(dict.fromkeys(reasons))))
@@ -686,180 +815,129 @@ def quote_problem(quote: str, text: str) -> str | None:
     return "quote_not_found"
 
 
-# Latin ordinal suffixes of inserted articles: bis, ter, ..., decies, undecies ... noviesdecies.
-_LATIN = (r"bis|ter|quater|quinquies|sexies|septies|octies|novies|nonies|decies|vicies"
-          r"|[a-z]+decies")
-_SUFFIX = rf"(?:[-\s](?:{_LATIN})\b)"
-_AND = r"\s*(?:,|\be\b|\bed\b|\band\b|\bor\b|\bo\b)\s*"  # joins the items of a list
-_NUMBERS = rf"\d{{1,3}}(?:{_AND}\d{{1,3}})*(?![\d/])"
-# One source reference in the normalised text. A paragraph, point, letter or bracketed number
-# that follows an article with only spaces or commas in between belongs to that article.
-_REFERENCE = re.compile(
-    rf"(?P<article>\b(?:artt?\.|art\b|articol[oi]|articles?)\s*(?P<label>\d{{1,3}}{_SUFFIX}?)"
-    rf"(?P<more>(?:{_AND}\d{{1,3}}{_SUFFIX}?)*))"
-    rf"|(?P<bracket>\(\s*(?P<bracket_value>\d{{1,3}}|[a-z])\s*\))"
-    rf"|(?P<paragraph>\b(?:paragraf[oi]|parr?\.|paragraphs?|paras?\.|comm[ai])\s*"
-    rf"(?P<paragraphs>{_NUMBERS}))"
-    rf"|(?P<point>\b(?:punt[oi]|points?)\s*(?P<points>{_NUMBERS}))"
-    rf"|(?P<letter>\b(?:letter[ae]|lett\.|letters?|punt[oi]|points?)\s*"
-    rf"(?P<letters>\(?[a-z]\)?(?![a-z])(?:{_AND}\(?[a-z]\))*))"
-    rf"|(?P<number>\b(?:nn?\.|n[°º]|nr\.?|num\.)\s*(?P<number_value>\d{{1,7}})(?![\d/]))"
-    rf"|(?P<docweb>\bdoc\.?\s*web\s*(?:n\.\s*)?(?P<docweb_value>\d{{4,9}}))"
-    rf"|(?P<recital>\b(?:considerand[oi]|recitals?)\s*(?:n\.\s*)?(?P<recitals>{_NUMBERS}))"
-    rf"|(?P<recital_before>\b(?P<recital_value>\d{{1,3}})\s*(?:°|º|th|st|nd|rd)?\s*"
-    rf"(?:considerando|recital)\b)",
-    re.IGNORECASE)
-_ARTICLE_NUMBER = re.compile(rf"\d{{1,3}}{_SUFFIX}?", re.IGNORECASE)
-_ACT_NUMBER = re.compile(r"(?<![\d/])\d{1,4}/\d{2,4}(?!\d)")  # "95/46/CE" gives "95/46"
-_CHAIN = re.compile(r"[\s,]*")  # what may separate an article from the parts that follow it
-# How an article's own text numbers its parts: paragraphs "1.", points "12)", letters "a)".
-_MARKERS = (("paragraph", re.compile(r"(?m)^[ \t]*(\d{1,3})\.(?=\s|$)")),
-            ("point", re.compile(r"(?m)^[ \t]*(\d{1,3})\)")),
-            ("letter", re.compile(r"(?m)^[ \t]*\(?([a-z])\)")))
-_PART_WORDS = {"paragraph": "paragrafo", "point": "punto", "letter": "lettera"}
-
-
-@dataclass(frozen=True)
-class _Part:
-    article: str | None  # the article it belongs to, when the text says so
-    kind: str  # "paragraph", "point", "letter", or "number" (bracketed: paragraph or point)
-    value: str
-
-
-@dataclass(frozen=True)
-class _References:
-    articles: tuple[str, ...]
-    parts: tuple[_Part, ...]
-    recitals: tuple[str, ...]
-    documents: tuple[str, ...]  # numbered documents: "n. 157", "doc. web 9876543"
-
-
-def _label(text: str) -> str:
-    return re.sub(r"[\s-]+", "-", text.strip().lower())
-
-
-def _references(text: str) -> _References:
-    """Every source reference in `text` (compared in its normalised form)."""
-    text = normalise(text)
-    articles: list[str] = []
-    parts: list[_Part] = []
-    recitals: list[str] = []
-    documents: list[str] = []
-    owner, chain_end = None, 0  # the article that following parts belong to; where it ends
-    for m in _REFERENCE.finditer(text):
-        attached = owner if owner and _CHAIN.fullmatch(text, chain_end, m.start()) else None
-        if m.group("article"):
-            labels = [_label(m.group("label")),
-                      *(_label(n) for n in _ARTICLE_NUMBER.findall(m.group("more")))]
-            articles += labels
-            owner, chain_end = (labels[0] if len(labels) == 1 else None), m.end()
-            continue
-        found: list[_Part] = []
-        if m.group("bracket"):
-            if attached:
-                value = m.group("bracket_value").lower()
-                found = [_Part(attached, "letter" if value.isalpha() else "number", value)]
-        elif m.group("paragraph"):
-            found = [_Part(attached, "paragraph", n)
-                     for n in re.findall(r"\d+", m.group("paragraphs"))]
-        elif m.group("point"):
-            found = [_Part(attached, "point", n) for n in re.findall(r"\d+", m.group("points"))]
-        elif m.group("letter"):
-            found = [_Part(attached, "letter", x) for x in _letters(m.group("letters"))]
-        elif m.group("number") and attached:  # "art. 4, n. 12" is point 12 of article 4
-            found = [_Part(attached, "point", m.group("number_value"))]
-        elif m.group("number"):
-            documents.append(m.group("number_value"))
-        elif m.group("docweb"):
-            documents.append(m.group("docweb_value"))
-        elif m.group("recital"):
-            recitals += re.findall(r"\d+", m.group("recitals"))
-        else:
-            recitals.append(m.group("recital_value"))
-        parts += found
-        if found and attached:
-            chain_end = m.end()
-        else:
-            owner = None
-    return _References(tuple(dict.fromkeys(articles)), tuple(dict.fromkeys(parts)),
-                       tuple(dict.fromkeys(recitals)), tuple(dict.fromkeys(documents)))
-
-
-def _letters(text: str) -> list[str]:
-    """'b), c) e d)' -> b, c, d: the first letter, then each later one closed by ')'."""
-    first = re.match(r"\(?([a-z])\)?", text, re.IGNORECASE)
-    rest = re.findall(r"\(?([a-z])\)", text[first.end():], re.IGNORECASE)
-    return [first.group(1).lower(), *(x.lower() for x in rest)]
-
-
-def article_references(text: str) -> list[str]:
-    """Article labels named in `text`, normalised ("Art. 2 bis" -> "2-bis"), in order."""
-    return list(_references(text).articles)
-
-
-def act_numbers(text: str) -> list[str]:
-    """Act numbers such as "2016/679" or "101/2018" named in `text`, in order."""
-    return list(dict.fromkeys(_ACT_NUMBER.findall(normalise(text))))
+# --- Source references (parsed and attributed by src/citations.py) ----------------------------
 
 
 @dataclass(frozen=True)
 class _Allowed:
-    articles: frozenset[str]
+    """What a set of evidence items supports, by instrument: their own articles and parts, and
+    the provisions their texts name (each attributed with its own instrument as context)."""
+
+    articles: frozenset[tuple[str, str]]  # (instrument, label)
+    parts: frozenset[tuple[str, str, str, str]]  # (instrument, label, kind, value)
+    external: frozenset[tuple[str, str]]  # (act key, label) of acts outside the corpus named
     acts: frozenset[str]
     recitals: frozenset[str]
     documents: frozenset[str]
-    parts: frozenset[tuple[str, str, str]]  # (article, kind, value) present in or named by text
+    instruments: frozenset[str]  # the items' own instruments
 
 
 def _allowed_references(items: Iterable[EvidenceItem]) -> _Allowed:
-    """What the texts of `items` support: their own articles and parts, and what they name."""
-    articles: set[str] = set()
+    articles: set[tuple[str, str]] = set()
+    parts: set[tuple[str, str, str, str]] = set()
+    external: set[tuple[str, str]] = set()
     acts: set[str] = set()
     recitals: set[str] = set()
     documents: set[str] = set()
-    parts: set[tuple[str, str, str]] = set()
+    instruments: set[str] = set()
     for item in items:
-        own = _label(item.label)
-        refs = _references(item.text)
-        articles.update((own, *refs.articles))
+        own = (item.instrument_id, article_label(item.label))
+        instruments.add(item.instrument_id)
+        articles.add(own)
+        scan = scan_text(normalise(item.text), context_instrument=item.instrument_id)
         acts.update(act_numbers(item.text))
         for number in INSTRUMENT_NUMBERS.get(item.instrument_id, ()):
             acts.add(number)
             documents.update(number.split("/"))  # "D.Lgs. 30 giugno 2003, n. 196"
-        recitals.update(refs.recitals)
-        documents.update(refs.documents)
-        for kind, marker in _MARKERS:
-            parts.update((own, kind, value.lower()) for value in marker.findall(item.text))
-        for part in refs.parts:  # a part named without an article belongs to this one
-            kinds = ("paragraph", "point") if part.kind == "number" else (part.kind,)
-            parts.update((part.article or own, kind, part.value) for kind in kinds)
-    return _Allowed(frozenset(articles), frozenset(acts), frozenset(recitals),
-                    frozenset(documents), frozenset(parts))
+        recitals.update(scan.recitals)
+        documents.update(scan.documents)
+        parts.update((*own, kind, value) for kind, value in part_markers(item.text))
+        for ref in scan.references:
+            if ref.basis == Basis.EXTERNAL:
+                external.add((_act_key(ref.external_act), ref.article))
+            elif ref.target_instrument is not None:
+                target = (ref.target_instrument, ref.article)
+                articles.add(target)
+                parts.update((*target, kind, part.value)
+                             for part in ref.parts for kind in _kinds(part))
+        for part in scan.loose_parts:  # a part named without an article belongs to this one
+            parts.update((*own, kind, part.value) for kind in _kinds(part))
+    return _Allowed(frozenset(articles), frozenset(parts), frozenset(external), frozenset(acts),
+                    frozenset(recitals), frozenset(documents), frozenset(instruments))
+
+
+def _reference_problems(text: str, allowed: _Allowed) -> list[tuple[str, str]]:
+    """(reason code, description) of each reference in `text` that `allowed` does not cover.
+
+    An article reference is matched on instrument and label together. Its instrument comes
+    from an explicit name, else from the items when they all belong to one instrument; with
+    items of several instruments, an unnamed article must match exactly one of them.
+    """
+    context = next(iter(allowed.instruments)) if len(allowed.instruments) == 1 else None
+    scan = scan_text(normalise(text), context_instrument=context, own_text=False)  # a claim
+    problems: list[tuple[str, str]] = []
+    for ref in scan.references:
+        if ref.basis == Basis.EXTERNAL:
+            if (_act_key(ref.external_act), ref.article) not in allowed.external:
+                problems.append(("unsupported_reference",
+                                 f"articolo {ref.article} ({ref.external_act})"))
+            continue
+        if ref.target_instrument is not None:
+            target = (ref.target_instrument, ref.article)
+            if target not in allowed.articles:
+                named = (f" ({ref.target_instrument})" if ref.basis == Basis.EXPLICIT
+                         and ref.target_instrument != context else "")
+                problems.append(("unsupported_reference", f"articolo {ref.article}{named}"))
+                continue
+        else:
+            matches = sorted({a for a in allowed.articles if a[1] == ref.article})
+            if len(matches) != 1:
+                problems.append(("ambiguous_reference" if matches else "unsupported_reference",
+                                 f"articolo {ref.article}"))
+                continue
+            target = matches[0]
+        problems += [("unsupported_reference", _describe(part, ref.article))
+                     for part in ref.parts if not _part_supported(part, target, allowed)]
+    problems += [("unsupported_reference", number) for number in act_numbers(text)
+                 if number not in allowed.acts]
+    problems += [("unsupported_reference", f"considerando {n}") for n in scan.recitals
+                 if n not in allowed.recitals]
+    problems += [("unsupported_reference", f"n. {n}") for n in scan.documents
+                 if n not in allowed.documents]
+    problems += [("unsupported_reference", _describe(part, None)) for part in scan.loose_parts
+                 if not _part_supported(part, None, allowed)]
+    return list(dict.fromkeys(problems))
 
 
 def unsupported_references(text: str, allowed: _Allowed) -> list[str]:
     """The source references in `text` that `allowed` does not cover, described."""
-    refs = _references(text)
-    bad = [f"articolo {label}" for label in refs.articles if label not in allowed.articles]
-    bad += [number for number in act_numbers(text) if number not in allowed.acts]
-    bad += [f"considerando {n}" for n in refs.recitals if n not in allowed.recitals]
-    bad += [f"n. {n}" for n in refs.documents if n not in allowed.documents]
-    bad += [_describe(part) for part in refs.parts if not _part_supported(part, allowed)]
-    return list(dict.fromkeys(bad))
+    return list(dict.fromkeys(description for _, description in
+                              _reference_problems(text, allowed)))
 
 
-def _part_supported(part: _Part, allowed: _Allowed) -> bool:
-    kinds = ("paragraph", "point") if part.kind == "number" else (part.kind,)
-    if part.article is not None:
-        return any((part.article, kind, part.value) in allowed.parts for kind in kinds)
-    return any(kind in kinds and value == part.value for _, kind, value in allowed.parts)
+def _kinds(part: Part) -> tuple[str, ...]:
+    return ("paragraph", "point") if part.kind == "number" else (part.kind,)
 
 
-def _describe(part: _Part) -> str:
+def _part_supported(part: Part, target: tuple[str, str] | None, allowed: _Allowed) -> bool:
+    if target is not None:
+        return any((*target, kind, part.value) in allowed.parts for kind in _kinds(part))
+    return any(kind in _kinds(part) and value == part.value
+               for _, _, kind, value in allowed.parts)
+
+
+def _describe(part: Part, article: str | None) -> str:
     if part.kind == "number":
-        return f"articolo {part.article}({part.value})"
-    words = f"{_PART_WORDS[part.kind]} {part.value}"
-    return f"articolo {part.article}, {words}" if part.article else words
+        return f"articolo {article}({part.value})"
+    words = f"{PART_WORDS[part.kind]} {part.value}"
+    return f"articolo {article}, {words}" if article else words
+
+
+def _act_key(act: str | None) -> str:
+    """An outside act's comparison key: its number if written, else its words."""
+    text = act or ""
+    number = re.search(r"\d{1,4}/\d{2,4}", text) or re.search(r"n\.\s*\d+", text)
+    return " ".join((number.group(0) if number else text).lower().split())
 
 
 def _screen_note(text: str | None, allowed: _Allowed, warnings: list[str],

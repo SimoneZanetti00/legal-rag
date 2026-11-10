@@ -952,6 +952,41 @@ or invalid arguments. Errors say which command to run.
   division headings printed with `((` (TD-060); the explorer does not use it.
 - No recorded build exists until P1.3 is committed and built from a clean tree.
 
+## Asking a question (`ask`)
+
+```powershell
+.\.venv\Scripts\python.exe -m src.cli ask "Cosa prevede l'articolo 33 GDPR?" [--json]
+```
+
+`ask` needs a real LLM provider (`LLM_PROVIDER=anthropic`, `LLM_MODEL`,
+`ANTHROPIC_API_KEY`; see `.env.example`). In order:
+
+1. **Citation resolution** (`src/citations.py`, deterministic). Legal references
+   written in the question are resolved to provisions, instrument and article
+   together: `resolved`, `partially_resolved` (article found, a named paragraph,
+   point or letter not), `ambiguous` (the act is not stated; candidates are listed
+   but never looked up) or `unresolved` (an act outside the corpus, or no such
+   article). An article number alone never resolves. Only `resolved` references
+   become exact lookups.
+2. **Corpus preflight**: if no article of the build may be cited, `ask` abstains
+   and sends nothing to any provider. With the empty review ledger this is
+   always the outcome today.
+3. **Query analysis** (LLM), **evidence assembly** (BM25, exact lookups, and one
+   hop of explicit references: in the Privacy Code, "articolo 51 del regolamento"
+   is GDPR Art. 51), and **answer generation** (LLM, citable evidence only).
+4. **Validation**: every claim must quote its cited evidence exactly, and every
+   article it names must match, by instrument and label together, a cited
+   provision or one that the cited text itself names.
+5. **Support check** (LLM, `SEMANTIC_VERIFICATION=true` by default): a model
+   assesses whether each claim's cited evidence states it (`supported`,
+   `partially_supported`, `unsupported`, `uncertain`). Unsupported claims are
+   removed; only supported ones make a complete answer. This is a model's
+   assessment, not legal validation or human review.
+
+Exit codes: 0 an answer or an abstention; 2 configuration, build or argument
+errors; 3 the LLM provider request failed. Planned work and known limits:
+[docs/ROADMAP.md](docs/ROADMAP.md).
+
 ## Configuration
 
 All settings come from environment variables, optionally loaded from a

@@ -15,10 +15,13 @@ What goes in:
 - longer articles: the matched span from the best-ranked chunk, widened to the
   nearest blank line or line break within SPAN_CONTEXT_CHARS on each side; for a
   lookup of a numbered point ("12)"), exactly that point;
-- one hop of explicit cross-references ("articolo 55", "articoli 33 e 34") found in
-  the included text of a direct item, within the same instrument. References that
-  the text ties to another act ("del regolamento", "della direttiva", ...) are not
-  followed.
+- one hop of explicit references ("articolo 55", "articoli 33 e 34") found in the
+  included text of a direct item, attributed by src/citations.py with the item's own
+  instrument as context: references that name no act stay in that instrument; with
+  `cross_instrument`, references to another corpus instrument are followed too (in the
+  Privacy Code, "articolo 51 del regolamento" is GDPR Art. 51, by the Code's own
+  definition). References tied to an act outside the corpus, or to no determinable
+  act, are never followed, and references are never followed from a reference.
 
 Order and limits: exact lookups first (request order), then search hits interleaved
 by rank across queries, then cross-references. Items are taken in that order while
@@ -35,6 +38,7 @@ import re
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from src.citations import extract_references
 from src.config import Settings, load_settings
 from src.provision_explorer import ProvisionExplorer
 from src.provisions import Provision, ProvisionError, Tier
@@ -43,12 +47,6 @@ WHOLE_PROVISION_MAX_CHARS = 2500
 SPAN_CONTEXT_CHARS = 300
 CHARS_PER_TOKEN = 3
 
-_REFERENCE = re.compile(
-    r"\barticol[oi]\s+(\d+(?:-[a-z]+)*)((?:\s*(?:,|\be\b)\s*\d+(?:-[a-z]+)*)*)", re.I)
-_EXTERNAL = re.compile(
-    r"\b(?:del|della|dello|dei|delle)\s+(presente\s+)?"
-    r"(?:regolamento|direttiva|decreto|legge|codice|trattato)\b", re.I)
-_CLAUSE_END = re.compile(r"\barticol|[;.]", re.I)  # where a reference's own words stop
 _POINT_LINE = re.compile(r"(?m)^[ \t]*(\d+)\)\s")
 
 
@@ -80,6 +78,7 @@ class EvidenceRequest:
     provisions: tuple[ProvisionRequest, ...] = ()  # exact lookups, included first
     top_k: int = 5  # BM25 passages per query
     expand_references: bool = True
+    cross_instrument: bool = True  # also follow references to another corpus instrument
 
 
 # --- Result ------------------------------------------------------------------------------------
@@ -214,7 +213,8 @@ def assemble(request: EvidenceRequest, explorer: ProvisionExplorer, *,
 
     selected, dropped = _select(list(direct.values()), articles, max_items, token_budget, [])
     if request.expand_references:
-        refs = _references(selected, explorer, articles, warnings)
+        refs = _references(selected, explorer, articles, warnings,
+                           cross_instrument=request.cross_instrument)
         selected, more_dropped = _select(refs, articles, max_items, token_budget, selected)
         dropped += more_dropped
 
@@ -404,17 +404,26 @@ def _text(candidate: _Candidate, articles) -> str:
     return articles.get(candidate.provision)[0][start:end]
 
 
-def _references(selected, explorer, articles, warnings) -> list[_Candidate]:
-    """One hop of explicit same-instrument references from the direct items' included text."""
+def _references(selected, explorer, articles, warnings, *,
+                cross_instrument: bool) -> list[_Candidate]:
+    """One hop of explicit references from the direct items' included text.
+
+    The source provision is recorded in each target's origins ("reference:<provision_id>");
+    the target keeps its own instrument. Targets are looked up exactly; one already selected
+    only gains the origin, and nothing is followed from a reference (no cycles, no 2nd hop).
+    """
     by_id = {c.provision.provision_id: c for c in selected}
     found: dict[str, _Candidate] = {}
     for c in list(selected):
-        for label in _referenced_labels(_text(c, articles)):
+        source = c.provision.instrument_id
+        for instrument, label in _referenced_targets(_text(c, articles), source,
+                                                     cross_instrument=cross_instrument):
             try:
-                target = explorer.store.lookup(c.provision.instrument_id, label)
+                target = explorer.store.lookup(instrument, label)
             except ProvisionError:
+                where = "" if instrument == source else f" {instrument}"
                 warnings.append(f"reference_not_found: {c.provision.provision_id} -> "
-                                f"articolo {label}")
+                                f"articolo {label}{where}")
                 continue
             if target.provision_id == c.provision.provision_id:
                 continue
@@ -427,19 +436,25 @@ def _references(selected, explorer, articles, warnings) -> list[_Candidate]:
     return list(found.values())
 
 
-def _referenced_labels(text: str) -> list[str]:
-    labels: list[str] = []
-    for m in _REFERENCE.finditer(text):
-        following = text[m.end(): m.end() + 80]
-        end = _CLAUSE_END.search(following)
-        ext = _EXTERNAL.search(following[: end.start() if end else len(following)])
-        if ext and not ext.group(1):  # tied to another act, not "del presente ..."
+def _referenced_targets(text: str, instrument_id: str, *,
+                        cross_instrument: bool = True) -> list[tuple[str, str]]:
+    """(instrument, label) of the articles `text`, part of `instrument_id`, explicitly refers to.
+
+    A reference that names no act stays in `instrument_id`; one that names another corpus
+    instrument (or a term this instrument defines as one) is kept only with
+    `cross_instrument`. References to acts outside the corpus, or to no determinable act, are
+    left out.
+    """
+    targets: list[tuple[str, str]] = []
+    for ref in extract_references(text, context_instrument=instrument_id):
+        if ref.target_instrument is None:
             continue
-        for label in [m.group(1), *re.findall(r"\d+(?:-[a-z]+)*", m.group(2))]:
-            label = label.lower()
-            if label not in labels:
-                labels.append(label)
-    return labels
+        if ref.target_instrument != instrument_id and not cross_instrument:
+            continue
+        key = (ref.target_instrument, ref.article)
+        if key not in targets:
+            targets.append(key)
+    return targets
 
 
 def _item(evidence_id: str, c: _Candidate, explorer, articles) -> EvidenceItem:
