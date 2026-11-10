@@ -16,6 +16,8 @@ def test_defaults_are_valid():
     settings = load_settings({})
     assert settings == Settings()
     assert settings.llm_provider == "mock"
+    assert settings.llm_refusal_fallback is False  # opt-in
+    assert settings.llm_timeout_seconds == 120.0
     assert settings.reranker_enabled is False
     assert settings.min_retrieval_score is None
     assert settings.raw_dir == PROJECT_ROOT / "data" / "raw"
@@ -30,6 +32,8 @@ def test_env_values_are_parsed():
             "LLM_PROVIDER": "Anthropic",
             "LLM_MODEL": "some-model",
             "UNDATED_SOURCE_POLICY": "EXCLUDE",
+            "LLM_TIMEOUT_SECONDS": "30.5",
+            "LLM_REFUSAL_FALLBACK": "true",
         }
     )
     assert settings.bm25_top_k == 42
@@ -37,6 +41,8 @@ def test_env_values_are_parsed():
     assert settings.min_rerank_score == 0.25
     assert settings.llm_provider == "anthropic"
     assert settings.undated_source_policy == "exclude"
+    assert settings.llm_timeout_seconds == 30.5
+    assert settings.llm_refusal_fallback is True
 
 
 def test_relative_paths_resolve_against_project_root(tmp_path):
@@ -62,6 +68,12 @@ def test_empty_threshold_disables_it():
         ({"LLM_PROVIDER": "openai"}, "LLM_MODEL must be set"),
         ({"RERANKER_ENABLED": "true", "RERANKER_MODEL": " "}, "RERANKER_MODEL must be set"),
         ({"UNDATED_SOURCE_POLICY": "ignore"}, "UNDATED_SOURCE_POLICY must be one of"),
+        ({"LLM_TIMEOUT_SECONDS": "abc"}, "LLM_TIMEOUT_SECONDS has an invalid value"),
+        ({"LLM_TIMEOUT_SECONDS": "0"}, "LLM_TIMEOUT_SECONDS must be a positive number"),
+        ({"LLM_TIMEOUT_SECONDS": "-5"}, "LLM_TIMEOUT_SECONDS must be a positive number"),
+        ({"LLM_TIMEOUT_SECONDS": "nan"}, "LLM_TIMEOUT_SECONDS must be a positive number"),
+        ({"LLM_TIMEOUT_SECONDS": "inf"}, "LLM_TIMEOUT_SECONDS must be a positive number"),
+        ({"LLM_REFUSAL_FALLBACK": "maybe"}, "LLM_REFUSAL_FALLBACK has an invalid value"),
     ],
 )
 def test_invalid_values_raise_clear_errors(env, expected_fragment):
@@ -80,18 +92,38 @@ def test_all_validation_errors_are_reported_together():
 def test_api_key_required_only_for_real_providers():
     assert load_settings({}).require_llm_api_key() == ""
 
-    settings = load_settings({"LLM_PROVIDER": "anthropic", "LLM_MODEL": "m"})
+    settings = load_settings({"LLM_PROVIDER": "openai", "LLM_MODEL": "m"})
     with pytest.raises(ConfigError, match="LLM_API_KEY is required"):
         settings.require_llm_api_key()
 
-    settings = load_settings({"LLM_PROVIDER": "anthropic", "LLM_MODEL": "m", "LLM_API_KEY": "k"})
+    settings = load_settings({"LLM_PROVIDER": "openai", "LLM_MODEL": "m", "LLM_API_KEY": "k"})
     assert settings.require_llm_api_key() == "k"
 
 
+def test_anthropic_reads_only_anthropic_api_key():
+    settings = load_settings({"LLM_PROVIDER": "anthropic", "LLM_MODEL": "m"})
+    with pytest.raises(ConfigError, match="ANTHROPIC_API_KEY is required") as exc_info:
+        settings.require_llm_api_key()
+    assert "subscription does not by itself provide API access" in str(exc_info.value)
+
+    # LLM_API_KEY is for other providers; it is not a fallback for anthropic.
+    settings = load_settings({"LLM_PROVIDER": "anthropic", "LLM_MODEL": "m", "LLM_API_KEY": "k"})
+    with pytest.raises(ConfigError, match="ANTHROPIC_API_KEY is required"):
+        settings.require_llm_api_key()
+
+    settings = load_settings(
+        {"LLM_PROVIDER": "anthropic", "LLM_MODEL": "m", "ANTHROPIC_API_KEY": " a-key "}
+    )
+    assert settings.require_llm_api_key() == "a-key"
+
+
 def test_api_key_is_never_displayed():
-    settings = load_settings({"LLM_API_KEY": "secret-value"})
-    assert "secret-value" not in repr(settings)
-    assert "secret-value" not in describe_settings(settings)
+    settings = load_settings(
+        {"LLM_API_KEY": "secret-value", "ANTHROPIC_API_KEY": "sk-ant-secret-value"}
+    )
+    for text in (repr(settings), describe_settings(settings)):
+        assert "secret-value" not in text
+    assert "anthropic_api_key = <set>" in describe_settings(settings)
 
 
 def test_env_example_is_valid_and_complete():

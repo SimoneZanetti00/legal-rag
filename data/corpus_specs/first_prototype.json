@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "name": "first-prototype",
+  "description": "GDPR as originally published in the Official Journal (L 119, 4.5.2016) and the Privacy Code transcription, main body only: the corpus of the first prototype.",
+  "chunk_size": 1200,
+  "chunk_overlap": 150,
+  "assembly_format": "concatenated-jsonl/1",
+  "sources": [
+    {
+      "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+      "path": "data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf",
+      "sha256": "8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b",
+      "end_before": null
+    },
+    {
+      "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+      "path": "data/raw/trial-2026-10-10/documents/codice_privacy_dlgs_196_2003.pdf",
+      "sha256": "0d264a29f564b4baec978b1786898c09329e1d4de0d57cfad9673bda9116ffe5",
+      "end_before": "ALLEGATO A.1"
+    }
+  ]
+}

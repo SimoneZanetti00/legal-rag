@@ -84,7 +84,7 @@ the phase reports and are not asserted by the test suite.
 | TD-038 | Behind HTTPS inspection, model downloads fail and cached loads are slow | Environment | Observed | Low | Open |
 | TD-039 | Heavy environment and slow first import | Environment | Observed | Low | Open |
 | TD-040 | Hybrid retrieval: fusion and comparison questions | Hybrid | Risk | High | Resolved |
-| TD-041 | Reranking: unverified model and input limits | Reranking (future) | Risk | Medium | Open |
+| TD-041 | Reranking: real model runs; suitability and input limits unverified | Reranking | Risk | Medium | Open |
 | TD-042 | Generation: token budget, citations and provenance | Generation (future) | Risk | Medium | Open |
 | TD-043 | Abstention thresholds need calibrated scores | Abstention (future) | Risk | High | Open |
 | TD-044 | Temporal filtering has no data to work on | Abstention (future) | Confirmed | Medium | Open |
@@ -102,6 +102,11 @@ the phase reports and are not asserted by the test suite.
 | TD-056 | Real-model runs print library progress output | Environment | Observed | Low | Open |
 | TD-057 | Evaluation cutoffs above the hybrid candidate depth are not comparable | Hybrid, evaluation | Confirmed | Medium | Open |
 | TD-058 | Long ordinal suffixes: unverified list, unsupported forms, partial boundary tests | Chunking | Confirmed | Medium | Open |
+| TD-059 | `doc_id` identifies the source file, not the ingestion variant | Ingestion, provenance | Confirmed | Medium | Open |
+| TD-060 | Division headings printed with `((` are not recognised by the chunker | Chunking | Confirmed | Medium | Open |
+| TD-061 | Running headers stay in chunk text and can affect BM25 ranking | Ingestion, BM25 | Confirmed | Medium | Open |
+| TD-062 | Corpus builds and anchors are tied to the whole-repository code version | Provenance | Confirmed | Low | Open |
+| TD-063 | Segmentation rules rest on the sources' formatting | Provision anchors | Confirmed | Medium | Open |
 
 ## Ingestion and chunking (Phase 2)
 
@@ -174,8 +179,15 @@ the phase reports and are not asserted by the test suite.
 ### TD-058 · Long ordinal suffixes: unverified list, unsupported forms, partial boundary tests
 - **Kind:** Confirmed (current behaviour, read from the code and tested where noted); the suffix list itself is unverified · **Priority:** Medium (a wrong or missing identifier changes article labels, BM25 structural tokens and chunk boundaries) · **Status:** Open
 - **Current implementation (commit `722c075`):** `src/chunking.py` accepts the nine original suffixes (`bis` to `decies`) after a hyphen, a space or nothing, as before. It adds fourteen suffixes, accepted only after a hyphen: `undecies`, `duodecies`, `terdecies`, `quaterdecies`, `quinquiesdecies`, `sexiesdecies`, `septiesdecies`, `octiesdecies`, `noviesdecies`, `vicies`, and the alternative forms `quindecies`, `sedecies`, `duodevicies`, `undevicies`. Article headings and paragraph numbers use the same list, so a recognised suffix also decides where blocks split.
+- **Update after the 2026-11-05 trial audit (the change following `dc93ef8`):**
+  - Two hyphenated spellings found in the Privacy Code were added to the hyphen-only group: `sex-decies` and `septies-decies`. Before, `Art. 2-sex-decies` was labelled `2` and `Art. 2-septies-decies` was labelled `2-septies`, each colliding with another article. Paragraph numbers use the same list, so `1-sex-decies.` and `1-septies-decies.` now get a label and start a block (tested).
+  - Article headings accept a numeric sub-number directly after a suffix: `Art. 2-quaterdecies.1`, previously labelled `2-quaterdecies`, keeps its full label (tested). A sub-number is not accepted after a bare number (`Art. 12.1` is still read as article `12`, `Art. 5. Scope` as `5`) or in paragraph numbers.
+  - On the trial's real PDFs (`data/raw/trial-2026-10-10/`, git-ignored), the block structure before and after this change is identical except for these three labels on page 9 of the Privacy Code.
+- **Observed in real text (2026-11-05):** in the main body of the trial's Privacy Code, a user-provided transcription whose text has not been verified against an official source, every suffix in an article heading follows an ASCII hyphen-minus (36 headings) and no other dash occurs before a suffix anywhere in the text. The suffixes found beyond `decies` are `undecies`, `duodecies`, `terdecies`, `quaterdecies`, `quaterdecies.1`, `quindecies`, `quinquiesdecies`, `sex-decies` and `septies-decies`. Normattiva's (non-official) HTML of the same act, saved on 2026-10-10, uses the same labels.
 - **Limitations of the current implementation:**
-  - The fourteen added forms come from general knowledge of Italian drafting practice. None has been checked against a real Italian legal text (TD-002).
+  - The fourteen forms added in `722c075` come from general knowledge of Italian drafting practice. Six of them (`undecies`, `duodecies`, `terdecies`, `quaterdecies`, `quindecies`, `quinquiesdecies`), and the two hyphenated spellings, occur in the trial transcription described above; none has been checked against an authentic legal text (TD-002).
+  - Variant spellings are not linked: `2-sexiesdecies` and `2-sex-decies` would be two different article labels, as would `2-quindecies` and `2-quinquiesdecies`. The trial transcription has both `Art. 2-quindecies` and `Art. 2-quinquiesdecies` on page 9; whether they are one article or two is unresolved.
+  - The meaning of a sub-number (`.1`) is not recorded; it is kept as part of the label only.
   - Unsupported forms:
     - An added suffix after a space or with no separator (`Art. 2 undecies`, `Art. 2undecies`, `1 undecies.`) is not recognised as part of a heading or a paragraph number (tested).
     - Any separator other than the ASCII hyphen-minus before an added suffix, such as an en dash, a non-breaking hyphen (U+2011) or a line break inside `2-undecies`, is not matched (follows from the pattern; not tested).
@@ -185,12 +197,67 @@ the phase reports and are not asserted by the test suite.
   - An article heading with an unlisted suffix, or with a dash other than the hyphen-minus, is labelled with its bare number, as every long suffix was before `722c075`. It is then indexed as `art:<number>` and competes with that article in BM25 (TD-011).
   - An article heading with an added suffix after a space or with no separator is not recognised at all, as before `722c075`. Its text stays in the previous unit and carries that unit's article label.
   - A paragraph number with an unsupported form gets no label and does not start a new block, so a chunk may be cut inside it.
-- **Proposed follow-up (not done):**
-  - At the TD-002 trial ingestion, compare the detected article labels with each act's official list of articles. Record which suffix spellings and dash characters actually occur.
-  - Extend the suffix list or the accepted separators only for forms found there, each with a test.
+- **Proposed follow-up (not done unless stated):**
+  - At the TD-002 trial ingestion, compare the detected article labels with each act's official list of articles. Record which suffix spellings and dash characters actually occur. *Partly done for the Privacy Code main body, on a transcription (see above); not done against an official list or for the GDPR, which has no suffixed articles.*
+  - Extend the suffix list or the accepted separators only for forms found there, each with a test. *Done for `sex-decies`, `septies-decies` and the `.1` sub-number.*
   - Add label and boundary tests for parenthesised added-suffix paragraph numbers, and for an added-suffix paragraph reached through an overlapping in-block cut.
   - Make any change before relevance judgments exist: it changes chunk IDs (TD-016).
 - **Depends on:** TD-002.
+
+### TD-059 · `doc_id` identifies the source file, not the ingestion variant
+- **Kind:** Confirmed · **Priority:** Medium (needed before the provision store and retrieval corpus are built) · **Status:** Open
+- **Evidence:** `load_document` in `src/ingestion.py` sets `doc_id` to `doc-` plus the first 16 hex characters of the SHA-256 of the source file's bytes. The optional end boundary (`--end-before`, added during P0) does not change it, so a whole-file run and a boundary-limited run of the same file produce chunks with the same `doc_id`, and their chunk IDs coincide for every chunk the cut does not affect (411 of 412 in the trial's Privacy Code run). Chunk records do not record the boundary or any other processing option. In the real-corpus trial the two outputs are told apart only by the git-ignored trial manifest (output path, output hash, recorded boundary).
+- **Impact:** If chunks from two ingestion variants of one source were mixed, or if a judgment, citation or evidence record referred only to `doc_id` or `chunk_id`, it could not be stated which corpus build the passage came from.
+- **Follow-up (P1 requirement):** the provision store and the retrieval corpus must identify the corpus build / ingestion variant (source hash plus processing options such as the end boundary and chunk settings) for every passage, and must not rely on `doc_id` alone. Whether `doc_id` itself should change is a separate decision.
+- **Progress (P1.1):** `src/corpus_identity.py` defines `IngestionVariant` (`variant_id` from the source and sidecar hashes, the reader selected by the file extension, `end_before`, chunk settings, the Git commit with its clean or dirty state, and the PyMuPDF and Python versions) and `CorpusBuild` (`build_id` from the sorted variant IDs and the assembly format, at most one variant per source file). Output path, hash, size and chunk count are recorded beside them, not hashed. Still open: ingestion, corpus assembly, chunk records, retrieval and evaluation do not use these IDs yet, so no existing output carries a `variant_id` or `build_id`.
+- **Progress (P1.3):** corpus builds (`src/corpus_build.py`) create one `IngestionVariant` per source and a `CorpusBuild`, and record them with every output hash in `data/processed/builds/<build_id>/build.json`. Segment maps and passage links carry the build and variant IDs, and the explorer shows them with every result. Chunk records themselves still carry only `doc_id`; a passage is identified by its build directory and links. Still open until a recorded build exists (it needs a clean tree after the P1.3 commit).
+
+## Provision store and corpus explorer (P1.3)
+
+### TD-060 · Division headings printed with `((` are not recognised by the chunker
+- **Kind:** Confirmed · **Priority:** Medium · **Status:** Open
+- **Evidence:** `data/reference/parser_crosscheck.md`. The section rule in `src/chunking.py` accepts only lines that start with the division word, so `(( CAPO II`, `(( CAPO III`, `(( CAPO IV` and `(( CAPO 0.I` in the Privacy Code are read as text. 21 articles get a wrong `section` (`CAPO I` or `TITOLO I`), and the headings with their titles end up in the chunk text of the article before them (chunks 8, 33 and 42, under Articles 2-bis, 2-decies and 2-terdecies) or of a division chunk (chunk 300).
+- **Impact:** the chunk `section` field is wrong for those passages, and chunk text attributed to an article contains a division heading.
+- **Mitigation (P1.3):** the provision store takes the hierarchy from the inventory, never from the chunk. Passage links report the heading text as `division_heading` context of the chunk, and article evidence comes only from article segments. The chunker is unchanged.
+- **Follow-up:** accept a leading `((` in the section rule. That changes chunks and their IDs, so it needs a new build and is a separate decision.
+
+### TD-061 · Running headers stay in chunk text and can affect BM25 ranking
+- **Kind:** Confirmed · **Priority:** Medium · **Status:** Open
+- **Evidence:** the segment maps classify 352 running-header lines of the GDPR (`4.5.2016`, `L 119/N`, `Gazzetta ufficiale dell'Unione europea`, `IT`) and 106 of the Privacy Code (`D.Lgs. 30 giugno 2003, n. 196 — testo trascritto`, `Pagina N`) as `page_furniture`. The chunker keeps them in chunk text, and BM25 indexes chunk text, so their words count towards the score of the chunks they fall in.
+- **Impact:** the effect on ranking is not measured (no benchmark, TD-015). Evidence text and passage links exclude the headers; the ranking does not. Scores are uncalibrated in any case.
+- **Follow-up:** index text without page furniture, or strip headers before chunking (which changes chunks and IDs). Decide with the P2 benchmark.
+
+### TD-062 · Corpus builds and anchors are tied to the whole-repository code version
+- **Kind:** Confirmed · **Priority:** Low · **Status:** Open
+- **Evidence:** a variant records the P1.1 code version of the whole repository (commit plus dirty fingerprint). Any commit or uncommitted change, including documentation, gives new variant and build IDs, and segment maps can be written only with the code the build was made with.
+- **Impact:** a new build is needed after every change, and build IDs differ across commits that did not touch ingestion. Builds are cheap, but directories accumulate.
+- **Follow-up:** scope the code identity to the files that affect extraction and chunking (a P1.1 decision).
+
+### TD-063 · Segmentation rules rest on the sources' formatting
+- **Kind:** Confirmed (the rules) · Hypothesis (that they hold beyond the checked cases) · **Priority:** Medium · **Status:** Open
+- **Evidence:** the rules in `data/reference/instruments.json` are exact markers and patterns, each with an expected count:
+  - an editorial note (`AGGIORNAMENTO (n)`) runs from its separator line to the next heading; this holds in all 20 cases, but only a person can confirm that no article text follows a note;
+  - GDPR footnotes are recognised only inside articles and end at the first `pag. N).` within 600 characters (3 cases); footnote lines in the recitals stay recitals text;
+  - region markers are line prefixes that must occur exactly once.
+- **Impact:** a different source formatting fails the build instead of being misclassified, unless it keeps every count unchanged.
+- **Follow-up:** check segment boundaries by hand for the provisions of the first demonstration.
+
+### TD-064 · Official-source checks are recorded but neither shown nor re-verifiable
+- **Kind:** Confirmed · **Priority:** Low · **Status:** Open
+- **Evidence:**
+  - The review ledger's optional `official_check` (`src/provisions.py`, `parse_official_check`) stores the official text's SHA-256, not the text itself.
+  - The explorer output (`legal-rag.provision-explorer/2`) shows the review's status, reviewer, date, outcome and corrections, but not the check. Only its effect appears, through the reason `official_text_differs`.
+  - The shipped GDPR text is the 2016 original publication. Its Art. 56 differs from the EUR-Lex consolidated text by corrigenda C2 and C3 (two words). A check against that text would record `differs`.
+- **Impact:**
+  - Without a saved copy of the official text, a later reader cannot recompute a recorded `match_status` from the repository alone.
+  - A reviewer reads the check in the ledger, not in the explorer.
+- **Follow-up:** if needed, keep the compared official texts beside the ledger and show the check in a later explorer schema version.
+
+### TD-065 · Comparison normalisation is minimal by design
+- **Kind:** Confirmed · **Priority:** Low · **Status:** Open
+- **Evidence:** profile `ws-markers-softhyphen-v1` (`src/text_normalization.py`) applies no Unicode normalisation: precomposed `è` and `e` with a combining grave accent compare as different. It accepts only the EUR-Lex marker labels `B`, `M<n>`, `A<n>` and `C<n>`, and only when the label stands apart from the next word.
+- **Impact:** a text that differs only in these respects is reported as `differs`, a false difference. No difference is ever hidden.
+- **Follow-up:** if a real case needs it, add a new profile (for example with NFC). Never change `ws-markers-softhyphen-v1` in place, because recorded checks name it.
 
 ## BM25 retrieval (Phase 3)
 
@@ -316,7 +383,9 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-028 · Model revision is not pinned
 - **Kind:** Confirmed · **Priority:** Medium (reproducibility) · **Status:** Open
-- **Evidence:** `SentenceTransformerEncoder` loads the model by name with no `revision`. The revision cached during verification was `614241f`.
+- **Evidence:**
+  - `SentenceTransformerEncoder` loads the embedding model by name with no `revision`. The revision cached during verification was `614241f`.
+  - `CrossEncoderScorer` (`src/reranking.py`) also loads the reranker by name with no `revision`. The revision of `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1` downloaded on 2026-11-06 and used by the first real smoke run is `1427fd652930e4ba29e8149678df786c240d8825` (recorded only; nothing is pinned).
 - **Impact:** Two installations can use different weights under the same model name.
 - **Follow-up:** Add an optional revision setting and record the resolved revision (TD-019).
 
@@ -443,7 +512,7 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-037 · The real model is exercised only by opt-in tests
 - **Kind:** Confirmed · **Priority:** Medium (integration regressions would go unnoticed) · **Status:** Open
-- **Evidence:** The default suite uses fake encoders and replaces the `sentence_transformers` module. Two tests named `test_real_model_smoke`, one for dense and one for hybrid retrieval, run only with `RUN_REAL_MODEL_TESTS=1` and a model already in the local cache.
+- **Evidence:** The default suite uses fake encoders and scorers and replaces the `sentence_transformers` module. Three tests named `test_real_model_smoke` run only with `RUN_REAL_MODEL_TESTS=1` and a model already in the local cache: dense retrieval, hybrid retrieval, and the cross-encoder reranker (`tests/test_reranking.py`, added after `c284fc2`). The reranker test skips when the model is not cached, instead of failing.
 - **Follow-up:** Run the opt-in tests in a scheduled or manual CI job with a cached model.
 - **Depends on:** TD-036.
 
@@ -453,7 +522,8 @@ the phase reports and are not asserted by the test suite.
   - Behind antivirus HTTPS inspection, the Hugging Face client failed with `CERTIFICATE_VERIFY_FAILED`. The README documents a manual, verification-preserving procedure.
   - Found in Phase 5: with the model already cached, a dense search without `HF_HUB_OFFLINE=1` still took 238 seconds, logging 48 certificate errors and 40 retries before using the cache. The same command with `HF_HUB_OFFLINE=1` took 24 seconds. The README now recommends the variable.
   - On Windows without symlink support the model cache also runs in a degraded mode that uses more disk space.
-- **Impact:** Every dense, hybrid or dense-evaluation run on such a machine is about four minutes slower unless the variable is set.
+  - On 2026-11-06, on the same Windows development machine, the reranker model (`cross-encoder/mmarco-mMiniLMv2-L12-H384-v1`, about 470 MB) downloaded successfully in 123 seconds with the default certificate handling: `SSL_CERT_FILE` was not set and no certificate or TLS error occurred. At that time no antivirus root certificate was present in the Windows certificate stores and no Avast process was running, so HTTPS inspection was apparently not active. Why it was not active (reconfiguration, removal or another cause) was not established, and the slow cached load without `HF_HUB_OFFLINE=1` was not re-measured.
+- **Impact:** Every dense, hybrid or dense-evaluation run on such a machine is about four minutes slower unless the variable is set. This applies to any machine where HTTPS inspection is active, including this one if it is re-enabled.
 - **Follow-up:** None planned beyond the documentation. An option to load local files only would remove the need for the variable.
 
 ### TD-039 · Heavy environment and slow first import
@@ -463,13 +533,17 @@ the phase reports and are not asserted by the test suite.
 
 ## Risks and questions for later phases
 
-### TD-041 · Reranking: unverified model and input limits
+### TD-041 · Reranking: real model runs; suitability and input limits unverified
 - **Kind:** Risk · **Priority:** Medium · **Status:** Open
-- **Questions:**
-  - The default `RERANKER_MODEL` has never been loaded. Does it exist and suit Italian legal text?
-  - Cross-encoders also truncate their input (compare TD-022).
-  - What is the CPU cost per query for the configured candidate count?
-  - Model downloads face the same obstacle as TD-038.
+- **Observed on 2026-11-06** (development machine, Windows 11, CPU; model revision `1427fd652930e4ba29e8149678df786c240d8825`, see TD-028):
+  - The default `RERANKER_MODEL` exists, downloads (470 MB of weights, 123 s, no certificate error) and loads from the local cache. The opt-in `test_real_model_smoke` in `tests/test_reranking.py` passed with `HF_HUB_OFFLINE=1`: finite and repeatable raw scores, not all equal, valid reranked order with first-stage provenance kept.
+  - Timings across four runs of the test that day: importing the model library 18–25 s; loading the model 2.5–6.4 s; scoring 3 short passages 0.03–0.04 s; scoring 20 passages of about 1,200 characters 1.7–2.4 s.
+  - The model's input limit is 512 tokens. A 5,999-character test passage was 1,210 tokens with the query and still got a finite score; that the tail is ignored is library behaviour and was not checked.
+- **Questions still open:**
+  - Does the model suit Italian legal text? Nothing measured; needs the TD-015 benchmark.
+  - How often do real chunks exceed 512 tokens together with a query (compare TD-022)?
+  - Is the CPU cost acceptable at the configured candidate count in a real pipeline?
+  - The download did not hit the TD-038 certificate obstacle on 2026-11-06; whether that holds elsewhere is unknown.
 - **Depends on:** TD-015.
 
 ### TD-042 · Generation: token budget, citations and provenance

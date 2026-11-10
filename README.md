@@ -21,6 +21,10 @@ See [PROJECT_SPEC.md](PROJECT_SPEC.md) for the specification and
   `intfloat/multilingual-e5-small`, selectable in the evaluator.
 - **Phase 5 (hybrid retrieval):** BM25 and dense results fused with Reciprocal
   Rank Fusion, selectable in the evaluator.
+- **P1 (provision store, in progress):** reference inventories of both acts
+  (P1.2); reproducible corpus builds, segment maps, exact passage links and a
+  corpus explorer CLI (P1.3). No provision has been reviewed by a person yet, so
+  none is eligible as a primary citation.
 
 Metadata and temporal filters, reranking, generation, verification, grounding
 evaluation, and the UI are **not implemented yet**. No curated legal benchmark
@@ -36,11 +40,21 @@ src/
   ingestion.py   # TXT/PDF loading, batch ingestion, CLI
   chunking.py    # legal-aware chunking
   chunk_store.py # JSONL serialization of chunks
+  corpus_identity.py # ingestion-variant and corpus-build IDs (used by corpus_build.py)
+  reference_inventory.py # format and validation of the reference inventories (P1.2)
+  provisions.py  # instrument registry, review ledger, provisions, eligibility (P1.3)
+  corpus_build.py # reproducible corpus builds of ingestion variants, CLI (P1.3)
+  provision_anchors.py # segment maps and exact passage links (P1.3)
+  provision_explorer.py # article lookup and BM25 search mapped to provisions (P1.3)
+  provision_cli.py # command line for the explorer (P1.3)
+  text_normalization.py # comparison-only text normalisation, profile ws-markers-softhyphen-v1
   retrieval_common.py # shared by the retrievers: argument checks, result formatting, Retriever interface
   retrieval.py   # tokenizer and BM25 retriever, search CLI
   dense_retrieval.py # embedding-based retriever, embedding cache, search CLI
   hybrid_retrieval.py # Reciprocal Rank Fusion, hybrid retriever, search CLI
   retrieval_eval.py # retrieval metrics, evaluation data loading, evaluation CLI
+tools/
+  reference_inventory/ # build and cross-check the reference inventories (see data/reference/README.md)
 tests/           # pytest suite; builds synthetic TXT/PDF fixtures on the fly
   fixtures/synthetic_retrieval/ # SYNTHETIC chunks, queries and judgments for tests only
 data/
@@ -48,6 +62,11 @@ data/
   processed/     # parsed documents and chunks (git-ignored)
   indexes/embeddings/ # dense embedding cache (git-ignored; safe to delete)
   evaluation/    # curated queries.jsonl and qrels.jsonl (version-controlled; none yet)
+  reference/     # article inventories of the GDPR and the Privacy Code, built from the
+                 # source PDFs, pending human review; instrument registry and review
+                 # ledger (version-controlled; see its README.md)
+  corpus_specs/  # corpus build specifications (version-controlled)
+  processed/builds/<build_id>/ # corpus builds with their anchors and links (git-ignored)
 ```
 
 ## Setup (Windows, PowerShell)
@@ -109,6 +128,11 @@ Dependencies:
 # Evaluate retrieval against labelled queries (see "Retrieval evaluation" below)
 .\.venv\Scripts\python.exe -m src.retrieval_eval --k 1 5 10 --output data/processed/eval_bm25.json
 
+# Look up an article and search a question over a verified corpus build
+# (see "Provision store and corpus explorer" below)
+.\.venv\Scripts\python.exe -m src.provision_cli lookup gdpr 33
+.\.venv\Scripts\python.exe -m src.provision_cli search "Quando devo notificare una violazione dei dati personali al Garante?"
+
 # Run the tests
 .\.venv\Scripts\python.exe -m pytest -v
 ```
@@ -157,7 +181,35 @@ Output:              data/processed/chunks.jsonl
 
 Exit codes: `0` means every file was ingested. `1` means at least one file
 failed or no files were found; the successful files are still written. `2`
-means invalid arguments, paths, or configuration.
+means invalid arguments, paths, or configuration, or an end boundary
+(below) that could not be applied.
+
+**Ingesting only the start of a document (`--end-before`).** For a single input
+file, `--end-before LINE` keeps only the text before one exact line and leaves
+out that line and everything after it. It is used to ingest a code's main body
+without its annexes:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.ingestion --input data/raw/codice.pdf `
+    --output data/processed/codice_main_body.jsonl --end-before "ALLEGATO A.1"
+```
+
+- *Matching:* a line matches only if its whole text, ignoring spaces at its
+  start and end, is exactly `LINE`. Case matters, and text that merely contains
+  `LINE` (for example "si veda l'ALLEGATO A.1 al Codice") does not match.
+- *Uniqueness:* the line must occur exactly once. If it is missing or appears
+  more than once (the error names the pages), nothing is written, an existing
+  output file is left unchanged, and the exit code is `2`. There is no fallback
+  to ingesting the whole file.
+- *Provenance:* the source file is not changed or copied. The kept text is the
+  unchanged beginning of the extracted text, so chunk page numbers are the
+  original PDF page numbers, including on a page shared with the excluded part.
+  The document ID is still the hash of the whole source file, so a whole-file
+  run and a boundary run of the same file produce chunks with the same document
+  ID; keep the two outputs in separate files and record which is which.
+- The report adds a `WARNING` line saying on which page the text was cut and how
+  many characters were left out. The option cannot be combined with a directory
+  input.
 
 **Output.** `data/processed/chunks.jsonl` is git-ignored UTF-8 JSON Lines, one
 chunk per line:
@@ -207,6 +259,38 @@ Use `src.chunk_store.read_chunks(path)` to load the file back as `LegalChunk` ob
   paragraph or heading boundaries are not overlapped.
 - Chunk text is always an exact excerpt of the extracted document text.
   PDF page ranges (`page` to `page_end`) are computed from character offsets.
+
+**Ingestion variants and corpus builds** (`src/corpus_identity.py`; not yet
+used by ingestion, retrieval or evaluation). A document ID names a file's
+bytes only, so a whole-file run and an `--end-before` run of the same file
+share it (TECHNICAL_DEBT.md TD-059). Two further IDs make the processing
+explicit:
+
+- `variant_id` (`var-` plus 32 hex characters) names one processing of one
+  file. It is the hash of the source file's SHA-256, the reader (`pdf` or
+  `txt`), its `.meta.json` sidecar's SHA-256 (or none), `end_before`,
+  `CHUNK_SIZE`, `CHUNK_OVERLAP`, the Git commit with its clean or dirty
+  state, and the PyMuPDF and Python versions. The reader is included because
+  ingestion chooses it from the file extension, not from the bytes, so the
+  same bytes saved as `.txt` and as `.pdf` are processed differently. An
+  unsupported extension gets no variant.
+- `build_id` (`build-` plus 32 hex characters) names one corpus. It is the
+  hash of its variant IDs, in sorted order, and the assembly format. A build
+  holds at most one variant per source file.
+- *Recorded, not hashed:* where the output was written, its SHA-256, size and
+  chunk count, and the source path. They describe a result, so they never
+  change an ID. Chunk records contain the source path, so a re-run of the
+  same variant reproduces the output hash only if the source is at the same
+  path.
+- *Code version:* a commit is required. Uncommitted changes give the state
+  `dirty` with a fingerprint of the changed files, so a dirty run never gets
+  the ID of the clean commit. They are: a modified, deleted or renamed
+  tracked file; a file marked assume-unchanged or skip-worktree; or an
+  untracked file not ignored by the repository's `.gitignore` files. Local
+  excludes do not count as ignored.
+- IDs are computed from canonical JSON (sorted keys, no whitespace, UTF-8, no
+  Unicode normalization), which includes a schema version, so a change to
+  these rules changes every ID.
 
 ## Lexical retrieval (BM25)
 
@@ -400,20 +484,45 @@ the cache is off unless `cache_dir` is given.
 - *Clearing it:* `Remove-Item -Recurse data\indexes\embeddings`. This is
   always safe, and old files are not cleaned up automatically.
 
-**Testing with the real model (opt-in).** The default test suite never loads
-a real model: it uses fake encoders, forces Hugging Face offline mode, and
-skips the one real-model test. To run that test:
+**Testing with the real models (opt-in).** The default test suite never loads
+a real model: it uses fake encoders and scorers, forces Hugging Face offline
+mode in every test (`tests/conftest.py`), and skips the three real-model
+tests, so a default run reports `3 skipped`. One variable,
+`RUN_REAL_MODEL_TESTS=1`, enables all three:
+
+| Test | Model | If the model is not cached |
+|---|---|---|
+| `tests/test_dense_retrieval.py::test_real_model_smoke` | `intfloat/multilingual-e5-small` | fails |
+| `tests/test_hybrid_retrieval.py::test_real_model_smoke` | `intfloat/multilingual-e5-small` | fails |
+| `tests/test_reranking.py::test_real_model_smoke` | `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1` | skipped |
 
 ```powershell
 $env:RUN_REAL_MODEL_TESTS="1"
+# All three:
+.\.venv\Scripts\python.exe -m pytest -k real_model -v
+# Or one at a time (-s shows the reranker test's printed scores and timings):
 .\.venv\Scripts\python.exe -m pytest tests/test_dense_retrieval.py -k real_model -v
+.\.venv\Scripts\python.exe -m pytest tests/test_hybrid_retrieval.py -k real_model -v
+.\.venv\Scripts\python.exe -m pytest tests/test_reranking.py -k real_model -v -s
+Remove-Item Env:RUN_REAL_MODEL_TESTS
 ```
 
-It requires `intfloat/multilingual-e5-small` to be in the local Hugging Face
-cache already, and it never downloads. Run a dense search once to fetch the
-model. The test checks integration (the model loads, embeddings are valid,
-results are well-formed and same-language queries rank their passage first).
-It is not a quality benchmark.
+Each model must already be in the local Hugging Face cache. The tests load
+it with `local_files_only=True` and run offline, so they never download
+anything, and `HF_HUB_OFFLINE` does not need to be set. They use the default
+model names above, not `EMBEDDING_MODEL` or `RERANKER_MODEL`. To fetch a
+model, run a dense search once (embedding model) or an evaluation with
+`--retriever hybrid-rerank` once (reranker).
+
+The tests check integration, and none of them is a quality benchmark:
+- *Dense:* the model loads, embeddings are valid, results are well-formed and
+  same-language queries rank their passage first.
+- *Hybrid:* fused results over the synthetic fixture are valid and
+  repeatable; no ranking is expected.
+- *Reranker:* scores are finite, repeatable and not all equal; reranked
+  results keep their first-stage provenance; an input longer than the model's
+  limit still gets a finite score; 20 passages are reranked and timed. No
+  order is expected.
 
 **Troubleshooting: `CERTIFICATE_VERIFY_FAILED` when downloading a model.**
 Some antivirus products and corporate proxies inspect HTTPS traffic by
@@ -754,6 +863,94 @@ questions. Synthetic-fixture numbers cannot. A new retriever needs a
   intervals are computed.
 - Only chunk-level relevance is supported, not document-level relevance.
 - Answer quality and grounding are evaluated separately, in a later phase.
+
+## Provision store and corpus explorer (P1.3)
+
+The provision store turns the reference inventories (`data/reference/`) into
+provisions with stable IDs, and anchors them to the exact text of a corpus
+build. The explorer looks up an article or searches a question with the
+existing BM25 retriever, and shows which provisions the retrieved passages
+belong to, with their exact text, pages, provenance and citation eligibility.
+It is a development interface: the CLI is a thin layer over
+`src/provision_explorer.py`, whose results (`--json`) a chat interface can use.
+
+**Workflow**
+
+```powershell
+# 1. Build the corpus from the tracked specification (both acts). A recorded build
+#    needs a clean Git tree and is written to data/processed/builds/<build_id>/.
+.\.venv\Scripts\python.exe -m src.provision_cli build
+#    From a dirty tree, only a temporary verification build is possible, outside
+#    data/processed/builds/:
+.\.venv\Scripts\python.exe -m src.provision_cli build --allow-dirty --output-root <temp-dir>
+
+# 2. Segment maps: the exact text of each source divided into articles, division
+#    headings, recitals, editorial notes, footnotes, running headers and so on.
+.\.venv\Scripts\python.exe -m src.provision_cli build-anchors [--build-dir <build>]
+
+# 3. Passage links: every chunk placed at exact offsets, with the provisions it overlaps.
+.\.venv\Scripts\python.exe -m src.provision_cli link [--build-dir <build>]
+
+# 4. Look up an article (label exactly as printed, or in lower case) and search.
+.\.venv\Scripts\python.exe -m src.provision_cli lookup gdpr 33 [--json]
+.\.venv\Scripts\python.exe -m src.provision_cli lookup "codice privacy" 2-bis
+.\.venv\Scripts\python.exe -m src.provision_cli search "<domanda>" [--top-k 5] [--full] [--json]
+```
+
+`--build-dir` defaults to the only recorded build in `data/processed/builds/`;
+a verification build must be named. Exit codes: 0 success, 1 no such instrument
+or article, 2 missing, damaged or stale build, anchors or links, refused build,
+or invalid arguments. Errors say which command to run.
+
+**What is checked before anything is shown**
+
+- The build record, every chunk file and the corpus file match their recorded
+  hashes; each source is the one the instrument registry expects.
+- Each segment map was extracted with the build's code, PyMuPDF and Python
+  versions, end boundary and page separator, from the expected source and
+  document; its text matches `content_sha256`; and the inventory structure
+  (headings, pages, labels) and the registry are those it was made from. A
+  review recorded later does not make it stale; a structural change does.
+- Each links file matches its chunk file, segment map and the provision store.
+- Chunks are placed by exact text only, in order, with exactly one possible
+  position each; every non-whitespace character must be in some chunk. There is
+  no fuzzy or normalised matching anywhere, and article lookup is exact too.
+  (`src/text_normalization.py` is used only to compare two renderings of a
+  text, for example ours and an official source; it never changes anchors,
+  evidence or stored text.)
+
+**Evidence, context and eligibility**
+
+- Only article text is evidence. Recitals, front matter, the enacting and
+  closing formulas, division headings, editorial notes, footnotes and running
+  headers are shown as context and never offered as citations. A retrieved
+  chunk without article text is marked `CONTEXT ONLY`.
+- Each provision shows three separate things: its structural review
+  (`auto_unreviewed`, `auto_verified`, `manually_curated` or `ambiguous`), what
+  the source prints about its status (for example `marked_repealed`), and its
+  legal validity, which is always `not_established`: nothing here says a
+  provision is valid or in force.
+- Eligibility tiers: `primary` (may be cited), `internal_only` (inspect only),
+  `context_only` (divisions) and `blocked` (ambiguous or without anchored text),
+  each with reason codes and mandatory qualifications (for example "original
+  publication, not a consolidated text" for the GDPR, "user-provided
+  transcription" for the Privacy Code). In the first demonstration only
+  reviewed, not repealed, unambiguous articles are `primary`. An article whose
+  text a reviewer found to differ from an official source (the ledger's
+  optional `official_check`) is not `primary` either (`official_text_differs`).
+  The review ledger is empty, so no provision is `primary` yet.
+
+**Limitations**
+
+- BM25 scores are uncalibrated ranking signals, not probabilities. Running
+  headers are excluded from evidence but remain inside the indexed chunk text,
+  so they can affect the ranking (TECHNICAL_DEBT.md TD-061).
+- A build and its anchors belong to one code version: after any change to the
+  repository, make a new build (TD-062).
+- Segmentation rules rest on the sources' formatting, with expected counts that
+  make any deviation fail (TD-063). The chunker's section field is wrong for
+  division headings printed with `((` (TD-060); the explorer does not use it.
+- No recorded build exists until P1.3 is committed and built from a clean tree.
 
 ## Configuration
 

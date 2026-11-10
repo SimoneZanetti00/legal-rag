@@ -9,6 +9,7 @@ Run `python -m src.config` to check that the current configuration is valid.
 
 from __future__ import annotations
 
+import math
 import os
 from collections.abc import Mapping
 from dataclasses import dataclass, field, fields
@@ -18,7 +19,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # "mock" never contacts an external service. It is the default so that no
 # legal material is sent to a third-party provider without an explicit choice.
-# Real providers are wired up in the generation phase.
+# "anthropic" is implemented in src/llm.py; "openai" is reserved, not implemented.
 SUPPORTED_LLM_PROVIDERS = ("mock", "anthropic", "openai")
 
 # What to do with sources lacking effective dates when a question has an
@@ -45,7 +46,10 @@ class Settings:
     reranker_model: str = "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"
     llm_provider: str = "mock"
     llm_model: str = ""
-    llm_api_key: str | None = field(default=None, repr=False)
+    llm_api_key: str | None = field(default=None, repr=False)  # providers other than anthropic
+    anthropic_api_key: str | None = field(default=None, repr=False)
+    llm_timeout_seconds: float = 120.0  # per request attempt
+    llm_refusal_fallback: bool = False  # anthropic, opt-in: fallback model on a refusal
 
     # Retrieval and evidence selection.
     bm25_top_k: int = 20
@@ -85,9 +89,22 @@ class Settings:
         return self.data_dir / "evaluation"
 
     def require_llm_api_key(self) -> str:
-        """Return the API key, or fail clearly if a real provider needs one."""
+        """Return the API key, or fail clearly if a real provider needs one.
+
+        LLM_PROVIDER=anthropic reads ANTHROPIC_API_KEY only; LLM_API_KEY is not used for it.
+        """
         if self.llm_provider == "mock":
             return ""
+        if self.llm_provider == "anthropic":
+            if not self.anthropic_api_key:
+                raise ConfigError(
+                    "ANTHROPIC_API_KEY is required for LLM_PROVIDER='anthropic' "
+                    "(LLM_API_KEY is not used for this provider). It is an API key from the "
+                    "Claude Console (https://platform.claude.com/settings/keys); a Claude "
+                    "subscription does not by itself provide API access. Set the key in your "
+                    "environment or in a local .env file (never commit it)."
+                )
+            return self.anthropic_api_key
         if not self.llm_api_key:
             raise ConfigError(
                 f"LLM_API_KEY is required for LLM_PROVIDER={self.llm_provider!r}. "
@@ -118,6 +135,11 @@ def _validate(settings: Settings) -> list[str]:
         errors.append(
             f"CHUNK_OVERLAP ({settings.chunk_overlap}) must be smaller than "
             f"CHUNK_SIZE ({settings.chunk_size})."
+        )
+
+    if not (math.isfinite(settings.llm_timeout_seconds) and settings.llm_timeout_seconds > 0):
+        errors.append(
+            f"LLM_TIMEOUT_SECONDS must be a positive number (got {settings.llm_timeout_seconds})."
         )
 
     if not 0 <= settings.max_generation_retries <= MAX_ALLOWED_GENERATION_RETRIES:
@@ -186,6 +208,9 @@ _ENV_FIELDS = {
     "LLM_PROVIDER": ("llm_provider", lambda raw: raw.strip().lower()),
     "LLM_MODEL": ("llm_model", str.strip),
     "LLM_API_KEY": ("llm_api_key", lambda raw: raw.strip() or None),
+    "ANTHROPIC_API_KEY": ("anthropic_api_key", lambda raw: raw.strip() or None),
+    "LLM_TIMEOUT_SECONDS": ("llm_timeout_seconds", float),
+    "LLM_REFUSAL_FALLBACK": ("llm_refusal_fallback", _parse_bool),
     "BM25_TOP_K": ("bm25_top_k", int),
     "DENSE_TOP_K": ("dense_top_k", int),
     "RERANK_TOP_K": ("rerank_top_k", int),
@@ -236,7 +261,7 @@ def describe_settings(settings: Settings) -> str:
     lines = []
     for f in fields(settings):
         value = getattr(settings, f.name)
-        if f.name == "llm_api_key":
+        if f.name.endswith("api_key"):
             value = "<set>" if value else "<not set>"
         lines.append(f"{f.name} = {value}")
     return "\n".join(lines)

@@ -324,6 +324,25 @@ def test_long_ordinal_suffix_is_indexed_as_its_own_article():
     assert found_by_number[0] is article_2
 
 
+@pytest.mark.parametrize(
+    ("label", "other"),
+    [("2-quaterdecies.1", "2-quaterdecies"), ("2-sex-decies", "2"), ("2-septies-decies", "2-septies")],
+)
+def test_compound_article_numbers_get_their_own_structural_token(label, other):
+    # Regression: each label was indexed as the article it was confused with ("other").
+    content = (
+        f"Art. {other} (Primo)\n1. Testo sintetico del primo articolo.\n\n"
+        f"Art. {label} (Secondo)\n1. Testo sintetico del secondo articolo.\n"
+    )
+    document = LegalDocument(doc_id="doc-x", title="x", content=content)
+    first, second = chunk_document(document, 1200, 150)
+    assert (first.location.article, second.location.article) == (other, label)
+    assert f"art:{label}" in index_tokens(second)
+    assert f"art:{other}" not in index_tokens(second)
+    assert f"art:{label}" not in index_tokens(first)
+    assert f"art:{label}" in tokenize(f"art. {label}")  # a query for it carries the same token
+
+
 def test_from_jsonl_empty_file(tmp_path):
     path = tmp_path / "chunks.jsonl"
     path.write_text("", encoding="utf-8")

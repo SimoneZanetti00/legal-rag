@@ -16,5 +16,14 @@ rank-bm25==0.2.2
 # downloaded from Hugging Face on first use, not at install time.
 sentence-transformers==6.1.0
 
+# Hugging Face Hub client, imported directly by the opt-in real-model test
+# (tests/test_reranking.py) to check the local model cache. Already installed by
+# sentence-transformers; pinned to the version used in development.
+huggingface-hub==1.33.0
+
+# Anthropic API client (src/llm.py), imported only when LLM_PROVIDER=anthropic.
+# Pulls in httpx2, pydantic, anyio and others.
+anthropic==2.7.0
+
 # Test runner.
 pytest==9.1.1

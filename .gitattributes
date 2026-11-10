@@ -1,0 +1,11 @@
+# Reference inventories and their reports (P1.2): LF in the repository and in every
+# checkout, whatever core.autocrlf says, so the SHA-256 values recorded for them
+# hold on every platform.
+data/reference/*.json text eol=lf
+data/reference/*.md text eol=lf
+# Corpus build specifications (P1.3): their SHA-256 is recorded in every build record.
+data/corpus_specs/*.json text eol=lf
+# Official sources archived for M1: stored and checked out byte for byte, with no
+# line-ending conversion, so their recorded SHA-256 holds in every checkout.
+data/raw/trial-2026-10-10/official-sources/*.html -text
+data/raw/trial-2026-10-10/official-sources/*.pdf binary

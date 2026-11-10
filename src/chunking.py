@@ -58,17 +58,26 @@ _ORDINAL_SUFFIXES_AFTER_HYPHEN = (
     "septiesdecies", "octiesdecies", "noviesdecies", "vicies",
     # Alternative forms of 15, 16, 18 and 19.
     "quindecies", "sedecies", "duodevicies", "undevicies",
+    # Hyphenated spellings used in the Privacy Code ("Art. 2-sex-decies",
+    # "Art. 2-septies-decies").
+    "sex-decies", "septies-decies",
 )
-# The hyphen-only group is tried first, so "-terdecies" is never read as "-ter".
-_ORDINAL_SUFFIX = (
+# The hyphen-only group is tried first, so "-terdecies" is never read as "-ter"
+# and "-septies-decies" never as "-septies".
+_ORDINAL_SUFFIX_FORM = (
     r"(?:-(?:" + "|".join(_ORDINAL_SUFFIXES_AFTER_HYPHEN) + r")"
-    r"|[-\s]?(?:" + "|".join(_ORDINAL_SUFFIXES_ANY_JOINER) + r"))?"
+    r"|[-\s]?(?:" + "|".join(_ORDINAL_SUFFIXES_ANY_JOINER) + r"))"
 )
+_ORDINAL_SUFFIX = rf"{_ORDINAL_SUFFIX_FORM}?"
 # After the number: nothing, a separator plus a title, or a parenthesized title.
 _HEADING_TAIL = r"\s*(?:[-–—:.]\s*\S.*|\(.+\))?\s*$"
 
+# An article identifier: a number, then optionally a suffix and, directly after
+# the suffix, a numeric sub-number ("2-quaterdecies.1"). A sub-number is not
+# accepted after a bare number, so "Art. 5. Scope" and "Art. 1." read as before.
 _ARTICLE_HEADING = re.compile(
-    rf"(?:article|articolo|art\.)\s*(\d+[a-z]?{_ORDINAL_SUFFIX}){_HEADING_TAIL}",
+    rf"(?:article|articolo|art\.)\s*(\d+[a-z]?(?:{_ORDINAL_SUFFIX_FORM}(?:\.\d+)?)?)"
+    rf"{_HEADING_TAIL}",
     re.IGNORECASE,
 )
 _SECTION_HEADING = re.compile(
