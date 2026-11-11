@@ -431,10 +431,10 @@ def test_the_demonstration_evidence_on_the_recorded_build(real_explorer):
                            anchored=True).tier
         assert item.tier == tier.value and item.citable is (tier == Tier.PRIMARY)
     art2bis = found[CODICE + "2-bis"]
-    assert not art2bis.citable and art2bis.tier != Tier.PRIMARY.value
     assert {"unofficial_transcription", "legal_validity_not_established"} <= set(
         art2bis.qualifications)
     if not load_ledger():  # nothing reviewed yet: nothing in the set may be citable
+        assert not art2bis.citable and art2bis.tier != Tier.PRIMARY.value
         assert not evidence.has_citable_evidence
         assert "no_citable_evidence" in evidence.warnings
     assert assemble(DEMO, real_explorer, max_items=5, token_budget=3000).to_dict() == \

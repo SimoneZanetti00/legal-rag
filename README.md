@@ -28,6 +28,10 @@ See [PROJECT_SPEC.md](PROJECT_SPEC.md) for the specification and
 - **Answering (`ask`):** evidence assembly, query analysis, grounded answer
   generation, citation resolution, deterministic claim validation, a model
   support check and conservative abstention, plus an offline demo (below).
+  `ask` retrieves with BM25, exact article lookups and one hop of provision
+  references. The dense and hybrid retrievers above are used only by their own
+  search commands and the retrieval evaluator, and the cross-encoder reranker
+  only by the evaluator; none of them is used by `ask`.
 
 Metadata and temporal filters, grounding evaluation and a UI are **not
 implemented yet**. No curated legal benchmark exists yet; only a synthetic test
@@ -53,20 +57,57 @@ only if the demonstration itself fails.
    inventory hashes, eligibility tier, and the reasons it may not be cited. Then
    the real `ask` pipeline runs on the question. It abstains at the corpus
    preflight: no provision has passed human review yet, so nothing may be cited
-   and no model is called.
+   and no model is called. Part 1 needs the recorded build, which is not in the
+   repository: without it, Part 1 is skipped with a warning and Part 2 still
+   runs (see "Part 1 from a fresh clone" below).
 2. **Synthetic, end to end.** A fictional act, the *Legge dimostrativa di
    Valdoria*, is built in a temporary directory by the project's own build,
    anchor and link steps. A synthetic review makes two of its articles citable.
    The real pipeline runs on it with scripted MockLLM replies: six claims go in,
    and two valid ones come out with their citations. Deterministic validation
    removes a fabricated quotation, a fabricated article reference and a claim
-   that cites non-citable evidence; the support check removes an overstated
-   claim. Every part of the output is labelled SYNTHETIC DEMONSTRATION,
-   FICTIONAL LEGAL INSTRUMENT, SYNTHETIC REVIEW — NOT HUMAN LEGAL REVIEW,
-   SCRIPTED MOCK LLM OUTPUT — NOT A REAL MODEL RESPONSE, and NOT LEGAL ADVICE.
+   that cites non-citable evidence. A scripted support verdict, not a real
+   model's evaluation, removes an overstated claim. The scripted answer claims to
+   be complete; because claims were removed, the pipeline reports
+   `answer_limited`. Every part of the output is labelled SYNTHETIC
+   DEMONSTRATION, FICTIONAL LEGAL INSTRUMENT, SYNTHETIC REVIEW — NOT HUMAN LEGAL
+   REVIEW, SCRIPTED MOCK LLM OUTPUT — NOT A REAL MODEL RESPONSE, and NOT LEGAL
+   ADVICE.
 
 Only the model replies in part 2 are scripted; everything else runs as it does
 in `ask`, which still needs a real provider (see "Asking a question" below).
+Part 2 therefore shows how the pipeline handles model output. It does not show
+how reliably a real model judges whether evidence supports a claim.
+
+### Part 1 from a fresh clone
+
+The recorded build and its two source PDFs are git-ignored, so a fresh clone has
+neither, and Part 1 is skipped. The build needs both files, byte for byte, at
+the paths in
+[data/corpus_specs/first_prototype.json](data/corpus_specs/first_prototype.json):
+
+| Path | What it is | SHA-256 |
+|---|---|---|
+| `data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf` | Regulation (EU) 2016/679 as originally published in the Official Journal, L 119 of 4.5.2016, Italian (88 pages) | `8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b` |
+| `data/raw/trial-2026-10-10/documents/codice_privacy_dlgs_196_2003.pdf` | A user-provided transcription of d.lgs. 196/2003 (101 pages) | `0d264a29f564b4baec978b1786898c09329e1d4de0d57cfad9673bda9116ffe5` |
+
+With both files in place, from a clean tree:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.provision_cli build
+.\.venv\Scripts\python.exe -m src.provision_cli build-anchors
+.\.venv\Scripts\python.exe -m src.provision_cli link
+.\.venv\Scripts\python.exe -m src.demo
+```
+
+The build refuses a missing file or one whose SHA-256 differs. Its build ID
+records the code commit, so it differs from the one in older output.
+
+**Limitation:** the repository does not record where either PDF was obtained.
+The GDPR file is identified only by its publication and its hash. The Privacy
+Code file is a user-provided transcription that is not distributed with the
+repository. Until both files are available, Part 1 cannot be reproduced from a
+fresh clone.
 
 ## Repository layout
 
@@ -987,7 +1028,9 @@ or invalid arguments. Errors say which command to run.
 - Segmentation rules rest on the sources' formatting, with expected counts that
   make any deviation fail (TD-063). The chunker's section field is wrong for
   division headings printed with `((` (TD-060); the explorer does not use it.
-- No recorded build exists until P1.3 is committed and built from a clean tree.
+- The recorded build is not in the repository (`data/processed/` is
+  git-ignored): a fresh clone has none until it is built from the source PDFs
+  (see "Part 1 from a fresh clone").
 
 ## Asking a question (`ask`)
 
@@ -1011,6 +1054,8 @@ or invalid arguments. Errors say which command to run.
 3. **Query analysis** (LLM), **evidence assembly** (BM25, exact lookups, and one
    hop of explicit references: in the Privacy Code, "articolo 51 del regolamento"
    is GDPR Art. 51), and **answer generation** (LLM, citable evidence only).
+   BM25 is the only retriever here: the dense, hybrid and reranking retrievers
+   are not used by `ask`.
 4. **Validation**: every claim must quote its cited evidence exactly, and every
    article it names must match, by instrument and label together, a cited
    provision or one that the cited text itself names.
@@ -1036,7 +1081,7 @@ defaults are listed in [.env.example](.env.example).
 | `DATA_DIR` | `data` | Data root; relative paths resolve against the project root |
 | `INDEX_DIR` | `data/indexes` | Where local search indexes will be stored |
 | `EMBEDDING_MODEL` | `intfloat/multilingual-e5-small` | Dense embedding model |
-| `RERANKER_ENABLED` | `false` | Enable cross-encoder reranking |
+| `RERANKER_ENABLED` | `false` | **Inactive (reserved):** no code reads it. When `true`, it only requires `RERANKER_MODEL` to be set. Reranking runs only in the evaluator, with `--retriever hybrid-rerank` |
 | `RERANKER_MODEL` | `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1` | Reranker model |
 | `LLM_PROVIDER` | `mock` | `mock`, `anthropic`, or `openai`; `mock` never calls an external service |
 | `LLM_MODEL` | *(empty)* | Required when a real provider is selected |
@@ -1047,8 +1092,8 @@ defaults are listed in [.env.example](.env.example).
 | `RRF_K` | `60` | Reciprocal Rank Fusion constant used by hybrid retrieval |
 | `CONTEXT_TOKEN_BUDGET` | `3000` | Maximum evidence size in the prompt |
 | `CHUNK_SIZE` / `CHUNK_OVERLAP` | `1200` / `150` | Chunking size and overlap in characters |
-| `MIN_RETRIEVAL_SCORE` / `MIN_RERANK_SCORE` | *(empty = disabled)* | Abstention thresholds |
-| `UNDATED_SOURCE_POLICY` | `warn` | For "as of" questions, `warn` about or `exclude` sources without effective dates |
+| `MIN_RETRIEVAL_SCORE` / `MIN_RERANK_SCORE` | *(empty = disabled)* | **Inactive (reserved):** parsed and validated, but no code reads them. Abstention does not use score thresholds |
+| `UNDATED_SOURCE_POLICY` | `warn` | **Inactive (reserved):** parsed and validated (`warn` or `exclude`), but no code reads it. It does not currently control how sources without effective dates are handled, in "as of" questions or elsewhere |
 | `MAX_GENERATION_RETRIES` | `1` | Retries for malformed LLM output (0 or 1) |
 
 Invalid settings stop the program with a message that lists every problem.
@@ -1057,6 +1102,25 @@ The model defaults are provisional choices for this prototype. They are
 downloaded and exercised only in the phases that use them.
 
 ## Limitations
+
+This is an engineering prototype, not a validated legal advice system.
+
+- **No human review yet.** No provision of the real corpus has completed the
+  human review, so none may be cited and `ask` abstains on every question.
+- **Legal validity is not established** for any provision. Nothing here says a
+  provision is valid, in force or applicable at any date.
+- **The Privacy Code text is an unofficial transcription,** supplied by the user
+  and not independently verified against an official text. The GDPR text is the
+  2016 original publication, without later corrigenda.
+- **The synthetic demo's model replies are scripted.** It shows how the pipeline
+  handles model output, not how reliably a real model verifies support.
+- **Retrieval and ranking quality are unmeasured.** No sufficiently broad
+  labelled benchmark exists yet; the retrieval evaluation runs on a synthetic
+  fixture only.
+
+More: [docs/ROADMAP.md](docs/ROADMAP.md).
+
+**Ingestion**
 
 - **Scanned PDFs:** there is no OCR. Image-only PDFs fail with an explicit
   message. Image-only pages inside otherwise readable PDFs produce a warning,

@@ -3,9 +3,11 @@
 generate_answer(question, analysis, evidence, llm) turns a QueryAnalysis and an EvidenceSet into
 an AnswerResult with one of three outcomes:
 
-- answer: validated claims address every issue, and no claim was removed;
+- answer: validated claims address every issue, no claim was removed, and, with the support
+  check on, every claim was rated supported;
 - answer_limited: some claims survived validation, but an issue is unanswered (wholly or in
-  part) or a claim was removed;
+  part), a claim was removed, or the support check did not rate every claim supported or
+  could not run;
 - abstain: no claim survived, or the question cannot be answered from citable evidence.
 
 The application, not the model, decides the outcome. answer_question() first checks the corpus:
