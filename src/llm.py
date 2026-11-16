@@ -16,8 +16,9 @@ Retries are decided here and nowhere else. One call sends at most `max_attempts`
 The one retry is only for a reply that is not JSON, or breaks the schema or the caller's
 check. A provider failure (connection, timeout, any HTTP error), a refusal, or a reply cut off
 at the token limit ends the call at once with a typed error. The SDK's automatic retries are
-off (SDK_MAX_RETRIES = 0), so one attempt is one HTTP request, and one call waits about
-max_attempts x LLM_TIMEOUT_SECONDS at most (see AnthropicLLM for the timeout).
+off (SDK_MAX_RETRIES = 0) and redirects are not followed (a 3xx is an error), so one attempt is
+one HTTP request, and one call waits about max_attempts x LLM_TIMEOUT_SECONDS at most (see
+AnthropicLLM for the timeout).
 
 Failures raise typed errors (LLMError and its subclasses) so callers can fail closed. The API
 key is never kept on the client object, written to the log, or put in an error message.
@@ -505,8 +506,12 @@ class AnthropicLLM(_JSONClient):
         self._sdk = _import_sdk()  # its exception classes are needed even with an injected client
         if client is None:
             # An explicit api_key stops the SDK from reading any other credential source.
-            client = self._sdk.Anthropic(api_key=api_key, timeout=timeout_seconds,
-                                         max_retries=SDK_MAX_RETRIES)
+            # DefaultHttpxClient keeps the SDK's own HTTP defaults (limits, keep-alive, proxies)
+            # except one: redirects are not followed, because following one sends the request
+            # again. The API does not redirect; a 3xx becomes an error (see _translate).
+            client = self._sdk.Anthropic(
+                api_key=api_key, timeout=timeout_seconds, max_retries=SDK_MAX_RETRIES,
+                http_client=self._sdk.DefaultHttpxClient(follow_redirects=False))
         self._client = client
 
     def __repr__(self) -> str:
@@ -575,6 +580,11 @@ class AnthropicLLM(_JSONClient):
                         "server-side fallbacks, set it to false)")
             return LLMRequestError(f"the API rejected the request (HTTP {status}): {detail}{hint}",
                                    **where)
+        if isinstance(status, int) and 300 <= status < 400:
+            return LLMTransportError(
+                f"the API answered with a redirect (HTTP {status}); redirects are not followed, "
+                "so the request was not sent again. Check ANTHROPIC_BASE_URL and any proxy "
+                f"settings: {detail}", **where)
         if isinstance(status, int):
             return LLMTransportError(f"Anthropic API error (HTTP {status}), {retried}: {detail}",
                                      **where)

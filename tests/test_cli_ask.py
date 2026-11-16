@@ -299,8 +299,8 @@ def test_a_real_provider_client_sends_no_request_when_nothing_is_citable(unrevie
         return httpx.Response(500)
 
     real_client = sdk.Anthropic
-    monkeypatch.setattr(sdk, "Anthropic", lambda **kwargs: real_client(
-        **kwargs, http_client=httpx.Client(transport=httpx.MockTransport(handle))))
+    monkeypatch.setattr(sdk, "Anthropic", lambda **kwargs: real_client(  # replaces its client
+        **{**kwargs, "http_client": httpx.Client(transport=httpx.MockTransport(handle))}))
     settings = load_settings({"LLM_PROVIDER": "anthropic", "LLM_MODEL": "test-model",
                               "ANTHROPIC_API_KEY": "sk-ant-test-key"})
     code = cli.main(["ask", QUESTION, "--build-dir", str(unreviewed[0])], settings=settings)

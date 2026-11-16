@@ -18,6 +18,15 @@ the assembled evidence is empty or has no citable item. Only citable items (tier
 are sent to the model. The other items are reported apart, as non-authoritative references,
 and never as citations.
 
+Modes (Mode) are evidence policies over this one pipeline. The above is verified mode, the
+default. Research mode differs in one rule, applied in the corpus check, in the items supplied
+to the model and in claim validation (`usable`): items pending human review (tier
+"internal_only") may be used too; blocked and context-only items never are. Retrieval, evidence
+assembly, the prompts, every check below, the support check and the abstention rules are the
+same. No item changes tier or `citable` flag: an item pending review that a research answer
+cites stays citable=False with its reasons, and every research result carries
+RESEARCH_QUALIFICATION and mode="research".
+
 Every claim the model returns is checked in code (validate_claims):
 1. each issue ID it names exists in the analysis;
 2. each evidence ID it cites exists in the evidence set, and the item is citable;
@@ -123,6 +132,31 @@ class Outcome(StrEnum):
     ANSWER = "answer"
     ANSWER_LIMITED = "answer_limited"
     ABSTAIN = "abstain"
+
+
+class Mode(StrEnum):
+    """The evidence policy: which evidence items an answer may rest on. Nothing else differs:
+    retrieval, evidence assembly, the prompts, the quotation and reference checks, the support
+    check and the abstention rules are the same in both modes, and every item keeps the tier
+    and `citable` flag its eligibility gives it."""
+
+    VERIFIED = "verified"  # the default: items in the "primary" tier only (citable)
+    RESEARCH = "research"  # also items pending human review ("internal_only"), never blocked
+
+
+# Tiers an answer may rest on, per mode.
+USABLE_TIERS = {Mode.VERIFIED: frozenset({"primary"}),
+                Mode.RESEARCH: frozenset({"primary", "internal_only"})}
+
+RESEARCH_QUALIFICATION = (
+    "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human "
+    "review. Each source below states its review status; a source pending review is not "
+    "citable in verified mode and must not be relied on as verified.")
+
+
+def usable(item: EvidenceItem, mode: Mode) -> bool:
+    """Whether an answer in `mode` may rest on `item`. In verified mode exactly item.citable."""
+    return item.citable if mode == Mode.VERIFIED else item.tier in USABLE_TIERS[mode]
 
 
 # Abstention reason codes.
@@ -264,8 +298,10 @@ class AnswerResult:
     abstention_reason: str | None  # a reason code above, when the outcome is abstain
     abstention_detail: str | None
     claims: tuple[AnswerClaim, ...]
-    citations: tuple[SourceReference, ...]  # citable items cited by surviving claims
-    non_authoritative: tuple[SourceReference, ...]  # evidence items that are not citable
+    # Items cited by surviving claims. In verified mode all citable; in research mode an item
+    # pending review keeps citable=False and its tier.
+    citations: tuple[SourceReference, ...]
+    non_authoritative: tuple[SourceReference, ...]  # evidence items the mode does not allow
     rejected_claims: tuple[RejectedClaim, ...]
     unanswered_issues: tuple[UnansweredIssue, ...]  # reasons written by the application
     # Written by the model: unverified, not part of the legal answer; reference-checked only.
@@ -279,6 +315,7 @@ class AnswerResult:
     # References written in the question, resolved before retrieval (answer_question()).
     question_references: tuple[Resolution, ...] = ()
     verification: GenerationProvenance | None = None  # the support check, when it ran
+    mode: str = Mode.VERIFIED.value  # the evidence policy the result was produced under
 
     def to_dict(self) -> dict[str, Any]:
         """Plain JSON-compatible data."""
@@ -413,24 +450,28 @@ def _attr(text: str) -> str:
 
 
 def answer_question(question: str, llm: LLMClient, explorer: ProvisionExplorer, *,
-                    settings: Settings | None = None) -> AnswerResult:
+                    settings: Settings | None = None,
+                    mode: Mode | str = Mode.VERIFIED) -> AnswerResult:
     """Analyse the question, assemble its evidence and generate a validated answer.
 
     In order, with no LLM call before step 4:
     1. the question is checked (query_analysis.QueryAnalysisError if empty or too long);
     2. its explicit legal references are resolved (src/citations.py), deterministically;
-    3. corpus preflight: if no article of the build may be cited, the result is an abstention
-       (no_citable_evidence) and nothing is sent to any provider;
+    3. corpus preflight: if no article of the build may be cited (verified mode), or none is
+       usable even for research (research mode: no article is primary or pending review), the
+       result is an abstention (no_citable_evidence) and nothing is sent to any provider;
     4. analysis, evidence assembly and generation (generate_answer). Only references resolved
        in step 2 become exact lookups, ahead of the analysis's own suggestions; ambiguous or
        unresolved ones are reported, never looked up by a guessed instrument. The lookups go
        through the same evidence assembly, eligibility and limits as any other.
-    Every result carries the preflight and the question's references. The analysis,
-    generation and (with SEMANTIC_VERIFICATION) support verification run on `llm`; evidence
-    limits come from `settings` (FINAL_EVIDENCE_COUNT, CONTEXT_TOKEN_BUDGET). Provider and
-    configuration errors (llm.LLMTransportError, llm.LLMConfigError) propagate; an analysis
-    that cannot be obtained becomes an abstention.
+    Every result carries the preflight, the question's references and its mode. `mode` is the
+    evidence policy (Mode): it decides which items the answer may rest on and nothing else.
+    The analysis, generation and (with SEMANTIC_VERIFICATION) support verification run on
+    `llm`; evidence limits come from `settings` (FINAL_EVIDENCE_COUNT, CONTEXT_TOKEN_BUDGET).
+    Provider and configuration errors (llm.LLMTransportError, llm.LLMConfigError) propagate;
+    an analysis that cannot be obtained becomes an abstention.
     """
+    mode = Mode(mode)
     settings = settings or load_settings()
     question = check_question(question)
     references = resolve_references(question, explorer.store,
@@ -438,14 +479,20 @@ def answer_question(question: str, llm: LLMClient, explorer: ProvisionExplorer, 
     preflight = corpus_preflight(explorer)
 
     def finish(result: AnswerResult) -> AnswerResult:
-        return dataclasses.replace(result, preflight=preflight, question_references=references)
+        return _in_mode(dataclasses.replace(result, preflight=preflight,
+                                            question_references=references), mode)
 
-    if not preflight.passed:
-        tiers = ", ".join(f"{count} {tier}" for tier, count in preflight.article_tiers)
+    tiers = ", ".join(f"{count} {tier}" for tier, count in preflight.article_tiers)
+    if mode == Mode.VERIFIED and not preflight.passed:
         return finish(_abstain(question, NO_CITABLE_EVIDENCE,
                                f"No article in build {preflight.build_id} may be cited ({tiers}); "
                                "an answer needs provisions whose text has passed human review. "
                                "The question was not sent to any model."))
+    if not any(count for tier, count in preflight.article_tiers if tier in USABLE_TIERS[mode]):
+        return finish(_abstain(question, NO_CITABLE_EVIDENCE,
+                               f"No article in build {preflight.build_id} may be used, even in "
+                               f"research mode ({tiers}). The question was not sent to any "
+                               "model.", mode=mode))
     try:
         analysis = analyze(question, llm, provision_exists=store_checker(explorer.store))
     except LLMRefusalError as exc:
@@ -459,7 +506,7 @@ def answer_question(question: str, llm: LLMClient, explorer: ProvisionExplorer, 
         request = _with_question_lookups(analysis.to_evidence_request(), references)
         evidence = assemble(request, explorer, settings=settings)
     return finish(generate_answer(question, analysis, evidence, llm,
-                                  verify_support=settings.semantic_verification))
+                                  verify_support=settings.semantic_verification, mode=mode))
 
 
 def _article_text(explorer: ProvisionExplorer):
@@ -515,14 +562,22 @@ def corpus_preflight(explorer: ProvisionExplorer) -> CorpusPreflight:
 
 
 def generate_answer(question: str, analysis: QueryAnalysis, evidence: EvidenceSet | None,
-                    llm: LLMClient, *, verify_support: bool = False) -> AnswerResult:
+                    llm: LLMClient, *, verify_support: bool = False,
+                    mode: Mode | str = Mode.VERIFIED) -> AnswerResult:
     """A validated answer to `question` from `evidence`, or an abstention with its reason.
 
     `evidence` may be None only when the analysis is out of scope or needs clarification.
     With `verify_support`, the claims that pass the deterministic checks also go through the
     model support check (src/support_verification.py): unsupported claims are removed, and
-    only claims assessed as supported can make a complete answer.
+    only claims assessed as supported can make a complete answer. `mode` decides which
+    evidence items may be supplied to the model and cited (usable); every check is the same.
     """
+    mode = Mode(mode)
+    return _in_mode(_generate(question, analysis, evidence, llm, verify_support, mode), mode)
+
+
+def _generate(question: str, analysis: QueryAnalysis, evidence: EvidenceSet | None,
+              llm: LLMClient, verify_support: bool, mode: Mode) -> AnswerResult:
     question = question.strip()
     if question != analysis.question:
         raise AnswerGenerationError("the question is not the one the analysis was made for")
@@ -543,26 +598,30 @@ def generate_answer(question: str, analysis: QueryAnalysis, evidence: EvidenceSe
     if evidence.is_empty:
         return _abstain(question, NO_EVIDENCE, "Retrieval found no provision text for the "
                         "question's search queries or lookups.", analysis=analysis,
-                        evidence=evidence)
-    if not evidence.has_citable_evidence:
+                        evidence=evidence, mode=mode)
+    supplied = tuple(item for item in evidence.items if usable(item, mode))
+    if not supplied:
         tiers = sorted({item.tier for item in evidence.items})
-        return _abstain(question, NO_CITABLE_EVIDENCE,
-                        f"None of the {len(evidence.items)} evidence items may be cited (tiers: "
-                        f"{', '.join(tiers)}); an answer needs provisions whose text has passed "
-                        "human review.", analysis=analysis, evidence=evidence)
+        detail = (f"None of the {len(evidence.items)} evidence items may be cited (tiers: "
+                  f"{', '.join(tiers)}); an answer needs provisions whose text has passed "
+                  "human review." if mode == Mode.VERIFIED else
+                  f"None of the {len(evidence.items)} evidence items may be used, even in "
+                  f"research mode (tiers: {', '.join(tiers)}); research mode admits provisions "
+                  "pending human review, never blocked ones.")
+        return _abstain(question, NO_CITABLE_EVIDENCE, detail, analysis=analysis,
+                        evidence=evidence, mode=mode)
 
-    supplied = evidence.citable_items
     try:
         result = llm.complete_json(TASK, SYSTEM_PROMPT,
                                    build_user_message(question, analysis, supplied), SCHEMA,
                                    check=_check_reply)
     except LLMRefusalError as exc:
         return _abstain(question, MODEL_REFUSED, _refusal_message(exc, "answer generation"),
-                        analysis=analysis, evidence=evidence)
+                        analysis=analysis, evidence=evidence, mode=mode)
     except LLMOutputError as exc:
         return _abstain(question, GENERATION_FAILED,
                         _failure_message("No answer could be generated", exc),
-                        analysis=analysis, evidence=evidence)
+                        analysis=analysis, evidence=evidence, mode=mode)
     provenance = GenerationProvenance(
         task=result.task, prompt_version=PROMPT_VERSION, provider=result.provider,
         model=result.model, served_by=result.served_by, attempts=result.attempts,
@@ -570,13 +629,13 @@ def generate_answer(question: str, analysis: QueryAnalysis, evidence: EvidenceSe
         quote_normalisation=QUOTE_PROFILE,
         supplied_evidence_ids=tuple(item.evidence_id for item in supplied))
     return _decide(question, analysis, evidence, supplied, result.data, provenance,
-                   verifier=llm if verify_support else None)
+                   verifier=llm if verify_support else None, mode=mode)
 
 
 def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
             supplied: tuple[EvidenceItem, ...], data: Mapping[str, Any],
             provenance: GenerationProvenance, *,
-            verifier: LLMClient | None = None) -> AnswerResult:
+            verifier: LLMClient | None = None, mode: Mode = Mode.VERIFIED) -> AnswerResult:
     warnings: list[str] = []
     issue_ids = {issue.id for issue in analysis.issues}
 
@@ -594,14 +653,16 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
         if note)
 
     common = {"analysis": analysis, "evidence": evidence, "generation": provenance,
-              "model_notes": model_notes, "warnings": warnings}
+              "model_notes": model_notes, "warnings": warnings, "mode": mode}
     if data["outcome"] == Outcome.ABSTAIN:
         ids = ", ".join(item.evidence_id for item in supplied)
+        supplied_kind = "citable evidence" if mode == Mode.VERIFIED else "evidence"
         return _abstain(question, MODEL_ABSTAINED, f"The model reported that the supplied "
-                        f"citable evidence ({ids}) does not answer the question.",
+                        f"{supplied_kind} ({ids}) does not answer the question.",
                         unanswered=unanswered, **common)
 
-    claims, rejected = validate_claims(data["claims"], issue_ids=issue_ids, evidence=evidence)
+    claims, rejected = validate_claims(data["claims"], issue_ids=issue_ids, evidence=evidence,
+                                       mode=mode)
     verification = None
     if claims and verifier is not None:
         claims, rejected, verification = _verify_support(claims, rejected, evidence, verifier,
@@ -631,7 +692,7 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
         abstention_reason=None, abstention_detail=None,
         claims=tuple(claims),
         citations=tuple(SourceReference.of(i) for i in evidence.items if i.evidence_id in cited),
-        non_authoritative=_non_authoritative(evidence),
+        non_authoritative=_non_authoritative(evidence, mode),
         rejected_claims=tuple(rejected),
         unanswered_issues=tuple(unanswered),
         model_notes=model_notes,
@@ -683,12 +744,13 @@ def _abstain(question: str, reason: str, detail: str, *,
              rejected: Iterable[RejectedClaim] = (), unanswered: Iterable[UnansweredIssue] = (),
              model_notes: tuple[str, ...] = (), warnings: Iterable[str] = (),
              preflight: CorpusPreflight | None = None,
-             verification: GenerationProvenance | None = None) -> AnswerResult:
+             verification: GenerationProvenance | None = None,
+             mode: Mode = Mode.VERIFIED) -> AnswerResult:
     """`detail` is always application text: never a reason written by a model."""
     return AnswerResult(
         question=question, outcome=Outcome.ABSTAIN, abstention_reason=reason,
         abstention_detail=detail, claims=(), citations=(),
-        non_authoritative=_non_authoritative(evidence) if evidence else (),
+        non_authoritative=_non_authoritative(evidence, mode) if evidence else (),
         rejected_claims=tuple(rejected), unanswered_issues=tuple(unanswered),
         model_notes=model_notes,
         qualifications=_qualifications(evidence, with_claims=False),
@@ -713,8 +775,17 @@ def _safe_id(value: str, kind: str) -> str:
     return value if _ID[kind].fullmatch(value) else "(malformed id)"
 
 
-def _non_authoritative(evidence: EvidenceSet) -> tuple[SourceReference, ...]:
-    return tuple(SourceReference.of(item) for item in evidence.items if not item.citable)
+def _non_authoritative(evidence: EvidenceSet,
+                       mode: Mode = Mode.VERIFIED) -> tuple[SourceReference, ...]:
+    return tuple(SourceReference.of(item) for item in evidence.items if not usable(item, mode))
+
+
+def _in_mode(result: AnswerResult, mode: Mode) -> AnswerResult:
+    """The result labelled with its mode; in research mode, RESEARCH_QUALIFICATION first."""
+    qualifications = result.qualifications
+    if mode == Mode.RESEARCH and RESEARCH_QUALIFICATION not in qualifications:
+        qualifications = (RESEARCH_QUALIFICATION, *qualifications)
+    return dataclasses.replace(result, mode=mode.value, qualifications=qualifications)
 
 
 def _qualifications(evidence: EvidenceSet | None, *, with_claims: bool,
@@ -764,11 +835,16 @@ def _check_reply(data: Mapping[str, Any]) -> None:
 
 
 def validate_claims(raw_claims: Iterable[Mapping[str, Any]], *, issue_ids: set[str],
-                    evidence: EvidenceSet) -> tuple[list[AnswerClaim], list[RejectedClaim]]:
+                    evidence: EvidenceSet, mode: Mode | str = Mode.VERIFIED,
+                    ) -> tuple[list[AnswerClaim], list[RejectedClaim]]:
     """Split the model's claims into those that pass every check and those removed, with reasons.
 
-    Surviving claims are numbered C1, C2, ... in the model's order.
+    Surviving claims are numbered C1, C2, ... in the model's order. A quotation from an item the
+    mode does not allow removes the claim: "not_citable" in verified mode, "not_usable" (a
+    blocked or context-only item) in research mode.
     """
+    mode = Mode(mode)
+    refused = "not_citable" if mode == Mode.VERIFIED else "not_usable"
     items = {item.evidence_id: item for item in evidence.items}
     kept: list[AnswerClaim] = []
     rejected: list[RejectedClaim] = []
@@ -782,8 +858,8 @@ def validate_claims(raw_claims: Iterable[Mapping[str, Any]], *, issue_ids: set[s
             item = items.get(quote.evidence_id)
             if item is None:
                 reasons.append(f"unknown_evidence:{_safe_id(quote.evidence_id, 'evidence')}")
-            elif not item.citable:
-                reasons.append(f"not_citable:{quote.evidence_id}")
+            elif not usable(item, mode):
+                reasons.append(f"{refused}:{quote.evidence_id}")
             elif (problem := quote_problem(quote.text, item.text)) is not None:
                 reasons.append(f"{problem}:{quote.evidence_id}")
             else:

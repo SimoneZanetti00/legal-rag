@@ -491,12 +491,21 @@ def test_real_sdk_client_uses_only_the_explicit_key(sdk, monkeypatch):
     assert llm._client.max_retries == 0
 
 
+def test_real_sdk_client_follows_no_redirects_and_keeps_the_sdk_http_defaults(sdk):
+    llm = AnthropicLLM(api_key=KEY, model="test-model")
+    http = llm._client._client
+    assert isinstance(http, sdk.DefaultHttpxClient)  # the SDK's limits, keep-alive and proxies
+    assert http.follow_redirects is False
+    assert llm._client.max_retries == 0
+
+
 # --- The real SDK on a fake HTTP transport: no hidden retries ----------------------------------
 
 
 @pytest.fixture
 def wire(sdk, monkeypatch):
-    """Every AnthropicLLM built in the test gets a real SDK client whose HTTP requests go to a
+    """Every AnthropicLLM built in the test gets a real SDK client, with the HTTP client it
+    configures in production (sdk.DefaultHttpxClient, redirects off), whose requests go to a
     fake transport. Returns (requests seen, replies): each reply is an httpx2.Response, an
     exception to raise, or a JSON-able dict sent with status 200."""
     httpx = pytest.importorskip("httpx2")
@@ -509,12 +518,18 @@ def wire(sdk, monkeypatch):
             raise reply
         return reply if isinstance(reply, httpx.Response) else httpx.Response(200, json=reply)
 
-    real_client = sdk.Anthropic
+    real_client, real_http_client = sdk.Anthropic, sdk.DefaultHttpxClient
 
     def build(**kwargs):
-        return real_client(**kwargs, http_client=httpx.Client(transport=httpx.MockTransport(handle)))
+        # Without its own http_client the SDK would build one with a real transport.
+        assert "http_client" in kwargs, "AnthropicLLM must pass its own http_client"
+        return real_client(**kwargs)
+
+    def http_client(**kwargs):
+        return real_http_client(**kwargs, transport=httpx.MockTransport(handle))
 
     monkeypatch.setattr(sdk, "Anthropic", build)
+    monkeypatch.setattr(sdk, "DefaultHttpxClient", http_client)
     return seen, replies
 
 
@@ -555,6 +570,20 @@ def test_wire_errors_the_sdk_would_retry_are_sent_once(wire, status, expected):
     with pytest.raises(expected):
         AnthropicLLM(api_key=KEY, model="test-model").complete_json("demo", "s", "u", SCHEMA)
     assert len(seen) == 1
+
+
+@pytest.mark.parametrize("status", [301, 302, 303, 307, 308])
+def test_wire_a_redirect_is_an_error_after_one_request(wire, status):
+    httpx = pytest.importorskip("httpx2")
+    seen, replies = wire
+    redirect = httpx.Response(status, headers={"location": "https://api.anthropic.com/v1/messages"})
+    replies.extend([redirect, message_body()])
+    with pytest.raises(LLMTransportError, match=rf"redirect \(HTTP {status}\)") as exc_info:
+        AnthropicLLM(api_key=KEY, model="test-model").complete_json("demo", "s", "u", SCHEMA)
+    assert type(exc_info.value) is LLMTransportError
+    assert exc_info.value.status_code == status
+    assert len(seen) == 1  # the redirect was not followed
+    assert replies == [message_body()]  # the success reply was never requested
 
 
 def test_wire_connection_errors_and_timeouts_are_sent_once(wire):
