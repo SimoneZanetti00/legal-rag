@@ -22,12 +22,22 @@ steps P0–P8) and [the research report](research/LEXROOM_TECHNICAL_REVERSE_ENGI
 | **Evidence-support check** of each claim by a model, which can be switched off (`SEMANTIC_VERIFICATION`) | `src/support_verification.py` |
 | Corpus preflight (no LLM call when nothing may be cited); privacy-safe logs; abstention with reason codes | `src/answer_generation.py`, `src/llm.py` |
 | CLI: `python -m src.cli ask`, `lookup`, `search` | `src/provision_cli.py`, `src/cli.py` |
+| **Local web demo** (`python -m src.web_demo`): a browser page over `answer_question()`, served on 127.0.0.1 with the standard library; it shows the result as `to_dict()` returns it, with a research-transparency panel | `src/web_demo.py`, `src/web_static/` |
+| **Verified and research demo modes**: evidence policies over one pipeline (`answer_generation.Mode`). Verified, the default, cites reviewed provisions only. Research also uses provisions pending review, keeps their status and marks them; the same quotation, reference and support checks and abstentions apply | `src/answer_generation.py` |
+| **Source status** of every evidence item: official publication or unofficial transcription, extraction check, human review, legal currency, citability in verified mode; read-only, from the registry and the review record | `src/source_status.py` |
 | **Offline demonstration** (`python -m src.demo`): real-corpus evidence, provenance and abstention; a synthetic end-to-end run with scripted MockLLM replies | `src/demo.py` |
+| **Provision-level retrieval evaluation** (M4, P1-P2) of the BM25 search `ask` uses: benchmark schema, judging guidelines, evaluator, and a first benchmark of 24 questions whose judgments are unreviewed candidates | `src/provision_eval.py`, `docs/evaluation/guidelines.md`, `data/evaluation/legal-v1/` |
+| **legal-v2** (M4, P2.2): the same 24 questions in two query scenarios, technical and natural, regraded under a stricter grade-1 policy. The owner reviewed 28 of its 673 judgments at Gate 2, and the rest are unreviewed candidates. Frozen at Gate 3 (six hashes pinned) and now the default benchmark; first technical and natural results in `docs/evaluation/legal-v2-first-evaluation.md` | `data/evaluation/legal-v2/`, `docs/evaluation/legal-v2-implementation-plan.md` |
+| **Query understanding layer** (opt-in; `ask` does not use it): a checked, cached reading of a question (legal and plain Italian restatements, concepts, entities, conditions, ambiguities), searched together with the original and fused by article-level RRF. Dev experiment: the baseline and controls only, because no model is configured | `src/query_understanding.py`, `src/query_fusion.py`, `src/query_understanding_eval.py`, `src/query_understanding_demo.py`, `docs/evaluation/query-understanding-dev-experiment.md` |
 
 ## Known limitations
 
 - **Nothing is citable yet.** The M1 human review is not recorded, so `ask` always abstains on
   the real corpus. Generation and the support check have run only against mocks.
+- **Research demo mode is not verification.** It answers from provisions pending human review.
+  Their extraction has not been compared with an official text (no check is recorded), and
+  legal currency is never established. Every such source is marked, but the answers are for
+  demonstration and development, not reliance.
 - **The support check is a model's judgment.** It can miss or wrongly flag a claim. It sees only
   the cited evidence, so it cannot notice a condition or exception that was never retrieved.
   It is not legal validation.

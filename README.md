@@ -939,8 +939,51 @@ questions. Synthetic-fixture numbers cannot. A new retriever needs a
   misses.
 - A small query set gives unstable means. No significance tests or confidence
   intervals are computed.
-- Only chunk-level relevance is supported, not document-level relevance.
+- This evaluator supports only chunk-level relevance. Article-level relevance
+  is covered by the provision-level evaluator below.
 - Answer quality and grounding are evaluated separately, in a later phase.
+
+### Provision-level evaluation of the `ask` search
+
+`src/provision_eval.py` measures the BM25 search that `ask` uses
+(`ProvisionExplorer.search`), at article level. Its benchmarks hold questions
+with fixed, hand-written Italian search queries, and judgments keyed by
+instrument and article label (grades 0–2), each with its provenance and review
+status. It reports Recall@1, Recall@5, Recall@10, MRR@10 and nDCG@10, per
+question and as means. Each report records the benchmark's hashes, the build
+ID, the corpus hash and the code commit.
+
+```powershell
+.\.venv\Scripts\python.exe -m src.provision_eval --benchmark data/evaluation/legal-v1 `
+    --output data/processed/evaluation/bm25.json
+```
+
+The first real benchmark,
+[data/evaluation/legal-v1/](data/evaluation/legal-v1/README.md), holds 24
+questions, 16 dev and 8 test. It is provisional: its questions and judgments
+are candidates that no person has reviewed, so its numbers are not validated
+retrieval quality. The synthetic fixture in
+`tests/fixtures/synthetic_provision_eval/` tests the evaluator only. The schema,
+the grades, the judging rules, the metric conventions and the limitations are in
+[docs/evaluation/guidelines.md](docs/evaluation/guidelines.md).
+
+Its revision, [data/evaluation/legal-v2/](data/evaluation/legal-v2/README.md)
+(M4 P2.2), was frozen at Gate 3 and is now the default benchmark.
+- **What it is:** schema 2, with the same 24 questions in two query scenarios
+  (`--scenario technical` and `--scenario natural`), regraded under a stricter
+  grade-1 policy. Its six files are pinned by SHA-256 in
+  `tests/test_legal_benchmarks.py`.
+- **Review status:** at Gate 2 the owner reviewed 28 of its 673 judgments. The
+  rest are unreviewed candidates. Owner review is not expert legal validation.
+- **First results** (BM25 search of `ask`, chunk depth 20, nDCG@10 over the
+  scored questions): technical 0.709 dev (14 questions) and 0.715 test (6
+  questions, held out); natural 0.457 dev and 0.408 test.
+  - All metrics, the split policy and the limitations are in
+    [docs/evaluation/legal-v2-first-evaluation.md](docs/evaluation/legal-v2-first-evaluation.md).
+  - These results are not comparable with legal-v1, and they are not a measure
+    of legal correctness.
+- **The plan** is in
+  [docs/evaluation/legal-v2-implementation-plan.md](docs/evaluation/legal-v2-implementation-plan.md).
 
 ## Provision store and corpus explorer (P1.3)
 
@@ -1069,6 +1112,113 @@ Exit codes: 0 an answer or an abstention; 2 configuration, build or argument
 errors; 3 the LLM provider request failed. Planned work and known limits:
 [docs/ROADMAP.md](docs/ROADMAP.md).
 
+## Web demo (local)
+
+```powershell
+.\.venv\Scripts\python.exe -m src.web_demo            # http://127.0.0.1:8000/
+.\.venv\Scripts\python.exe -m src.web_demo --port 0   # any free port
+```
+
+A browser interface over the same pipeline as `ask`. Every answer comes from
+`answer_question()` on the recorded build. The page shows `AnswerResult.to_dict()`
+as returned, together with the source status of each evidence item:
+- the outcome, or the abstention reason with its explanation;
+- the answer as readable statements, each with its citations, and the exact
+  quotations behind each statement;
+- what could not be established;
+- the caveats;
+- the sources, with how reliable each one is;
+- a research-transparency panel: the provisions retrieved, with their best
+  BM25 rank, what was excluded and why, the question analysis, and the model
+  and mode.
+
+**Requirements:** the same as `ask`. You need the recorded build and the source
+PDFs, plus `LLM_PROVIDER=anthropic`, `LLM_MODEL` and `ANTHROPIC_API_KEY`;
+`mock` is refused. No new dependency is used: the server is the standard
+library's.
+
+### Two modes: verified and research demo
+
+The two modes are evidence policies over **one** pipeline. In both, the steps
+are the same:
+- retrieval: BM25 search, direct article lookups and one hop of references,
+  exactly as in `ask`;
+- evidence assembly;
+- the generation prompt;
+- the exact-quotation and citation checks;
+- the model support check;
+- every abstention rule.
+
+Only the set of provisions an answer may rest on differs
+(`answer_generation.Mode`, `usable()`):
+
+| | Verified (default) | Research demo |
+|---|---|---|
+| Provisions an answer may rest on | Those that passed human review (tier `primary`) | Those, plus those pending human review (`internal_only`). Never `blocked` ones. |
+| Today, with an empty review ledger | Every question abstains before any model call | Answers can be produced from the 319 articles pending review |
+| Status of the sources | Citable | Unchanged: a source pending review stays `citable: false`, with its reasons |
+| Marking | — | `mode: "research"`, a research caveat first in the qualifications, and «human review pending» on every such source |
+
+Research mode changes no inventory, review ledger or eligibility. Tests check
+the review files byte for byte. The page always opens in verified mode.
+Switching to research shows a warning and needs an explicit confirmation, and
+the choice is never remembered.
+
+**Source status.** Each evidence item states five things separately
+(`src/source_status.py`), from the registry and the review record only:
+
+| Statement | Values |
+|---|---|
+| Source | Official publication (the GDPR, as published in 2016; the authenticity of the copy is not established), or unofficial transcription (the Privacy Code) |
+| Text extraction | Checked against an official text only if the review ledger records an official-source check. Today none is recorded, so every text is «extracted automatically and anchored; not compared with an official text». |
+| Human review | Pending for every provision today |
+| Legal currency | Never established. The system does not say whether a provision is valid, in force or applicable at any date; the GDPR text is the 2016 original, without later amendments. |
+| Citable in verified mode | Yes or no |
+
+### Running a real question
+
+1. Start the server, as above, and open the URL it prints.
+2. Select **Research demo**, then tick the confirmation.
+3. Ask, for example: «When is a personal data breach required to be notified
+   to the Italian Data Protection Authority?»
+
+That is one real, billed question: up to three model tasks (analysis,
+generation, support check), each with at most one retry.
+
+To send the same request from PowerShell instead of the browser:
+
+```powershell
+$body = [Text.Encoding]::UTF8.GetBytes((@{ question = "When is a personal data breach required to be notified to the Italian Data Protection Authority?"; mode = "research" } | ConvertTo-Json))
+Invoke-RestMethod -Uri http://127.0.0.1:8000/api/ask -Method Post -ContentType "application/json; charset=utf-8" -Body $body | ConvertTo-Json -Depth 12
+```
+
+### Local-only operation
+
+- **Local only.** The server binds to `127.0.0.1` only. It refuses requests
+  from other hosts or sites, non-JSON bodies, and any `mode` other than
+  `verified` or `research`. A request that names no mode is answered in
+  verified mode.
+- **One question at a time.**
+- **What is logged.** The console logs method, path and status only; it never
+  logs the question, an error message from the provider, or a key.
+- **When the model is called.** Starting the server sends nothing. A question
+  reaches the provider only when its mode has usable evidence.
+- **Endpoints:**
+  - `GET /`, the page;
+  - `GET /api/health`, the build, the article counts per mode, the provider
+    and model;
+  - `POST /api/ask` with `{"question": "...", "mode": "verified" | "research"}`.
+
+**Before this is a reliable legal research system:**
+- recorded human review of the provisions an answer cites, so that verified
+  mode can answer;
+- official-source checks recorded in the review ledger;
+- authentic or consolidated texts, with dates and versions;
+- broader evaluation of answers, not only of retrieval;
+- reviewed benchmark judgments.
+
+Research mode is for demonstration and development only.
+
 ## Configuration
 
 All settings come from environment variables, optionally loaded from a
@@ -1084,8 +1234,11 @@ defaults are listed in [.env.example](.env.example).
 | `RERANKER_ENABLED` | `false` | **Inactive (reserved):** no code reads it. When `true`, it only requires `RERANKER_MODEL` to be set. Reranking runs only in the evaluator, with `--retriever hybrid-rerank` |
 | `RERANKER_MODEL` | `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1` | Reranker model |
 | `LLM_PROVIDER` | `mock` | `mock`, `anthropic`, or `openai`; `mock` never calls an external service |
-| `LLM_MODEL` | *(empty)* | Required when a real provider is selected |
-| `LLM_API_KEY` | *(empty)* | Required only by real providers; keep it in `.env`, never commit it |
+| `LLM_MODEL` | *(empty)* | Required when a real provider is selected; for `anthropic`, a Claude model ID. No model is chosen by default |
+| `ANTHROPIC_API_KEY` | *(empty)* | Required by `anthropic`, and read only by it: a Claude Console API key. Keep it in `.env`, never commit it |
+| `LLM_API_KEY` | *(empty)* | For other providers (none implemented); `anthropic` ignores it |
+| `LLM_TIMEOUT_SECONDS` | `120` | Seconds per request attempt |
+| `LLM_REFUSAL_FALLBACK` | `false` | `anthropic`, opt-in: on a refusal, let the API re-run the request on Anthropic's fallback model (recorded as `served_by`) |
 | `BM25_TOP_K` / `DENSE_TOP_K` | `20` | Candidates each retriever contributes to hybrid fusion |
 | `RERANK_TOP_K` | `20` | Candidates passed to the reranker |
 | `FINAL_EVIDENCE_COUNT` | `5` | Passages given to the LLM |
@@ -1097,6 +1250,25 @@ defaults are listed in [.env.example](.env.example).
 | `MAX_GENERATION_RETRIES` | `1` | Retries for malformed LLM output (0 or 1) |
 
 Invalid settings stop the program with a message that lists every problem.
+
+**Using Anthropic.** The client is `AnthropicLLM` in `src/llm.py`, built by
+`make_llm()` from the settings; `ask`, query analysis, the support check and the
+query understanding layer all use it.
+
+1. Install the dependencies. `anthropic` is pinned in `requirements.txt`:
+   `.\.venv\Scripts\python.exe -m pip install -r requirements.txt`.
+2. Create `.env` from the example, without overwriting an existing one:
+   `if (-not (Test-Path .env)) { Copy-Item .env.example .env }`.
+3. In `.env` (Git-ignored), set `LLM_PROVIDER=anthropic`, `LLM_MODEL` to a Claude
+   model ID, and `ANTHROPIC_API_KEY` to an API key from the Claude Console. API
+   use is billed to that Console account; a Claude subscription, including
+   Claude Code, does not by itself provide API access.
+4. Check: `.\.venv\Scripts\python.exe -m src.config` prints the settings with
+   the key masked, and sends nothing.
+
+Questions, and in `ask` the evidence, are sent to Anthropic. With `mock` (the
+default) nothing leaves the machine. For the query understanding experiment,
+see [the dev experiment](docs/evaluation/query-understanding-dev-experiment.md#running-b-d-with-anthropic).
 
 The model defaults are provisional choices for this prototype. They are
 downloaded and exercised only in the phases that use them.
