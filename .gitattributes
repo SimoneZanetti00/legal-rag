@@ -9,3 +9,14 @@ data/corpus_specs/*.json text eol=lf
 # line-ending conversion, so their recorded SHA-256 holds in every checkout.
 data/raw/trial-2026-10-10/official-sources/*.html -text
 data/raw/trial-2026-10-10/official-sources/*.pdf binary
+# Benchmarks (M4): tests/test_legal_benchmarks.py pins the SHA-256 of their files, and their
+# READMEs quote those values, so they stay LF in every checkout. The folder holds no binary file.
+data/evaluation/** text eol=lf
+# The generated M1 review package: `python -m tools.review_package.generate --check` compares it
+# byte for byte, and the review record quotes its SHA-256.
+docs/reviews/m1-human-review-package.md text eol=lf
+# legal-v1 was frozen with CRLF data files; these keep its pinned SHA-256 values in every checkout.
+data/evaluation/legal-v1/benchmark.json text eol=crlf
+data/evaluation/legal-v1/judgments.jsonl text eol=crlf
+data/evaluation/legal-v1/pool.jsonl text eol=crlf
+data/evaluation/legal-v1/questions.jsonl text eol=crlf

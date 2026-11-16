@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "answers",
+  "version": "0-draft",
+  "kind": "end_to_end",
+  "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+  "description": "End-to-end benchmark v0 of the legal ask pipeline: 22 questions (12 dev, 10 test) with the provisions a correct answer rests on (core) or may use (supporting). Drafted by Claude (AI assistant) on 2026-11-13 and consolidated by Claude Code on 2026-11-16 with the owner's corrections; no question or expectation has been reviewed. The draft named no build: build_id is the recorded build the expectations were checked against in the 2026-11-13 audit."
+}

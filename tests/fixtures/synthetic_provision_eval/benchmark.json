@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "synthetic-provision-eval",
+  "version": "1",
+  "kind": "synthetic",
+  "description": "SYNTHETIC test fixture for src/provision_eval.py: invented questions and judgments over the fictional Atto sintetico di Corvalle, built by tests/test_provision_eval.py. Not a legal benchmark."
+}

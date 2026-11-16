@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "legal",
+  "version": "1",
+  "kind": "real",
+  "description": "First real legal retrieval benchmark (M4 P2): 24 Italian questions about the GDPR (2016 original publication) and the Privacy Code transcription in the recorded corpus, with candidate article-level judgments. Provisional: no person has reviewed it. See README.md."
+}
