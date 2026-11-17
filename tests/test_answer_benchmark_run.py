@@ -248,3 +248,55 @@ def test_a_saved_result_is_rescored_under_the_current_outcome_rule():
     assert rescored["unanswered_issues"] == [{"issue_id": "I1", "reason": REPORTED_UNANSWERED}]
     abstained = {**base, "outcome": "abstain"}
     assert run.rescore_result(abstained) == abstained
+
+
+# --- Cost and budget -----------------------------------------------------------------------------
+
+
+def priced_llm(replies):
+    """A stand-in live client whose every reply reports 100,000 input and 10,000 output tokens:
+    $0.30 at the claude-sonnet-5-5 prices."""
+    from src.llm import RawCompletion, TokenUsage
+    return MockLLM({"query_analysis": [
+        RawCompletion(json.dumps({"x": str(n)}), "end_turn", "claude-sonnet-5-5",
+                      usage=TokenUsage(100_000, 10_000)) for n in range(replies)]})
+
+
+def test_the_budget_stops_the_run_before_a_question_that_could_exceed_it(tmp_path):
+    bench = benchmark([question("a01"), question("a02"), question("a03")],
+                      [row("1"), row("2", qid="a02"), row("3", qid="a03")])
+    live = priced_llm(3)
+    meter = run.CostMeter(live, "claude-sonnet-5-5")
+
+    def answer(text, llm):
+        llm.complete_json("query_analysis", "s", text, SCHEMA)
+        return result([item("E1", "1", TEXTS["1"])])
+
+    lines = []
+    done = run.run_questions(bench, tmp_path, ["dev"], answer, lambda qid: live,
+                             {"code": {"state": "clean"}}, log=lines.append, meter=meter,
+                             budget_usd=0.70)
+    assert done == ["a01", "a02"] and not (tmp_path / "a03.json").exists()
+    assert any(line.startswith("a03: not started: $0.6000 spent") for line in lines)
+    saved = json.loads((tmp_path / "a01.json").read_text(encoding="utf-8"))
+    assert saved["usage"] == {"input_tokens": 100_000, "output_tokens": 10_000,
+                              "cache_creation_input_tokens": 0, "cache_read_input_tokens": 0,
+                              "cost_usd": 0.3}
+    assert saved["llm_calls"][0]["usage"]["output_tokens"] == 10_000
+    [invocation] = json.loads((tmp_path / run.RUN_RECORD).read_text(encoding="utf-8"))[
+        "invocations"]
+    assert invocation["spend"]["cost_usd"] == 0.6
+    assert invocation["spend"]["stopped_before"] == "a03"
+    assert invocation["spend"]["prices_usd_per_mtok"] == run.PRICES_USD_PER_MTOK[
+        "claude-sonnet-5-5"]
+
+
+def test_a_budget_needs_a_priced_model_and_a_client_that_reports_usage():
+    with pytest.raises(run.RunError, match="no price"):
+        run.CostMeter(MockLLM({}), "some-other-model")
+    with pytest.raises(run.RunError, match="does not report"):
+        run.CostMeter(object(), "claude-sonnet-5-5")
+    with pytest.raises(run.RunError, match="needs a cost meter"):
+        run.run_questions(benchmark([], []), None, ["dev"], None, None, {}, budget_usd=1.0)
+    assert run.PRICES_USD_PER_MTOK["claude-sonnet-5-5"]["input"] == 2.00
+    assert run.PRICES_USD_PER_MTOK["claude-sonnet-5-5"]["output"] == 10.00

@@ -697,3 +697,30 @@ def test_make_llm_rejects_unimplemented_providers():
     settings = load_settings({"LLM_PROVIDER": "openai", "LLM_MODEL": "m", "LLM_API_KEY": "k"})
     with pytest.raises(LLMConfigError, match="not implemented"):
         make_llm(settings)
+
+
+# --- Token usage -------------------------------------------------------------------------------
+
+
+def test_usage_is_added_over_a_calls_attempts_and_kept_when_a_call_fails(sdk):
+    from src.llm import TokenUsage
+    llm = make(sdk, FakeClient(api_response(text="not json"), api_response()))
+    result = llm.complete_json("demo", "sys", "usr", SCHEMA)
+    assert result.attempts == 2 and result.usage == TokenUsage(input_tokens=20, output_tokens=10)
+    assert llm.usage_spent == TokenUsage(input_tokens=20, output_tokens=10)
+    failing = make(sdk, FakeClient(api_response(text="nope"), api_response(text="nope")))
+    with pytest.raises(LLMMalformedOutputError):
+        failing.complete_json("demo", "sys", "usr", SCHEMA)
+    assert failing.usage_spent == TokenUsage(input_tokens=20, output_tokens=10)  # still billed
+
+
+def test_cache_tokens_are_read_and_a_reply_without_usage_counts_nothing(sdk):
+    from src.llm import TokenUsage
+    cached = api_response()
+    cached.usage = SimpleNamespace(input_tokens=3, output_tokens=4, cache_creation_input_tokens=5,
+                                   cache_read_input_tokens=6, iterations=None)
+    llm = make(sdk, FakeClient(cached))
+    assert llm.complete_json("demo", "s", "u", SCHEMA).usage == TokenUsage(3, 4, 5, 6)
+    mock = MockLLM({"demo": [GOOD]})
+    assert mock.complete_json("demo", "s", "u", SCHEMA).usage is None
+    assert mock.usage_spent == TokenUsage()

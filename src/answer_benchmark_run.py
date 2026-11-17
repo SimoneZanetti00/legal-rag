@@ -19,6 +19,11 @@ retrieval the query analysis is always replayed, so a change in evidence selecti
 the same analysis, and only generation and the support check are called again where the
 evidence (and so the message) changed.
 
+With --budget-usd, a live run keeps a running cost (CostMeter): every reply's token usage, as
+the provider reports it, priced at PRICES_USD_PER_MTOK. Before each question the run stops if the
+cost so far plus the most expensive question so far would exceed the budget; each question saves
+its own usage and cost, and run.json the invocation's total.
+
 `report` scores a saved run offline and deterministically (stage_metrics, built on
 answer_benchmark.score_question), in two scopes reported apart:
 - all rows: every question and expectation, review status ignored. These are candidate
@@ -39,6 +44,7 @@ import subprocess
 import sys
 from collections import Counter
 from collections.abc import Callable, Mapping, Sequence
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -53,6 +59,7 @@ from src.llm import (
     LLMClient,
     LLMConfigError,
     LLMError,
+    TokenUsage,
     check_schema,
     make_llm,
     validate_json,
@@ -70,6 +77,11 @@ IN_ANSWER = ("SUPPORTED", "NOT_VERIFIED")  # answer_generation.in_answer(), on s
 SCOPE_ALL = "all rows: candidate expectations, not owner-reviewed"
 SCOPE_REVIEWED = "owner-reviewed rows only"
 _RUN_ID = re.compile(r"[a-z0-9][a-z0-9.-]{0,63}")
+# USD per million tokens: Anthropic first-party list prices (as of 2026-11-03). Cache writes are
+# the 5-minute ones (1.25 x input); this project sets no cache, so both cache rows stay at zero.
+PRICES_USD_PER_MTOK: dict[str, dict[str, float]] = {
+    "claude-sonnet-5-5": {"input": 2.00, "output": 10.00, "cache_write": 2.50, "cache_read": 0.10},
+}
 
 
 class RunError(ValueError):
@@ -106,8 +118,32 @@ class RecordingLLM:
             "model": result.model, "served_by": result.served_by, "attempts": result.attempts,
             "fallback_used": result.fallback_used, "request_ids": list(result.request_ids),
             "replayed": bool(getattr(self.inner, "last_replayed", False)),
+            "usage": asdict(result.usage) if result.usage is not None else None,
         })
         return result
+
+
+class CostMeter:
+    """What a live client has spent so far (its usage_spent: every reply it received), priced at
+    PRICES_USD_PER_MTOK for its model."""
+
+    def __init__(self, client: Any, model: str) -> None:
+        if model not in PRICES_USD_PER_MTOK:
+            raise RunError(f"no price is recorded for model {model!r} (PRICES_USD_PER_MTOK)")
+        if not isinstance(getattr(client, "usage_spent", None), TokenUsage):
+            raise RunError("this LLM client does not report its token usage")
+        self.client, self.model = client, model
+        self.prices = PRICES_USD_PER_MTOK[model]
+
+    def usage(self) -> TokenUsage:
+        return self.client.usage_spent
+
+    def cost(self, usage: TokenUsage | None = None) -> float:
+        u = self.usage() if usage is None else usage
+        p = self.prices
+        return (u.input_tokens * p["input"] + u.output_tokens * p["output"]
+                + u.cache_creation_input_tokens * p["cache_write"]
+                + u.cache_read_input_tokens * p["cache_read"]) / 1_000_000
 
 
 class ReplayLLM:
@@ -175,14 +211,22 @@ def run_questions(benchmark: ab.Benchmark, run_dir: Path, splits: Sequence[str],
                   answer: Answer, llm_for: Callable[[str], LLMClient],
                   record: Mapping[str, Any], *, log: Callable[[str], None] = print,
                   only: Sequence[str] | None = None,
-                  render: Callable[[Any], str] | None = None) -> list[str]:
+                  render: Callable[[Any], str] | None = None,
+                  meter: CostMeter | None = None,
+                  budget_usd: float | None = None) -> list[str]:
     """Answer every question of `splits` (and of `only`, if given) not yet saved in `run_dir`;
     return the IDs answered.
 
     `llm_for(query_id)` gives the client for one question; its calls are recorded. `answer`
     returns an AnswerResult (or its to_dict()); with `render`, the rendered text is saved too. A
     provider or model error is saved as the question's error and the run goes on.
+
+    With `meter`, each question saves the usage and cost of its live replies. With `budget_usd`
+    too, the run stops before a question when the cost so far plus that of the most expensive
+    question so far would exceed it; run.json records the spend and where the run stopped.
     """
+    if budget_usd is not None and meter is None:
+        raise RunError("a budget needs a cost meter")
     unknown = sorted(set(splits) - set(ab.SPLITS))
     if unknown:
         raise RunError(f"unknown split(s): {unknown}")
@@ -191,6 +235,9 @@ def run_questions(benchmark: ab.Benchmark, run_dir: Path, splits: Sequence[str],
         raise RunError(f"unknown question(s): {unknown_ids}")
     run_dir.mkdir(parents=True, exist_ok=True)
     done = []
+    start = meter.usage() if meter else None
+    largest = 0.0  # the most expensive question so far, USD
+    stopped_before = None
     for question in benchmark.questions:
         if question.split not in splits or (only and question.query_id not in only):
             continue
@@ -198,6 +245,15 @@ def run_questions(benchmark: ab.Benchmark, run_dir: Path, splits: Sequence[str],
         if path.exists():
             log(f"{question.query_id}: already saved, skipped")
             continue
+        if budget_usd is not None and meter is not None and start is not None:
+            spent = meter.cost(meter.usage() - start)
+            if spent + largest > budget_usd:
+                stopped_before = question.query_id
+                log(f"{question.query_id}: not started: ${spent:.4f} spent, and a question has "
+                    f"cost up to ${largest:.4f}, which could exceed the budget of "
+                    f"${budget_usd:.2f}. Run stopped.")
+                break
+        before = meter.usage() if meter else None
         llm = RecordingLLM(llm_for(question.query_id))
         saved: dict[str, Any] = {"query_id": question.query_id, "question": question.question,
                                  "split": question.split}
@@ -210,21 +266,39 @@ def run_questions(benchmark: ab.Benchmark, run_dir: Path, splits: Sequence[str],
         except LLMError as exc:
             saved["error"] = f"{type(exc).__name__}: {exc}"
         saved["llm_calls"] = llm.calls
+        cost_note = ""
+        if meter is not None and before is not None:
+            used = meter.usage() - before
+            cost = meter.cost(used)
+            largest = max(largest, cost)
+            saved["usage"] = {**asdict(used), "cost_usd": round(cost, 6)}
+            cost_note = f", ${cost:.4f}"
         path.write_text(json.dumps(saved, ensure_ascii=False, indent=1, sort_keys=True) + "\n",
                         encoding="utf-8", newline="\n")
         state = saved.get("error") or saved["result"]["outcome"]
-        log(f"{question.query_id}: {state} ({len(llm.calls)} model call(s))")
+        log(f"{question.query_id}: {state} ({len(llm.calls)} model call(s){cost_note})")
         done.append(question.query_id)
-    _update_record(run_dir, record, splits)
+    spend = None
+    if meter is not None and start is not None:
+        used = meter.usage() - start
+        spend = {"model": meter.model, "prices_usd_per_mtok": dict(meter.prices),
+                 "usage": asdict(used), "cost_usd": round(meter.cost(used), 6),
+                 "budget_usd": budget_usd, "stopped_before": stopped_before}
+        log(f"spent ${spend['cost_usd']:.4f} on {len(done)} question(s)"
+            + (f"; stopped before {stopped_before}" if stopped_before else ""))
+    _update_record(run_dir, record, splits, spend=spend)
     return done
 
 
-def _update_record(run_dir: Path, record: Mapping[str, Any], splits: Sequence[str]) -> None:
+def _update_record(run_dir: Path, record: Mapping[str, Any], splits: Sequence[str], *,
+                   spend: Mapping[str, Any] | None = None) -> None:
     path = run_dir / RUN_RECORD
     current = json.loads(path.read_text(encoding="utf-8")) if path.exists() else dict(record)
-    current["invocations"] = current.get("invocations", []) + [
-        {"splits": list(splits), "at": datetime.datetime.now().astimezone().isoformat(
-            timespec="seconds"), "code": record["code"]}]
+    invocation = {"splits": list(splits), "at": datetime.datetime.now().astimezone().isoformat(
+        timespec="seconds"), "code": record["code"]}
+    if spend is not None:
+        invocation["spend"] = dict(spend)
+    current["invocations"] = current.get("invocations", []) + [invocation]
     path.write_text(json.dumps(current, ensure_ascii=False, indent=1, sort_keys=True) + "\n",
                     encoding="utf-8", newline="\n")
 
@@ -471,6 +545,9 @@ def _parser() -> argparse.ArgumentParser:
         cmd.add_argument("--mode", choices=[m.value for m in Mode], default=Mode.RESEARCH.value)
         cmd.add_argument("--question", action="append", dest="only",
                          help="answer only this question (repeatable), e.g. a01")
+        cmd.add_argument("--budget-usd", type=float,
+                         help="stop before a question that could take the live spend past this "
+                              "many US dollars (token usage priced at PRICES_USD_PER_MTOK)")
         if name == "rerun":
             cmd.add_argument("--from", dest="source", required=True,
                              help="the saved run whose replies are replayed")
@@ -535,8 +612,11 @@ def main(argv: list[str] | None = None) -> int:
         def answer(question: str, llm: LLMClient) -> Any:
             return answer_question(question, llm, explorer, settings=settings, mode=mode)
 
+        meter = CostMeter(live, live.model) if live is not None else None
+        if args.budget_usd is not None and meter is None:
+            raise RunError("--budget-usd needs a live model (not --offline)")
         run_questions(benchmark, run_dir, args.split, answer, llm_for, record, only=args.only,
-                      render=render_answer)
+                      render=render_answer, meter=meter, budget_usd=args.budget_usd)
         return 0
     except (RunError, ab.BenchmarkError, ExplorerError, ConfigError, LLMConfigError) as exc:
         print(f"error: {exc}", file=sys.stderr)

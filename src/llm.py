@@ -31,7 +31,7 @@ import logging
 import math
 import re
 from collections.abc import Callable, Mapping, Sequence
-from dataclasses import dataclass
+from dataclasses import astuple, dataclass
 from typing import Any, Protocol, runtime_checkable
 
 from src.config import MAX_ALLOWED_GENERATION_RETRIES, ConfigError, Settings, load_settings
@@ -127,6 +127,23 @@ class LLMTruncatedError(LLMOutputError):
 
 
 @dataclass(frozen=True)
+class TokenUsage:
+    """The tokens a reply was billed for, as the provider reports them (several replies: added).
+    Output tokens include the model's thinking, which is billed but not returned."""
+
+    input_tokens: int = 0
+    output_tokens: int = 0
+    cache_creation_input_tokens: int = 0
+    cache_read_input_tokens: int = 0
+
+    def __add__(self, other: TokenUsage) -> TokenUsage:
+        return TokenUsage(*(a + b for a, b in zip(astuple(self), astuple(other))))
+
+    def __sub__(self, other: TokenUsage) -> TokenUsage:
+        return TokenUsage(*(a - b for a, b in zip(astuple(self), astuple(other))))
+
+
+@dataclass(frozen=True)
 class RawCompletion:
     """One provider reply, before any parsing."""
 
@@ -136,6 +153,7 @@ class RawCompletion:
     refusal_category: str | None = None
     fallback_used: bool = False
     request_id: str | None = None
+    usage: TokenUsage | None = None  # None: the provider reported none (MockLLM)
 
 
 @dataclass(frozen=True)
@@ -148,6 +166,7 @@ class JSONResult:
     attempts: int  # replies requested, including the accepted one
     fallback_used: bool
     request_ids: tuple[str, ...] = ()
+    usage: TokenUsage | None = None  # every attempt of this call, added; None if not reported
 
 
 JSONCheck = Callable[[dict[str, Any]], None]  # raises LLMSchemaError to reject a reply
@@ -318,6 +337,9 @@ class _JSONClient:
             )
         self.model = model
         self.max_schema_retries = max_schema_retries
+        # Every reply this client received, accepted or not, including those of calls that
+        # ended in an error: what the provider bills for.
+        self.usage_spent = TokenUsage()
 
     @property
     def max_attempts(self) -> int:
@@ -336,10 +358,14 @@ class _JSONClient:
         allowed = self.max_attempts
         prompt = user
         request_ids: list[str] = []
+        usage: TokenUsage | None = None
         for attempt in range(1, allowed + 1):
             raw = self._complete(task, system, prompt, schema)
             if raw.request_id:
                 request_ids.append(raw.request_id)
+            if raw.usage is not None:
+                self.usage_spent += raw.usage
+                usage = raw.usage if usage is None else usage + raw.usage
             logger.debug("llm %s task=%s attempt=%d/%d model=%s stop_reason=%s request_id=%s",
                          self.provider, task, attempt, allowed, raw.model, raw.stop_reason,
                          raw.request_id)
@@ -360,7 +386,8 @@ class _JSONClient:
                 continue
             return JSONResult(data=data, task=task, provider=self.provider, model=self.model,
                               served_by=raw.model or self.model, attempts=attempt,
-                              fallback_used=raw.fallback_used, request_ids=tuple(request_ids))
+                              fallback_used=raw.fallback_used, request_ids=tuple(request_ids),
+                              usage=usage)
         raise AssertionError("unreachable")  # the loop always returns or raises
 
 
@@ -617,7 +644,16 @@ def _read_response(response: Any) -> RawCompletion:
         refusal_category=getattr(getattr(response, "stop_details", None), "category", None),
         fallback_used=fallback_used,
         request_id=getattr(response, "_request_id", None),
+        usage=None if usage is None else TokenUsage(*(
+            _count(usage, name) for name in ("input_tokens", "output_tokens",
+                                             "cache_creation_input_tokens",
+                                             "cache_read_input_tokens"))),
     )
+
+
+def _count(usage: Any, name: str) -> int:
+    value = getattr(usage, name, None)
+    return value if isinstance(value, int) and not isinstance(value, bool) else 0
 
 
 # --- Factory -----------------------------------------------------------------------------------
