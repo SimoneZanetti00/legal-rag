@@ -211,4 +211,4 @@ These validator checks are not implemented yet (deferred from P1.2; not part of 
 - **V5:** page order across entries, and pages within the inventory's `scope`, are not checked. Neither is the heading's prefix word (`Art.` or `Articolo`).
 - **V7:** a division's `kind` is not restricted to a fixed list.
 
-Text that belongs to no article (front matter, recitals, enacting and closing formulas, division headings, editorial notes, footnotes, running headers) now has its own segment kinds in the P1.3 segment maps; see the root README, "Provision store and corpus explorer".
+Text that belongs to no article (front matter, recitals, enacting and closing formulas, division headings, editorial notes, footnotes, running headers) now has its own segment kinds in the P1.3 segment maps; see [docs/REFERENCE.md, "Provision store and corpus explorer"](../../docs/REFERENCE.md#provision-store-and-corpus-explorer-p13).
