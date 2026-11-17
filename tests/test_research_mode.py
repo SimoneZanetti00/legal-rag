@@ -23,6 +23,7 @@ import pytest
 import src.demo as demo
 from src.answer_generation import (
     NO_CITABLE_EVIDENCE,
+    NO_ITEM_CITABLE_IN_VERIFIED_MODE,
     RESEARCH_QUALIFICATION,
     Mode,
     Outcome,
@@ -184,6 +185,25 @@ def test_insufficient_evidence_abstains_in_research_mode(synthetic):
     assert (result.outcome, result.abstention_reason) == (Outcome.ABSTAIN, "model_abstained")
     assert "supplied evidence (E1, E2, E3)" in result.abstention_detail
     assert result.claims == () and result.citations == ()
+
+
+def test_research_mode_reports_no_citable_item_as_information():
+    from tests.test_answer_generation import ART1, QUESTION, analysis, claim, evidence_set, item
+    from tests.test_answer_generation import reply as generation_reply
+    pending = evidence_set(item("E1", "1", ART1, tier="internal_only"),
+                           warnings=("no_citable_evidence",))
+    answer = generation_reply(claim("Il titolare notifica la violazione al Garante.",
+                                    ("E1", "notifica la violazione al Garante")))
+    research = generate_answer(QUESTION, analysis(), pending,
+                               MockLLM({GENERATION_TASK: [answer]}), mode=Mode.RESEARCH)
+    assert research.outcome != Outcome.ABSTAIN
+    assert NO_ITEM_CITABLE_IN_VERIFIED_MODE in research.warnings
+    assert "no_citable_evidence" not in research.warnings
+    assert research.evidence.warnings == ("no_citable_evidence",)  # the evidence set is unchanged
+    verified = generate_answer(QUESTION, analysis(), pending, MockLLM({}))
+    assert (verified.outcome, verified.abstention_reason) == (Outcome.ABSTAIN, NO_CITABLE_EVIDENCE)
+    assert "no_citable_evidence" in verified.warnings
+    assert NO_ITEM_CITABLE_IN_VERIFIED_MODE not in verified.warnings
 
 
 def test_research_results_serialise_with_their_mode(synthetic):

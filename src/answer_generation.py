@@ -164,6 +164,10 @@ OUT_OF_SCOPE = "out_of_scope"
 NEEDS_CLARIFICATION = "needs_clarification"
 NO_EVIDENCE = "no_evidence"
 NO_CITABLE_EVIDENCE = "no_citable_evidence"
+# In research mode, the evidence set's warning "no_citable_evidence" (no item is primary) is
+# expected rather than a problem: the result reports it under this informational code instead.
+# EvidenceSet.warnings and verified-mode results keep the original warning.
+NO_ITEM_CITABLE_IN_VERIFIED_MODE = "no_item_citable_in_verified_mode"
 ANALYSIS_FAILED = "analysis_failed"
 MODEL_REFUSED = "model_refused"
 GENERATION_FAILED = "generation_failed"
@@ -781,11 +785,16 @@ def _non_authoritative(evidence: EvidenceSet,
 
 
 def _in_mode(result: AnswerResult, mode: Mode) -> AnswerResult:
-    """The result labelled with its mode; in research mode, RESEARCH_QUALIFICATION first."""
-    qualifications = result.qualifications
-    if mode == Mode.RESEARCH and RESEARCH_QUALIFICATION not in qualifications:
-        qualifications = (RESEARCH_QUALIFICATION, *qualifications)
-    return dataclasses.replace(result, mode=mode.value, qualifications=qualifications)
+    """The result labelled with its mode; in research mode, RESEARCH_QUALIFICATION first and the
+    inherited "no_citable_evidence" warning reported as NO_ITEM_CITABLE_IN_VERIFIED_MODE."""
+    qualifications, warnings = result.qualifications, result.warnings
+    if mode == Mode.RESEARCH:
+        if RESEARCH_QUALIFICATION not in qualifications:
+            qualifications = (RESEARCH_QUALIFICATION, *qualifications)
+        warnings = tuple(NO_ITEM_CITABLE_IN_VERIFIED_MODE if w == "no_citable_evidence" else w
+                         for w in warnings)
+    return dataclasses.replace(result, mode=mode.value, qualifications=qualifications,
+                               warnings=warnings)
 
 
 def _qualifications(evidence: EvidenceSet | None, *, with_claims: bool,
