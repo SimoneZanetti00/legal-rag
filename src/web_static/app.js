@@ -36,6 +36,7 @@ const VERIFICATION = {
   CONTRADICTED: ["stop", "Contradicted"],
 };
 const KINDS = { source_statement: "Provision text", inference: "Interpretation" };
+const HELD_CLAIMS_TITLE = "Partially supported or uncertain — not part of the answer";  // as answer_generation.HELD_CLAIMS_TITLE
 const MODE_LABELS = { verified: "Verified mode", research: "Research demo mode" };
 
 let info = { reasons: {}, qualifications: {}, instruments: {}, source_categories: {},
@@ -210,10 +211,23 @@ function renderResult(result) {
   const issueText = Object.fromEntries(issues.map((issue) => [issue.id, issue.question]));
   const sections = [renderOutcome(result)];
 
+  // The rule of answer_generation.in_answer(): a claim the support check rated other than
+  // SUPPORTED is shown apart, below the answer, and is not part of it. Display only.
+  const inAnswer = (claim) => claim.verification === "SUPPORTED" || claim.verification === "NOT_VERIFIED";
+  const shown = result.claims.filter(inAnswer);
+  const held = result.claims.filter((claim) => !inAnswer(claim));
   if (result.claims.length) {
-    sections.push(card("Answer", el("div", { class: "answer" },
-      result.claims.map((claim) => renderStatement(claim, statusById)))));
-    sections.push(card("Supporting quotations", result.claims.map((claim) => renderClaim(claim, statusById, itemById))));
+    sections.push(card("Answer", shown.length
+      ? el("div", { class: "answer" }, shown.map((claim) => renderStatement(claim, statusById)))
+      : el("p", { class: "muted" }, "No statement was rated supported by the support check.")));
+    if (shown.length) {
+      sections.push(card("Supporting quotations", shown.map((claim) => renderClaim(claim, statusById, itemById))));
+    }
+    if (held.length) {
+      sections.push(card(HELD_CLAIMS_TITLE,
+        el("p", { class: "muted" }, "The support check did not confirm these statements. They are shown with their status and quotations."),
+        held.map((claim) => renderClaim(claim, statusById, itemById))));
+    }
   }
   const gaps = renderGaps(result, issueText);
   if (gaps) sections.push(gaps);

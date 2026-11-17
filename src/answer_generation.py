@@ -184,6 +184,16 @@ SUPPORT_QUALIFICATION = ("Quotations were checked against the evidence text, and
                          "a claim marked partially supported or uncertain is not verified.")
 
 MODEL_NOTES_LABEL = "MODEL NOTES — UNVERIFIED — NOT PART OF THE LEGAL ANSWER"
+# Claims the support check rated other than SUPPORTED are shown apart, under this title, below the
+# answer (CLI and web page). Display only: claims, outcome and the result data are unchanged.
+HELD_CLAIMS_TITLE = "Partially supported or uncertain — not part of the answer"
+
+
+def in_answer(claim: AnswerClaim) -> bool:
+    """Whether a surviving claim is shown in the main answer: rated SUPPORTED by the support
+    check, or never rated (NOT_VERIFIED: the check did not run). Any other rating is shown
+    apart, under HELD_CLAIMS_TITLE."""
+    return claim.verification in (VerificationStatus.SUPPORTED, VerificationStatus.NOT_VERIFIED)
 
 # Unanswered-issue reasons, written by the application.
 REPORTED_UNANSWERED = ("Reported by the model as not answered, or only partly answered, by the "

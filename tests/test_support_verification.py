@@ -7,11 +7,14 @@ application does with each verdict, not how well a model judges support.
 import pytest
 
 from src.answer_generation import (
+    HELD_CLAIMS_TITLE,
     NOT_VERIFIED_QUALIFICATION,
     SUPPORT_QUALIFICATION,
     TASK,
+    AnswerClaim,
     Outcome,
     generate_answer,
+    in_answer,
 )
 from src.llm import MockLLM, check_schema
 from src.models import VerificationStatus
@@ -148,3 +151,48 @@ def test_the_verifier_sees_only_the_claims_and_their_cited_evidence():
     assert ART1.split("\n")[0] in user and ART2 in user
     assert ART3 not in user  # E3 is in the evidence set but cited by no claim
     assert QUESTION not in user  # the question itself is not sent to the verifier
+
+
+# --- Claims not rated SUPPORTED are shown apart from the answer --------------------------------
+
+
+def sections(text):
+    """(main answer, held section) of a rendered result; the held section may be empty."""
+    answer = text[text.index("answer (each claim"):text.index("citations (citable")]
+    if HELD_CLAIMS_TITLE not in answer:
+        return answer, ""
+    cut = answer.index(HELD_CLAIMS_TITLE)
+    return answer[:cut], answer[cut:]
+
+
+def test_only_supported_or_unrated_claims_are_in_the_answer():
+    def rated(status):
+        return AnswerClaim("C1", ("I1",), "source_statement", "Testo.", (), status)
+
+    assert [in_answer(rated(s)) for s in (
+        S.SUPPORTED, S.NOT_VERIFIED, S.PARTIALLY_SUPPORTED, S.UNCERTAIN)] == [
+        True, True, False, False]
+
+
+def test_a_partially_supported_claim_is_shown_below_the_answer_with_its_quotations():
+    result, _ = run(verdicts(C1="supported", C2="partially_supported"))
+    assert result.outcome == Outcome.ANSWER_LIMITED  # the outcome rules are unchanged
+    assert [c.claim_id for c in result.claims] == ["C1", "C2"]  # and so is the result
+    answer, held = sections(render_answer(result))
+    assert "C1 [I1] (source statement; support: supported)" in answer and "C2 [" not in answer
+    assert held.startswith(f"{HELD_CLAIMS_TITLE}:")
+    assert "C2 [I2] (source statement; support: partially supported)" in held
+    assert all(f"{q.evidence_id}: «" in held for q in result.claims[1].quotes)
+
+
+def test_when_no_claim_is_rated_supported_the_answer_says_so():
+    result, _ = run(verdicts(C1="uncertain", C2="partially_supported"))
+    answer, held = sections(render_answer(result))
+    assert "(no claim was rated supported by the support check)" in answer
+    assert "support: uncertain" in held and "support: partially supported" in held
+
+
+def test_without_the_support_check_unrated_claims_stay_in_the_answer():
+    result, _ = run(verify=False)
+    answer, held = sections(render_answer(result))
+    assert held == "" and "C1 [I1]" in answer and "C2 [I2]" in answer

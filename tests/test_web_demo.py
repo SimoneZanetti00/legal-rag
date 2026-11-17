@@ -478,3 +478,12 @@ def test_the_footer_says_where_questions_and_evidence_are_sent():
     assert ("Local server. Questions and evidence are sent to Anthropic's API for analysis, "
             "generation and verification.") in page
     assert "Runs locally" not in page
+
+
+def test_the_page_shows_claims_not_rated_supported_apart_from_the_answer():
+    from src.answer_generation import HELD_CLAIMS_TITLE
+    assert f'const HELD_CLAIMS_TITLE = "{HELD_CLAIMS_TITLE}"' in APP_JS
+    assert ('const inAnswer = (claim) => claim.verification === "SUPPORTED" || '
+            'claim.verification === "NOT_VERIFIED";') in APP_JS
+    assert 'card("Supporting quotations", shown.map(' in APP_JS
+    assert "card(HELD_CLAIMS_TITLE," in APP_JS and "held.map((claim) => renderClaim(" in APP_JS

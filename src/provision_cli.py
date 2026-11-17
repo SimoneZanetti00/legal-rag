@@ -33,11 +33,13 @@ from typing import Any
 
 from src import corpus_build
 from src.answer_generation import (
+    HELD_CLAIMS_TITLE,
     MODEL_NOTES_LABEL,
     AnswerResult,
     Outcome,
     SourceReference,
     answer_question,
+    in_answer,
 )
 from src.config import PROJECT_ROOT, ConfigError, Settings, load_settings
 from src.corpus_build import CorpusBuildError
@@ -302,6 +304,15 @@ def _source_line(ref: SourceReference) -> str:
     return f"[{ref.evidence_id}] {ref.instrument_id} {ref.heading}{title} ({pages}{extent})"
 
 
+def _claim_lines(claim) -> list[str]:
+    kind = claim.kind.replace("_", " ")
+    support = ("" if claim.verification == VerificationStatus.NOT_VERIFIED
+               else f"; support: {claim.verification.value.lower().replace('_', ' ')}")
+    return [f"  {claim.claim_id} [{', '.join(claim.issue_ids)}] ({kind}{support}) {claim.text}",
+            *(f"      {quote.evidence_id}: «{' '.join(quote.text.split())}»"
+              for quote in claim.quotes)]
+
+
 def render_answer(result: AnswerResult) -> str:
     """The result as text: outcome first, then the answer, its sources and its limits."""
     outcome = result.outcome.value.replace("_", " ").upper()
@@ -331,14 +342,16 @@ def render_answer(result: AnswerResult) -> str:
                    if result.verification else "the claims themselves are not verified")
         lines += ["", "answer (each claim with its quotations; quotations are checked against "
                   f"the evidence, {checked}):"]
-        for claim in result.claims:
-            kind = claim.kind.replace("_", " ")
-            support = ("" if claim.verification == VerificationStatus.NOT_VERIFIED
-                       else f"; support: {claim.verification.value.lower().replace('_', ' ')}")
-            lines.append(f"  {claim.claim_id} [{', '.join(claim.issue_ids)}] ({kind}{support}) "
-                         f"{claim.text}")
-            lines += [f"      {quote.evidence_id}: «{' '.join(quote.text.split())}»"
-                      for quote in claim.quotes]
+        shown = [claim for claim in result.claims if in_answer(claim)]
+        held = [claim for claim in result.claims if not in_answer(claim)]
+        for claim in shown:
+            lines += _claim_lines(claim)
+        if not shown:
+            lines.append("  (no claim was rated supported by the support check)")
+        if held:
+            lines += ["", f"{HELD_CLAIMS_TITLE}:"]
+            for claim in held:
+                lines += _claim_lines(claim)
         lines += ["", "citations (citable provisions):"]
         for ref in result.citations:
             lines.append(f"  {_source_line(ref)}")
