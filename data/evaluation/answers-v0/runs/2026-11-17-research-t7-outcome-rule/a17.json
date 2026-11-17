@@ -1,0 +1,1119 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "A partire da quale età un minore può prestare da solo il consenso al trattamento dei dati personali in relazione ai servizi della società dell'informazione in Italia?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda l'età minima per il consenso del minore al trattamento dei dati personali nei servizi della società dell'informazione, disciplinata dal GDPR e dal Codice privacy italiano.",
+    "search_queries_it": [
+     "consenso del minore servizi della società dell'informazione",
+     "condizioni applicabili al consenso dei minori",
+     "minore di quattordici anni consenso trattamento dati personali",
+     "età del consenso del minore in relazione ai servizi della società dell'informazione",
+     "consenso prestato o autorizzato dal titolare della responsabilità genitoriale"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "8",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "condizioni per il consenso del minore e facoltà degli Stati membri di fissare l'età"
+     },
+     {
+      "article": "2-quinquies",
+      "instrument": "it-dlgs-2003-196",
+      "point": null,
+      "reason": "consenso del minore in relazione ai servizi della società dell'informazione in Italia"
+     },
+     {
+      "article": "4",
+      "instrument": "eu-reg-2016-679",
+      "point": "11",
+      "reason": "definizione di consenso dell'interessato"
+     },
+     {
+      "article": "7",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "condizioni per il consenso"
+     }
+    ],
+    "uncertainty": "La domanda presuppone che la base giuridica del trattamento sia il consenso e che il servizio sia offerto direttamente al minore; il trattamento di dati di minori con altre basi giuridiche o la capacità di stipulare contratti rientrano in altre norme non nel corpus."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8QxVb26ssUJLH27QXQd"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "227beb1de4fc6243a3938fe318d8012e0b5aca13ab853ae115b57893c3c1ffd7",
+   "task": "query_analysis",
+   "user_sha256": "d007e540d174dcefb3405943fdaded929d705412e436c71160a11c578ec0f002"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "il minore che ha compiuto i quattordici anni può esprimere il consenso al trattamento dei propri dati personali in relazione all'offerta diretta di servizi della società dell'informazione"
+       }
+      ],
+      "text": "Il Codice italiano, in attuazione dell'art. 8, paragrafo 1, del Regolamento, stabilisce che il minore che ha compiuto quattordici anni può esprimere il consenso al trattamento dei propri dati personali in relazione all'offerta diretta di servizi della società dell'informazione."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "il trattamento dei dati personali del minore di età inferiore a quattordici anni, fondato sull'articolo 6, paragrafo 1, lettera a), del Regolamento, è lecito a condizione che sia prestato da chi esercita la responsabilità genitoriale"
+       }
+      ],
+      "text": "Per il minore di età inferiore a quattordici anni, il trattamento fondato sul consenso è lecito a condizione che il consenso sia prestato da chi esercita la responsabilità genitoriale."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "il trattamento di dati personali del minore è lecito ove il minore abbia almeno 16 anni."
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "Gli Stati membri possono stabilire per legge un'età inferiore a tali fini purché non inferiore ai 13 anni."
+       }
+      ],
+      "text": "Il Regolamento fissa come regola generale i 16 anni, ma consente agli Stati membri di stabilire per legge un'età inferiore, purché non inferiore a 13 anni."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "il minore che ha compiuto i quattordici anni può esprimere il consenso al trattamento dei propri dati personali"
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "Gli Stati membri possono stabilire per legge un'età inferiore a tali fini purché non inferiore ai 13 anni."
+       }
+      ],
+      "text": "In Italia, quindi, l'età a partire dalla quale il minore può prestare da solo il consenso per i servizi della società dell'informazione è 14 anni, soglia inferiore ai 16 del Regolamento e compresa nel limite minimo di 13 anni da questo consentito."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Il paragrafo 1 non pregiudica le disposizioni generali del diritto dei contratti degli Stati membri"
+       }
+      ],
+      "text": "Il Regolamento precisa che tale disciplina non pregiudica le norme generali di diritto dei contratti degli Stati membri sulla validità, formazione o efficacia di un contratto rispetto a un minore."
+     }
+    ],
+    "limitations": [
+     "Il testo del Codice (art. 2-quinquies) è una trascrizione non ufficiale, non verificata su un testo ufficiale; la sua validità giuridica non è accertata.",
+     "La soglia dei 14 anni vale per il consenso come base giuridica nell'offerta diretta di servizi della società dell'informazione; il trattamento con altre basi giuridiche e la capacità contrattuale non sono trattati nelle norme fornite."
+    ],
+    "outcome": "answer",
+    "unanswered_issues": []
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8QxstTPxKw7REXHgFo2"
+   ],
+   "schema_sha256": "958b2be51ffa530f9267f985c758125ecff38d8bcb558d93f182bc5ea60defee",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "a4316fff0471471b36fb2ed20f090ba325500d3fcfb1723ee2160e9ab5a95f80",
+   "task": "answer_generation",
+   "user_sha256": "01eb732efdc910c81eca6cc37321ae2bf8712122d1d36c2f07e02c333687333f"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8QyVHwEHBxD9iPDabBi"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "e125d66867796bf590fbc60aea974405ca557abd3b818c1c8243652db157f309",
+   "task": "claim_verification",
+   "user_sha256": "35532f073f9275357ed3b856c6d1e7540382409bbc99d7a342971e8e764c5c51"
+  }
+ ],
+ "query_id": "a17",
+ "question": "A partire da quale età un minore può prestare da solo il consenso ai servizi della società dell'informazione in Italia?",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "A partire da quale età un minore può prestare da solo il consenso al trattamento dei dati personali in relazione ai servizi della società dell'informazione in Italia?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v3",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8QxVb26ssUJLH27QXQd"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "A partire da quale età un minore può prestare da solo il consenso ai servizi della società dell'informazione in Italia?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda l'età minima per il consenso del minore al trattamento dei dati personali nei servizi della società dell'informazione, disciplinata dal GDPR e dal Codice privacy italiano.",
+   "search_queries_it": [
+    "consenso del minore servizi della società dell'informazione",
+    "condizioni applicabili al consenso dei minori",
+    "minore di quattordici anni consenso trattamento dati personali",
+    "età del consenso del minore in relazione ai servizi della società dell'informazione",
+    "consenso prestato o autorizzato dal titolare della responsabilità genitoriale"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "8",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "condizioni per il consenso del minore e facoltà degli Stati membri di fissare l'età"
+    },
+    {
+     "article": "2-quinquies",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "consenso del minore in relazione ai servizi della società dell'informazione in Italia"
+    },
+    {
+     "article": "4",
+     "instrument": "eu-reg-2016-679",
+     "point": "11",
+     "reason": "definizione di consenso dell'interessato"
+    },
+    {
+     "article": "7",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "condizioni per il consenso"
+    }
+   ],
+   "uncertainty": "La domanda presuppone che la base giuridica del trattamento sia il consenso e che il servizio sia offerto direttamente al minore; il trattamento di dati di minori con altre basi giuridiche o la capacità di stipulare contratti rientrano in altre norme non nel corpus."
+  },
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 8",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "8",
+    "legal_validity": "not_established",
+    "page_end": 38,
+    "page_start": 37,
+    "path": "CAPO II > Articolo 8",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:8",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Condizioni applicabili al consenso dei minori in relazione ai servizi della società dell'informazione",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Art. 2-quinquies",
+    "instrument_id": "it-dlgs-2003-196",
+    "label": "2-quinquies",
+    "legal_validity": "not_established",
+    "page_end": 3,
+    "page_start": 3,
+    "path": "PARTE I > TITOLO I > CAPO II > Art. 2-quinquies",
+    "point": null,
+    "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-quinquies",
+    "qualifications": [
+     "unofficial_transcription",
+     "reference_date_unverified",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "(( (Consenso del minore in relazione ai servizi della società dell'informazione). ))",
+    "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "il minore che ha compiuto i quattordici anni può esprimere il consenso al trattamento dei propri dati personali in relazione all'offerta diretta di servizi della società dell'informazione"
+     }
+    ],
+    "text": "Il Codice italiano, in attuazione dell'art. 8, paragrafo 1, del Regolamento, stabilisce che il minore che ha compiuto quattordici anni può esprimere il consenso al trattamento dei propri dati personali in relazione all'offerta diretta di servizi della società dell'informazione.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "il trattamento dei dati personali del minore di età inferiore a quattordici anni, fondato sull'articolo 6, paragrafo 1, lettera a), del Regolamento, è lecito a condizione che sia prestato da chi esercita la responsabilità genitoriale"
+     }
+    ],
+    "text": "Per il minore di età inferiore a quattordici anni, il trattamento fondato sul consenso è lecito a condizione che il consenso sia prestato da chi esercita la responsabilità genitoriale.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "il trattamento di dati personali del minore è lecito ove il minore abbia almeno 16 anni."
+     },
+     {
+      "evidence_id": "E1",
+      "text": "Gli Stati membri possono stabilire per legge un'età inferiore a tali fini purché non inferiore ai 13 anni."
+     }
+    ],
+    "text": "Il Regolamento fissa come regola generale i 16 anni, ma consente agli Stati membri di stabilire per legge un'età inferiore, purché non inferiore a 13 anni.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E2",
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "il minore che ha compiuto i quattordici anni può esprimere il consenso al trattamento dei propri dati personali"
+     },
+     {
+      "evidence_id": "E1",
+      "text": "Gli Stati membri possono stabilire per legge un'età inferiore a tali fini purché non inferiore ai 13 anni."
+     }
+    ],
+    "text": "In Italia, quindi, l'età a partire dalla quale il minore può prestare da solo il consenso per i servizi della società dell'informazione è 14 anni, soglia inferiore ai 16 del Regolamento e compresa nel limite minimo di 13 anni da questo consentito.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Il paragrafo 1 non pregiudica le disposizioni generali del diritto dei contratti degli Stati membri"
+     }
+    ],
+    "text": "Il Regolamento precisa che tale disciplina non pregiudica le norme generali di diritto dei contratti degli Stati membri sulla validità, formazione o efficacia di un contratto rispetto a un minore.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "45",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:97"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:45",
+     "reason": "max_items",
+     "tokens": 1808
+    },
+    {
+     "label": "143",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:144-bis"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:143",
+     "reason": "max_items",
+     "tokens": 389
+    },
+    {
+     "label": "144",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:144-bis"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:144",
+     "reason": "max_items",
+     "tokens": 105
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 200520,
+       "char_start": 199855,
+       "page": 37,
+       "page_end": 37
+      },
+      {
+       "char_end": 201032,
+       "char_start": 200584,
+       "page": 38,
+       "page_end": 38
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0228-1160365e"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 8",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "8",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:2",
+      "query:5",
+      "query:1",
+      "query:3",
+      "query:4",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-quinquies"
+     ],
+     "page_end": 38,
+     "page_start": 37,
+     "path": "CAPO II > Articolo 8",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:8",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 8\n\nCondizioni applicabili al consenso dei minori in relazione ai servizi della società dell'informazione\n\n1.\nQualora si applichi l'articolo 6, paragrafo 1, lettera a), per quanto riguarda l'offerta diretta di servizi della società \ndell'informazione ai minori, il trattamento di dati personali del minore è lecito ove il minore abbia almeno 16 anni. Ove \nil minore abbia un'età inferiore ai 16 anni, tale trattamento è lecito soltanto se e nella misura in cui tale consenso è \nprestato o autorizzato dal titolare della responsabilità genitoriale.\n\nGli Stati membri possono stabilire per legge un'età inferiore a tali fini purché non inferiore ai 13 anni.\n\n2.\nIl titolare del trattamento si adopera in ogni modo ragionevole per verificare in tali casi che il consenso sia \nprestato o autorizzato dal titolare della responsabilità genitoriale sul minore, in considerazione delle tecnologie \ndisponibili.\n\n3.\nIl paragrafo 1 non pregiudica le disposizioni generali del diritto dei contratti degli Stati membri, quali le norme \nsulla validità, la formazione o l'efficacia di un contratto rispetto a un minore.",
+     "tier": "internal_only",
+     "title": "Condizioni applicabili al consenso dei minori in relazione ai servizi della società dell'informazione",
+     "tokens": 371,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 10483,
+       "char_start": 9472,
+       "page": 3,
+       "page_end": 3
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0015-b7e0145f"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Art. 2-quinquies",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-quinquies",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:3",
+      "query:4",
+      "query:5",
+      "query:2"
+     ],
+     "page_end": 3,
+     "page_start": 3,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-quinquies",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-quinquies",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-quinquies\n\n(( (Consenso del minore in relazione ai servizi della società dell'informazione). ))\n\n((\n\n1. In attuazione dell'articolo 8, paragrafo 1, del Regolamento, il minore che ha compiuto i quattordici anni può\nesprimere il consenso al trattamento dei propri dati personali in relazione all'offerta diretta di servizi della\nsocietà dell'informazione. Con riguardo a tali servizi, il trattamento dei dati personali del minore di età inferiore\na quattordici anni, fondato sull'articolo 6, paragrafo 1, lettera a), del Regolamento, è lecito a condizione che sia\nprestato da chi esercita la responsabilità genitoriale.\n\n2. In relazione all'offerta diretta ai minori dei servizi di cui al comma 1, il titolare del trattamento redige con\nlinguaggio particolarmente chiaro e semplice, conciso ed esaustivo, facilmente accessibile e comprensibile dal\nminore, al fine di rendere significativo il consenso prestato da quest'ultimo, le informazioni e le comunicazioni\nrelative al trattamento che lo riguardi.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Consenso del minore in relazione ai servizi della società dell'informazione). ))",
+     "tokens": 337,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 186055,
+       "char_start": 185741,
+       "page": 34,
+       "page_end": 34
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 4",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "4",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 34,
+     "page_start": 34,
+     "path": "CAPO I > Articolo 4",
+     "point": "11",
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:4",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "11) «consenso dell'interessato»: qualsiasi manifestazione di volontà libera, specifica, informata e inequivocabile dell'inte­\nressato, con la quale lo stesso manifesta il proprio assenso, mediante dichiarazione o azione positiva inequivocabile, \nche i dati personali che lo riguardano siano oggetto di trattamento;",
+     "tier": "internal_only",
+     "title": "Definizioni",
+     "tokens": 105,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 199853,
+       "char_start": 198511,
+       "page": 37,
+       "page_end": 37
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0226-6cd70101"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 7",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "7",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:2",
+      "query:5"
+     ],
+     "page_end": 37,
+     "page_start": 37,
+     "path": "CAPO II > Articolo 7",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:7",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 7\n\nCondizioni per il consenso\n\n1.\nQualora il trattamento sia basato sul consenso, il titolare del trattamento deve essere in grado di dimostrare che \nl'interessato ha prestato il proprio consenso al trattamento dei propri dati personali.\n\n2.\nSe il consenso dell'interessato è prestato nel contesto di una dichiarazione scritta che riguarda anche altre \nquestioni, la richiesta di consenso è presentata in modo chiaramente distinguibile dalle altre materie, in forma compren­\nsibile e facilmente accessibile, utilizzando un linguaggio semplice e chiaro. Nessuna parte di una tale dichiarazione che \ncostituisca una violazione del presente regolamento è vincolante.\n\n3.\nL'interessato ha il diritto di revocare il proprio consenso in qualsiasi momento. La revoca del consenso non \npregiudica la liceità del trattamento basata sul consenso prima della revoca. Prima di esprimere il proprio consenso, \nl'interessato è informato di ciò. Il consenso è revocato con la stessa facilità con cui è accordato.\n\n4.\nNel valutare se il consenso sia stato liberamente prestato, si tiene nella massima considerazione l'eventualità, tra le \naltre, che l'esecuzione di un contratto, compresa la prestazione di un servizio, sia condizionata alla prestazione del \nconsenso al trattamento di dati personali non necessario all'esecuzione di tale contratto.",
+     "tier": "internal_only",
+     "title": "Condizioni per il consenso",
+     "tokens": 448,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 184280,
+       "char_start": 183254,
+       "page": 50,
+       "page_end": 50
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0382-fe1e5cef"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Art. 167-bis",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "167-bis",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:3"
+     ],
+     "page_end": 50,
+     "page_start": 50,
+     "path": "PARTE III > TITOLO III > CAPO II > Art. 167-bis",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167-bis",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 167-bis\n\n(( (Comunicazione e diffusione illecita di dati personali oggetto di trattamento su larga scala). ))\n\n((\n\n1. Salvo che il fatto costituisca più grave reato, chiunque comunica o diffonde al fine di trarre profitto per sé o\naltri ovvero al fine di arrecare danno, un archivio automatizzato o una parte sostanziale di esso contenente dati\npersonali oggetto di trattamento su larga scala, in violazione degli articoli 2-ter, 2-sexies e 2-octies, è punito\ncon la reclusione da uno a sei anni.\n\n2. Salvo che il fatto costituisca più grave reato, chiunque, al fine trarne profitto per sé o altri ovvero di arrecare\ndanno, comunica o diffonde, senza consenso, un archivio automatizzato o una parte sostanziale di esso\ncontenente dati personali oggetto di trattamento su larga scala, è punito con la reclusione da uno a sei anni,\nquando il consenso dell'interessato è richiesto per le operazioni di comunicazione e di diffusione.\n\n3. Per i reati di cui ai commi 1 e 2, si applicano i commi 4, 5 e 6 dell'articolo 167.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Comunicazione e diffusione illecita di dati personali oggetto di trattamento su larga scala). ))",
+     "tokens": 342,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 388974,
+       "char_start": 387640,
+       "page": 87,
+       "page_end": 87
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0465-281fc177"
+     ],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Articolo 97",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "97",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4",
+      "query:1"
+     ],
+     "page_end": 87,
+     "page_start": 87,
+     "path": "CAPO XI > Articolo 97",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:97",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 97\n\nRelazioni della Commissione\n\n1.\nEntro 25 maggio 2020 e, successivamente, ogni quattro anni, la Commissione trasmette al Parlamento europeo e \nal Consiglio relazioni di valutazione e sul riesame del presente regolamento.\n\n2.\nNel contesto delle valutazioni e del riesame del presente regolamento di cui al paragrafo 1, la Commissione \nesamina, in particolare, l'applicazione e il funzionamento:\n\na)  del capo V sul trasferimento di dati personali verso paesi terzi o organizzazioni internazionali, con particolare\n\nriguardo alle decisioni adottate ai sensi dell'articolo 45, paragrafo 3, del presente regolamento, e alle decisioni \nadottate sulla base dell'articolo 25, paragrafo 6, della direttiva 95/46/CE;\n\nb)  del capo VII su cooperazione e coerenza.\n\n3.\nAi fini del paragrafo 1, la Commissione può richiedere informazioni agli Stati membri e alle autorità di controllo.\n\n4.\nNello svolgere le valutazioni e i riesami di cui ai paragrafi 1 e 2, la Commissione tiene conto delle posizioni e delle \nconclusioni del Parlamento europeo, del Consiglio, nonché di altri organismi o fonti pertinenti.\n\n5.\nSe del caso, la Commissione presenta opportune proposte di modifica del presente regolamento tenuto conto, in \nparticolare, degli sviluppi delle tecnologie dell'informazione e dei progressi della società dell'informazione.",
+     "tier": "internal_only",
+     "title": "Relazioni della Commissione",
+     "tokens": 445,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 140403,
+       "char_start": 139282,
+       "page": 39,
+       "page_end": 39
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0308-d8cbbc18"
+     ],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Art. 144-bis",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "144-bis",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:2",
+      "query:5"
+     ],
+     "page_end": 39,
+     "page_start": 39,
+     "path": "PARTE III > TITOLO I > CAPO I > Art. 144-bis",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:144-bis",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 144-bis\n\n(( (Revenge porn). ))\n\n((\n\n1. Chiunque, compresi i minori ultraquattordicenni, abbia fondato motivo di ritenere che registrazioni audio,\nimmagini o video o altri documenti informatici a contenuto sessualmente esplicito che lo riguardano, destinati\na rimanere privati, possano essere oggetto di invio, consegna, cessione, pubblicazione o diffusione attraverso\npiattaforme digitali senza il suo consenso ha facoltà di segnalare il pericolo al Garante, il quale, nelle\nquarantotto ore dal ricevimento della segnalazione, decide ai sensi degli articoli 143 e 144 del presente codice.\n\n2. Quando le registrazioni audio, le immagini o i video o gli altri documenti informatici riguardano minori, la\nsegnalazione al Garante può essere effettuata anche dai genitori o dagli esercenti la responsabilità genitoriale\no la tutela.\n\n3. Per le finalità di cui al comma 1, l'invio al Garante di registrazioni audio, immagini o video o altri documenti\ninformatici a contenuto sessualmente esplicito riguardanti soggetti terzi, effettuato dall'interessato, non\nintegra il reato di cui all'articolo 612-ter del codice penale.",
+     "tier": "internal_only",
+     "title": "(( (Revenge porn). ))",
+     "tokens": 374,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 196796,
+       "char_start": 194068,
+       "page": 36,
+       "page_end": 36
+      },
+      {
+       "char_end": 198509,
+       "char_start": 196860,
+       "page": 37,
+       "page_end": 37
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Articolo 6",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "6",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:8",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-quinquies"
+     ],
+     "page_end": 37,
+     "page_start": 36,
+     "path": "CAPO II > Articolo 6",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 6\n\nLiceità del trattamento\n\n1.\nIl trattamento è lecito solo se e nella misura in cui ricorre almeno una delle seguenti condizioni:\n\na)  l'interessato ha espresso il consenso al trattamento dei propri dati personali per una o più specifiche finalità;\n\nb) il trattamento è necessario all'esecuzione di un contratto di cui l'interessato è parte o all'esecuzione di misure precon­\n\ntrattuali adottate su richiesta dello stesso;\n\nc)  il trattamento è necessario per adempiere un obbligo legale al quale è soggetto il titolare del trattamento;\n\nd)  il trattamento è necessario per la salvaguardia degli interessi vitali dell'interessato o di un'altra persona fisica;\n\ne)  il trattamento è necessario per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici\n\npoteri di cui è investito il titolare del trattamento;\n\nf)  il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi, a\n\ncondizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la \nprotezione dei dati personali, in particolare se l'interessato è un minore.\n\nLa lettera f) del primo comma non si applica al trattamento di dati effettuato dalle autorità pubbliche nell'esecuzione dei \nloro compiti.\n\n2.\nGli Stati membri possono mantenere o introdurre disposizioni più specifiche per adeguare l'applicazione delle \nnorme del presente regolamento con riguardo al trattamento, in conformità del paragrafo 1, lettere c) ed e), \ndeterminando con maggiore precisione requisiti specifici per il trattamento e altre misure atte a garantire un trattamento \nlecito e corretto anche per le altre specifiche situazioni di trattamento di cui al capo IX.\n\n3.\nLa base su cui si fonda il trattamento dei dati di cui al paragrafo 1, lettere c) ed e), deve essere stabilita:\n\na)  dal diritto dell'Unione; o\n\nb)  dal diritto dello Stato membro cui è soggetto il titolare del trattamento.\n\nLa finalità del trattamento è determinata in tale base giuridica o, per quanto riguarda il trattamento di cui al paragrafo 1, \nlettera e), è necessaria per l'esecuzione di un compito svolto nel pubblico interesse o connesso all'esercizio di pubblici \npoteri di cui è investito il titolare del trattamento. Tale base giuridica potrebbe contenere disposizioni specifiche per \nadeguare l'applicazione delle norme del presente regolamento, tra cui: le condizioni generali relative alla liceità del \ntrattamento da parte del titolare del trattamento; le tipologie di dati oggetto del trattamento; gli interessati; i soggetti cui \npossono essere comunicati i dati personali e le finalità per cui sono comunicati; le limitazioni della finalità, i periodi di\n\nconservazione e le operazioni e procedure di trattamento, comprese le misure atte a garantire un trattamento lecito e \ncorretto, quali quelle per altre specifiche situazioni di trattamento di cui al capo IX. Il diritto dell'Unione o degli Stati \nmembri persegue un obiettivo di interesse pubblico ed è proporzionato all'obiettivo legittimo perseguito.\n\n4.\nLaddove il trattamento per una finalità diversa da quella per la quale i dati personali sono stati raccolti non sia \nbasato sul consenso dell'interessato o su un atto legislativo dell'Unione o degli Stati membri che costituisca una misura \nnecessaria e proporzionata in una società democratica per la salvaguardia degli obiettivi di cui all'articolo 23, \nparagrafo 1, al fine di verificare se il trattamento per un'altra finalità sia compatibile con la finalità per la quale i dati \npersonali sono stati inizialmente raccolti, il titolare del trattamento tiene conto, tra l'altro:\n\na)  di ogni nesso tra le finalità per cui i dati personali sono stati raccolti e le finalità dell'ulteriore trattamento previsto;\n\nb)  del contesto in cui i dati personali sono stati raccolti, in particolare relativamente alla relazione tra l'interessato e il\n\ntitolare del trattamento;\n\nc) della natura dei dati personali, specialmente se siano trattate categorie particolari di dati personali ai sensi dell'ar­\n\nticolo 9, oppure se siano trattati dati relativi a condanne penali e a reati ai sensi dell'articolo 10;\n\nd)  delle possibili conseguenze dell'ulteriore trattamento previsto per gli interessati;\n\ne)  dell'esistenza di garanzie adeguate, che possono comprendere la cifratura o la pseudonimizzazione.",
+     "tier": "internal_only",
+     "title": "Liceità del trattamento",
+     "tokens": 1459,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 7337,
+       "char_start": 4205,
+       "page": 2,
+       "page_end": 2
+      },
+      {
+       "char_end": 7557,
+       "char_start": 7396,
+       "page": 3,
+       "page_end": 3
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Art. 2-ter",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-ter",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167-bis"
+     ],
+     "page_end": 3,
+     "page_start": 2,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-ter",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-ter",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-ter\n\n(Base giuridica per il trattamento di dati personali effettuato per l'esecuzione di un compito di interesse\npubblico o connesso all'esercizio di pubblici poteri)\n\n1. La base giuridica prevista dall'articolo 6, paragrafo 3, lettera b), del regolamento è costituita ((...)) da una\nnorma di legge o ((...)) di regolamento ((o da atti amministrativi generali)). ((49))\n\n((1-bis. Fermo restando ogni altro obbligo previsto dal Regolamento e dal presente codice, il trattamento dei\ndati personali da parte di un'amministrazione pubblica di cui all'articolo 1, comma 2, del decreto legislativo 30\nmarzo 2001, n. 165, ivi comprese le autorità indipendenti e le amministrazioni inserite nell'elenco di cui\nall'articolo 1, comma 3, della legge 31 dicembre 2009, n. 196, nonché da parte di una società a controllo\npubblico statale o, limitatamente ai gestori di servizi pubblici, locale, di cui all'articolo 16 del testo unico in\nmateria di società a partecipazione pubblica, di cui al decreto legislativo 19 agosto 2016, n. 175, con\nesclusione, per le società a controllo pubblico, dei trattamenti correlati ad attività svolte in regime di libero\nmercato, è anche consentito se necessario per l'adempimento di un compito svolto nel pubblico interesse o per\nl'esercizio di pubblici poteri ad esse attribuiti. In modo da assicurare che tale esercizio non possa arrecare un\npregiudizio effettivo e concreto alla tutela dei diritti e delle libertà degli interessati, le disposizioni di cui al\npresente comma sono esercitate nel rispetto dell'articolo 6 del Regolamento))\n\n2. La comunicazione fra titolari che effettuano trattamenti di dati personali, diversi da quelli ricompresi nelle\nparticolari categorie di cui all'articolo 9 del Regolamento e di quelli relativi a condanne penali e reati di cui\nall'articolo 10 del Regolamento, per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di\npubblici poteri è ammessa se prevista ai sensi del comma 1 ((o se necessaria ai sensi del comma 1-bis)).\n((PERIODO SOPPRESSO DAL D.L. 8 OTTOBRE 2021, N. 139, CONVERTITO CON MODIFICAZIONI DALLA L. 3\nDICEMBRE 2021, N. 205)).\n\n3. La diffusione e la comunicazione di dati personali, trattati per l'esecuzione di un compito di interesse\npubblico o connesso all'esercizio di pubblici poteri, a soggetti che intendono trattarli per altre finalità sono\nammesse unicamente se previste ai sensi del comma 1 ((o se necessarie ai sensi del comma 1-bis. In tale\nultimo caso, ne viene data notizia al Garante almeno dieci giorni prima dell'inizio della comunicazione o\ndiffusione)).\n\n4. Si intende per:\n\na) \"comunicazione\", il dare conoscenza dei dati personali a uno o più soggetti determinati diversi\ndall'interessato, dal rappresentante del titolare nel territorio dell'Unione europea, dal responsabile o dal suo\nrappresentante nel territorio dell'Unione europea, dalle persone autorizzate, ai sensi dell'articolo\n2-quaterdecies, al trattamento dei dati personali sotto l'autorità diretta del titolare o del responsabile, in\nqualunque forma, anche mediante la loro messa a disposizione, consultazione o mediante interconnessione;\n\nb) \"diffusione\", il dare conoscenza dei dati personali a soggetti indeterminati, in qualunque forma, anche\nmediante la loro messa a disposizione o consultazione.",
+     "tier": "internal_only",
+     "title": "(Base giuridica per il trattamento di dati personali effettuato per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri)",
+     "tokens": 1098,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 11840,
+       "char_start": 10485,
+       "page": 3,
+       "page_end": 3
+      },
+      {
+       "char_end": 16625,
+       "char_start": 11899,
+       "page": 4,
+       "page_end": 4
+      },
+      {
+       "char_end": 18520,
+       "char_start": 16684,
+       "page": 5,
+       "page_end": 5
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Art. 2-sexies",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-sexies",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167-bis"
+     ],
+     "page_end": 5,
+     "page_start": 3,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-sexies",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-sexies",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-sexies\n\n(Trattamento di categorie particolari di dati personali necessario per motivi di interesse pubblico rilevante)\n\n1. I trattamenti delle categorie particolari di dati personali di cui all'articolo 9, paragrafo 1, del Regolamento,\nnecessari per motivi di interesse pubblico rilevante ai sensi del paragrafo 2, lettera g), del medesimo articolo,\nsono ammessi qualora siano previsti dal diritto dell'Unione europea ovvero, nell'ordinamento interno, da\ndisposizioni di legge o di regolamento o da atti amministrativi generali che specifichino i tipi di dati che\npossono essere trattati, le operazioni eseguibili e il motivo di interesse pubblico rilevante, nonché le misure\nappropriate e specifiche per tutelare i diritti fondamentali e gli interessi dell'interessato. (49)\n\n1-bis. I dati personali relativi alla salute, ((pseudonimizzati)) , sono trattati, anche mediante interconnessione,\ndal Ministero della salute, dall'Istituto superiore di sanità (ISS), dall'Agenzia nazionale per i servizi sanitari\nregionali (AGENAS), dall'Agenzia italiana del farmaco (AIFA), dall'Istituto nazionale per la promozione della\nsalute delle popolazioni migranti e per il contrasto delle malattie della povertà (INMP), nonché, relativamente ai\npropri assistiti, dalle regioni e dalle province autonome, nel rispetto delle finalità istituzionali di ciascuno,\n\nsecondo le modalità individuate con decreto del Ministro della salute, adottato ai sensi del comma 1 previo\nparere del Garante per la protezione dei dati personali.\n\n1-ter. Il Ministero della salute disciplina, con uno o più decreti adottati ai sensi del comma 1, l'interconnessione\na livello nazionale dei sistemi informativi su base individuale, ((pseudonomizzati)) , ivi incluso il fascicolo\nsanitario elettronico (FSE), compresi quelli gestiti dai soggetti di cui al comma 1-bis o da altre pubbliche\namministrazioni che a tal fine adeguano i propri sistemi informativi.\n\nI decreti di cui al primo periodo adottati, previo parere del Garante per la protezione dei dati personali, nel\nrispetto del Regolamento, del presente codice, ((del codice)) dell'amministrazione digitale di cui al decreto\nlegislativo 7 marzo 2005, n. 82, e delle linee guida emanate dall'Agenzia per l'Italia digitale in materia di\ninteroperabilità, definiscono le caratteristiche e disciplinano un ambiente di trattamento sicuro all'interno del\nquale vengono messi a disposizione dati anonimi o pseudonimizzati, per le finalità istituzionali di ciascuno,\nsecondo le modalità individuate al comma 1.\n\n2. Fermo quanto previsto dal comma 1, si considera rilevante l'interesse pubblico relativo a trattamenti\neffettuati da soggetti che svolgono compiti di interesse pubblico o connessi all'esercizio di pubblici poteri nelle\nseguenti materie:\n\na) accesso a documenti amministrativi e accesso civico;\n\nb) tenuta degli atti e dei registri dello stato civile, delle anagrafi della popolazione residente in Italia e dei\ncittadini italiani residenti all'estero, e delle liste elettorali, nonché rilascio di documenti di riconoscimento o di\nviaggio o cambiamento delle generalità;\n\nc) tenuta di registri pubblici relativi a beni immobili o mobili;\n\nd) tenuta dell'anagrafe nazionale degli abilitati alla guida e dell'archivio nazionale dei veicoli;\n\ne) cittadinanza, immigrazione, asilo, condizione dello straniero e del profugo, stato di rifugiato;\n\nf) elettorato attivo e passivo ed esercizio di altri diritti politici, protezione diplomatica e consolare, nonché\ndocumentazione delle attività istituzionali di organi pubblici, con particolare riguardo alla redazione di verbali e\nresoconti dell'attività di assemblee rappresentative, commissioni e di altri organi collegiali o assembleari;\n\ng) esercizio del mandato degli organi rappresentativi, ivi compresa la loro sospensione o il loro scioglimento,\nnonché l'accertamento delle cause di ineleggibilità, incompatibilità o di decadenza, ovvero di rimozione o\nsospensione da cariche pubbliche;\n\nh) svolgimento delle funzioni di controllo, indirizzo politico, inchiesta parlamentare o sindacato ispettivo e\nl'accesso a documenti riconosciuto dalla legge e dai regolamenti degli organi interessati per esclusive finalità\ndirettamente connesse all'espletamento di un mandato elettivo;\n\ni) attività dei soggetti pubblici dirette all'applicazione, anche tramite i loro concessionari, delle disposizioni in\nmateria tributaria e doganale, comprese quelle di prevenzione e contrasto all'evasione fiscale;\n\nl) attività di controllo e ispettive;\n\nm) concessione, liquidazione, modifica e revoca di benefici economici, agevolazioni, elargizioni, altri\nemolumenti e abilitazioni;\n\nn) conferimento di onorificenze e ricompense, riconoscimento della personalità giuridica di associazioni,\nfondazioni ed enti, anche di culto, accertamento dei requisiti di onorabilità e di professionalità per le nomine,\nper i profili di competenza del soggetto pubblico, ad uffici anche di culto e a cariche direttive di persone\ngiuridiche, imprese e di istituzioni scolastiche non statali, nonché rilascio e revoca di autorizzazioni o\nabilitazioni, concessione di patrocini, patronati e premi di rappresentanza, adesione a comitati d'onore e\nammissione a cerimonie ed incontri istituzionali;\n\no) rapporti tra i soggetti pubblici e gli enti del terzo settore;\n\np) obiezione di coscienza;\n\nq) attività sanzionatorie e di tutela in sede amministrativa o giudiziaria;\n\nr) rapporti istituzionali con enti di culto, confessioni religiose e comunità religiose;\n\ns) attività socio-assistenziali a tutela dei minori e soggetti bisognosi, non autosufficienti e incapaci;\n\nt) attività amministrative e certificatorie correlate a quelle di diagnosi, assistenza o terapia sanitaria o sociale,\nivi incluse quelle correlate ai trapianti d'organo e di tessuti nonché alle trasfusioni di sangue umano;\n\nu) compiti del servizio sanitario nazionale e dei soggetti operanti in ambito sanitario, nonché compiti di igiene e\nsicurezza sui luoghi di lavoro e sicurezza e salute della popolazione, protezione civile, salvaguardia della vita e\nincolumità fisica;\n\nv) programmazione, gestione, controllo e valutazione dell'assistenza sanitaria, ivi incluse l'instaurazione, la\ngestione, la pianificazione e il controllo dei rapporti tra l'amministrazione ed i soggetti accreditati o\nconvenzionati con il servizio sanitario nazionale;\n\nz) vigilanza sulle sperimentazioni, farmacovigilanza, autorizzazione all'immissione in commercio e\nall'importazione di medicinali e di altri prodotti di rilevanza sanitaria;\n\naa) tutela sociale della maternità ed interruzione volontaria della gravidanza, dipendenze, assistenza,\nintegrazione sociale e diritti dei disabili;\n\nbb) istruzione e formazione in ambito scolastico, professionale, superiore o universitario;\n\ncc) trattamenti effettuati a fini di archiviazione nel pubblico interesse o di ricerca storica, concernenti la\nconservazione, l'ordinamento e la comunicazione dei documenti detenuti negli archivi di Stato negli archivi\nstorici degli enti pubblici, o in archivi privati dichiarati di interesse storico particolarmente importante, per fini\ndi ricerca scientifica, nonché per fini statistici da parte di soggetti che fanno parte del sistema statistico\nnazionale (Sistan);\n\ndd) instaurazione, gestione ed estinzione, di rapporti di lavoro di qualunque tipo, anche non retribuito o\nonorario, e di altre forme di impiego, materia sindacale, occupazione e collocamento obbligatorio, previdenza e\nassistenza, tutela delle minoranze e pari opportunità nell'ambito dei rapporti di lavoro, adempimento degli\nobblighi retributivi, fiscali e contabili, igiene e sicurezza del lavoro o di sicurezza o salute della popolazione,\naccertamento della responsabilità civile, disciplinare e contabile, attività ispettiva.\n\n3. Per i dati genetici, biometrici e relativi alla salute il trattamento avviene comunque nel rispetto di quanto\nprevisto dall'articolo 2-septies.",
+     "tier": "internal_only",
+     "title": "(Trattamento di categorie particolari di dati personali necessario per motivi di interesse pubblico rilevante)",
+     "tokens": 2639,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 25960,
+       "char_start": 22592,
+       "page": 6,
+       "page_end": 6
+      },
+      {
+       "char_end": 26306,
+       "char_start": 26019,
+       "page": 7,
+       "page_end": 7
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Art. 2-octies",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-octies",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167-bis"
+     ],
+     "page_end": 7,
+     "page_start": 6,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-octies",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-octies",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-octies\n\n(Principi relativi al trattamento di dati relativi a condanne penali e reati)\n\n1. Fatto salvo quanto previsto dal decreto legislativo 18 maggio 2018, n. 51, il trattamento di dati personali\nrelativi a condanne penali e a reati o a connesse misure di sicurezza sulla base dell'articolo 6, paragrafo 1, del\nRegolamento, che non avviene sotto il controllo dell'autorità pubblica, è consentito, ai sensi dell'articolo 10 del\nmedesimo regolamento, solo se autorizzato da una norma di legge o, nei casi previsti dalla legge, di\nregolamento, che prevedano garanzie appropriate per i diritti e le libertà degli interessati.\n\n2. ((COMMA ABROGATO DALLA L. 2 DICEMBRE 2025, N. 182)).\n\n3. Fermo quanto previsto dai commi 1 e 2, il trattamento di dati personali relativi a condanne penali e a reati o\na connesse misure di sicurezza è consentito se autorizzato da una norma di legge o, nei casi previsti dalla\nlegge, di regolamento, riguardanti, in particolare:\n\na) l'adempimento di obblighi e l'esercizio di diritti da parte del titolare o dell'interessato in materia di diritto del\nlavoro o comunque nell'ambito dei rapporti di lavoro, nei limiti stabiliti da leggi, regolamenti e contratti\ncollettivi, secondo quanto previsto dagli articoli 9, paragrafo 2, lettera b), e 88 del regolamento;\n\nb) l'adempimento degli obblighi previsti da disposizioni di legge o di regolamento in materia di mediazione\nfinalizzata alla conciliazione delle controversie civili e commerciali;\n\nc) la verifica o l'accertamento dei requisiti di onorabilità, requisiti soggettivi e presupposti interdittivi nei casi\nprevisti dalle leggi o dai regolamenti;\n\nd) l'accertamento di responsabilità in relazione a sinistri o eventi attinenti alla vita umana, nonché la\nprevenzione, l'accertamento e il contrasto di frodi o situazioni di concreto rischio per il corretto esercizio\ndell'attività assicurativa, nei limiti di quanto previsto dalle leggi o dai regolamenti in materia;\n\ne) l'accertamento, l'esercizio o la difesa di un diritto in sede giudiziaria;\n\nf) l'esercizio del diritto di accesso ai dati e ai documenti amministrativi, nei limiti di quanto previsto dalle leggi\no dai regolamenti in materia;\n\ng) l'esecuzione di investigazioni o le ricerche o la raccolta di informazioni per conto di terzi ai sensi dell'articolo\n134 del testo unico delle leggi di pubblica sicurezza;\n\nh) l'adempimento di obblighi previsti da disposizioni di legge in materia di comunicazioni e informazioni\nantimafia o in materia di prevenzione della delinquenza di tipo mafioso e di altre gravi forme di pericolosità\nsociale, nei casi previsti da leggi o da regolamenti, o per la produzione della documentazione prescritta dalla\nlegge per partecipare a gare d'appalto;\n\ni) l'accertamento del requisito di idoneità morale di coloro che intendono partecipare a gare d'appalto, in\nadempimento di quanto previsto dalle vigenti normative in materia di appalti;\n\nl) l'attuazione della disciplina in materia di attribuzione del rating di legalità delle imprese ai sensi dell'articolo\n5-ter del decreto-legge 24 gennaio 2012, n. 1, convertito, con modificazioni, dalla legge 24 marzo 2012, n. 27;\n\nm) l'adempimento degli obblighi previsti dalle normative vigenti in materia di prevenzione dell'uso del sistema\nfinanziario a scopo di riciclaggio dei proventi di attività criminose e di finanziamento del terrorismo.\n\n4. ((COMMA ABROGATO DALLA L. 2 DICEMBRE 2025, N. 182)).\n\n5. Quando il trattamento dei dati di cui al presente articolo avviene sotto il controllo dell'autorità pubblica si\napplicano le disposizioni previste dall'articolo 2-sexies.\n\n6. ((COMMA ABROGATO DALLA L. 2 DICEMBRE 2025, N. 182)).",
+     "tier": "internal_only",
+     "title": "(Principi relativi al trattamento di dati relativi a condanne penali e reati)",
+     "tokens": 1219,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 182965,
+       "char_start": 181157,
+       "page": 49,
+       "page_end": 49
+      },
+      {
+       "char_end": 183252,
+       "char_start": 183025,
+       "page": 50,
+       "page_end": 50
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Art. 167",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "167",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167-bis"
+     ],
+     "page_end": 50,
+     "page_start": 49,
+     "path": "PARTE III > TITOLO III > CAPO II > Art. 167",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 167\n\n(Trattamento illecito di dati)\n\n1. Salvo che il fatto costituisca più grave reato, chiunque, al fine di trarre per sé o per altri profitto ovvero di\narrecare danno all'interessato, operando in violazione di quanto disposto dagli articoli 123, 126 e 130 o dal\nprovvedimento di cui all'articolo 129 arreca nocumento all'interessato, è punito con la reclusione da sei mesi a\nun anno e sei mesi.\n\n2. Salvo che il fatto costituisca più grave reato, chiunque, al fine di trarre per sé o per altri profitto ovvero di\narrecare danno all'interessato, procedendo al trattamento dei dati personali di cui agli articoli 9 e 10 del\nRegolamento in violazione delle disposizioni di cui agli articoli 2-sexies e 2-octies, o delle misure di garanzia di\ncui all'articolo 2-septies ((...)) arreca nocumento all'interessato, è punito con la reclusione da uno a tre anni.\n\n3. Salvo che il fatto costituisca più grave reato, la pena di cui al comma 2 si applica altresì a chiunque, al fine di\ntrarre per sé o per altri profitto ovvero di arrecare danno all'interessato, procedendo al trasferimento dei dati\npersonali verso un paese terzo o un'organizzazione internazionale al di fuori dei casi consentiti ai sensi degli\narticoli 45, 46 o 49 del Regolamento, arreca nocumento all'interessato.\n\n4. Il Pubblico ministero, quando ha notizia dei reati di cui ai commi 1, 2 e 3, ne informa senza ritardo il Garante.\n\n5. Il Garante trasmette al pubblico ministero, con una relazione motivata, la documentazione raccolta nello\nsvolgimento dell'attività di accertamento nel caso in cui emergano elementi che facciano presumere la\nesistenza di un reato. La trasmissione degli atti al pubblico ministero avviene al più tardi al termine dell'attività\ndi accertamento delle violazioni delle disposizioni di cui al presente decreto.\n\n6. Quando per lo stesso fatto è stata applicata a norma del presente codice o del Regolamento a carico\ndell'imputato o dell'ente una sanzione amministrativa pecuniaria dal Garante e questa è stata riscossa, la pena\nè diminuita.",
+     "tier": "internal_only",
+     "title": "(Trattamento illecito di dati)",
+     "tokens": 679,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "8",
+      "point": null
+     },
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "2-quinquies",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "4",
+      "point": "11"
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "7",
+      "point": null
+     }
+    ],
+    "queries": [
+     "consenso del minore servizi della società dell'informazione",
+     "condizioni applicabili al consenso dei minori",
+     "minore di quattordici anni consenso trattamento dati personali",
+     "età del consenso del minore in relazione ai servizi della società dell'informazione",
+     "consenso prestato o autorizzato dal titolare della responsabilità genitoriale"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 9516,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8QxstTPxKw7REXHgFo2"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "Il testo del Codice (art. 2-quinquies) è una trascrizione non ufficiale, non verificata su un testo ufficiale; la sua validità giuridica non è accertata.",
+   "La soglia dei 14 anni vale per il consenso come base giuridica nell'offerta diretta di servizi della società dell'informazione; il trattamento con altre basi giuridiche e la capacità contrattuale non sono trattati nelle norme fornite."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "3 further candidate provisions were left out by the evidence limits (max_items)."
+  ],
+  "question": "A partire da quale età un minore può prestare da solo il consenso ai servizi della società dell'informazione in Italia?",
+  "question_references": [],
+  "rejected_claims": [],
+  "unanswered_issues": [],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8QyVHwEHBxD9iPDabBi"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "test"
+}

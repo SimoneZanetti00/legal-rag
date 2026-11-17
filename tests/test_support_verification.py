@@ -8,8 +8,10 @@ import pytest
 
 from src.answer_generation import (
     HELD_CLAIMS_TITLE,
+    HELD_ONLY,
     HELD_SOURCES_TITLE,
     NOT_VERIFIED_QUALIFICATION,
+    REPORTED_UNANSWERED,
     SUPPORT_FAILED_NOTICE,
     SUPPORT_NOT_RUN_NOTICE,
     SUPPORT_QUALIFICATION,
@@ -41,6 +43,8 @@ from tests.test_answer_generation import (
     NOTIFY,
     QUESTION,
     analysis,
+    Q2,
+    claim,
     item,
     reply,
 )
@@ -225,3 +229,31 @@ def test_sources_of_held_apart_claims_are_listed_with_those_claims_only():
     assert f"  {HELD_SOURCES_TITLE}:" in held_text and "[E2]" in held_text
     assert "[E1]" not in held_text.split(HELD_SOURCES_TITLE)[1]
     assert [r.evidence_id for r in result.citations] == ["E1", "E2"]  # the result is unchanged
+
+
+# --- The outcome rule: every issue covered by a SUPPORTED claim of the main answer --------------
+
+
+def test_an_issue_covered_only_by_held_apart_claims_limits_the_answer():
+    result, _ = run(verdicts(C1="supported", C2="partially_supported"))
+    assert result.outcome == Outcome.ANSWER_LIMITED
+    assert [(u.issue_id, u.reason) for u in result.unanswered_issues] == [("I2", HELD_ONLY)]
+
+
+def test_a_held_apart_claim_does_not_limit_an_answer_whose_issues_are_covered():
+    extra = claim("Ove possibile, entro settantadue ore.", ("E1", Q2))  # a third claim, on I1
+    result, _ = run(verdicts(C1="supported", C2="supported", C3="partially_supported"),
+                    generation=reply(NOTIFY, INFORM, extra))
+    assert result.outcome == Outcome.ANSWER
+    assert [c.verification for c in result.claims] == [S.SUPPORTED, S.SUPPORTED,
+                                                       S.PARTIALLY_SUPPORTED]
+    assert result.unanswered_issues == ()
+
+
+def test_the_models_own_limited_outcome_does_not_decide_the_outcome():
+    generation = reply(NOTIFY, INFORM, outcome="answer_limited",
+                       unanswered=[("I2", "Le prove non bastano.")])
+    result, _ = run(verdicts(C1="supported", C2="supported"), generation=generation)
+    assert result.outcome == Outcome.ANSWER  # both issues have a supported claim
+    assert [(u.issue_id, u.reason) for u in result.unanswered_issues] == [
+        ("I2", REPORTED_UNANSWERED)]  # still shown

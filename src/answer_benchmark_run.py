@@ -412,6 +412,9 @@ def _parser() -> argparse.ArgumentParser:
         if name == "rerun":
             cmd.add_argument("--from", dest="source", required=True,
                              help="the saved run whose replies are replayed")
+            cmd.add_argument("--offline", action="store_true",
+                             help="replay only: no model is called, and a call with no saved "
+                                  "reply fails that question")
     rep = sub.add_parser("report")
     rep.add_argument("--run-id", required=True)
     rep.add_argument("--json", action="store_true")
@@ -438,22 +441,26 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         settings = load_settings()
         mode = Mode(args.mode)
-        live = make_llm(settings)
-        if live.provider == "mock":
+        offline = args.command == "rerun" and args.offline
+        live = None if offline else make_llm(settings)
+        if live is not None and live.provider == "mock":
             raise RunError("the runner needs a real LLM provider (LLM_PROVIDER)")
         replay_of = None
         if args.command == "rerun":
             replay_of = check_run_id(args.source)
-            _, source = load_run(RUNS_DIR / replay_of)
+            source_record, source = load_run(RUNS_DIR / replay_of)
+            provider = live.provider if live else source_record["provider"]
+            model = live.model if live else source_record["model"]
 
             def llm_for(query_id: str) -> LLMClient:
                 calls = source.get(query_id, {}).get("llm_calls", [])
-                return ReplayLLM(calls, live=live, provider=live.provider, model=live.model)
+                return ReplayLLM(calls, live=live, provider=provider, model=model)
         else:
             def llm_for(query_id: str) -> LLMClient:
                 return live
         record = run_record(args.run_id, mode=mode, settings=settings,
                             build_id=explorer.identity()["build_id"], replay_of=replay_of)
+        record["offline"] = offline  # True: every reply is a saved one; no model was called
 
         def answer(question: str, llm: LLMClient) -> Mapping[str, Any]:
             return answer_question(question, llm, explorer, settings=settings, mode=mode).to_dict()

@@ -122,7 +122,8 @@ def test_every_check_still_applies_in_research_mode(synthetic):
         TEXTS[5]: ("not_supported_by_evidence",),  # removed by the support check
     }
     assert result.verification is not None  # the support check ran
-    assert result.outcome == Outcome.ANSWER_LIMITED  # claims were removed
+    # Removed claims do not limit the answer by themselves: every issue keeps a supported claim.
+    assert result.outcome == Outcome.ANSWER
 
 
 def test_retrieval_and_evidence_are_identical_in_both_modes(synthetic):

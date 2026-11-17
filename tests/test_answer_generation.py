@@ -210,11 +210,11 @@ def test_an_uncovered_issue_limits_the_answer_even_if_the_model_says_answer():
     assert [(u.issue_id, u.reason) for u in result.unanswered_issues] == [("I2", NOT_COVERED)]
 
 
-def test_a_removed_claim_limits_the_answer():
+def test_a_removed_claim_alone_does_not_limit_the_answer():
     fabricated = claim("Il titolare paga una sanzione.", ("E1", "il titolare paga una sanzione "
                                                                 "amministrativa"), issues=("I2",))
     result, _ = generate(reply(NOTIFY, INFORM, fabricated))
-    assert result.outcome == Outcome.ANSWER_LIMITED
+    assert result.outcome == Outcome.ANSWER  # both issues are still covered by valid claims
     assert [c.claim_id for c in result.claims] == ["C1", "C2"]
     [rejected] = result.rejected_claims
     assert rejected.reasons == ("quote_not_found:E1",)
@@ -348,7 +348,7 @@ def test_internal_only_evidence_is_never_a_citation():
     assert "E3" not in [c.evidence_id for c in result.citations]
     assert all("E3" not in c.evidence_ids for c in result.claims)
     assert [r.evidence_id for r in result.non_authoritative] == ["E3"]
-    assert result.outcome == Outcome.ANSWER_LIMITED
+    assert result.outcome == Outcome.ANSWER  # the removed claims do not limit it by themselves
 
 
 def test_a_claim_without_support_gets_the_one_retry():

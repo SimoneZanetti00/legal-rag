@@ -224,6 +224,8 @@ def answer_sources(result: AnswerResult) -> tuple[tuple[SourceReference, ...],
 REPORTED_UNANSWERED = ("Reported by the model as not answered, or only partly answered, by the "
                        "supplied evidence.")
 NOT_COVERED = "No validated claim addresses this issue."
+HELD_ONLY = ("Only statements shown apart (partially supported or uncertain) address this "
+             "issue.")
 
 _FAILURES = ((LLMTruncatedError, "it was cut off at the token limit"),
              (LLMSchemaError, "it did not have the required structure"),
@@ -713,17 +715,27 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
                         f"{', '.join(codes)}).", rejected=rejected, unanswered=unanswered,
                         verification=verification, **common)
 
+    # The outcome rule: `answer` when every issue is covered by a claim of the main answer that
+    # the support check rated SUPPORTED (with the check switched off, by any claim of the main
+    # answer: nothing is rated); otherwise `answer_limited`. Held-apart claims, removed claims
+    # and the model's own outcome or unanswered list do not downgrade an answer by themselves;
+    # they stay visible. If the check was on but could not run, no issue is covered.
+    def covers(claim: AnswerClaim) -> bool:
+        if verifier is None:
+            return in_answer(claim)
+        return verification is not None and claim.verification == VerificationStatus.SUPPORTED
+
     listed = {u.issue_id for u in unanswered}
-    covered = {iid for claim in claims for iid in claim.issue_ids}
+    addressed = {iid for claim in claims for iid in claim.issue_ids}
+    covered = {iid for claim in claims if covers(claim) for iid in claim.issue_ids}
     for issue in analysis.issues:
-        if issue.id not in covered and issue.id not in listed:
+        if issue.id in listed:
+            continue
+        if issue.id not in addressed:
             unanswered.append(UnansweredIssue(issue.id, NOT_COVERED))
-    # With the support check on, only claims it assessed as supported make a complete answer
-    # (if it could not run, nothing was assessed and the answer stays limited).
-    supported = verifier is None or (verification is not None and all(
-        claim.verification == VerificationStatus.SUPPORTED for claim in claims))
-    complete = (data["outcome"] == Outcome.ANSWER and not rejected and not unanswered
-                and supported)
+        elif issue.id not in covered and verification is not None:
+            unanswered.append(UnansweredIssue(issue.id, HELD_ONLY))
+    complete = all(issue.id in covered for issue in analysis.issues)
     cited = {eid for claim in claims for eid in claim.evidence_ids}
     return AnswerResult(
         question=question,

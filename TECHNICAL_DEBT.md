@@ -107,6 +107,7 @@ the phase reports and are not asserted by the test suite.
 | TD-061 | Running headers stay in chunk text and can affect BM25 ranking | Ingestion, BM25 | Confirmed | Medium | Open |
 | TD-062 | Corpus builds and anchors are tied to the whole-repository code version | Provenance | Confirmed | Low | Open |
 | TD-063 | Segmentation rules rest on the sources' formatting | Provision anchors | Confirmed | Medium | Open |
+| TD-066 | A web demo test fails intermittently | Testing | Observed | Low | Open |
 
 ## Ingestion and chunking (Phase 2)
 
@@ -530,6 +531,12 @@ the phase reports and are not asserted by the test suite.
 - **Kind:** Observed · **Priority:** Low · **Status:** Open
 - **Evidence:** The environment is about 1 GB. The first import of the embedding library took 28 seconds, which is why it is imported lazily. CPU encoding speed on a realistic corpus is unmeasured.
 - **Follow-up:** Measure with TD-013.
+
+### TD-066 · A web demo test fails intermittently
+- **Kind:** Observed · **Priority:** Low · **Status:** Open
+- **Evidence:** `tests/test_web_demo.py::test_requests_from_other_hosts_or_sites_are_refused[headers1]` failed once in a full run on 2026-11-17 (Windows 11, 2234 passed), then passed three times on its own and in a run of its whole file (71 passed). The test starts the local demo server; the cause, presumably timing in that server, was not investigated.
+- **Impact:** an occasional red full run that is not a regression.
+- **Follow-up:** reproduce it in a loop, find the cause, and make the test deterministic. Not fixed for now (owner's decision, 2026-11-17).
 
 ## Risks and questions for later phases
 

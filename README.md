@@ -68,8 +68,8 @@ only if the demonstration itself fails.
    removes a fabricated quotation, a fabricated article reference and a claim
    that cites non-citable evidence. A scripted support verdict, not a real
    model's evaluation, removes an overstated claim. The scripted answer claims to
-   be complete; because claims were removed, the pipeline reports
-   `answer_limited`. Every part of the output is labelled SYNTHETIC
+   be complete; because the removals leave one of its three issues without a
+   supported claim, the pipeline reports `answer_limited`. Every part of the output is labelled SYNTHETIC
    DEMONSTRATION, FICTIONAL LEGAL INSTRUMENT, SYNTHETIC REVIEW — NOT HUMAN LEGAL
    REVIEW, SCRIPTED MOCK LLM OUTPUT — NOT A REAL MODEL RESPONSE, and NOT LEGAL
    ADVICE.
