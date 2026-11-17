@@ -487,3 +487,16 @@ def test_the_page_shows_claims_not_rated_supported_apart_from_the_answer():
             'claim.verification === "NOT_VERIFIED";') in APP_JS
     assert 'card("Supporting quotations", shown.map(' in APP_JS
     assert "card(HELD_CLAIMS_TITLE," in APP_JS and "held.map((claim) => renderClaim(" in APP_JS
+
+
+def test_the_page_lists_only_the_answer_sources_and_notes_an_unrated_answer():
+    from src.answer_generation import (HELD_SOURCES_TITLE, SUPPORT_FAILED_NOTICE,
+                                       SUPPORT_NOT_RUN_NOTICE)
+    assert f'const HELD_SOURCES_TITLE = "{HELD_SOURCES_TITLE}"' in APP_JS
+    assert f'const SUPPORT_NOT_RUN_NOTICE = "{SUPPORT_NOT_RUN_NOTICE}"' in APP_JS
+    assert f'const SUPPORT_FAILED_NOTICE = "{SUPPORT_FAILED_NOTICE}"' in APP_JS
+    assert 'w.startsWith("support_verification_unavailable")' in APP_JS
+    assert "mainSources.map(source)" in APP_JS
+    assert "result.citations.map((ref) => renderSource(" not in APP_JS
+    assert "heldSources.length ? [el(\"p\", { class: \"subhead\" }, HELD_SOURCES_TITLE)" in APP_JS
+    assert 'card("Answer", supportNotice(result),' in APP_JS

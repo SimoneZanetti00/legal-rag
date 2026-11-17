@@ -37,6 +37,16 @@ const VERIFICATION = {
 };
 const KINDS = { source_statement: "Provision text", inference: "Interpretation" };
 const HELD_CLAIMS_TITLE = "Partially supported or uncertain — not part of the answer";  // as answer_generation.HELD_CLAIMS_TITLE
+const HELD_SOURCES_TITLE = "Sources of these statements only";  // as answer_generation.HELD_SOURCES_TITLE
+// As answer_generation.SUPPORT_NOT_RUN_NOTICE / SUPPORT_FAILED_NOTICE and support_check_notice().
+const SUPPORT_NOT_RUN_NOTICE = "The support check did not run: no statement in this answer has been checked against its evidence by the model check.";
+const SUPPORT_FAILED_NOTICE = "The support check failed: no statement in this answer has been checked against its evidence by the model check.";
+
+function supportNotice(result) {
+  if (!result.claims.length || result.verification) return null;
+  const failed = result.warnings.some((w) => w.startsWith("support_verification_unavailable"));
+  return el("div", { class: "banner warn" }, el("p", {}, failed ? SUPPORT_FAILED_NOTICE : SUPPORT_NOT_RUN_NOTICE));
+}
 const MODE_LABELS = { verified: "Verified mode", research: "Research demo mode" };
 
 let info = { reasons: {}, qualifications: {}, instruments: {}, source_categories: {},
@@ -216,25 +226,34 @@ function renderResult(result) {
   const inAnswer = (claim) => claim.verification === "SUPPORTED" || claim.verification === "NOT_VERIFIED";
   const shown = result.claims.filter(inAnswer);
   const held = result.claims.filter((claim) => !inAnswer(claim));
+  // The rule of answer_generation.answer_sources(): the Sources card lists the sources of the
+  // claims in the answer; sources cited only by held-apart claims are listed with those claims.
+  const shownIds = new Set(shown.flatMap((claim) => claim.evidence_ids));
+  const heldIds = new Set(held.flatMap((claim) => claim.evidence_ids));
+  const mainSources = result.citations.filter((ref) => shownIds.has(ref.evidence_id));
+  const heldSources = result.citations.filter((ref) => heldIds.has(ref.evidence_id) && !shownIds.has(ref.evidence_id));
+  const source = (ref) => renderSource(ref, itemById[ref.evidence_id], statusById[ref.evidence_id]);
   if (result.claims.length) {
-    sections.push(card("Answer", shown.length
-      ? el("div", { class: "answer" }, shown.map((claim) => renderStatement(claim, statusById)))
-      : el("p", { class: "muted" }, "No statement was rated supported by the support check.")));
+    sections.push(card("Answer", supportNotice(result),
+      shown.length
+        ? el("div", { class: "answer" }, shown.map((claim) => renderStatement(claim, statusById)))
+        : el("p", { class: "muted" }, "No statement was rated supported by the support check.")));
     if (shown.length) {
       sections.push(card("Supporting quotations", shown.map((claim) => renderClaim(claim, statusById, itemById))));
     }
     if (held.length) {
       sections.push(card(HELD_CLAIMS_TITLE,
         el("p", { class: "muted" }, "The support check did not confirm these statements. They are shown with their status and quotations."),
-        held.map((claim) => renderClaim(claim, statusById, itemById))));
+        held.map((claim) => renderClaim(claim, statusById, itemById)),
+        heldSources.length ? [el("p", { class: "subhead" }, HELD_SOURCES_TITLE), heldSources.map(source)] : null));
     }
   }
   const gaps = renderGaps(result, issueText);
   if (gaps) sections.push(gaps);
   sections.push(renderCaveats(result));
-  if (result.citations.length) {
+  if (mainSources.length) {
     sections.push(card("Sources", el("p", { class: "muted" }, "The provisions the answer rests on, with what is known about each source."),
-      result.citations.map((ref) => renderSource(ref, itemById[ref.evidence_id], statusById[ref.evidence_id]))));
+      mainSources.map(source)));
   }
   sections.push(renderTransparency(result, statusById));
   $("#result").replaceChildren(...sections.filter(Boolean));

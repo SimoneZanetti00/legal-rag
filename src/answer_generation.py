@@ -189,11 +189,36 @@ MODEL_NOTES_LABEL = "MODEL NOTES — UNVERIFIED — NOT PART OF THE LEGAL ANSWER
 HELD_CLAIMS_TITLE = "Partially supported or uncertain — not part of the answer"
 
 
+HELD_SOURCES_TITLE = "Sources of these statements only"
+SUPPORT_NOT_RUN_NOTICE = ("The support check did not run: no statement in this answer has been "
+                          "checked against its evidence by the model check.")
+SUPPORT_FAILED_NOTICE = ("The support check failed: no statement in this answer has been "
+                         "checked against its evidence by the model check.")
+
+
 def in_answer(claim: AnswerClaim) -> bool:
     """Whether a surviving claim is shown in the main answer: rated SUPPORTED by the support
     check, or never rated (NOT_VERIFIED: the check did not run). Any other rating is shown
     apart, under HELD_CLAIMS_TITLE."""
     return claim.verification in (VerificationStatus.SUPPORTED, VerificationStatus.NOT_VERIFIED)
+
+
+def support_check_notice(result: AnswerResult) -> str | None:
+    """The notice shown at the top of an answer whose claims the support check did not rate."""
+    if not result.claims or result.verification is not None:
+        return None
+    if any(w.startswith("support_verification_unavailable") for w in result.warnings):
+        return SUPPORT_FAILED_NOTICE
+    return SUPPORT_NOT_RUN_NOTICE
+
+
+def answer_sources(result: AnswerResult) -> tuple[tuple[SourceReference, ...],
+                                                  tuple[SourceReference, ...]]:
+    """(sources of the claims in the main answer, sources cited only by held-apart claims)."""
+    shown = {e for claim in result.claims if in_answer(claim) for e in claim.evidence_ids}
+    held = {e for claim in result.claims if not in_answer(claim) for e in claim.evidence_ids}
+    return (tuple(ref for ref in result.citations if ref.evidence_id in shown),
+            tuple(ref for ref in result.citations if ref.evidence_id in held - shown))
 
 # Unanswered-issue reasons, written by the application.
 REPORTED_UNANSWERED = ("Reported by the model as not answered, or only partly answered, by the "

@@ -34,12 +34,15 @@ from typing import Any
 from src import corpus_build
 from src.answer_generation import (
     HELD_CLAIMS_TITLE,
+    HELD_SOURCES_TITLE,
     MODEL_NOTES_LABEL,
     AnswerResult,
     Outcome,
     SourceReference,
     answer_question,
+    answer_sources,
     in_answer,
+    support_check_notice,
 )
 from src.config import PROJECT_ROOT, ConfigError, Settings, load_settings
 from src.corpus_build import CorpusBuildError
@@ -313,6 +316,14 @@ def _claim_lines(claim) -> list[str]:
               for quote in claim.quotes)]
 
 
+def _citation_lines(ref: SourceReference) -> list[str]:
+    lines = [f"  {_source_line(ref)}",
+             f"      {ref.provision_id}; legal validity {ref.legal_validity}"]
+    if ref.qualifications:
+        lines.append(f"      qualifications: {', '.join(ref.qualifications)}")
+    return lines
+
+
 def render_answer(result: AnswerResult) -> str:
     """The result as text: outcome first, then the answer, its sources and its limits."""
     outcome = result.outcome.value.replace("_", " ").upper()
@@ -342,22 +353,29 @@ def render_answer(result: AnswerResult) -> str:
                    if result.verification else "the claims themselves are not verified")
         lines += ["", "answer (each claim with its quotations; quotations are checked against "
                   f"the evidence, {checked}):"]
+        notice = support_check_notice(result)
+        if notice:
+            lines.append(f"  NOTE: {notice}")
         shown = [claim for claim in result.claims if in_answer(claim)]
         held = [claim for claim in result.claims if not in_answer(claim)]
         for claim in shown:
             lines += _claim_lines(claim)
         if not shown:
             lines.append("  (no claim was rated supported by the support check)")
+        main_sources, held_sources = answer_sources(result)
+        lines += ["", "citations (citable provisions):"]
+        for ref in main_sources:
+            lines += _citation_lines(ref)
+        if not main_sources:
+            lines.append("  (none: no statement is in the answer)")
         if held:
             lines += ["", f"{HELD_CLAIMS_TITLE}:"]
             for claim in held:
                 lines += _claim_lines(claim)
-        lines += ["", "citations (citable provisions):"]
-        for ref in result.citations:
-            lines.append(f"  {_source_line(ref)}")
-            lines.append(f"      {ref.provision_id}; legal validity {ref.legal_validity}")
-            if ref.qualifications:
-                lines.append(f"      qualifications: {', '.join(ref.qualifications)}")
+            if held_sources:
+                lines.append(f"  {HELD_SOURCES_TITLE}:")
+                for ref in held_sources:
+                    lines += [f"  {line}" for line in _citation_lines(ref)]
 
     if result.unanswered_issues:
         lines += ["", "unanswered issues:"]

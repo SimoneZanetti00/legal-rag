@@ -8,13 +8,18 @@ import pytest
 
 from src.answer_generation import (
     HELD_CLAIMS_TITLE,
+    HELD_SOURCES_TITLE,
     NOT_VERIFIED_QUALIFICATION,
+    SUPPORT_FAILED_NOTICE,
+    SUPPORT_NOT_RUN_NOTICE,
     SUPPORT_QUALIFICATION,
     TASK,
     AnswerClaim,
     Outcome,
     generate_answer,
+    answer_sources,
     in_answer,
+    support_check_notice,
 )
 from src.llm import MockLLM, check_schema
 from src.models import VerificationStatus
@@ -157,12 +162,14 @@ def test_the_verifier_sees_only_the_claims_and_their_cited_evidence():
 
 
 def sections(text):
-    """(main answer, held section) of a rendered result; the held section may be empty."""
+    """(main answer, its citations, held section) of a rendered result; held may be empty."""
     answer = text[text.index("answer (each claim"):text.index("citations (citable")]
-    if HELD_CLAIMS_TITLE not in answer:
-        return answer, ""
-    cut = answer.index(HELD_CLAIMS_TITLE)
-    return answer[:cut], answer[cut:]
+    start = text.index("citations (citable")
+    citations = text[start:text.index("\n\n", start)]
+    if HELD_CLAIMS_TITLE not in text:
+        return answer, citations, ""
+    start = text.index(HELD_CLAIMS_TITLE)
+    return answer, citations, text[start:text.index("\n\n", start)]
 
 
 def test_only_supported_or_unrated_claims_are_in_the_answer():
@@ -178,7 +185,7 @@ def test_a_partially_supported_claim_is_shown_below_the_answer_with_its_quotatio
     result, _ = run(verdicts(C1="supported", C2="partially_supported"))
     assert result.outcome == Outcome.ANSWER_LIMITED  # the outcome rules are unchanged
     assert [c.claim_id for c in result.claims] == ["C1", "C2"]  # and so is the result
-    answer, held = sections(render_answer(result))
+    answer, citations, held = sections(render_answer(result))
     assert "C1 [I1] (source statement; support: supported)" in answer and "C2 [" not in answer
     assert held.startswith(f"{HELD_CLAIMS_TITLE}:")
     assert "C2 [I2] (source statement; support: partially supported)" in held
@@ -187,12 +194,34 @@ def test_a_partially_supported_claim_is_shown_below_the_answer_with_its_quotatio
 
 def test_when_no_claim_is_rated_supported_the_answer_says_so():
     result, _ = run(verdicts(C1="uncertain", C2="partially_supported"))
-    answer, held = sections(render_answer(result))
+    answer, citations, held = sections(render_answer(result))
     assert "(no claim was rated supported by the support check)" in answer
     assert "support: uncertain" in held and "support: partially supported" in held
 
 
 def test_without_the_support_check_unrated_claims_stay_in_the_answer():
     result, _ = run(verify=False)
-    answer, held = sections(render_answer(result))
+    answer, citations, held = sections(render_answer(result))
     assert held == "" and "C1 [I1]" in answer and "C2 [I2]" in answer
+
+
+def test_an_answer_the_support_check_did_not_rate_says_so_at_the_top():
+    answer, _, _ = sections(render_answer(run(verify=False)[0]))
+    assert answer.split("\n")[1] == f"  NOTE: {SUPPORT_NOT_RUN_NOTICE}"
+    bad = {"verdicts": [{"claim_id": "C1", "support": "probably"}]}
+    failed, _ = run(bad, bad)
+    assert support_check_notice(failed) == SUPPORT_FAILED_NOTICE
+    assert f"  NOTE: {SUPPORT_FAILED_NOTICE}" in render_answer(failed)
+    rated, _ = run(verdicts(C1="supported", C2="supported"))
+    assert support_check_notice(rated) is None and "NOTE: " not in render_answer(rated)
+
+
+def test_sources_of_held_apart_claims_are_listed_with_those_claims_only():
+    result, _ = run(verdicts(C1="supported", C2="partially_supported"))  # C1 cites E1, C2 E2
+    main, held = answer_sources(result)
+    assert [r.evidence_id for r in main] == ["E1"] and [r.evidence_id for r in held] == ["E2"]
+    _, citations, held_text = sections(render_answer(result))
+    assert "[E1]" in citations and "[E2]" not in citations
+    assert f"  {HELD_SOURCES_TITLE}:" in held_text and "[E2]" in held_text
+    assert "[E1]" not in held_text.split(HELD_SOURCES_TITLE)[1]
+    assert [r.evidence_id for r in result.citations] == ["E1", "E2"]  # the result is unchanged
