@@ -41,6 +41,8 @@ const HELD_SOURCES_TITLE = "Sources of these statements only";  // as answer_gen
 // As answer_generation.SUPPORT_NOT_RUN_NOTICE / SUPPORT_FAILED_NOTICE and support_check_notice().
 const SUPPORT_NOT_RUN_NOTICE = "The support check did not run: no statement in this answer has been checked against its evidence by the model check.";
 const SUPPORT_FAILED_NOTICE = "The support check failed: no statement in this answer has been checked against its evidence by the model check.";
+// The research-mode qualification starts with one of these (answer_generation.RESEARCH_QUALIFICATION and its Italian display text).
+const RESEARCH_PREFIXES = ["RESEARCH DEMO MODE", "MODALITÀ DIMOSTRATIVA DI RICERCA"];
 
 function supportNotice(result) {
   if (!result.claims.length || result.verification) return null;
@@ -335,7 +337,7 @@ function renderGaps(result, issueText) {
 
 function renderCaveats(result) {
   return card("Caveats and limitations",
-    list(result.qualifications, (text) => (text.startsWith("RESEARCH DEMO MODE")
+    list(result.display_qualifications || result.qualifications, (text) => (RESEARCH_PREFIXES.some((p) => text.startsWith(p))
       ? el("span", { class: "caveat-research" }, text) : text)),
     result.warnings.length ? el("p", { class: "muted" }, `Warnings: ${result.warnings.join(", ")}`) : null);
 }

@@ -41,6 +41,7 @@ from src.answer_generation import (
     SourceReference,
     answer_question,
     answer_sources,
+    display_qualifications,
     in_answer,
     support_check_notice,
 )
@@ -405,7 +406,7 @@ def render_answer(result: AnswerResult) -> str:
         lines += [f"  - {note}" for note in result.model_notes]
 
     lines += ["", "qualifications:"]
-    lines += [f"  - {q}" for q in result.qualifications]
+    lines += [f"  - {q}" for q in display_qualifications(result)]
     preflight = result.preflight
     corpus_lines = []  # one blank line before whichever of the two comes first
     if preflight is not None:

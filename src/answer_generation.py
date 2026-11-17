@@ -107,7 +107,7 @@ from src.text_normalization import normalise, reading_form
 TASK = "answer_generation"
 # v2: the evidence `source` label describes the Privacy Code as a user transcription
 # (query_analysis.CORPUS_INSTRUMENTS); the system prompt is unchanged.
-PROMPT_VERSION = "answer-generation-v4"  # v4: a summary citing claims; v3: reading form
+PROMPT_VERSION = "answer-generation-v5"  # v5: quote each listed element; v4: summary
 
 MAX_CLAIMS = 12
 MAX_SUPPORT = 4  # quotations per claim
@@ -453,7 +453,9 @@ items you cite for this claim or is named in their text; name no other act.
 - support: 1 to {MAX_SUPPORT} entries of evidence_id and quote. The quote is a passage copied \
 character for character from that item's text, at least a few words long and at most two \
 sentences, that states what the claim relies on. Do not paraphrase, translate, correct, shorten \
-with an ellipsis or join separate passages.
+with an ellipsis or join separate passages. When a claim lists several elements (for example \
+the items something must contain), quote each element; if that needs more than {MAX_SUPPORT} \
+quotations, split the claim into several claims.
 A claim that cannot be supported this way must be left out.
 
 unanswered_issues: each issue the evidence does not answer, or answers only in part, with a \
@@ -867,7 +869,8 @@ def _verify_support(claims: list[AnswerClaim], rejected: list[RejectedClaim],
     assessed level. If the check cannot run (malformed replies, refusal), the claims stay
     NOT_VERIFIED and a warning says so. Provider errors propagate, as elsewhere.
     """
-    to_check = [ClaimToVerify(c.claim_id, c.text, c.evidence_ids) for c in claims]
+    to_check = [ClaimToVerify(c.claim_id, c.text, c.evidence_ids,
+                              tuple((q.evidence_id, q.text) for q in c.quotes)) for c in claims]
     try:
         outcome = verify_support(to_check, evidence, llm)
     except (LLMRefusalError, LLMOutputError) as exc:
@@ -936,6 +939,41 @@ def _non_authoritative(evidence: EvidenceSet,
 def cites_gdpr_33(result: AnswerResult) -> bool:
     return any((ref.instrument_id, ref.label) == ("eu-reg-2016-679", "33")
                for ref in result.citations)
+
+
+# The fixed qualifications in Italian, for display when the question is in Italian. The result
+# keeps the English text; only renderings (CLI, web page) use display_qualifications().
+_AS_OF_EN = re.compile(r"As-of date (\d{4}-\d{2}-\d{2}): this answer reflects the texts in the "
+                       r"corpus on that date\. It does not establish the law in force then or "
+                       r"later\.")
+AS_OF_QUALIFICATION_IT = ("Data di riferimento {as_of}: questa risposta riflette i testi presenti "
+                          "nel corpus a tale data. Non stabilisce il diritto vigente a quella data "
+                          "o successivamente.")
+QUALIFICATIONS_IT = {
+    VALIDITY_QUALIFICATION: ("Questo sistema non stabilisce se una disposizione sia giuridicamente "
+                             "valida, in vigore o applicabile a una qualsiasi data."),
+    RESEARCH_QUALIFICATION: (
+        "MODALITÀ DIMOSTRATIVA DI RICERCA: questo risultato può basarsi su disposizioni il cui "
+        "testo non ha superato la revisione umana. Ogni fonte qui sotto indica il proprio stato "
+        "di revisione; una fonte in attesa di revisione non è citabile in modalità verificata e "
+        "non va considerata verificata."),
+    DIGITAL_OMNIBUS_CAVEAT: ("Una proposta in corso (Digital Omnibus, COM(2025) 837, non adottata "
+                             "al 2026-11-08) modificherebbe la soglia e il termine dell'art. 33; "
+                             "questa risposta riflette il testo presente nel corpus."),
+}
+
+
+def display_qualifications(result: AnswerResult) -> tuple[str, ...]:
+    """The qualifications as shown: the fixed ones in Italian when the question is in Italian
+    (as the query analysis detected it), every other one as it is."""
+    if result.analysis is None or result.analysis.language != "it":
+        return result.qualifications
+    shown = []
+    for text in result.qualifications:
+        as_of = _AS_OF_EN.fullmatch(text)
+        shown.append(AS_OF_QUALIFICATION_IT.format(as_of=as_of.group(1)) if as_of
+                     else QUALIFICATIONS_IT.get(text, text))
+    return tuple(shown)
 
 
 def dated(result: AnswerResult, as_of: str) -> AnswerResult:

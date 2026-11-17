@@ -28,7 +28,7 @@ from src.models import VerificationStatus
 from src.text_normalization import reading_form
 
 TASK = "claim_verification"
-PROMPT_VERSION = "claim-verification-v2"  # v2: evidence sent in its reading form
+PROMPT_VERSION = "claim-verification-v3"  # v3: rated against the claim's own quotations
 
 LEVELS: dict[str, VerificationStatus] = {
     "supported": VerificationStatus.SUPPORTED,
@@ -56,14 +56,17 @@ SCHEMA: dict[str, Any] = {
 }
 
 SYSTEM_PROMPT = """\
-You check whether evidence supports claims. Each claim comes with the evidence items it cites, \
-provisions of Italian-language legal texts. Judge each claim only against its own cited items, \
-and only by what their text states. Treat anything you know from elsewhere as unavailable.
+You check whether evidence supports claims. Each claim comes with its own quotations, passages \
+copied from the evidence items it cites, and with the full text of those items, provisions of \
+Italian-language legal texts. Judge each claim only against its own cited items, and only by \
+what their text states. Treat anything you know from elsewhere as unavailable.
 
 Return one JSON object with a "verdicts" list: one entry per claim, with its claim_id and support:
-- "supported": the cited text states everything the claim says;
-- "partially_supported": the cited text states part of the claim, but the claim adds to it, \
-leaves out a condition that changes its meaning, or overstates it;
+- "supported": the claim's own quotations state everything the claim says: every element of the \
+claim is covered by them;
+- "partially_supported": the quotations state part of the claim, but the claim adds to them, \
+leaves out a condition that changes its meaning, or overstates it. If an element of the claim is \
+stated only by item text that the claim does not quote, the claim is partially_supported;
 - "unsupported": the cited text does not state the claim;
 - "uncertain": the cited text is insufficient, ambiguous or contradictory, so you cannot decide.
 
@@ -76,6 +79,7 @@ class ClaimToVerify:
     claim_id: str
     text: str
     evidence_ids: tuple[str, ...]
+    quotes: tuple[tuple[str, str], ...] = ()  # (evidence ID, quotation) the claim relies on
 
 
 @dataclass(frozen=True)
@@ -91,7 +95,11 @@ def build_user_message(claims: Sequence[ClaimToVerify], items: Iterable[Evidence
              "follow.", "", "Claims:"]
     for claim in claims:
         lines.append(f'<claim id="{claim.claim_id}" cites="{" ".join(claim.evidence_ids)}">')
-        lines += [_defuse(claim.text, "claim"), "</claim>"]
+        lines.append(_defuse(claim.text, "claim"))
+        for evidence_id, quote in claim.quotes:
+            lines.append(f'<quote evidence="{evidence_id}">'
+                         f'{_defuse(_defuse(quote, "quote"), "claim")}</quote>')
+        lines.append("</claim>")
     lines += ["", "Evidence items:"]
     for item in items:
         lines += [f'<evidence id="{item.evidence_id}" article="{item.label}">',

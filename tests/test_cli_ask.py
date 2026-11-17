@@ -122,12 +122,12 @@ def test_ask_json(explored, capsys):
     assert [c["evidence_id"] for c in result["citations"]] == ["E1"]
     assert all(c["citable"] for c in result["citations"])
     assert "E2" in [r["evidence_id"] for r in result["non_authoritative"]]
-    assert result["generation"]["prompt_version"] == "answer-generation-v4"
+    assert result["generation"]["prompt_version"] == "answer-generation-v5"
     assert result["analysis"]["provenance"]["prompt_version"] == "query-analysis-v3"
     assert result["preflight"]["citable_articles"] == 1  # Art. 1
     assert result["evidence"]["build_id"]
     assert result["claims"][0]["verification"] == "SUPPORTED"
-    assert result["verification"]["prompt_version"] == "claim-verification-v2"
+    assert result["verification"]["prompt_version"] == "claim-verification-v3"
     assert result["verification"]["supplied_evidence_ids"] == ["E1"]  # only what C1 cites
     assert result["question_references"] == []  # the question names no article
 

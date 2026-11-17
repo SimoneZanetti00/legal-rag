@@ -25,6 +25,7 @@ from src.answer_generation import (
     SourceReference,
     _abstain,
     corpus_preflight,
+    display_qualifications,
 )
 from src.citations import Resolution
 from src.config import load_settings
@@ -91,8 +92,10 @@ class Pipeline:
 
 
 def served_payload(result, status=None):
-    """What /api/ask returns for `result`: to_dict() plus the source status."""
-    return {**result.to_dict(), "source_status": status or {}}
+    """What /api/ask returns for `result`: to_dict() plus the source status and the
+    qualifications as shown."""
+    return {**result.to_dict(), "source_status": status or {},
+            "display_qualifications": list(display_qualifications(result))}
 
 
 def body(value):
@@ -449,7 +452,7 @@ def test_the_page_reads_only_fields_the_server_provides(synthetic_result):
     data = synthetic_result.to_dict()
     claim, item = data["claims"][0], data["evidence"]["items"][0]
     contract = {
-        "result": set(data) | {"source_status"},
+        "result": set(data) | {"source_status", "display_qualifications"},
         "status": names(SourceStatus),
         "dropped": names(DroppedCandidate),
         "suggestion": names(SuggestedProvision),

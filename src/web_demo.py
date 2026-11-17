@@ -11,7 +11,9 @@ endpoints, and adds no retrieval, generation or checking of its own:
                        project's own explanations of the codes the page displays
     POST /api/ask      {"question": "...", "mode": "verified" | "research"} ->
                        answer_question(...).to_dict(), unchanged, plus "source_status": the
-                       status of every evidence item's source (src/source_status.py)
+                       status of every evidence item's source (src/source_status.py), and
+                       "display_qualifications": the qualifications as shown (the fixed ones
+                       in Italian for an Italian question; answer_generation)
 
 The answer comes from answer_question() on the recorded build, with the settings and the LLM
 client `python -m src.cli ask` uses; LLM_PROVIDER=mock is refused, as it is there.
@@ -54,6 +56,7 @@ from src.answer_generation import (
     Mode,
     answer_question,
     corpus_preflight,
+    display_qualifications,
 )
 from src.config import ConfigError, Settings, load_settings
 from src.llm import (
@@ -176,7 +179,8 @@ class DemoApp:
                 _log(f"internal error describing the sources: {type(exc).__name__}")
                 return error(500, "internal_error",
                              "The server could not describe the sources. See its console.")
-        return Reply(200, {**result.to_dict(), "source_status": status})
+        return Reply(200, {**result.to_dict(), "source_status": status,
+                           "display_qualifications": list(display_qualifications(result))})
 
 
 def _provider_error(exc: LLMError) -> Reply:

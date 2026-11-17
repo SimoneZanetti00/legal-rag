@@ -51,7 +51,9 @@ from tests.test_answer_generation import (
     NOTIFY,
     QUESTION,
     analysis,
+    Q1,
     Q2,
+    Q3,
     claim,
     item,
     reply,
@@ -75,7 +77,7 @@ def run(*verification_replies, verify=True, generation=None):
 
 def test_schema_and_prompt():
     check_schema(SCHEMA)
-    assert PROMPT_VERSION == "claim-verification-v2"
+    assert PROMPT_VERSION == "claim-verification-v3"
     assert "only against its own cited items" in SYSTEM_PROMPT
     assert "not judging whether the law is correct, valid or in force" in SYSTEM_PROMPT
 
@@ -352,3 +354,53 @@ def test_every_answer_gets_its_as_of_date_and_art_33_answers_the_omnibus_caveat(
     assert DIGITAL_OMNIBUS_CAVEAT == (
         "A pending proposal (Digital Omnibus, COM(2025) 837, not adopted as of 2026-11-08) would "
         "change the Art. 33 threshold and deadline; this answer reflects the text in the corpus.")
+
+
+def test_an_italian_question_shows_the_fixed_qualifications_in_italian():
+    from src.answer_generation import (
+        RESEARCH_QUALIFICATION,
+        VALIDITY_QUALIFICATION,
+        display_qualifications,
+    )
+    result, _ = run(verdicts(C1="supported", C2="supported"))
+    other = "Some other qualification."
+    english = (VALIDITY_QUALIFICATION, RESEARCH_QUALIFICATION,
+               AS_OF_QUALIFICATION.format(as_of="2026-11-17"), DIGITAL_OMNIBUS_CAVEAT, other)
+    italian_question = dataclasses.replace(result, qualifications=english)
+    shown = display_qualifications(italian_question)
+    assert shown[:4] == (
+        "Questo sistema non stabilisce se una disposizione sia giuridicamente valida, in vigore o "
+        "applicabile a una qualsiasi data.",
+        "MODALITÀ DIMOSTRATIVA DI RICERCA: questo risultato può basarsi su disposizioni "
+        "il cui testo non ha superato la revisione umana. Ogni fonte qui sotto indica il proprio "
+        "stato di revisione; una fonte in attesa di revisione non è citabile in modalità "
+        "verificata e non va considerata verificata.",
+        "Data di riferimento 2026-11-17: questa risposta riflette i testi presenti nel corpus a "
+        "tale data. Non stabilisce il diritto vigente a quella data o successivamente.",
+        "Una proposta in corso (Digital Omnibus, COM(2025) 837, non adottata al 2026-11-08) "
+        "modificherebbe la soglia e il termine dell'art. 33; questa risposta riflette il testo "
+        "presente nel corpus.")
+    assert shown[4] == other  # anything else is shown as it is
+    assert italian_question.qualifications == english  # the result keeps the English text
+    assert "Data di riferimento 2026-11-17" in render_answer(italian_question)
+    english_question = dataclasses.replace(
+        italian_question, analysis=dataclasses.replace(result.analysis, language="en"))
+    assert display_qualifications(english_question) == english
+    assert display_qualifications(dataclasses.replace(italian_question, analysis=None)) == english
+
+
+# --- The support check rates a claim against its own quotations --------------------------------
+
+
+def test_the_verifier_sees_each_claims_quotations_and_is_told_to_rate_by_them():
+    from src.support_verification import SYSTEM_PROMPT as VERIFY_PROMPT
+    _, llm = run(verdicts(C1="supported", C2="supported"))
+    user = llm.calls[1].user
+    assert f'<quote evidence="E1">{Q1}</quote>' in user and f'<quote evidence="E2">{Q3}</quote>' in user
+    assert "every element of the claim is covered by them" in VERIFY_PROMPT
+    assert "stated only by item text that the claim does not quote" in VERIFY_PROMPT
+
+
+def test_the_generator_is_told_to_quote_each_listed_element():
+    assert "When a claim lists several elements" in SYSTEM_PROMPT_GENERATION
+    assert "quote each element" in SYSTEM_PROMPT_GENERATION

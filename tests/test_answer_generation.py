@@ -156,7 +156,7 @@ def test_privacy_code_evidence_is_labelled_as_an_unofficial_transcription():
     assert f'source="{CORPUS_INSTRUMENTS["it-dlgs-2003-196"]}"' in user
     assert "an unofficial transcription supplied by the user" in user
     assert "consolidat" not in user.lower()
-    assert PROMPT_VERSION == "answer-generation-v4"
+    assert PROMPT_VERSION == "answer-generation-v5"
 
 
 def test_only_citable_evidence_is_sent_to_the_model():
@@ -785,7 +785,7 @@ def test_the_model_reads_the_reading_form_and_quotes_are_checked_against_the_sto
     user = llm.calls[0].user
     assert ART6_1_READING in user and ART6_1 not in user and SHY not in user
     assert result.evidence.items[0].text == ART6_1  # the stored text is unchanged
-    assert result.generation.prompt_version == "answer-generation-v4"
+    assert result.generation.prompt_version == "answer-generation-v5"
 
 
 def test_the_prompt_keeps_the_title_of_an_article_without_paragraph_numbers():
