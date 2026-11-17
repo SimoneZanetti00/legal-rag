@@ -212,3 +212,19 @@ def test_a_saved_report_is_reproduced_offline_from_its_saved_run(explorer, run_i
     saved = json.loads((run_dir / run.REPORT_FILE).read_text(encoding="utf-8"))
     again = run.report(ab.load_benchmark(), run_dir, run.explorer_article_text(explorer))
     assert json.loads(json.dumps(again)) == saved
+
+
+def test_a_run_can_be_limited_to_named_questions_and_saves_the_rendered_answer(tmp_path):
+    bench = benchmark([question("a01"), question("a02")], [row("1"), row("2", qid="a02")])
+
+    def answer(text, llm):
+        return result([item("E1", "1", TEXTS["1"])])
+
+    done = run.run_questions(bench, tmp_path, ["dev"], answer, lambda qid: MockLLM({}), {
+        "code": {"state": "clean"}}, log=lambda line: None, only=["a02"],
+        render=lambda res: f"rendered {res['outcome']}")
+    assert done == ["a02"]
+    assert json.loads((tmp_path / "a02.json").read_text(encoding="utf-8"))["rendered"] == (
+        "rendered answer")
+    with pytest.raises(run.RunError, match="unknown question"):
+        run.run_questions(bench, tmp_path, ["dev"], answer, None, {}, only=["a99"])

@@ -4,9 +4,13 @@ MockLLM only: the verdicts are scripted stand-ins for model output, so these tes
 application does with each verdict, not how well a model judges support.
 """
 
+import dataclasses
+
 import pytest
 
 from src.answer_generation import (
+    AS_OF_QUALIFICATION,
+    DIGITAL_OMNIBUS_CAVEAT,
     HELD_CLAIMS_TITLE,
     HELD_ONLY,
     HELD_SOURCES_TITLE,
@@ -20,9 +24,11 @@ from src.answer_generation import (
     Outcome,
     generate_answer,
     answer_sources,
+    dated,
     in_answer,
     support_check_notice,
 )
+from src.answer_generation import SYSTEM_PROMPT as SYSTEM_PROMPT_GENERATION
 from src.llm import MockLLM, check_schema
 from src.models import VerificationStatus
 from src.provision_cli import render_answer
@@ -257,3 +263,74 @@ def test_the_models_own_limited_outcome_does_not_decide_the_outcome():
     assert result.outcome == Outcome.ANSWER  # both issues have a supported claim
     assert [(u.issue_id, u.reason) for u in result.unanswered_issues] == [
         ("I2", REPORTED_UNANSWERED)]  # still shown
+
+
+# --- The summary: shown only when every claim it cites is SUPPORTED and in the answer -----------
+
+
+def summarised(summary, *claims, **levels):
+    generation = {**reply(*(claims or (NOTIFY, INFORM))), "summary": summary}
+    return run(verdicts(**(levels or {"C1": "supported", "C2": "supported"})),
+               generation=generation)[0]
+
+
+def test_a_summary_citing_supported_claims_is_shown_with_claim_ids():
+    result = summarised("Il titolare notifica la violazione entro settantadue ore [1]. Se il "
+                        "rischio è elevato la comunica all'interessato [2].")
+    assert result.summary == ("Il titolare notifica la violazione entro settantadue ore [C1]. Se "
+                              "il rischio è elevato la comunica all'interessato [C2].")
+    assert result.summary_claim_ids == ("C1", "C2")
+    assert render_answer(result).split("answer (each claim")[1].split("\n")[1] == (
+        f"  summary: {result.summary}")
+
+
+def test_the_summary_follows_the_claims_through_removals():
+    fabricated = claim("Il titolare paga una sanzione.", ("E1", "il titolare paga una sanzione "
+                                                                "amministrativa"), issues=("I2",))
+    result = summarised("Notifica [2]; comunicazione [3].", fabricated, NOTIFY, INFORM)
+    assert [c.claim_id for c in result.claims] == ["C1", "C2"]  # the fabricated claim is gone
+    assert result.summary == "Notifica [C1]; comunicazione [C2]."
+
+
+@pytest.mark.parametrize("summary, levels, reason", [
+    ("Notifica [1]; comunicazione [2].", {"C1": "supported", "C2": "partially_supported"},
+     "it cites [2], which is not a supported claim"),
+    ("Una sintesi senza riferimenti.", {}, "it cites no claim"),
+    ("Notifica [1], come prevede l'articolo 99 [2].", {}, "unsupported reference articolo 99"),
+    ("Notifica [7].", {}, "it cites [7]"),
+])
+def test_a_summary_failing_a_check_is_not_shown(summary, levels, reason):
+    result = summarised(summary, **levels)
+    assert result.summary is None and result.summary_claim_ids == ()
+    assert any(w.startswith("summary_not_shown: ") and reason in w for w in result.warnings)
+
+
+def test_without_the_support_check_no_summary_is_shown():
+    generation = {**reply(NOTIFY, INFORM), "summary": "Notifica [1]; comunicazione [2]."}
+    result, _ = run(verify=False, generation=generation)
+    assert result.summary is None
+
+
+def test_the_summary_is_asked_for_in_the_language_of_the_question():
+    _, llm = run(verdicts(C1="supported", C2="supported"))
+    assert "Write the summary in Italian too." in llm.calls[0].user
+    assert "summary: two or three sentences" in SYSTEM_PROMPT_GENERATION
+
+
+# --- The as-of date and the Digital Omnibus caveat (application, not the model) ----------------
+
+
+def test_every_answer_gets_its_as_of_date_and_art_33_answers_the_omnibus_caveat():
+    result, _ = run(verdicts(C1="supported", C2="supported"))
+    plain = dated(result, "2026-11-17")
+    assert plain.as_of == "2026-11-17"
+    assert AS_OF_QUALIFICATION.format(as_of="2026-11-17") in plain.qualifications
+    assert DIGITAL_OMNIBUS_CAVEAT not in plain.qualifications  # x-act Art. 1, not GDPR Art. 33
+    gdpr33 = dataclasses.replace(result, citations=tuple(
+        dataclasses.replace(ref, instrument_id="eu-reg-2016-679", label="33")
+        for ref in result.citations[:1]))
+    assert DIGITAL_OMNIBUS_CAVEAT in dated(gdpr33, "2026-11-17").qualifications
+    assert "as of: 2026-11-17" in render_answer(plain)
+    assert DIGITAL_OMNIBUS_CAVEAT == (
+        "A pending proposal (Digital Omnibus, COM(2025) 837, not adopted as of 2026-11-08) would "
+        "change the Art. 33 threshold and deadline; this answer reflects the text in the corpus.")

@@ -257,6 +257,8 @@ def analyze(question: str, llm: LLMClient, *,
     data = result.data
 
     suggestions, rejected = _screen_suggestions(data["suggested_provisions"], provision_exists)
+    if data["in_scope"]:
+        suggestions = with_garante_link(question, suggestions, provision_exists)
     return QueryAnalysis(
         question=question,
         language=data["language"],
@@ -287,6 +289,33 @@ def check_question(question: str) -> str:
             f"the question is longer than {MAX_QUESTION_CHARS} characters ({len(question)})"
         )
     return question
+
+
+# The Garante link, added by the application, not the model: a question that names the Garante,
+# the Italian authority or Italy gets Privacy Code Art. 2-bis (the Garante as supervisory
+# authority) as a lookup, first, within MAX_SUGGESTIONS.
+GARANTE_LINK = SuggestedProvision(
+    "it-dlgs-2003-196", "2-bis", None,
+    "added by the application: the question names the Garante or Italy")
+_NAMES_GARANTE_OR_ITALY = re.compile(r"\b(?:garante|gpdp|ital(?:y|ia|ian|iano|iana|iani|iane))\b",
+                                     re.IGNORECASE)
+
+
+def with_garante_link(question: str, suggestions: tuple[SuggestedProvision, ...],
+                      provision_exists: ProvisionExists | None = None
+                      ) -> tuple[SuggestedProvision, ...]:
+    """`suggestions` with GARANTE_LINK first if the question names the Garante or Italy and
+    the model did not already suggest that article (its own suggestion is then kept as it is).
+    Like the model's suggestions, the link is checked against the corpus when `provision_exists`
+    is given."""
+    if provision_exists is not None and not provision_exists(GARANTE_LINK.instrument,
+                                                             GARANTE_LINK.article):
+        return suggestions
+    if not _NAMES_GARANTE_OR_ITALY.search(question) or any(
+            (s.instrument, s.article) == (GARANTE_LINK.instrument, GARANTE_LINK.article)
+            for s in suggestions):
+        return suggestions
+    return (GARANTE_LINK, *suggestions)[:MAX_SUGGESTIONS]
 
 
 def store_checker(store: Any) -> ProvisionExists:

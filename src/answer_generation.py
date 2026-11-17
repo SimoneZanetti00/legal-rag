@@ -58,10 +58,11 @@ No semantic verification is done yet, so every claim keeps VerificationStatus.NO
 from __future__ import annotations
 
 import dataclasses
+import datetime
 import json
 import re
 from collections import Counter
-from collections.abc import Iterable, Mapping
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import asdict, dataclass
 from enum import StrEnum
 from typing import Any
@@ -106,13 +107,14 @@ from src.text_normalization import normalise, reading_form
 TASK = "answer_generation"
 # v2: the evidence `source` label describes the Privacy Code as a user transcription
 # (query_analysis.CORPUS_INSTRUMENTS); the system prompt is unchanged.
-PROMPT_VERSION = "answer-generation-v3"  # v3: evidence sent in its reading form
+PROMPT_VERSION = "answer-generation-v4"  # v4: a summary citing claims; v3: reading form
 
 MAX_CLAIMS = 12
 MAX_SUPPORT = 4  # quotations per claim
 MAX_CLAIM_CHARS = 800
 MAX_NOTES = 8  # limitations, and unanswered issues
 MAX_NOTE_CHARS = 500
+MAX_SUMMARY_CHARS = 800
 MIN_QUOTE_CHARS = 20  # in the normalised form
 
 KINDS = ("source_statement", "inference")
@@ -174,6 +176,13 @@ GENERATION_FAILED = "generation_failed"
 MODEL_ABSTAINED = "model_abstained"
 NO_SUPPORTED_CLAIMS = "no_supported_claims"
 
+# Added by the application to every result of answer_question(), and to every result that
+# cites GDPR Art. 33; never written by the model.
+AS_OF_QUALIFICATION = ("As-of date {as_of}: this answer reflects the texts in the corpus on that "
+                       "date. It does not establish the law in force then or later.")
+DIGITAL_OMNIBUS_CAVEAT = ("A pending proposal (Digital Omnibus, COM(2025) 837, not adopted as of "
+                          "2026-11-08) would change the Art. 33 threshold and deadline; this "
+                          "answer reflects the text in the corpus.")
 VALIDITY_QUALIFICATION = ("This system does not establish whether any provision is legally valid, "
                           "in force or applicable at any date.")
 NOT_VERIFIED_QUALIFICATION = ("Quotations were checked against the evidence text; whether each "
@@ -357,6 +366,11 @@ class AnswerResult:
     question_references: tuple[Resolution, ...] = ()
     verification: GenerationProvenance | None = None  # the support check, when it ran
     mode: str = Mode.VERIFIED.value  # the evidence policy the result was produced under
+    as_of: str | None = None  # the date of the answer (answer_question()), YYYY-MM-DD
+    # The model's summary, shown only when every claim it cites is SUPPORTED and in the main
+    # answer and its text passes the reference check; claim markers rewritten to [C1], [C2].
+    summary: str | None = None
+    summary_claim_ids: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         """Plain JSON-compatible data."""
@@ -414,6 +428,7 @@ SCHEMA: dict[str, Any] = {
         },
         "limitations": {"type": "array", "items": {"type": "string"}},
         "abstention_reason": _NULLABLE_STRING,
+        "summary": _NULLABLE_STRING,  # optional: replies without it stay valid
     },
 }
 
@@ -451,6 +466,11 @@ items that seem to conflict. Do not add rules from memory.
 abstention_reason: when the outcome is "abstain", why the evidence does not answer the \
 question; otherwise null.
 
+summary: two or three sentences that sum up the claims, in the language requested below, each \
+sentence followed by the claims it rests on, by their position in the claims list in square \
+brackets, such as [1] or [1][3]. Say nothing the cited claims do not say, and mention an article \
+only if those claims rest on it or its text names it. Null when the outcome is "abstain".
+
 Do not invent evidence IDs, quotations, provisions or article numbers. Do not give legal \
 advice: report what the provisions state and what follows directly from them."""
 
@@ -468,7 +488,7 @@ def build_user_message(question: str, analysis: QueryAnalysis,
     if analysis.uncertainty:
         lines += ["", f"Ambiguities noted when the question was analysed: {analysis.uncertainty}"]
     lines += ["", f"Write the claims, reasons and notes in {language}; quotes stay exactly as in "
-              "the evidence.", "", "Evidence items:"]
+              f"the evidence. Write the summary in {language} too.", "", "Evidence items:"]
     for item in items:
         source = CORPUS_INSTRUMENTS.get(item.instrument_id, item.instrument_id)
         extent = "whole article" if item.whole_provision else (
@@ -492,7 +512,8 @@ def _attr(text: str) -> str:
 
 def answer_question(question: str, llm: LLMClient, explorer: ProvisionExplorer, *,
                     settings: Settings | None = None,
-                    mode: Mode | str = Mode.VERIFIED) -> AnswerResult:
+                    mode: Mode | str = Mode.VERIFIED,
+                    today: datetime.date | None = None) -> AnswerResult:
     """Analyse the question, assemble its evidence and generate a validated answer.
 
     In order, with no LLM call before step 4:
@@ -510,9 +531,12 @@ def answer_question(question: str, llm: LLMClient, explorer: ProvisionExplorer, 
     The analysis, generation and (with SEMANTIC_VERIFICATION) support verification run on
     `llm`; evidence limits come from `settings` (FINAL_EVIDENCE_COUNT, CONTEXT_TOKEN_BUDGET).
     Provider and configuration errors (llm.LLMTransportError, llm.LLMConfigError) propagate;
-    an analysis that cannot be obtained becomes an abstention.
+    an analysis that cannot be obtained becomes an abstention. Every result also carries its
+    as-of date (`today`, default the current date) and, if it cites GDPR Art. 33, the Digital
+    Omnibus caveat, both added here (dated()).
     """
     mode = Mode(mode)
+    as_of = (today or datetime.date.today()).isoformat()
     settings = settings or load_settings()
     question = check_question(question)
     references = resolve_references(question, explorer.store,
@@ -520,8 +544,8 @@ def answer_question(question: str, llm: LLMClient, explorer: ProvisionExplorer, 
     preflight = corpus_preflight(explorer)
 
     def finish(result: AnswerResult) -> AnswerResult:
-        return _in_mode(dataclasses.replace(result, preflight=preflight,
-                                            question_references=references), mode)
+        return dated(_in_mode(dataclasses.replace(result, preflight=preflight,
+                                                  question_references=references), mode), as_of)
 
     tiers = ", ".join(f"{count} {tier}" for tier, count in preflight.article_tiers)
     if mode == Mode.VERIFIED and not preflight.passed:
@@ -704,6 +728,7 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
 
     claims, rejected = validate_claims(data["claims"], issue_ids=issue_ids, evidence=evidence,
                                        mode=mode)
+    positions = _kept_positions(data["claims"], claims)  # the model's [n] -> claim ID
     verification = None
     if claims and verifier is not None:
         claims, rejected, verification = _verify_support(claims, rejected, evidence, verifier,
@@ -737,6 +762,7 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
             unanswered.append(UnansweredIssue(issue.id, HELD_ONLY))
     complete = all(issue.id in covered for issue in analysis.issues)
     cited = {eid for claim in claims for eid in claim.evidence_ids}
+    summary, summary_ids = _summary(data.get("summary"), positions, claims, evidence, warnings)
     return AnswerResult(
         question=question,
         outcome=Outcome.ANSWER if complete else Outcome.ANSWER_LIMITED,
@@ -751,8 +777,61 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
                                        support_checked=verification is not None),
         warnings=tuple(evidence.warnings) + tuple(warnings),
         analysis=analysis, evidence=evidence, generation=provenance,
-        verification=verification,
+        verification=verification, summary=summary, summary_claim_ids=summary_ids,
     )
+
+
+_SUMMARY_MARKER = re.compile(r"\[(\d{1,2})\]")
+
+
+def _kept_positions(raw_claims: Sequence[Mapping[str, Any]],
+                    kept: Sequence[AnswerClaim]) -> dict[int, str]:
+    """{position of a claim in the model's list (1-based): its claim ID}, for claims that passed
+    validation. validate_claims keeps the model's order, so the two lists are walked together."""
+    positions, k = {}, 0
+    for n, raw in enumerate(raw_claims, 1):
+        if k < len(kept) and kept[k].text == _clean(raw["text"]) and kept[k].quotes == tuple(
+                Quote(s["evidence_id"], s["quote"]) for s in raw["support"]):
+            positions[n] = kept[k].claim_id
+            k += 1
+    return positions
+
+
+def _summary(raw: str | None, positions: Mapping[int, str], claims: Sequence[AnswerClaim],
+             evidence: EvidenceSet, warnings: list[str]) -> tuple[str | None, tuple[str, ...]]:
+    """The summary to show, with its markers as claim IDs, or (None, ()) with a warning.
+
+    Shown only if it cites at least one claim, every claim it cites survived the checks, is
+    rated SUPPORTED and is in the main answer, and its text names no article or act outside the
+    evidence those claims cite (the claims' reference check)."""
+    text = _clean(raw)
+    if not text:
+        return None, ()
+
+    def refuse(reason: str) -> tuple[None, tuple[()]]:
+        warnings.append(f"summary_not_shown: {reason}")
+        return None, ()
+
+    if len(text) > MAX_SUMMARY_CHARS:
+        return refuse(f"longer than {MAX_SUMMARY_CHARS} characters")
+    numbers = [int(n) for n in _SUMMARY_MARKER.findall(text)]
+    if not numbers:
+        return refuse("it cites no claim")
+    by_id = {claim.claim_id: claim for claim in claims}
+    ids: list[str] = []
+    for n in numbers:
+        claim = by_id.get(positions.get(n, ""))
+        if claim is None or claim.verification != VerificationStatus.SUPPORTED:
+            return refuse(f"it cites [{n}], which is not a supported claim of the answer")
+        if claim.claim_id not in ids:
+            ids.append(claim.claim_id)
+    items = {item.evidence_id: item for item in evidence.items}
+    cited = [items[e] for cid in ids for e in by_id[cid].evidence_ids if e in items]
+    bad = unsupported_references(_SUMMARY_MARKER.sub(" ", text), _allowed_references(cited))
+    if bad:
+        return refuse(f"unsupported reference {', '.join(bad)}")
+    shown = _SUMMARY_MARKER.sub(lambda m: f"[{positions[int(m.group(1))]}]", text)
+    return shown, tuple(ids)
 
 
 def _verify_support(claims: list[AnswerClaim], rejected: list[RejectedClaim],
@@ -829,6 +908,19 @@ def _safe_id(value: str, kind: str) -> str:
 def _non_authoritative(evidence: EvidenceSet,
                        mode: Mode = Mode.VERIFIED) -> tuple[SourceReference, ...]:
     return tuple(SourceReference.of(item) for item in evidence.items if not usable(item, mode))
+
+
+def cites_gdpr_33(result: AnswerResult) -> bool:
+    return any((ref.instrument_id, ref.label) == ("eu-reg-2016-679", "33")
+               for ref in result.citations)
+
+
+def dated(result: AnswerResult, as_of: str) -> AnswerResult:
+    """The result with its as-of date and the application's dated qualifications."""
+    qualifications = [*result.qualifications, AS_OF_QUALIFICATION.format(as_of=as_of)]
+    if cites_gdpr_33(result):
+        qualifications.append(DIGITAL_OMNIBUS_CAVEAT)
+    return dataclasses.replace(result, as_of=as_of, qualifications=tuple(qualifications))
 
 
 def _in_mode(result: AnswerResult, mode: Mode) -> AnswerResult:

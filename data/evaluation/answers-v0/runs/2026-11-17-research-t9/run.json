@@ -1,0 +1,76 @@
+{
+ "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+ "code": {
+  "changed_paths": [
+   " M src/answer_benchmark_run.py",
+   " M src/answer_generation.py",
+   " M src/provision_cli.py",
+   " M src/query_analysis.py",
+   " M src/web_static/app.css",
+   " M src/web_static/app.js",
+   " M tests/test_answer_benchmark_run.py",
+   " M tests/test_answer_generation.py",
+   " M tests/test_cli_ask.py",
+   " M tests/test_query_analysis.py",
+   " M tests/test_research_mode.py",
+   " M tests/test_support_verification.py",
+   " M tests/test_web_demo.py",
+   "?? docs/PROJECT_OVERVIEW.md",
+   "?? docs/evaluation/answers-v0-review-sheet.md",
+   "?? docs/reviews/m1-review-record-2026-11-09.md"
+  ],
+  "commit": "8f4d50b83a0049693146bd328d6354276ff57881",
+  "fingerprint": "67f60701c4135970ff01276c78424296058abda959e09afc6026bcf223ebf2b7",
+  "state": "dirty"
+ },
+ "invocations": [
+  {
+   "at": "2026-11-17T12:48:17+01:00",
+   "code": {
+    "changed_paths": [
+     " M src/answer_benchmark_run.py",
+     " M src/answer_generation.py",
+     " M src/provision_cli.py",
+     " M src/query_analysis.py",
+     " M src/web_static/app.css",
+     " M src/web_static/app.js",
+     " M tests/test_answer_benchmark_run.py",
+     " M tests/test_answer_generation.py",
+     " M tests/test_cli_ask.py",
+     " M tests/test_query_analysis.py",
+     " M tests/test_research_mode.py",
+     " M tests/test_support_verification.py",
+     " M tests/test_web_demo.py",
+     "?? docs/PROJECT_OVERVIEW.md",
+     "?? docs/evaluation/answers-v0-review-sheet.md",
+     "?? docs/reviews/m1-review-record-2026-11-09.md"
+    ],
+    "commit": "8f4d50b83a0049693146bd328d6354276ff57881",
+    "fingerprint": "67f60701c4135970ff01276c78424296058abda959e09afc6026bcf223ebf2b7",
+    "state": "dirty"
+   },
+   "splits": [
+    "dev"
+   ]
+  }
+ ],
+ "kind": "answers-v0-run",
+ "mode": "research",
+ "model": "claude-sonnet-5-5",
+ "offline": false,
+ "prompt_versions": {
+  "answer_generation": "answer-generation-v4",
+  "claim_verification": "claim-verification-v2",
+  "query_analysis": "query-analysis-v3"
+ },
+ "provider": "anthropic",
+ "replay_of": null,
+ "run_id": "2026-11-17-research-t9",
+ "schema": 1,
+ "settings": {
+  "context_token_budget": 12000,
+  "final_evidence_count": 12,
+  "max_generation_retries": 1,
+  "semantic_verification": true
+ }
+}

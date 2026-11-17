@@ -341,3 +341,32 @@ def test_the_page_marks_unreviewed_sources_and_starts_in_verified_mode():
     assert "localStorage" not in js and "sessionStorage" not in js
     assert 'value="verified" checked' in page and 'id="ack"' in page
     assert "Research demo mode: experimental." in page
+
+
+def test_answer_question_dates_every_result(synthetic):
+    import datetime
+    from src.answer_generation import AS_OF_QUALIFICATION
+    day = datetime.date(2026, 11, 17)
+    result = answer_question(demo.SYNTHETIC_QUESTION, MockLLM(script()), synthetic,
+                             settings=SETTINGS, today=day)
+    assert result.as_of == "2026-11-17"
+    assert AS_OF_QUALIFICATION.format(as_of="2026-11-17") in result.qualifications
+    out_of_scope = {**demo.ANALYSIS_REPLY, "in_scope": False, "issues": [],
+                    "search_queries_it": [], "suggested_provisions": [],
+                    "scope_reason": "Fuori dal corpus."}
+    abstention = answer_question(demo.SYNTHETIC_QUESTION,
+                                 MockLLM({ANALYSIS_TASK: [out_of_scope]}), synthetic,
+                                 settings=SETTINGS, today=day)
+    assert abstention.outcome == Outcome.ABSTAIN and abstention.as_of == "2026-11-17"
+
+
+def test_a_research_answer_on_an_unreviewed_corpus_names_the_models_it_called(synthetic):
+    import dataclasses
+    from src.answer_generation import CorpusPreflight
+    from src.provision_cli import render_answer
+    result, _ = run(synthetic, Mode.RESEARCH, verification=RESEARCH_VERDICTS)
+    unreviewed = dataclasses.replace(  # as on the real corpus: nothing citable in verified mode
+        result, preflight=CorpusPreflight("build-test", (("internal_only", 3),), 0))
+    text = render_answer(unreviewed)
+    assert "models: none called" not in text and "models: analysis mock/" in text
+    assert "citations (sources of the answer; in research mode they may be pending" in text

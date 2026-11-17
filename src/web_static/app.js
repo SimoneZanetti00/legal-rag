@@ -234,7 +234,9 @@ function renderResult(result) {
   const heldSources = result.citations.filter((ref) => heldIds.has(ref.evidence_id) && !shownIds.has(ref.evidence_id));
   const source = (ref) => renderSource(ref, itemById[ref.evidence_id], statusById[ref.evidence_id]);
   if (result.claims.length) {
-    sections.push(card("Answer", supportNotice(result),
+    // The summary is shown only when the application kept it (answer_generation._summary()).
+    sections.push(card("Answer", result.summary ? el("p", { class: "summary" }, result.summary) : null,
+      supportNotice(result),
       shown.length
         ? el("div", { class: "answer" }, shown.map((claim) => renderStatement(claim, statusById)))
         : el("p", { class: "muted" }, "No statement was rated supported by the support check.")));
@@ -267,7 +269,8 @@ function renderOutcome(result) {
   const research = result.mode === "research";
   const banner = el("div", { class: `banner ${outcome.tone}` },
     el("h2", {}, outcome.title, badge(research ? "warn" : "ok", MODE_LABELS[result.mode] || result.mode)),
-    el("p", {}, outcome.text));
+    el("p", {}, outcome.text),
+    result.as_of ? el("p", { class: "detail" }, `As of ${result.as_of}`) : null);
   if (research && result.citations.some((ref) => !ref.citable)) {
     banner.append(el("p", { class: "detail" },
       "This answer rests on sources pending human review. They are marked below and are not verified."));

@@ -57,6 +57,7 @@ from src.llm import (
     make_llm,
     validate_json,
 )
+from src.provision_cli import render_answer
 from src.provision_explorer import ExplorerError, ProvisionExplorer, find_recorded_build
 from src.query_analysis import PROMPT_VERSION as ANALYSIS_PROMPT_VERSION
 from src.support_verification import PROMPT_VERSION as SUPPORT_PROMPT_VERSION
@@ -172,19 +173,26 @@ def code_record(repo: Path = PROJECT_ROOT) -> dict[str, Any]:
 
 def run_questions(benchmark: ab.Benchmark, run_dir: Path, splits: Sequence[str],
                   answer: Answer, llm_for: Callable[[str], LLMClient],
-                  record: Mapping[str, Any], *, log: Callable[[str], None] = print) -> list[str]:
-    """Answer every question of `splits` not yet saved in `run_dir`; return the IDs answered.
+                  record: Mapping[str, Any], *, log: Callable[[str], None] = print,
+                  only: Sequence[str] | None = None,
+                  render: Callable[[Any], str] | None = None) -> list[str]:
+    """Answer every question of `splits` (and of `only`, if given) not yet saved in `run_dir`;
+    return the IDs answered.
 
-    `llm_for(query_id)` gives the client for one question; its calls are recorded. A provider
-    or model error is saved as the question's error and the run goes on.
+    `llm_for(query_id)` gives the client for one question; its calls are recorded. `answer`
+    returns an AnswerResult (or its to_dict()); with `render`, the rendered text is saved too. A
+    provider or model error is saved as the question's error and the run goes on.
     """
     unknown = sorted(set(splits) - set(ab.SPLITS))
     if unknown:
         raise RunError(f"unknown split(s): {unknown}")
+    unknown_ids = sorted(set(only or ()) - {q.query_id for q in benchmark.questions})
+    if unknown_ids:
+        raise RunError(f"unknown question(s): {unknown_ids}")
     run_dir.mkdir(parents=True, exist_ok=True)
     done = []
     for question in benchmark.questions:
-        if question.split not in splits:
+        if question.split not in splits or (only and question.query_id not in only):
             continue
         path = run_dir / f"{question.query_id}.json"
         if path.exists():
@@ -194,7 +202,11 @@ def run_questions(benchmark: ab.Benchmark, run_dir: Path, splits: Sequence[str],
         saved: dict[str, Any] = {"query_id": question.query_id, "question": question.question,
                                  "split": question.split}
         try:
-            saved["result"] = json.loads(json.dumps(answer(question.question, llm)))
+            result = answer(question.question, llm)
+            data = result.to_dict() if hasattr(result, "to_dict") else result
+            saved["result"] = json.loads(json.dumps(data))
+            if render is not None:
+                saved["rendered"] = render(result)
         except LLMError as exc:
             saved["error"] = f"{type(exc).__name__}: {exc}"
         saved["llm_calls"] = llm.calls
@@ -409,6 +421,8 @@ def _parser() -> argparse.ArgumentParser:
         cmd.add_argument("--run-id", required=True)
         cmd.add_argument("--split", action="append", choices=ab.SPLITS, required=True)
         cmd.add_argument("--mode", choices=[m.value for m in Mode], default=Mode.RESEARCH.value)
+        cmd.add_argument("--question", action="append", dest="only",
+                         help="answer only this question (repeatable), e.g. a01")
         if name == "rerun":
             cmd.add_argument("--from", dest="source", required=True,
                              help="the saved run whose replies are replayed")
@@ -462,10 +476,11 @@ def main(argv: list[str] | None = None) -> int:
                             build_id=explorer.identity()["build_id"], replay_of=replay_of)
         record["offline"] = offline  # True: every reply is a saved one; no model was called
 
-        def answer(question: str, llm: LLMClient) -> Mapping[str, Any]:
-            return answer_question(question, llm, explorer, settings=settings, mode=mode).to_dict()
+        def answer(question: str, llm: LLMClient) -> Any:
+            return answer_question(question, llm, explorer, settings=settings, mode=mode)
 
-        run_questions(benchmark, run_dir, args.split, answer, llm_for, record)
+        run_questions(benchmark, run_dir, args.split, answer, llm_for, record, only=args.only,
+                      render=render_answer)
         return 0
     except (RunError, ab.BenchmarkError, ExplorerError, ConfigError, LLMConfigError) as exc:
         print(f"error: {exc}", file=sys.stderr)

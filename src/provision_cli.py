@@ -333,6 +333,8 @@ def render_answer(result: AnswerResult) -> str:
                   f"  {result.abstention_detail}"]
     else:
         lines.append(f"outcome: {outcome}")
+    if result.as_of:
+        lines.append(f"as of: {result.as_of}")
     lines.append("Experimental prototype. Not legal advice.")
 
     if result.question_references:
@@ -353,6 +355,8 @@ def render_answer(result: AnswerResult) -> str:
                    if result.verification else "the claims themselves are not verified")
         lines += ["", "answer (each claim with its quotations; quotations are checked against "
                   f"the evidence, {checked}):"]
+        if result.summary:
+            lines.append(f"  summary: {result.summary}")
         notice = support_check_notice(result)
         if notice:
             lines.append(f"  NOTE: {notice}")
@@ -363,7 +367,9 @@ def render_answer(result: AnswerResult) -> str:
         if not shown:
             lines.append("  (no claim was rated supported by the support check)")
         main_sources, held_sources = answer_sources(result)
-        lines += ["", "citations (citable provisions):"]
+        lines += ["", "citations (citable provisions):" if result.mode != "research" else
+                  "citations (sources of the answer; in research mode they may be pending human "
+                  "review, as each source's qualifications and status say):"]
         for ref in main_sources:
             lines += _citation_lines(ref)
         if not main_sources:
@@ -414,8 +420,10 @@ def render_answer(result: AnswerResult) -> str:
         lines += ["", *corpus_lines]
     if result.warnings:
         lines.append("warnings: " + "; ".join(result.warnings))
-    if preflight is not None and not preflight.passed:
-        lines.append("models: none called (no citable article in the corpus)")
+    if analysis is None and result.generation is None:  # no model was called
+        why = (" (no citable article in the corpus)"
+               if preflight is not None and not preflight.passed else "")
+        lines.append(f"models: none called{why}")
         return "\n".join(lines)
     models = []
     if analysis is not None:

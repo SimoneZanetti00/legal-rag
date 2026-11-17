@@ -499,4 +499,10 @@ def test_the_page_lists_only_the_answer_sources_and_notes_an_unrated_answer():
     assert "mainSources.map(source)" in APP_JS
     assert "result.citations.map((ref) => renderSource(" not in APP_JS
     assert "heldSources.length ? [el(\"p\", { class: \"subhead\" }, HELD_SOURCES_TITLE)" in APP_JS
-    assert 'card("Answer", supportNotice(result),' in APP_JS
+    assert ('card("Answer", result.summary ? el("p", { class: "summary" }, result.summary) : null,'
+            '\n      supportNotice(result),') in APP_JS
+
+
+def test_the_page_shows_the_kept_summary_and_the_as_of_date():
+    assert 'result.summary ? el("p", { class: "summary" }, result.summary) : null' in APP_JS
+    assert "result.as_of ? el(\"p\", { class: \"detail\" }, `As of ${result.as_of}`) : null" in APP_JS

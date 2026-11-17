@@ -1,0 +1,1165 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Entro quanto tempo il titolare del trattamento deve notificare una violazione dei dati personali al Garante?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda il termine per la notifica di una violazione dei dati personali all'autorità di controllo, disciplinato dal GDPR e dal Codice privacy italiano.",
+    "search_queries_it": [
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "violazione dei dati personali senza ingiustificato ritardo entro 72 ore",
+     "notifica violazione dati personali al Garante per la protezione dei dati personali",
+     "comunicazione di una violazione dei dati personali all'interessato",
+     "responsabile del trattamento informa il titolare senza ingiustificato ritardo violazione"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "33",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "termine e modalità della notifica all'autorità di controllo"
+     },
+     {
+      "article": "4",
+      "instrument": "eu-reg-2016-679",
+      "point": "12",
+      "reason": "definizione di violazione dei dati personali"
+     },
+     {
+      "article": "34",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "comunicazione all'interessato, tema collegato"
+     },
+     {
+      "article": "2-septies",
+      "instrument": "it-dlgs-2003-196",
+      "point": null,
+      "reason": "possibile richiamo a misure di garanzia, solo se pertinente"
+     }
+    ],
+    "uncertainty": "La domanda non precisa il contesto (ad esempio settore, tipo di titolare); il termine può dipendere da regole specifiche non incluse nel corpus, ad esempio per i fornitori di servizi di comunicazione elettronica. Si assume che si tratti del titolare del trattamento in Italia."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8SsqThL8xi7hVYEwrDY"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "227beb1de4fc6243a3938fe318d8012e0b5aca13ab853ae115b57893c3c1ffd7",
+   "task": "query_analysis",
+   "user_sha256": "4e9302b688293f4a48eee437bd521e602b1bc642bdd97573accc6f83532ce29e"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche."
+       }
+      ],
+      "text": "Il titolare del trattamento notifica la violazione all'autorità di controllo competente senza ingiustificato ritardo e, ove possibile, entro 72 ore da quando ne è venuto a conoscenza, salvo sia improbabile che la violazione presenti un rischio per i diritti e le libertà delle persone fisiche."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei motivi del ritardo."
+       }
+      ],
+      "text": "Se la notifica non avviene entro 72 ore, deve essere corredata dei motivi del ritardo."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "le informazioni possono essere fornite in fasi successive senza ulteriore ingiustificato ritardo."
+       }
+      ],
+      "text": "Se non è possibile fornire tutte le informazioni contestualmente, esse possono essere fornite in fasi successive senza ulteriore ingiustificato ritardo."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali"
+       }
+      ],
+      "text": "Per l'Italia, l'autorità di controllo è individuata nel Garante per la protezione dei dati personali."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo"
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "è individuata nel Garante per la protezione dei dati personali"
+       }
+      ],
+      "text": "Di conseguenza, la notifica al Garante va effettuata senza ingiustificato ritardo e, ove possibile, entro 72 ore dalla conoscenza della violazione, con le eccezioni e le condizioni indicate nell'articolo 33."
+     }
+    ],
+    "limitations": [
+     "Le disposizioni del Codice privacy (E1) provengono da una trascrizione non ufficiale, non verificata, di cui non è stabilita la validità legale.",
+     "Il testo dell'art. 33 rinvia all'art. 55 del GDPR per l'autorità competente, ma tale articolo non è tra le prove fornite.",
+     "Le prove non contengono regole settoriali specifiche, ad esempio per i fornitori di servizi di comunicazione elettronica."
+    ],
+    "outcome": "answer",
+    "summary": "Il titolare notifica la violazione senza ingiustificato ritardo e, ove possibile, entro 72 ore da quando ne è venuto a conoscenza, salvo che sia improbabile un rischio per le persone fisiche [1]. Oltre le 72 ore la notifica deve indicare i motivi del ritardo e le informazioni possono essere fornite in fasi successive [2][3]. In Italia l'autorità di controllo è il Garante [4][5].",
+    "unanswered_issues": []
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8StBbep25tb3nv8RrNC"
+   ],
+   "schema_sha256": "d8a27d64b6aa12eaaee825a48db3d6d6394c1ca218fe8e3c1931c4eac1161fce",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "7469ced862cb319ad5f8b271ae01752b79e20bf5d5122104b58f1c4795a0bc61",
+   "task": "answer_generation",
+   "user_sha256": "a3ebce92f314e0408977534154fa316590086116b5cbd70ab1d0405bce40a8f7"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8StnBmRxfWKamW31BNU"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "e125d66867796bf590fbc60aea974405ca557abd3b818c1c8243652db157f309",
+   "task": "claim_verification",
+   "user_sha256": "e56fc9ee695f51c03b74f0a23e9546bdbcadea59e8306d06a7d28031e400f041"
+  }
+ ],
+ "query_id": "a10",
+ "question": "Entro quanto tempo va notificata una violazione dei dati personali al Garante?",
+ "rendered": "question: Entro quanto tempo va notificata una violazione dei dati personali al Garante?\noutcome: ANSWER\nas of: 2026-11-17\nExperimental prototype. Not legal advice.\n\nissues found by the query analysis (questions written by the model, not answers; query-analysis-v3):\n  I1  Entro quanto tempo il titolare del trattamento deve notificare una violazione dei dati personali al Garante?\n  search queries: notifica di una violazione dei dati personali all'autorità di controllo; violazione dei dati personali senza ingiustificato ritardo entro 72 ore; notifica violazione dati personali al Garante per la protezione dei dati personali; comunicazione di una violazione dei dati personali all'interessato; responsabile del trattamento informa il titolare senza ingiustificato ritardo violazione\n\nanswer (each claim with its quotations; quotations are checked against the evidence, support was assessed by a model, which is not legal validation):\n  summary: Il titolare notifica la violazione senza ingiustificato ritardo e, ove possibile, entro 72 ore da quando ne è venuto a conoscenza, salvo che sia improbabile un rischio per le persone fisiche [C1]. Oltre le 72 ore la notifica deve indicare i motivi del ritardo e le informazioni possono essere fornite in fasi successive [C2][C3]. In Italia l'autorità di controllo è il Garante [C4][C5].\n  C1 [I1] (source statement; support: supported) Il titolare del trattamento notifica la violazione all'autorità di controllo competente senza ingiustificato ritardo e, ove possibile, entro 72 ore da quando ne è venuto a conoscenza, salvo sia improbabile che la violazione presenti un rischio per i diritti e le libertà delle persone fisiche.\n      E2: «senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche.»\n  C2 [I1] (source statement; support: supported) Se la notifica non avviene entro 72 ore, deve essere corredata dei motivi del ritardo.\n      E2: «Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei motivi del ritardo.»\n  C3 [I1] (source statement; support: supported) Se non è possibile fornire tutte le informazioni contestualmente, esse possono essere fornite in fasi successive senza ulteriore ingiustificato ritardo.\n      E2: «le informazioni possono essere fornite in fasi successive senza ulteriore ingiustificato ritardo.»\n  C4 [I1] (source statement; support: supported) Per l'Italia, l'autorità di controllo è individuata nel Garante per la protezione dei dati personali.\n      E1: «L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali»\n  C5 [I1] (inference; support: supported) Di conseguenza, la notifica al Garante va effettuata senza ingiustificato ritardo e, ove possibile, entro 72 ore dalla conoscenza della violazione, con le eccezioni e le condizioni indicate nell'articolo 33.\n      E2: «il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo»\n      E1: «è individuata nel Garante per la protezione dei dati personali»\n\ncitations (sources of the answer; in research mode they may be pending human review, as each source's qualifications and status say):\n  [E1] it-dlgs-2003-196 Art. 2-bis (( (Autorità di controllo). )) (page 2)\n      it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis; legal validity not_established\n      qualifications: unofficial_transcription, reference_date_unverified, legal_validity_not_established\n  [E2] eu-reg-2016-679 Articolo 33 Notifica di una violazione dei dati personali all'autorità di controllo (page 52)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:33; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n\nMODEL NOTES — UNVERIFIED — NOT PART OF THE LEGAL ANSWER\n  (written by the model; checked only for references to provisions outside the evidence)\n  - Le disposizioni del Codice privacy (E1) provengono da una trascrizione non ufficiale, non verificata, di cui non è stabilita la validità legale.\n  - Il testo dell'art. 33 rinvia all'art. 55 del GDPR per l'autorità competente, ma tale articolo non è tra le prove fornite.\n  - Le prove non contengono regole settoriali specifiche, ad esempio per i fornitori di servizi di comunicazione elettronica.\n\nqualifications:\n  - RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.\n  - This system does not establish whether any provision is legally valid, in force or applicable at any date.\n  - Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.\n  - 9 further candidate provisions were left out by the evidence limits (max_items).\n  - As-of date 2026-11-17: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later.\n  - A pending proposal (Digital Omnibus, COM(2025) 837, not adopted as of 2026-11-08) would change the Art. 33 threshold and deadline; this answer reflects the text in the corpus.\n\ncorpus preflight: build build-f76ff6031f2fc82c4852f0a2bde27807; articles: 2 blocked, 319 internal_only; 0 citable\nevidence: build build-f76ff6031f2fc82c4852f0a2bde27807; 12 items (0 citable); about 5099 tokens\nwarnings: no_item_citable_in_verified_mode\nmodels: analysis anthropic/claude-sonnet-5-5, 1 attempt(s); generation anthropic/claude-sonnet-5-5, 1 attempt(s); support check anthropic/claude-sonnet-5-5, 1 attempt(s)",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Entro quanto tempo il titolare del trattamento deve notificare una violazione dei dati personali al Garante?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v3",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8SsqThL8xi7hVYEwrDY"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Entro quanto tempo va notificata una violazione dei dati personali al Garante?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda il termine per la notifica di una violazione dei dati personali all'autorità di controllo, disciplinato dal GDPR e dal Codice privacy italiano.",
+   "search_queries_it": [
+    "notifica di una violazione dei dati personali all'autorità di controllo",
+    "violazione dei dati personali senza ingiustificato ritardo entro 72 ore",
+    "notifica violazione dati personali al Garante per la protezione dei dati personali",
+    "comunicazione di una violazione dei dati personali all'interessato",
+    "responsabile del trattamento informa il titolare senza ingiustificato ritardo violazione"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "2-bis",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "added by the application: the question names the Garante or Italy"
+    },
+    {
+     "article": "33",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "termine e modalità della notifica all'autorità di controllo"
+    },
+    {
+     "article": "4",
+     "instrument": "eu-reg-2016-679",
+     "point": "12",
+     "reason": "definizione di violazione dei dati personali"
+    },
+    {
+     "article": "34",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "comunicazione all'interessato, tema collegato"
+    },
+    {
+     "article": "2-septies",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "possibile richiamo a misure di garanzia, solo se pertinente"
+    }
+   ],
+   "uncertainty": "La domanda non precisa il contesto (ad esempio settore, tipo di titolare); il termine può dipendere da regole specifiche non incluse nel corpus, ad esempio per i fornitori di servizi di comunicazione elettronica. Si assume che si tratti del titolare del trattamento in Italia."
+  },
+  "as_of": "2026-11-17",
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Art. 2-bis",
+    "instrument_id": "it-dlgs-2003-196",
+    "label": "2-bis",
+    "legal_validity": "not_established",
+    "page_end": 2,
+    "page_start": 2,
+    "path": "PARTE I > TITOLO I > CAPO I > Art. 2-bis",
+    "point": null,
+    "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis",
+    "qualifications": [
+     "unofficial_transcription",
+     "reference_date_unverified",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "(( (Autorità di controllo). ))",
+    "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 33",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "33",
+    "legal_validity": "not_established",
+    "page_end": 52,
+    "page_start": 52,
+    "path": "CAPO IV > Sezione 2 > Articolo 33",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche."
+     }
+    ],
+    "text": "Il titolare del trattamento notifica la violazione all'autorità di controllo competente senza ingiustificato ritardo e, ove possibile, entro 72 ore da quando ne è venuto a conoscenza, salvo sia improbabile che la violazione presenti un rischio per i diritti e le libertà delle persone fisiche.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei motivi del ritardo."
+     }
+    ],
+    "text": "Se la notifica non avviene entro 72 ore, deve essere corredata dei motivi del ritardo.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "le informazioni possono essere fornite in fasi successive senza ulteriore ingiustificato ritardo."
+     }
+    ],
+    "text": "Se non è possibile fornire tutte le informazioni contestualmente, esse possono essere fornite in fasi successive senza ulteriore ingiustificato ritardo.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali"
+     }
+    ],
+    "text": "Per l'Italia, l'autorità di controllo è individuata nel Garante per la protezione dei dati personali.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E2",
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo"
+     },
+     {
+      "evidence_id": "E1",
+      "text": "è individuata nel Garante per la protezione dei dati personali"
+     }
+    ],
+    "text": "Di conseguenza, la notifica al Garante va effettuata senza ingiustificato ritardo e, ove possibile, entro 72 ore dalla conoscenza della violazione, con le eccezioni e le condizioni indicate nell'articolo 33.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "55",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:33"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:55",
+     "reason": "max_items",
+     "tokens": 219
+    },
+    {
+     "label": "9",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-septies"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+     "reason": "max_items",
+     "tokens": 1590
+    },
+    {
+     "label": "32",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-septies",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:32",
+     "reason": "max_items",
+     "tokens": 650
+    },
+    {
+     "label": "24",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:24",
+     "reason": "max_items",
+     "tokens": 328
+    },
+    {
+     "label": "25",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:25",
+     "reason": "max_items",
+     "tokens": 542
+    },
+    {
+     "label": "77",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:77",
+     "reason": "max_items",
+     "tokens": 208
+    },
+    {
+     "label": "79",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:79",
+     "reason": "max_items",
+     "tokens": 361
+    },
+    {
+     "label": "83",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:83",
+     "reason": "max_items",
+     "tokens": 2046
+    },
+    {
+     "label": "156",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:156",
+     "reason": "max_items",
+     "tokens": 1711
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 4176,
+       "char_start": 3948,
+       "page": 2,
+       "page_end": 2
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Art. 2-bis",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-bis",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 2,
+     "page_start": 2,
+     "path": "PARTE I > TITOLO I > CAPO I > Art. 2-bis",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-bis\n\n(( (Autorità di controllo). ))\n\n((\n\n1. L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei\ndati personali, di seguito «Garante», di cui all'articolo 153.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Autorità di controllo). ))",
+     "tokens": 76,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 255123,
+       "char_start": 253118,
+       "page": 52,
+       "page_end": 52
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0296-c5e96e79",
+      "doc-8f7504d289853f57-0297-0683bb04"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 33",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "33",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:3",
+      "query:5",
+      "query:2",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:34"
+     ],
+     "page_end": 52,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 33",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 33\n\nNotifica di una violazione dei dati personali all'autorità di controllo\n\n1.\nIn caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo \ncompetente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è \nvenuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le \nlibertà delle persone fisiche. Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei \nmotivi del ritardo.\n\n2.\nIl responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a \nconoscenza della violazione.\n\n3.\nLa notifica di cui al paragrafo 1 deve almeno:\n\na) descrivere la natura della violazione dei dati personali compresi, ove possibile, le categorie e il numero approssi­\n\nmativo di interessati in questione nonché le categorie e il numero approssimativo di registrazioni dei dati personali in \nquestione;\n\nb)  comunicare il nome e i dati di contatto del responsabile della protezione dei dati o di altro punto di contatto presso\n\ncui ottenere più informazioni;\n\nc)  descrivere le probabili conseguenze della violazione dei dati personali;\n\nd)  descrivere le misure adottate o di cui si propone l'adozione da parte del titolare del trattamento per porre rimedio\n\nalla violazione dei dati personali e anche, se del caso, per attenuarne i possibili effetti negativi.\n\n4.\nQualora e nella misura in cui non sia possibile fornire le informazioni contestualmente, le informazioni possono \nessere fornite in fasi successive senza ulteriore ingiustificato ritardo.\n\n5.\nIl titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, \nle sue conseguenze e i provvedimenti adottati per porvi rimedio. Tale documentazione consente all'autorità di controllo \ndi verificare il rispetto del presente articolo.",
+     "tier": "internal_only",
+     "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+     "tokens": 669,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 186316,
+       "char_start": 186057,
+       "page": 34,
+       "page_end": 34
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 4",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "4",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 34,
+     "page_start": 34,
+     "path": "CAPO I > Articolo 4",
+     "point": "12",
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:4",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "12) «violazione dei dati personali»: la violazione di sicurezza che comporta accidentalmente o in modo illecito la \ndistruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati \no comunque trattati;",
+     "tier": "internal_only",
+     "title": "Definizioni",
+     "tokens": 87,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 255446,
+       "char_start": 255125,
+       "page": 52,
+       "page_end": 52
+      },
+      {
+       "char_end": 257013,
+       "char_start": 255510,
+       "page": 53,
+       "page_end": 53
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0298-036e8f92",
+      "doc-8f7504d289853f57-0299-eb81eca8"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 34",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "34",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:4",
+      "query:2"
+     ],
+     "page_end": 53,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 34",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 34\n\nComunicazione di una violazione dei dati personali all'interessato\n\n1.\nQuando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle \npersone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.\n\n2.\nLa comunicazione all'interessato di cui al paragrafo 1 del presente articolo descrive con un linguaggio semplice e \nchiaro la natura della violazione dei dati personali e contiene almeno le informazioni e le misure di cui all'articolo 33, \nparagrafo 3, lettere b), c) e d).\n\n3.\nNon è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:\n\na)  il titolare del trattamento ha messo in atto le misure tecniche e organizzative adeguate di protezione e tali misure\n\nerano state applicate ai dati personali oggetto della violazione, in particolare quelle destinate a rendere i dati personali \nincomprensibili a chiunque non sia autorizzato ad accedervi, quali la cifratura;\n\nb)  il titolare del trattamento ha successivamente adottato misure atte a scongiurare il sopraggiungere di un rischio\n\nelevato per i diritti e le libertà degli interessati di cui al paragrafo 1;\n\nc)  detta comunicazione richiederebbe sforzi sproporzionati. In tal caso, si procede invece a una comunicazione pubblica\n\no a una misura simile, tramite la quale gli interessati sono informati con analoga efficacia.\n\n4.\nNel caso in cui il titolare del trattamento non abbia ancora comunicato all'interessato la violazione dei dati \npersonali, l'autorità di controllo può richiedere, dopo aver valutato la probabilità che la violazione dei dati personali \npresenti un rischio elevato, che vi provveda o può decidere che una delle condizioni di cui al paragrafo 3 è soddisfatta.",
+     "tier": "internal_only",
+     "title": "Comunicazione di una violazione dei dati personali all'interessato",
+     "tokens": 608,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 21041,
+       "char_start": 19247,
+       "page": 5,
+       "page_end": 5
+      },
+      {
+       "char_end": 22590,
+       "char_start": 21100,
+       "page": 6,
+       "page_end": 6
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Art. 2-septies",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-septies",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 6,
+     "page_start": 5,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-septies",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-septies",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-septies\n\n(( (Misure di garanzia per il trattamento dei dati genetici, biometrici e relativi alla salute). ))\n\n((\n\n1. In attuazione di quanto previsto dall'articolo 9, paragrafo 4, del regolamento, i dati genetici, biometrici e\nrelativi alla salute, possono essere oggetto di trattamento in presenza di una delle condizioni di cui al paragrafo\n2 del medesimo articolo ed in conformità alle misure di garanzia disposte dal Garante, nel rispetto di quanto\nprevisto dal presente articolo.\n\n2. Il provvedimento che stabilisce le misure di garanzia di cui al comma 1 è adottato con cadenza almeno\nbiennale e tenendo conto:\n\na) delle linee guida, delle raccomandazioni e delle migliori prassi pubblicate dal Comitato europeo per la\nprotezione dei dati e delle migliori prassi in materia di trattamento dei dati personali;\n\nb) dell'evoluzione scientifica e tecnologica nel settore oggetto delle misure;\n\nc) dell'interesse alla libera circolazione dei dati personali nel territorio dell'Unione europea.\n\n3. Lo schema di provvedimento è sottoposto a consultazione pubblica per un periodo non inferiore a sessanta\ngiorni.\n\n4. Le misure di garanzia sono adottate nel rispetto di quanto previsto dall'articolo 9, paragrafo 2, del\nRegolamento, e riguardano anche le cautele da adottare relativamente a:\n\na) contrassegni sui veicoli e accessi a zone a traffico limitato;\n\nb) profili organizzativi e gestionali in ambito sanitario;\n\nc) modalità per la comunicazione diretta all'interessato delle diagnosi e dei dati relativi alla propria salute;\n\nd) prescrizioni di medicinali.\n\n5. Le misure di garanzia sono adottate in relazione a ciascuna categoria dei dati personali di cui al comma 1,\navendo riguardo alle specifiche finalità del trattamento e possono individuare, in conformità a quanto previsto\n\nal comma 2, ulteriori condizioni sulla base delle quali il trattamento di tali dati è consentito. In particolare, le\nmisure di garanzia individuano le misure di sicurezza, ivi comprese quelle tecniche di cifratura e di\npseudonomizzazione, le misure di minimizzazione, le specifiche modalità per l'accesso selettivo ai dati e per\nrendere le informazioni agli interessati, nonché le eventuali altre misure necessarie a garantire i diritti degli\ninteressati.\n\n6. Le misure di garanzia che riguardano i dati genetici e il trattamento dei dati relativi alla salute per finalità di\nprevenzione, diagnosi e cura nonché quelle di cui al comma 4, lettere b), c) e d), sono adottate sentito il\nMinistro della salute che, a tal fine, acquisisce il parere del Consiglio superiore di sanità. Limitatamente ai dati\ngenetici, le misure di garanzia possono individuare, in caso di particolare ed elevato livello di rischio, il\nconsenso come ulteriore misura di protezione dei diritti dell'interessato, a norma dell'articolo 9, paragrafo 4,\ndel regolamento, o altre cautele specifiche.\n\n7. Nel rispetto dei principi in materia di protezione dei dati personali, con riferimento agli obblighi di cui\nall'articolo 32 del Regolamento, è ammesso l'utilizzo dei dati biometrici con riguardo alle procedure di accesso\nfisico e logico ai dati da parte dei soggetti autorizzati, nel rispetto delle misure di garanzia di cui al presente\narticolo.\n\n8. I dati personali di cui al comma 1 non possono essere diffusi.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Misure di garanzia per il trattamento dei dati genetici, biometrici e relativi alla salute). ))",
+     "tokens": 1095,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 272824,
+       "char_start": 272178,
+       "page": 57,
+       "page_end": 57
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0320-6d44e82b"
+     ],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Articolo 40",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "40",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1",
+      "query:4"
+     ],
+     "page_end": 57,
+     "page_start": 57,
+     "path": "CAPO IV > Sezione 5 > Articolo 40",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:40",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "sabilità genitoriale sul minore;\n\nh)  le misure e le procedure di cui agli articoli 24 e 25 e le misure volte a garantire la sicurezza del trattamento di cui\n\nall'articolo 32;\n\ni)  la notifica di una violazione dei dati personali alle autorità di controllo e la comunicazione di tali violazioni dei dati\n\npersonali all'interessato;\n\nj)  il trasferimento di dati personali verso paesi terzi o organizzazioni internazionali; o\n\nk)  le procedure stragiudiziali e di altro tipo per comporre le controversie tra titolari del trattamento e interessati in\n\nmateria di trattamento, fatti salvi i diritti degli interessati ai sensi degli articoli 77 e 79.",
+     "tier": "internal_only",
+     "title": "Codici di condotta",
+     "tokens": 216,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 346373,
+       "char_start": 346041,
+       "page": 75,
+       "page_end": 75
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0407-14782050"
+     ],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Articolo 65",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "65",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5"
+     ],
+     "page_end": 75,
+     "page_start": 75,
+     "path": "CAPO VII > Sezione 2 > Articolo 65",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:65",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "5.\nIl presidente del comitato notifica senza ingiustificato ritardo alle autorità di controllo interessate la decisione di \ncui al paragrafo 1 e ne informa la Commissione. La decisione è pubblicata senza ritardo sul sito web del comitato dopo \nche l'autorità di controllo ha notificato la decisione definitiva di cui al paragrafo 6.",
+     "tier": "internal_only",
+     "title": "Composizione delle controversie da parte del comitato",
+     "tokens": 111,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 222401,
+       "char_start": 222030,
+       "page": 43,
+       "page_end": 43
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0255-1ddf9083"
+     ],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Articolo 16",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "16",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:2",
+      "query:5"
+     ],
+     "page_end": 43,
+     "page_start": 43,
+     "path": "CAPO III > Sezione 3 > Articolo 16",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:16",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 16\n\nDiritto di rettifica\n\nL'interessato ha il diritto di ottenere dal titolare del trattamento la rettifica dei dati personali inesatti che lo riguardano \nsenza ingiustificato ritardo. Tenuto conto delle finalità del trattamento, l'interessato ha il diritto di ottenere l'integrazione \ndei dati personali incompleti, anche fornendo una dichiarazione integrativa.",
+     "tier": "internal_only",
+     "title": "Diritto di rettifica",
+     "tokens": 124,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 180066,
+       "char_start": 178788,
+       "page": 49,
+       "page_end": 49
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0375-8ff7e8a5"
+     ],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Art. 166",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "166",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:3"
+     ],
+     "page_end": 49,
+     "page_start": 49,
+     "path": "PARTE III > TITOLO III > CAPO I > Art. 166",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "7. Nell'adozione dei provvedimenti sanzionatori nei casi di cui al comma 3 si osservano, in quanto applicabili,\ngli articoli da 1 a 9, da 18 a 22 e da 24 a 28 della legge 24 novembre 1981, n. 689; nei medesimi casi può\nessere applicata la sanzione amministrativa accessoria della pubblicazione dell'ordinanza-ingiunzione, per\nintero o per estratto, sul sito internet del Garante ((o dell'ingiunzione a realizzare campagne di comunicazione\nistituzionale volte alla promozione della consapevolezza del diritto alla protezione dei dati personali, sulla base\ndi progetti previamente approvati dal Garante e che tengano conto della gravità della violazione. Nella\ndeterminazione della sanzione ai sensi dell'articolo 83, paragrafo 2, del Regolamento, il Garante tiene conto\nanche di eventuali campagne di comunicazione istituzionale volte alla promozione della consapevolezza del\ndiritto alla protezione dei dati personali, realizzate dal trasgressore anteriormente alla commissione della\nviolazione)). I proventi delle sanzioni, nella misura del cinquanta per cento del totale annuo, sono riassegnati al\nfondo di cui all'articolo 156, comma 8, per essere destinati alle specifiche attività di sensibilizzazione e di\nispezione nonché di attuazione del Regolamento svolte dal Garante.",
+     "tier": "internal_only",
+     "title": "(Criteri di applicazione delle sanzioni amministrative pecuniarie e procedimento per l'adozione dei provvedimenti correttivi e sanzionatori)",
+     "tokens": 426,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 218659,
+       "char_start": 217937,
+       "page": 42,
+       "page_end": 42
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0250-cb94cfc4"
+     ],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Articolo 14",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "14",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4"
+     ],
+     "page_end": 42,
+     "page_start": 42,
+     "path": "CAPO III > Sezione 2 > Articolo 14",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "prima comunicazione all'interessato; oppure\n\nc)  nel caso sia prevista la comunicazione ad altro destinatario, non oltre la prima comunicazione dei dati personali.\n\n4.\nQualora il titolare del trattamento intenda trattare ulteriormente i dati personali per una finalità diversa da quella \nper cui essi sono stati ottenuti, prima di tale ulteriore trattamento fornisce all'interessato informazioni in merito a tale \ndiversa finalità e ogni informazione pertinente di cui al paragrafo 2.\n\n5.\nI paragrafi da 1 a 4 non si applicano se e nella misura in cui:\n\na)  l'interessato dispone già delle informazioni;\n\nb)  comunicare tali informazioni risulta impossibile o implicherebbe uno sforzo sproporzionato; in particolare per il",
+     "tier": "internal_only",
+     "title": "Informazioni da fornire qualora i dati personali non siano stati ottenuti presso l'interessato",
+     "tokens": 241,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 309891,
+       "char_start": 308754,
+       "page": 65,
+       "page_end": 65
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Articolo 51",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "51",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis"
+     ],
+     "page_end": 65,
+     "page_start": 65,
+     "path": "CAPO VI > Sezione 1 > Articolo 51",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:51",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 51\n\nAutorità di controllo\n\n1.\nOgni Stato membro dispone che una o più autorità pubbliche indipendenti siano incaricate di sorvegliare l'appli­\ncazione del presente regolamento al fine di tutelare i diritti e le libertà fondamentali delle persone fisiche con riguardo al \ntrattamento e di agevolare la libera circolazione dei dati personali all'interno dell'Unione (l'«autorità di controllo»).\n\n2.\nOgni autorità di controllo contribuisce alla coerente applicazione del presente regolamento in tutta l'Unione. A tale \nscopo, le autorità di controllo cooperano tra loro e con la Commissione, conformemente al capo VII.\n\n3.\nQualora in uno Stato membro siano istituite più autorità di controllo, detto Stato membro designa l'autorità di \ncontrollo che rappresenta tali autorità nel comitato e stabilisce il meccanismo in base al quale le altre autorità si \nconformano alle norme relative al meccanismo di coerenza di cui all'articolo 63.\n\n4.\nOgni Stato membro notifica alla Commissione le disposizioni di legge adottate ai sensi del presente capo al più \ntardi entro 25 maggio 2018, e comunica senza ritardo ogni successiva modifica.",
+     "tier": "internal_only",
+     "title": "Autorità di controllo",
+     "tokens": 379,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 147609,
+       "char_start": 145082,
+       "page": 41,
+       "page_end": 41
+      },
+      {
+       "char_end": 148343,
+       "char_start": 147669,
+       "page": 42,
+       "page_end": 42
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Art. 153",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "153",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis"
+     ],
+     "page_end": 42,
+     "page_start": 41,
+     "path": "PARTE III > TITOLO II > CAPO I > Art. 153",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:153",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 153\n\n(Garante per la protezione dei dati personali)\n\n1. Il Garante è composto dal Collegio, che ne costituisce il vertice, e dall'Ufficio. Il Collegio è costituito da\nquattro componenti, eletti due dalla Camera dei deputati e due dal Senato della Repubblica con voto limitato. I\ncomponenti devono essere eletti tra coloro che presentano la propria candidatura nell'ambito di una procedura\ndi selezione il cui avviso deve essere pubblicato nei siti internet della Camera, del Senato e del Garante almeno\nsessanta giorni prima della nomina. Le candidature devono pervenire almeno trenta giorni prima della nomina\ne i curricula devono essere pubblicati negli stessi siti internet. Le candidature possono essere avanzate da\npersone che assicurino indipendenza e che risultino di comprovata esperienza nel settore della protezione dei\ndati personali, con particolare riferimento alle discipline giuridiche o dell'informatica.\n\n2. I componenti eleggono nel loro ambito un presidente, il cui voto prevale in caso di parità. Eleggono altresì un\nvice presidente, che assume le funzioni del presidente in caso di sua assenza o impedimento.\n\n3. L'incarico di presidente e quello di componente hanno durata settennale e non sono rinnovabili. Per tutta la\ndurata dell'incarico il presidente e i componenti non possono esercitare, a pena di decadenza, alcuna attività\nprofessionale o di consulenza, anche non remunerata, né essere amministratori o dipendenti di enti pubblici o\nprivati, né ricoprire cariche elettive.\n\n4. I membri del Collegio devono mantenere il segreto, sia durante sia successivamente alla cessazione\ndell'incarico, in merito alle informazioni riservate cui hanno avuto accesso nell'esecuzione dei propri compiti o\nnell'esercizio dei propri poteri.\n\n5. All'atto dell'accettazione della nomina il presidente e i componenti sono collocati fuori ruolo se dipendenti di\npubbliche amministrazioni o magistrati in attività di servizio; se professori universitari di ruolo, sono collocati in\naspettativa senza assegni ai sensi dell'articolo 13 del decreto del Presidente della Repubblica 11 luglio 1980, n.\n382. Il personale collocato fuori ruolo o in aspettativa non può essere sostituito.\n\n6. Al presidente ((e ai componenti)) compete una indennità di funzione pari alla retribuzione in godimento al\nprimo Presidente della Corte di cassazione, nei limiti previsti dalla legge per il trattamento economico annuo\nomnicomprensivo di chiunque riceva a carico delle finanze pubbliche emolumenti o retribuzioni nell'ambito di\n\nrapporti di lavoro dipendente o autonomo con pubbliche amministrazioni statali. ((L'indennità di funzione di cui\nal primo periodo è da ritenere onnicomprensiva ad esclusione del rimborso delle spese effettivamente\nsostenute e documentate in occasione di attività istituzionali)).\n\n7. Alle dipendenze del Garante è posto l'Ufficio di cui all'articolo 155.\n\n8. Il presidente, i componenti, il segretario generale e i dipendenti si astengono dal trattare, per i due anni\nsuccessivi alla cessazione dell'incarico ovvero del servizio presso il Garante, procedimenti dinanzi al Garante,\nivi compresa la presentazione per conto di terzi di reclami richieste di parere o interpelli.",
+     "tier": "internal_only",
+     "title": "(Garante per la protezione dei dati personali)",
+     "tokens": 1067,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "2-bis",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "33",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "4",
+      "point": "12"
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "34",
+      "point": null
+     },
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "2-septies",
+      "point": null
+     }
+    ],
+    "queries": [
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "violazione dei dati personali senza ingiustificato ritardo entro 72 ore",
+     "notifica violazione dati personali al Garante per la protezione dei dati personali",
+     "comunicazione di una violazione dei dati personali all'interessato",
+     "responsabile del trattamento informa il titolare senza ingiustificato ritardo violazione"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 5099,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v4",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8StBbep25tb3nv8RrNC"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "Le disposizioni del Codice privacy (E1) provengono da una trascrizione non ufficiale, non verificata, di cui non è stabilita la validità legale.",
+   "Il testo dell'art. 33 rinvia all'art. 55 del GDPR per l'autorità competente, ma tale articolo non è tra le prove fornite.",
+   "Le prove non contengono regole settoriali specifiche, ad esempio per i fornitori di servizi di comunicazione elettronica."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "9 further candidate provisions were left out by the evidence limits (max_items).",
+   "As-of date 2026-11-17: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later.",
+   "A pending proposal (Digital Omnibus, COM(2025) 837, not adopted as of 2026-11-08) would change the Art. 33 threshold and deadline; this answer reflects the text in the corpus."
+  ],
+  "question": "Entro quanto tempo va notificata una violazione dei dati personali al Garante?",
+  "question_references": [],
+  "rejected_claims": [],
+  "summary": "Il titolare notifica la violazione senza ingiustificato ritardo e, ove possibile, entro 72 ore da quando ne è venuto a conoscenza, salvo che sia improbabile un rischio per le persone fisiche [C1]. Oltre le 72 ore la notifica deve indicare i motivi del ritardo e le informazioni possono essere fornite in fasi successive [C2][C3]. In Italia l'autorità di controllo è il Garante [C4][C5].",
+  "summary_claim_ids": [
+   "C1",
+   "C2",
+   "C3",
+   "C4",
+   "C5"
+  ],
+  "unanswered_issues": [],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8StnBmRxfWKamW31BNU"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "dev"
+}

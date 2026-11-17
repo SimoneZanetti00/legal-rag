@@ -37,6 +37,7 @@ from src.query_analysis import (
     SYSTEM_PROMPT,
     TASK,
     QueryAnalysisError,
+    SuggestedProvision,
     analyze,
     build_user_message,
     check_question,
@@ -226,7 +227,9 @@ def test_provenance_is_recorded():
 def test_evidence_request_carries_the_queries_and_hints():
     request = analyze(DEMO_QUESTION, mock(DEMO_REPLY)).to_evidence_request(top_k=3)
     assert request.queries == tuple(DEMO_REPLY["search_queries_it"])
-    assert request.provisions == (ProvisionRequest(GDPR, "4", "12"),
+    # The demo question names the Italian authority: the application adds Code Art. 2-bis first.
+    assert request.provisions == (ProvisionRequest(CODICE, "2-bis", None),
+                                  ProvisionRequest(GDPR, "4", "12"),
                                   ProvisionRequest(GDPR, "33", None),
                                   ProvisionRequest(GDPR, "34", None))
     assert request.top_k == 3 and request.expand_references
@@ -275,6 +278,7 @@ def test_malformed_labels_are_rejected_not_used():
     ]}
     analysis = analyze(DEMO_QUESTION, mock(reply))
     assert [(s.instrument, s.article, s.point) for s in analysis.suggested_provisions] == [
+        (CODICE, "2-bis", None),  # the Garante link: the question names the Italian authority
         (GDPR, "33", None), (CODICE, "2-ter", None), (GDPR, "6", None)]
     [rejected] = analysis.rejected_suggestions
     assert (rejected.suggestion.article, rejected.reason) == ("article thirty-four",
@@ -550,3 +554,38 @@ def test_live_analysis_of_the_demo_question():
         evidence = assemble(analysis.to_evidence_request(), explorer, max_items=5,
                             token_budget=3000)
         assert any(i.provision_id.endswith("/body/article:33") for i in evidence.items)
+
+
+# --- The Garante link (application rule, not the model) ----------------------------------------
+
+
+@pytest.mark.parametrize("question", [
+    "Come si presenta un reclamo al Garante?",
+    "Quale autorità di controllo è competente in Italia?",
+    "Which Italian authority supervises data protection?",
+    "Is the GPDP competent for breaches?",
+])
+def test_a_question_naming_the_garante_or_italy_gets_code_article_2_bis(question):
+    from src.query_analysis import GARANTE_LINK, with_garante_link
+    model = (SuggestedProvision(GDPR, "33", None, "notifica"),)
+    assert with_garante_link(question, model) == (GARANTE_LINK, *model)
+    assert "added by the application" in GARANTE_LINK.reason
+
+
+def test_the_garante_link_is_not_added_twice_over_the_cap_or_outside_the_corpus():
+    from src.query_analysis import GARANTE_LINK, MAX_SUGGESTIONS, with_garante_link
+    question = "Che cosa fa il Garante?"
+    model_2bis = (SuggestedProvision(CODICE, "2-bis", None, "dal modello"),)
+    assert with_garante_link(question, model_2bis) == model_2bis  # the model's own one is kept
+    full = tuple(SuggestedProvision(GDPR, str(n), None, "x") for n in range(1, 9))
+    assert len(full) == MAX_SUGGESTIONS
+    assert with_garante_link(question, full) == (GARANTE_LINK, *full[:-1])
+    assert with_garante_link(question, full, lambda inst, art: False) == full
+    assert with_garante_link("Che cos'è un dato personale?", full) == full
+
+
+def test_an_out_of_scope_question_gets_no_garante_link():
+    reply = {**DEMO_REPLY, "in_scope": False, "issues": [], "search_queries_it": [],
+             "suggested_provisions": [], "scope_reason": "Diritto tributario italiano."}
+    analysis = analyze("Quali tasse si pagano in Italia?", mock(reply))
+    assert analysis.suggested_provisions == ()

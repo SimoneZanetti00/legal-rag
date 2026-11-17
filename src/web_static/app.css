@@ -168,6 +168,7 @@ textarea:focus-visible, button:focus-visible, a:focus-visible, summary:focus-vis
 h3 { font-size: 1.02rem; margin: 0 0 12px; }
 
 /* Answer */
+.card p.summary { margin: 0 0 14px; font-size: 1.06rem; font-weight: 550; }
 .answer p.statement { margin: 0 0 12px; font-size: 1.04rem; }
 .answer p.statement:last-child { margin-bottom: 0; }
 .kind-tag { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-right: 6px; }
