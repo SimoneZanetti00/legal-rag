@@ -31,6 +31,10 @@ Reasons to prefer the static export over a Space that runs the Python server:
 
 ## Steps
 
+The export of the final run (`2026-11-17-final`, dev questions a01–a12) is committed in
+`demo/replay/`. To deploy it as it is, skip step 1 and use that folder in steps 2 and 4. A test
+(`tests/test_web_replay.py`) checks that it matches the page code and the saved run.
+
 1. **Export** (local; needs the recorded corpus build, as the local demo does):
 
    ```powershell

@@ -163,3 +163,21 @@ def test_the_export_of_a_saved_run_on_the_recorded_build(tmp_path):
     assert data["answers"]["a10"]["display_qualifications"][0].startswith(
         "MODALITÀ DIMOSTRATIVA DI RICERCA")
     assert data["info"]["build_id"] == data["replay"]["build_id"]
+
+
+def test_the_committed_replay_matches_the_page_and_the_final_run():
+    site = replay.ROOT / "demo" / "replay"
+    if not site.is_dir():
+        pytest.skip("no committed replay")
+    assert (site / "app.js").read_text(encoding="utf-8") == APP_JS
+    assert (site / "app.css").read_text(encoding="utf-8") == (
+        STATIC_DIR / "app.css").read_text(encoding="utf-8")
+    assert (site / "index.html").read_text(encoding="utf-8") == replay.replay_page(INDEX)
+    data = json.loads((site / replay.REPLAY_FILE).read_text(encoding="utf-8"))
+    assert data["replay"]["run_id"] == "2026-11-17-final"
+    assert [q["id"] for q in data["questions"]] == replay.dev_questions()
+    run_dir = replay.RUNS_DIR / data["replay"]["run_id"]
+    for qid, answer in data["answers"].items():
+        saved = json.loads((run_dir / f"{qid}.json").read_text(encoding="utf-8"))["result"]
+        assert {k: v for k, v in answer.items()
+                if k not in ("source_status", "display_qualifications")} == saved
