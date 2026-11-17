@@ -277,6 +277,74 @@ def test_the_token_budget_is_respected_and_smaller_items_still_fit(explorer):
     assert evidence.total_tokens <= evidence.token_budget
 
 
+def test_a_looked_up_long_article_stays_whole_even_when_search_matched_part_of_it(explorer):
+    full = article_text(explorer, "3").strip()
+    assert len(full) > WHOLE_PROVISION_MAX_CHARS
+    evidence = run(explorer, "sicurezza perdita", lookups=[ProvisionRequest("prova", "3")],
+                   budget=12000, expand=False)
+    item = by_provision(evidence)[ART["3"]]
+    assert item.whole_provision and item.text == full
+    assert item.origins[0] == "lookup" and "query:1" in item.origins and item.chunk_ids
+
+
+def test_a_whole_lookup_over_the_budget_falls_back_to_its_matched_span(explorer):
+    full = estimate_tokens(article_text(explorer, "3").strip())
+    evidence = run(explorer, "sicurezza perdita", lookups=[ProvisionRequest("prova", "3")],
+                   budget=full - 1, expand=False)
+    item = by_provision(evidence)[ART["3"]]
+    assert not item.whole_provision and item.tokens < full
+    assert "12) «violazione dei dati»" in item.text
+    # without a matched span, the whole article that does not fit is dropped, not cut
+    alone = run(explorer, lookups=[ProvisionRequest("prova", "3")], budget=full - 1,
+                expand=False)
+    assert alone.items == () and [d.reason for d in alone.dropped] == ["token_budget"]
+
+
+def test_the_span_covers_every_matched_chunk_of_an_article(explorer):
+    query = "definizione del termine numero"
+    hits = explorer.search(query, top_k=10)["results"]
+    pieces = [piece["text"].strip() for r in hits for e in r["evidence"]
+              if e["provision_id"] == ART["3"] for piece in e["pieces"]]
+    assert len({r["chunk_id"] for r in hits for e in r["evidence"]
+                if e["provision_id"] == ART["3"]}) >= 2  # several chunks of Art. 3 match
+    item = by_provision(run(explorer, query, top_k=10, budget=12000, expand=False))[ART["3"]]
+    assert all(piece in item.text for piece in pieces)
+    assert len(item.chunk_ids) >= 2
+
+
+def test_lookups_cannot_crowd_out_the_search_hits(explorer):
+    lookups = [ProvisionRequest("prova", "1"), ProvisionRequest("prova", "4")]
+    # Two lookups, two search-hit candidates (Arts. 2 and 3), two slots: both go to search.
+    evidence = run(explorer, "comunica interessato", "sicurezza perdita", lookups=lookups,
+                   items=2, budget=12000, expand=False)
+    assert {i.provision_id for i in evidence.items} == {ART["2"], ART["3"]}
+    assert {(d.provision_id, d.reason) for d in evidence.dropped} == {
+        (ART["1"], "reserved_for_search"), (ART["4"], "reserved_for_search")}
+    # Without search hits, lookups may take every slot.
+    alone = run(explorer, lookups=lookups, items=2, budget=12000, expand=False)
+    assert {i.provision_id for i in alone.items} == {ART["1"], ART["4"]}
+
+
+def test_no_slot_is_held_back_when_search_adds_no_new_article(explorer):
+    lookups = [ProvisionRequest("prova", "1"), ProvisionRequest("prova", "3")]
+    # Both queries find only the looked-up articles: search adds nothing new.
+    evidence = run(explorer, "settantadue ore", "sicurezza perdita", lookups=lookups, items=2,
+                   budget=12000, expand=False)
+    assert [i.provision_id for i in evidence.items] == [ART["1"], ART["3"]]
+    assert "reserved_for_search" not in {d.reason for d in evidence.dropped}
+    # One new article found by search holds back one slot, not four.
+    one_new = run(explorer, "comunica interessato", lookups=lookups, items=2, budget=12000,
+                  expand=False)
+    assert [i.provision_id for i in one_new.items] == [ART["1"], ART["2"]]
+    assert [(d.provision_id, d.reason) for d in one_new.dropped] == [
+        (ART["3"], "reserved_for_search")]
+
+
+def test_the_default_limits_are_12_items_and_12000_tokens():
+    settings = load_settings({})
+    assert (settings.final_evidence_count, settings.context_token_budget) == (12, 12000)
+
+
 def test_limits_default_to_the_settings(explorer):
     settings = load_settings({"FINAL_EVIDENCE_COUNT": "2", "CONTEXT_TOKEN_BUDGET": "4000"})
     evidence = assemble(EvidenceRequest(queries=("settantadue ore",)), explorer,

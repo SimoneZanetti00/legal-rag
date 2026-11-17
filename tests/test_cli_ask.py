@@ -403,14 +403,14 @@ def test_a_requested_point_is_not_displaced_by_the_whole_article(recorded_build)
     explorer = ProvisionExplorer.open(recorded_build)
     request = _with_question_lookups(BASE_REQUEST,
                                      resolve_references(ART_4_QUESTION, explorer.store))
-    evidence = assemble(request, explorer, settings=SETTINGS)
+    evidence = assemble(request, explorer, settings=SETTINGS, token_budget=3000)
     first = evidence.items[0]
     assert (first.instrument_id, first.label) == ("eu-reg-2016-679", "4")
     assert first.text.startswith("12)") and first.tokens < 200  # the point, not the article
     assert first.provision_id not in {d.provision_id for d in evidence.dropped}
     # The whole article, had it been requested, would not have fitted at all.
     whole = assemble(EvidenceRequest(provisions=(ProvisionRequest("eu-reg-2016-679", "4"),)),
-                     explorer, settings=SETTINGS)
+                     explorer, settings=SETTINGS, token_budget=3000)
     assert whole.items == () and [d.reason for d in whole.dropped] == ["token_budget"]
 
 

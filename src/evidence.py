@@ -11,10 +11,13 @@ for the `primary` tier. Retrieval rank, similarity or a caller's suggestion neve
 changes eligibility. Internal-only items stay in the set, marked non-citable.
 
 What goes in:
+- a looked-up article (no point asked for): the whole article, whatever its length, if it
+  fits the remaining token budget; otherwise its matched span, if a search hit gave one;
 - articles of up to WHOLE_PROVISION_MAX_CHARS characters: the whole article text;
-- longer articles: the matched span from the best-ranked chunk, widened to the
-  nearest blank line or line break within SPAN_CONTEXT_CHARS on each side; for a
-  lookup of a numbered point ("12)"), exactly that point;
+- longer articles found by search: one span covering every chunk of the article that the
+  queries matched, widened to the nearest blank line or line break within
+  SPAN_CONTEXT_CHARS on each side; for a lookup of a numbered point ("12)"), exactly that
+  point;
 - one hop of explicit references ("articolo 55", "articoli 33 e 34") found in the
   included text of a direct item, attributed by src/citations.py with the item's own
   instrument as context: references that name no act stay in that instrument; with
@@ -26,8 +29,12 @@ What goes in:
 Order and limits: exact lookups first (request order), then search hits interleaved
 by rank across queries, then cross-references. Items are taken in that order while
 they fit `max_items` and `token_budget`; anything left out is listed in `dropped`
-with the reason. Tokens are estimated as ceil(characters / CHARS_PER_TOKEN), a
-conservative estimate with no tokenizer dependency.
+with the reason ("max_items", "token_budget", or "reserved_for_search"). Slots are held
+back for search hits, at most SEARCH_RESERVED_SLOTS and only as many as the distinct
+articles search found that are not already looked up: lookups may take the rest, so they
+cannot crowd out what search adds, and if search adds nothing new no slot is held back.
+Tokens are estimated as
+ceil(characters / CHARS_PER_TOKEN), a conservative estimate with no tokenizer dependency.
 """
 
 from __future__ import annotations
@@ -46,6 +53,7 @@ from src.provisions import Provision, ProvisionError, Tier
 WHOLE_PROVISION_MAX_CHARS = 2500
 SPAN_CONTEXT_CHARS = 300
 CHARS_PER_TOKEN = 3
+SEARCH_RESERVED_SLOTS = 4  # evidence slots lookups cannot take while search hits wait
 
 _POINT_LINE = re.compile(r"(?m)^[ \t]*(\d+)\)\s")
 
@@ -188,6 +196,12 @@ class _Candidate:
     best_rank: int | None = None
     span: tuple[int, int] | None = None  # in article-text coordinates; None = not chosen yet
     point: str | None = None
+    pieces: list[dict[str, Any]] = field(default_factory=list)  # matched article pieces
+    span_only: bool = False  # a whole lookup that did not fit the budget: use its span
+
+    @property
+    def is_lookup(self) -> bool:
+        return "lookup" in self.origins
 
 
 def assemble(request: EvidenceRequest, explorer: ProvisionExplorer, *,
@@ -327,8 +341,10 @@ def _add_search_hits(direct, request: EvidenceRequest, explorer, articles) -> No
                     entry.chunk_ids.append(chunk_id)
                 if entry.best_rank is None or rank < entry.best_rank:
                     entry.best_rank = rank
-                if entry.span is None and entry.point is None:
-                    entry.span = _matched_span(provision, evidence["pieces"], articles)
+                entry.pieces.extend(evidence["pieces"])
+    for entry in direct.values():  # one span over every matched chunk of the article
+        if entry.pieces and entry.point is None:
+            entry.span = _matched_span(entry.provision, entry.pieces, articles)
 
 
 def _point_span(text: str, point: str) -> tuple[int, int] | None:
@@ -378,7 +394,9 @@ def _trim(text: str, start: int, end: int) -> tuple[int, int]:
 def _span_for(candidate: _Candidate, articles) -> tuple[int, int, bool]:
     """(start, end, whole_provision) in article-text coordinates."""
     text = articles.get(candidate.provision)[0]
-    if len(text.strip()) <= WHOLE_PROVISION_MAX_CHARS or candidate.span is None:
+    whole_lookup = candidate.is_lookup and candidate.point is None and not candidate.span_only
+    if (whole_lookup or len(text.strip()) <= WHOLE_PROVISION_MAX_CHARS
+            or candidate.span is None):
         return (*_trim(text, 0, len(text)), True)
     return (*candidate.span, False)
 
@@ -386,9 +404,17 @@ def _span_for(candidate: _Candidate, articles) -> tuple[int, int, bool]:
 def _select(candidates, articles, max_items, token_budget, already):
     selected, dropped = list(already), []
     used = sum(estimate_tokens(_text(c, articles)) for c in selected)
+    searched = sum(not c.is_lookup for c in candidates)
+    lookup_cap = max_items - min(SEARCH_RESERVED_SLOTS, searched)
+    lookups = sum(c.is_lookup for c in selected)
     for c in candidates:
         tokens = estimate_tokens(_text(c, articles))
+        if (c.is_lookup and c.point is None and c.span is not None and not c.span_only
+                and used + tokens > token_budget):
+            c.span_only = True  # the whole article does not fit: fall back to its span
+            tokens = estimate_tokens(_text(c, articles))
         reason = ("max_items" if len(selected) >= max_items
+                  else "reserved_for_search" if c.is_lookup and lookups >= lookup_cap
                   else "token_budget" if used + tokens > token_budget else None)
         if reason:
             dropped.append(DroppedCandidate(c.provision.provision_id, c.provision.label_as_printed,
@@ -396,6 +422,7 @@ def _select(candidates, articles, max_items, token_budget, already):
         else:
             selected.append(c)
             used += tokens
+            lookups += c.is_lookup
     return selected, dropped
 
 

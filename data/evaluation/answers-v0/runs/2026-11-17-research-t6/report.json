@@ -1,0 +1,610 @@
+{
+ "benchmark": {
+  "files": {
+   "benchmark.json": "5c36d39b5af73ea01fce4d619b1c8f9c7322c01d956dba30c4549ebce36c9b5a",
+   "expectations.jsonl": "e2915ad8fa06940a0da4b46239d98d5c333a712911b20045fc80ad9790276fc3",
+   "questions.jsonl": "67a206011d4d4fa66b61dd05f73ef6fce079ed5377f1ac098e25984c2c6d0648"
+  },
+  "version": "0-draft"
+ },
+ "errors": {},
+ "run": {
+  "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+  "mode": "research",
+  "model": "claude-sonnet-5-5",
+  "prompt_versions": {
+   "answer_generation": "answer-generation-v3",
+   "claim_verification": "claim-verification-v2",
+   "query_analysis": "query-analysis-v2"
+  },
+  "replay_of": "2026-11-17-research-baseline",
+  "run_id": "2026-11-17-research-t6",
+  "settings": {
+   "context_token_budget": 12000,
+   "final_evidence_count": 12,
+   "max_generation_retries": 1,
+   "semantic_verification": true
+  }
+ },
+ "scopes": {
+  "all rows: candidate expectations, not owner-reviewed": {
+   "aggregate": {
+    "abstained": 2,
+    "claims_held_apart": 10,
+    "claims_in_answer": 200,
+    "claims_removed": {
+     "quote_too_short": 1,
+     "unsupported_reference": 3
+    },
+    "core_candidate_recall": 1.0,
+    "core_citation_recall": 0.9507936507936507,
+    "core_evidence_recall": 0.9746031746031747,
+    "missing_from_evidence": {
+     "dropped_reserved_for_search": 4
+    },
+    "outcome_matches": 8,
+    "questions": 22
+   },
+   "per_question": [
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 11,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 1,
+     "dropped_candidates": 18,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a01",
+     "reason_match": null,
+     "split": "dev",
+     "time_sensitive": true,
+     "unlisted_citations": []
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 8,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 1,
+     "dropped_candidates": 7,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a02",
+     "reason_match": null,
+     "split": "dev",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 33",
+      "eu-reg-2016-679 art. 34",
+      "it-dlgs-2003-196 art. 132-ter"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 8,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 2,
+     "dropped_candidates": 20,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a03",
+     "reason_match": null,
+     "split": "dev",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 12"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 12,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 1,
+     "dropped_candidates": 25,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer",
+     "outcome_match": true,
+     "query_id": "a04",
+     "reason_match": null,
+     "split": "dev",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 56",
+      "eu-reg-2016-679 art. 57",
+      "eu-reg-2016-679 art. 58",
+      "eu-reg-2016-679 art. 77",
+      "it-dlgs-2003-196 art. 154"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 12,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 2,
+     "dropped_candidates": 20,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a05",
+     "reason_match": null,
+     "split": "dev",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 24",
+      "eu-reg-2016-679 art. 25",
+      "eu-reg-2016-679 art. 6",
+      "eu-reg-2016-679 art. 7",
+      "eu-reg-2016-679 art. 89",
+      "eu-reg-2016-679 art. 9"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 1,
+     "claims_in_answer": 11,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 0.5714285714285714,
+     "core_evidence_recall": 0.7142857142857143,
+     "core_rows": 7,
+     "dropped_candidates": 18,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [
+      {
+       "provision": "eu-reg-2016-679 art. 21",
+       "reason": "dropped_reserved_for_search"
+      },
+      {
+       "provision": "eu-reg-2016-679 art. 22",
+       "reason": "dropped_reserved_for_search"
+      }
+     ],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a06",
+     "reason_match": null,
+     "split": "dev",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "it-dlgs-2003-196 art. 2-terdecies"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 12,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 0.7777777777777778,
+     "core_evidence_recall": 0.7777777777777778,
+     "core_rows": 9,
+     "dropped_candidates": 21,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [
+      {
+       "provision": "eu-reg-2016-679 art. 35",
+       "reason": "dropped_reserved_for_search"
+      },
+      {
+       "provision": "eu-reg-2016-679 art. 37",
+       "reason": "dropped_reserved_for_search"
+      }
+     ],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a07",
+     "reason_match": null,
+     "split": "dev",
+     "time_sensitive": false,
+     "unlisted_citations": []
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 2,
+     "claims_in_answer": 10,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 1,
+     "dropped_candidates": 13,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a08",
+     "reason_match": null,
+     "split": "dev",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 13",
+      "eu-reg-2016-679 art. 5",
+      "it-dlgs-2003-196 art. 2-octies",
+      "it-dlgs-2003-196 art. 2-ter"
+     ]
+    },
+    {
+     "abstention_reason": "out_of_scope",
+     "claims_held_apart": 0,
+     "claims_in_answer": 0,
+     "claims_removed": {},
+     "core_candidate_recall": null,
+     "core_citation_recall": null,
+     "core_evidence_recall": null,
+     "core_rows": 0,
+     "dropped_candidates": 0,
+     "evidence_items": 0,
+     "expected_outcome": "abstain",
+     "missing_from_evidence": [],
+     "outcome": "abstain",
+     "outcome_match": true,
+     "query_id": "a09",
+     "reason_match": true,
+     "split": "dev",
+     "time_sensitive": false,
+     "unlisted_citations": []
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 2,
+     "claims_in_answer": 9,
+     "claims_removed": {
+      "quote_too_short": 1
+     },
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 1,
+     "dropped_candidates": 13,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a10",
+     "reason_match": null,
+     "split": "dev",
+     "time_sensitive": true,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 34",
+      "it-dlgs-2003-196 art. 2-quaterdecies.1"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 11,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 1,
+     "dropped_candidates": 18,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer",
+     "outcome_match": true,
+     "query_id": "a11",
+     "reason_match": null,
+     "split": "dev",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 34"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 8,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 1,
+     "dropped_candidates": 13,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a12",
+     "reason_match": null,
+     "split": "dev",
+     "time_sensitive": true,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 34"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 1,
+     "claims_in_answer": 6,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 1,
+     "dropped_candidates": 10,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a13",
+     "reason_match": null,
+     "split": "test",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 2",
+      "eu-reg-2016-679 art. 6",
+      "eu-reg-2016-679 art. 9"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 10,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 2,
+     "dropped_candidates": 15,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer",
+     "outcome_match": true,
+     "query_id": "a14",
+     "reason_match": null,
+     "split": "test",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 39"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 11,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 1,
+     "dropped_candidates": 9,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a15",
+     "reason_match": null,
+     "split": "test",
+     "time_sensitive": false,
+     "unlisted_citations": []
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 12,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 2,
+     "dropped_candidates": 25,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer",
+     "outcome_match": true,
+     "query_id": "a16",
+     "reason_match": null,
+     "split": "test",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 18",
+      "eu-reg-2016-679 art. 19",
+      "eu-reg-2016-679 art. 21",
+      "eu-reg-2016-679 art. 77",
+      "eu-reg-2016-679 art. 79"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 11,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 2,
+     "dropped_candidates": 5,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer",
+     "outcome_match": true,
+     "query_id": "a17",
+     "reason_match": null,
+     "split": "test",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 12",
+      "eu-reg-2016-679 art. 4",
+      "eu-reg-2016-679 art. 7"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 8,
+     "claims_removed": {
+      "unsupported_reference": 1
+     },
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 1,
+     "dropped_candidates": 10,
+     "evidence_items": 12,
+     "expected_outcome": "answer_limited",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": true,
+     "query_id": "a18",
+     "reason_match": null,
+     "split": "test",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 33",
+      "eu-reg-2016-679 art. 34",
+      "eu-reg-2016-679 art. 4"
+     ]
+    },
+    {
+     "abstention_reason": "out_of_scope",
+     "claims_held_apart": 0,
+     "claims_in_answer": 0,
+     "claims_removed": {},
+     "core_candidate_recall": null,
+     "core_citation_recall": null,
+     "core_evidence_recall": null,
+     "core_rows": 0,
+     "dropped_candidates": 0,
+     "evidence_items": 0,
+     "expected_outcome": "abstain",
+     "missing_from_evidence": [],
+     "outcome": "abstain",
+     "outcome_match": true,
+     "query_id": "a19",
+     "reason_match": true,
+     "split": "test",
+     "time_sensitive": false,
+     "unlisted_citations": []
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 2,
+     "claims_in_answer": 10,
+     "claims_removed": {},
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 2,
+     "dropped_candidates": 18,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a20",
+     "reason_match": null,
+     "split": "test",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 13",
+      "eu-reg-2016-679 art. 30",
+      "eu-reg-2016-679 art. 58",
+      "it-dlgs-2003-196 art. 2-bis"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 2,
+     "claims_in_answer": 9,
+     "claims_removed": {
+      "unsupported_reference": 1
+     },
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 1.0,
+     "core_evidence_recall": 1.0,
+     "core_rows": 1,
+     "dropped_candidates": 28,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a21",
+     "reason_match": null,
+     "split": "test",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 33",
+      "eu-reg-2016-679 art. 34",
+      "eu-reg-2016-679 art. 58",
+      "it-dlgs-2003-196 art. 166"
+     ]
+    },
+    {
+     "abstention_reason": null,
+     "claims_held_apart": 0,
+     "claims_in_answer": 11,
+     "claims_removed": {
+      "unsupported_reference": 1
+     },
+     "core_candidate_recall": 1.0,
+     "core_citation_recall": 0.6666666666666666,
+     "core_evidence_recall": 1.0,
+     "core_rows": 3,
+     "dropped_candidates": 12,
+     "evidence_items": 12,
+     "expected_outcome": "answer",
+     "missing_from_evidence": [],
+     "outcome": "answer_limited",
+     "outcome_match": false,
+     "query_id": "a22",
+     "reason_match": null,
+     "split": "test",
+     "time_sensitive": false,
+     "unlisted_citations": [
+      "eu-reg-2016-679 art. 78",
+      "it-dlgs-2003-196 art. 140-bis",
+      "it-dlgs-2003-196 art. 144"
+     ]
+    }
+   ]
+  },
+  "owner-reviewed rows only": {
+   "empty": "no question has its record and every row owner_reviewed or expert_reviewed; nothing is scored in this scope"
+  }
+ }
+}

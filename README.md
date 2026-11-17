@@ -1241,9 +1241,9 @@ defaults are listed in [.env.example](.env.example).
 | `LLM_REFUSAL_FALLBACK` | `false` | `anthropic`, opt-in: on a refusal, let the API re-run the request on Anthropic's fallback model (recorded as `served_by`) |
 | `BM25_TOP_K` / `DENSE_TOP_K` | `20` | Candidates each retriever contributes to hybrid fusion |
 | `RERANK_TOP_K` | `20` | Candidates passed to the reranker |
-| `FINAL_EVIDENCE_COUNT` | `5` | Passages given to the LLM |
+| `FINAL_EVIDENCE_COUNT` | `12` | Evidence items (provisions) given to the LLM |
 | `RRF_K` | `60` | Reciprocal Rank Fusion constant used by hybrid retrieval |
-| `CONTEXT_TOKEN_BUDGET` | `3000` | Maximum evidence size in the prompt |
+| `CONTEXT_TOKEN_BUDGET` | `12000` | Maximum evidence size in the prompt (estimated tokens) |
 | `CHUNK_SIZE` / `CHUNK_OVERLAP` | `1200` / `150` | Chunking size and overlap in characters |
 | `MIN_RETRIEVAL_SCORE` / `MIN_RERANK_SCORE` | *(empty = disabled)* | **Inactive (reserved):** parsed and validated, but no code reads them. Abstention does not use score thresholds |
 | `UNDATED_SOURCE_POLICY` | `warn` | **Inactive (reserved):** parsed and validated (`warn` or `exclude`), but no code reads it. It does not currently control how sources without effective dates are handled, in "as of" questions or elsewhere |
@@ -1283,7 +1283,10 @@ This is an engineering prototype, not a validated legal advice system.
   provision is valid, in force or applicable at any date.
 - **The Privacy Code text is an unofficial transcription,** supplied by the user
   and not independently verified against an official text. The GDPR text is the
-  2016 original publication, without later corrigenda.
+  2016 original publication, without later corrigenda. Saved benchmark runs
+  (`data/evaluation/answers-v0/runs/`) contain excerpts of both texts as evidence;
+  the Privacy Code excerpts come from this unverified user transcription, whose PDF
+  is not in the repository.
 - **The synthetic demo's model replies are scripted.** It shows how the pipeline
   handles model output, not how reliably a real model verifies support.
 - **Retrieval and ranking quality are unmeasured.** No sufficiently broad

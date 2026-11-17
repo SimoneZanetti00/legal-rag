@@ -513,11 +513,11 @@ def test_demo_analysis_feeds_evidence_assembly(real_explorer):
     analysis = analyze(DEMO_QUESTION, mock(DEMO_REPLY),
                        provision_exists=store_checker(real_explorer.store))
     assert analysis.rejected_suggestions == ()
-    evidence = assemble(analysis.to_evidence_request(), real_explorer, max_items=5,
-                        token_budget=3000)
+    evidence = assemble(analysis.to_evidence_request(), real_explorer, max_items=12,
+                        token_budget=12000)
     found = {item.provision_id.rsplit(":", 1)[1] + "@" + item.instrument_id: item
              for item in evidence.items}
-    assert set(found) == {f"{label}@{GDPR}" for label in ("4", "33", "34", "55")} | {
+    assert set(found) >= {f"{label}@{GDPR}" for label in ("4", "33", "34", "55")} | {
         f"2-bis@{CODICE}"}
     assert found[f"4@{GDPR}"].point == "12"
 

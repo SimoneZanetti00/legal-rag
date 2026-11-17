@@ -58,9 +58,9 @@ class Settings:
     bm25_top_k: int = 20
     dense_top_k: int = 20
     rerank_top_k: int = 20
-    final_evidence_count: int = 5
+    final_evidence_count: int = 12
     rrf_k: int = 60
-    context_token_budget: int = 3000
+    context_token_budget: int = 12000
 
     # Chunking (measured in characters).
     chunk_size: int = 1200
