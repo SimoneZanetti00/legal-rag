@@ -74,3 +74,86 @@ support calls; one run of each cannot separate the two.
 5. **Scorer caveat.** Citation recall counts a quotation whose words also occur inside the
    expected unit, wherever it was quoted from, so it can exceed evidence recall (baseline a14
    and a16).
+
+## Final run: `2026-11-17-final`
+
+**This is a single run. Model variance is not measured.** Every generation and support-check
+figure below comes from one sample of each live call, so the differences from T7 combine the
+changes and run-to-run variation. Repeated runs were not made, to keep within the budget.
+
+**Configuration**
+- **Code:** commit `fa2810a`. The only uncommitted files were three untracked documents
+  outside the pipeline.
+- **Prompts:** query-analysis-v3, answer-generation-v5 and claim-verification-v3. The support
+  check rates each claim against its own quotations.
+- **Rules and additions:** outcome rule v2. The T9 qualifications and summary are added by the
+  application.
+- **Evidence and model:** 12 items / 12,000 tokens, research mode, claude-sonnet-5-5.
+
+**Model calls**
+- **Analysis:** all 22 calls replayed from `2026-11-17-research-t7-prompt`. The prompt and
+  messages are unchanged.
+- **Generation and support check:** 40 live calls, with no retries.
+
+**Cost: $1.08** in total, $0.57 for the 12 dev questions.
+- **Tokens:** 309,210 input and 46,266 output (output includes thinking).
+- **Prices:** $2 input and $10 output per million tokens.
+- **Budget:** $2.50, enforced by `--budget-usd`. It was not reached.
+
+| Question | Split | Outcome | Expected | Match | Core in evidence | Core in citations | Claims in answer / held apart | Cost |
+|---|---|---|---|---|---|---|---|---|
+| a01 | dev | `answer` | `answer` | yes | 100% | 100% | 7 / 2 | $0.052 |
+| a02 | dev | `answer` | `answer` | yes | 100% | 100% | 1 / 1 | $0.027 |
+| a03 | dev | `answer` | `answer` | yes | 100% | 100% | 5 / 0 | $0.033 |
+| a04 | dev | `answer` | `answer` | yes | 100% | 100% | 7 / 1 | $0.066 |
+| a05 | dev | `answer` | `answer` | yes | 100% | 100% | 5 / 2 | $0.044 |
+| a06 | dev | `answer_limited` | `answer` | **no** | 86% | 71% | 8 / 1 | $0.091 |
+| a07 | dev | `answer_limited` | `answer` | **no** | 89% | 56% | 6 / 4 | $0.094 |
+| a08 | dev | `answer` | `answer` | yes | 100% | 100% | 10 / 2 | $0.064 |
+| a09 | dev | `abstain` | `abstain` | yes | — | — | 0 / 0 | $0.000 |
+| a10 | dev | `answer` | `answer` | yes | 100% | 100% | 5 / 1 | $0.035 |
+| a11 | dev | `answer` | `answer` | yes | 100% | 100% | 3 / 1 | $0.036 |
+| a12 | dev | `answer` | `answer` | yes | 100% | 100% | 3 / 1 | $0.031 |
+| a13 | test | `answer` | `answer` | yes | 100% | 100% | 3 / 0 | $0.028 |
+| a14 | test | `answer` | `answer` | yes | 100% | 100% | 5 / 2 | $0.060 |
+| a15 | test | `answer_limited` | `answer` | **no** | 100% | 100% | 5 / 1 | $0.053 |
+| a16 | test | `answer` | `answer` | yes | 100% | 100% | 7 / 3 | $0.065 |
+| a17 | test | `answer` | `answer` | yes | 100% | 100% | 5 / 0 | $0.041 |
+| a18 | test | `answer_limited` | `answer_limited` | yes | 100% | 0% | 0 / 3 | $0.033 |
+| a19 | test | `abstain` | `abstain` | yes | — | — | 0 / 0 | $0.000 |
+| a20 | test | `answer` | `answer` | yes | 100% | 100% | 7 / 4 | $0.083 |
+| a21 | test | `answer` | `answer` | yes | 100% | 100% | 3 / 2 | $0.065 |
+| a22 | test | `answer_limited` | `answer` | **no** | 100% | 100% | 10 / 2 | $0.081 |
+
+| Metric (22 questions) | T7, rule v2 | Final |
+|---|---|---|
+| Core recall in candidates | 100% | 100% |
+| Core recall in final evidence | 99% | 99% |
+| Core recall in main-answer citations | 98% | 91% |
+| Outcome matches | 17/22 | 18/22 |
+| Claims in the answer / held apart | 121 / 13 | 105 / 33 |
+| Claims removed by the checks | 2 | 4 (`unsupported_reference`) |
+| Core rows missing from evidence | 2 (`max_items`) | 2 (`max_items`: a06 Art. 22, a07 Art. 34) |
+
+**Reading.**
+
+1. **The stricter support check moves claims out of the answer.** Each claim is now rated
+   against its own quotations, and 33 claims are held apart (13 in T7). Citation recall falls
+   from 98% to 91%, and the fall is concentrated in three questions:
+   - a06 and a07, overview questions;
+   - a18, whose three claims were all held apart. Its expected outcome is `answer_limited`, so
+     its outcome still matches.
+
+   This is the intended trade: a claim whose quotations do not cover every element it states
+   is no longer part of the answer.
+2. **Four wrong outcomes remain, all `answer_limited` where `answer` was expected.** In each,
+   the model reported its only issue as partly answered, and rule v2 keeps that report:
+   - a06 and a07 are overview questions;
+   - for a15 and a22, the model reported part of the question as not covered by the evidence.
+
+   a14 had the same report in T7 and is an `answer` here. One run cannot tell whether the
+   prompt change or run-to-run variation caused that.
+3. **The summary is withheld in 17 of 20 answers.** It is shown only if every claim it cites is
+   rated SUPPORTED. Under the stricter check, almost every summary cites at least one claim
+   that is held apart: in a01, for example, the first claim. That rule is all-or-nothing and was
+   not changed here. It is an open design question.
