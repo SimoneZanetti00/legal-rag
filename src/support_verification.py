@@ -25,9 +25,10 @@ from typing import Any
 from src.evidence import EvidenceItem, EvidenceSet
 from src.llm import JSONResult, LLMClient, LLMSchemaError
 from src.models import VerificationStatus
+from src.text_normalization import reading_form
 
 TASK = "claim_verification"
-PROMPT_VERSION = "claim-verification-v1"
+PROMPT_VERSION = "claim-verification-v2"  # v2: evidence sent in its reading form
 
 LEVELS: dict[str, VerificationStatus] = {
     "supported": VerificationStatus.SUPPORTED,
@@ -94,7 +95,7 @@ def build_user_message(claims: Sequence[ClaimToVerify], items: Iterable[Evidence
     lines += ["", "Evidence items:"]
     for item in items:
         lines += [f'<evidence id="{item.evidence_id}" article="{item.label}">',
-                  _defuse(item.text, "evidence"), "</evidence>"]
+                  _defuse(reading_form(item.text, item.title), "evidence"), "</evidence>"]
     return "\n".join(lines)
 
 

@@ -51,6 +51,8 @@ from src.provision_cli import render_answer
 from src.provision_explorer import ExplorerError, ProvisionExplorer, find_recorded_build
 from src.query_analysis import PROMPT_VERSION as QA_PROMPT_VERSION
 from src.query_analysis import CORPUS_INSTRUMENTS, AnalysisProvenance, Issue, QueryAnalysis
+from src.text_normalization import normalise, reading_form
+from tests.test_text_normalization import ART6_1, ART6_1_READING, SHY
 
 QUESTION = "Quando va notificata una violazione e quando va comunicata all'interessato?"
 
@@ -154,7 +156,7 @@ def test_privacy_code_evidence_is_labelled_as_an_unofficial_transcription():
     assert f'source="{CORPUS_INSTRUMENTS["it-dlgs-2003-196"]}"' in user
     assert "an unofficial transcription supplied by the user" in user
     assert "consolidat" not in user.lower()
-    assert PROMPT_VERSION == "answer-generation-v2"
+    assert PROMPT_VERSION == "answer-generation-v3"
 
 
 def test_only_citable_evidence_is_sent_to_the_model():
@@ -718,6 +720,117 @@ def test_the_corpus_lines_follow_one_blank_line():
         result, preflight=CorpusPreflight("build-test", (("primary", 2),), 2))
     assert ("has not been verified.\n\ncorpus preflight: build build-test; articles: "
             "2 primary; 2 citable\nevidence: build build-test;") in render_answer(with_preflight)
+
+
+# --- Reading form of the evidence in the prompt ------------------------------------------------
+
+# Six ways of quoting GDPR Art. 6(1)(b) around the PDF line break in «precon|trattuali». They
+# are checked against the stored text, exactly as before: validation is unchanged.
+QUOTES_6_1_B = [
+    ("stored_text_verbatim",
+     f"all'esecuzione di misure precon{SHY}\n\ntrattuali adottate su richiesta dello stesso", None),
+    ("whole_word", "all'esecuzione di misure precontrattuali adottate su richiesta dello stesso",
+     None),
+    ("visible_hyphen", "misure precon-trattuali adottate su richiesta", "quote_not_found"),
+    ("space_inside_the_word", "misure precon trattuali adottate su richiesta", "quote_not_found"),
+    ("stops_at_the_break", "all'esecuzione di misure precon", "quote_not_found"),
+    ("starts_after_the_break", "trattuali adottate su richiesta dello stesso", "quote_not_found"),
+]
+# For each way rejected only because of the layout, the same passage as the reading form gives it.
+FROM_THE_READING_FORM = {
+    "visible_hyphen": "misure precontrattuali adottate su richiesta",
+    "space_inside_the_word": "misure precontrattuali adottate su richiesta",
+    "stops_at_the_break": "all'esecuzione di misure precontrattuali",
+    "starts_after_the_break": "precontrattuali adottate su richiesta dello stesso",
+}
+
+
+@pytest.mark.parametrize("name, quote, problem", QUOTES_6_1_B, ids=[q[0] for q in QUOTES_6_1_B])
+def test_quoting_gdpr_6_1_b_around_the_line_break(name, quote, problem):
+    assert quote_problem(quote, ART6_1) == problem
+
+
+@pytest.mark.parametrize("name", sorted(FROM_THE_READING_FORM))
+def test_quoting_the_reading_form_is_accepted_where_the_layout_was_rejected(name):
+    passage = FROM_THE_READING_FORM[name]
+    assert dict((q[0], q[2]) for q in QUOTES_6_1_B)[name] == "quote_not_found"
+    assert passage in ART6_1_READING  # what the model now reads
+    assert quote_problem(passage, ART6_1) is None  # checked against the stored text
+
+
+def windows(text, width=6, step=1):
+    words = text.split()
+    for start in range(0, max(len(words) - width + 1, 1), step):
+        window = " ".join(words[start:start + width])
+        if len(normalise(window)) >= MIN_QUOTE_CHARS:
+            yield window
+
+
+def test_every_passage_of_the_reading_form_is_accepted_against_the_stored_text():
+    passages = list(windows(ART6_1_READING))
+    assert len(passages) > 100
+    assert [p for p in passages if quote_problem(p, ART6_1) is not None] == []
+
+
+def test_the_model_reads_the_reading_form_and_quotes_are_checked_against_the_stored_text():
+    evidence = evidence_set(item("E1", "6", ART6_1, instrument="eu-reg-2016-679"))
+    old_style = claim("Il trattamento è lecito se necessario a misure precontrattuali.",
+                      ("E1", QUOTES_6_1_B[0][1]))  # copied from the stored text, as before
+    new_style = claim("Il trattamento è lecito se necessario a misure precontrattuali.",
+                      ("E1", QUOTES_6_1_B[1][1]))  # copied from the reading form
+    result, llm = generate(reply(old_style, new_style, outcome="answer"),
+                           analysis_=analysis("Quando il trattamento è lecito?"),
+                           evidence=evidence)
+    assert [c.claim_id for c in result.claims] == ["C1", "C2"] and result.rejected_claims == ()
+    user = llm.calls[0].user
+    assert ART6_1_READING in user and ART6_1 not in user and SHY not in user
+    assert result.evidence.items[0].text == ART6_1  # the stored text is unchanged
+    assert result.generation.prompt_version == "answer-generation-v3"
+
+
+def test_the_prompt_keeps_the_title_of_an_article_without_paragraph_numbers():
+    from tests.test_text_normalization import GDPR_4_OPENING
+    article4 = dataclasses.replace(item("E1", "4", GDPR_4_OPENING, instrument="eu-reg-2016-679"),
+                                   title="Definizioni")
+    _, llm = generate(reply(claim("Il regolamento definisce i termini.",
+                                  ("E1", "Ai fini del presente regolamento s'intende per"))),
+                      analysis_=analysis("Che cosa definisce l'articolo?"),
+                      evidence=evidence_set(article4))
+    assert "Articolo 4\nDefinizioni\nAi fini del presente regolamento" in llm.calls[0].user
+
+
+@pytest.fixture(scope="module")
+def recorded_explorer():
+    try:
+        return ProvisionExplorer.open(find_recorded_build())
+    except ExplorerError as exc:
+        pytest.skip(f"recorded build unavailable: {exc}")
+
+
+def stored_text(explorer, provision):
+    return "".join(piece["text"] for piece in explorer.provision_view(provision)["text"])
+
+
+def test_the_article_6_fixture_is_the_stored_text(recorded_explorer):
+    article6 = recorded_explorer.store.lookup("gdpr", "6")
+    assert stored_text(recorded_explorer, article6).startswith(ART6_1 + "\n")
+
+
+def test_quotes_from_the_reading_form_of_every_article_are_accepted(recorded_explorer):
+    """Every article of the build: the reading form changes only layout, and passages copied from
+    it pass the unchanged quotation check against the stored text."""
+    failures = []
+    articles = recorded_explorer.store.articles()
+    assert len(articles) == 321
+    for provision in articles:
+        text = stored_text(recorded_explorer, provision)
+        reading = reading_form(text, provision.title)
+        assert normalise(reading) == normalise(text) and SHY not in reading, provision.provision_id
+        if provision.title:  # the title is on its own line, never joined to the first sentence
+            assert reading.split("\n")[1] == provision.title, provision.provision_id
+        failures += [(provision.provision_id, p) for p in windows(reading, width=8, step=12)
+                     if quote_problem(p, text) is not None]
+    assert failures == []
 
 
 def test_results_are_deterministic_and_json_compatible():

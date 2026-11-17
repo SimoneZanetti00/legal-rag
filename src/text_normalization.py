@@ -31,6 +31,25 @@ Permitted transformations, applied in this order and nothing else:
 Everything else counts: letters and their case, accents, digits, all other
 punctuation, quotation marks, hyphens, Normattiva's amendment markers `((` `))`,
 and the order of words. No Unicode normalisation (NFC/NFKC) is applied.
+
+Reading form (`reading_form`): evidence text laid out for a model to read, used only
+in the prompts of answer generation and the support check. It undoes the PDF layout
+and nothing else:
+
+1. a soft hyphen and the whitespace after it are removed, so a word split at a line
+   end is whole again (`precon\\xad\\n\\ntrattuali` becomes `precontrattuali`);
+2. a line break is kept, as one line break, before a paragraph number or point label
+   (`1.`, `2-bis.`, `(3)`, `a)`, `12)`, also after Normattiva's `((`), after a sentence
+   end (`.` `;` `:` `!` `?`) unless the line is only a label, after an article
+   heading line (`Articolo 6`, `Art. 2-bis`), and after the article's title when the
+   caller passes it (`title=`, the inventory title);
+3. every other line break or blank line, with the spaces around it, becomes one
+   space; a label alone on its line is joined to the text that follows (`1. Il ...`).
+
+Only whitespace and soft hyphens change, so `normalise(reading_form(t)) ==
+normalise(t)`: a quotation copied from the reading form is checked, unchanged, against
+the stored text in its normalised form. The reading form is never stored and never
+used for anchoring, lookup or validation.
 """
 
 from __future__ import annotations
@@ -96,3 +115,45 @@ def compare_texts(ours: str, theirs: str, profile: str = PROFILE) -> TextCompari
         for op, i1, i2, j1, j2 in matcher.get_opcodes() if op != "equal"
     )
     return TextComparison(DIFFERS, differences)
+
+
+# --- Reading form ------------------------------------------------------------------------
+
+# A paragraph number ("1.", "2-bis.", "(3)") or a point label ("a)", "12)", "a-bis)") at the
+# start of a line, also after Normattiva's opening marker "((".
+_LINE_LABEL = re.compile(
+    r"(?:\(\(\s*)?(?:\d{1,3}(?:-[a-z]+)*[.)]|\(\d{1,3}\)|[a-z](?:-[a-z]+)*\))(?=\s|$)")
+_ARTICLE_HEADING = re.compile(r"(?:Articolo|Art\.)\s+\S+")
+_SENTENCE_END = re.compile(r"[.;:!?][\"'»”)\]]*$")
+
+
+def reading_form(text: str, title: str | None = None) -> str:
+    """`text` with its PDF layout undone, for a model to read (see the module docstring).
+
+    `title`, the article's printed title as the inventory records it, keeps the line break
+    after it: a line (or run of joined lines) equal to the title is never joined to the text
+    that follows it.
+    """
+    pieces: list[str] = []
+    previous: str | None = None
+    current = ""  # the reading-form line being built
+    for line in _SOFT_HYPHEN.sub("", text).split("\n"):
+        line = line.strip()
+        if not line:
+            continue
+        if previous is not None:
+            keep = _keeps_break(previous, line) or (title is not None and current == title)
+            pieces.append("\n" if keep else " ")
+            current = "" if keep else current + " "
+        pieces.append(line)
+        current += line
+        previous = line
+    return "".join(pieces)
+
+
+def _keeps_break(before: str, after: str) -> bool:
+    if _LINE_LABEL.match(after):
+        return True  # a paragraph or point starts here
+    if _LINE_LABEL.fullmatch(before):
+        return False  # a label alone on its line: its text follows on the same line
+    return bool(_SENTENCE_END.search(before) or _ARTICLE_HEADING.fullmatch(before))

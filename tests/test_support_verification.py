@@ -16,7 +16,13 @@ from src.answer_generation import (
 from src.llm import MockLLM, check_schema
 from src.models import VerificationStatus
 from src.provision_cli import render_answer
-from src.support_verification import PROMPT_VERSION, SCHEMA, SYSTEM_PROMPT
+from src.support_verification import (
+    PROMPT_VERSION,
+    SCHEMA,
+    SYSTEM_PROMPT,
+    ClaimToVerify,
+    build_user_message,
+)
 from src.support_verification import TASK as VERIFY_TASK
 from tests.test_answer_generation import (
     ART1,
@@ -27,8 +33,10 @@ from tests.test_answer_generation import (
     NOTIFY,
     QUESTION,
     analysis,
+    item,
     reply,
 )
+from tests.test_text_normalization import ART6_1, ART6_1_READING, SHY
 
 S = VerificationStatus
 
@@ -47,9 +55,17 @@ def run(*verification_replies, verify=True, generation=None):
 
 def test_schema_and_prompt():
     check_schema(SCHEMA)
-    assert PROMPT_VERSION == "claim-verification-v1"
+    assert PROMPT_VERSION == "claim-verification-v2"
     assert "only against its own cited items" in SYSTEM_PROMPT
     assert "not judging whether the law is correct, valid or in force" in SYSTEM_PROMPT
+
+
+def test_the_verifier_reads_the_evidence_in_its_reading_form():
+    evidence = item("E1", "6", ART6_1, instrument="eu-reg-2016-679")
+    user = build_user_message([ClaimToVerify("C1", "Il trattamento è lecito.", ("E1",))],
+                              [evidence])
+    assert ART6_1_READING in user and ART6_1 not in user and SHY not in user
+    assert evidence.text == ART6_1  # the stored text is unchanged
 
 
 def test_directly_supported_claims_make_a_complete_answer():

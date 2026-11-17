@@ -101,12 +101,12 @@ from src.query_analysis import (
 from src.support_verification import PROMPT_VERSION as SUPPORT_PROMPT_VERSION
 from src.support_verification import ClaimToVerify, verify_support
 from src.text_normalization import PROFILE as QUOTE_PROFILE
-from src.text_normalization import normalise
+from src.text_normalization import normalise, reading_form
 
 TASK = "answer_generation"
 # v2: the evidence `source` label describes the Privacy Code as a user transcription
 # (query_analysis.CORPUS_INSTRUMENTS); the system prompt is unchanged.
-PROMPT_VERSION = "answer-generation-v2"
+PROMPT_VERSION = "answer-generation-v3"  # v3: evidence sent in its reading form
 
 MAX_CLAIMS = 12
 MAX_SUPPORT = 4  # quotations per claim
@@ -434,7 +434,7 @@ def build_user_message(question: str, analysis: QueryAnalysis,
             f"point {item.point} only" if item.point else "excerpt of the article")
         lines += [f'<evidence id="{item.evidence_id}" source="{_attr(source)}" '
                   f'article="{_attr(item.label)}" extent="{extent}">',
-                  _defuse(item.text, "evidence"), "</evidence>"]
+                  _defuse(reading_form(item.text, item.title), "evidence"), "</evidence>"]
     return "\n".join(lines)
 
 
