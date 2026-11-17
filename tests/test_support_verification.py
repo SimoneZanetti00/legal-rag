@@ -285,7 +285,7 @@ def test_decide_coverage(claims, reported, check, expected):
     assert decide_coverage(["I1", "I2"], claims, reported, check) == expected
 
 
-# --- The summary: shown only when every claim it cites is SUPPORTED and in the answer -----------
+# --- The summary: only the sentences whose cited claims are all SUPPORTED and in the answer ----
 
 
 def summarised(summary, *claims, **levels):
@@ -323,6 +323,38 @@ def test_a_summary_failing_a_check_is_not_shown(summary, levels, reason):
     result = summarised(summary, **levels)
     assert result.summary is None and result.summary_claim_ids == ()
     assert any(w.startswith("summary_not_shown: ") and reason in w for w in result.warnings)
+
+
+def test_only_the_summary_sentences_citing_supported_claims_are_shown():
+    result = summarised("Il titolare notifica entro settantadue ore [1]. Lo comunica "
+                        "all'interessato [2]. Il Garante vigila [1][2].",
+                        C1="supported", C2="partially_supported")
+    assert result.summary == "Il titolare notifica entro settantadue ore [C1]."
+    assert result.summary_claim_ids == ("C1",)
+    assert ("summary_sentences_left_out: sentence 2: it cites [2], which is not a supported "
+            "claim of the answer; sentence 3: it cites [2], which is not a supported claim of "
+            "the answer") in result.warnings
+
+
+def test_a_summary_sentence_without_a_claim_reference_is_left_out():
+    result = summarised("Notifica entro settantadue ore [1]. Una frase senza riferimenti. "
+                        "Comunicazione all'interessato [2].")
+    assert result.summary == ("Notifica entro settantadue ore [C1]. Comunicazione "
+                              "all'interessato [C2].")
+    assert any("sentence 2: it cites no claim" in w for w in result.warnings)
+
+
+@pytest.mark.parametrize("text, sentences", [
+    ("Lo prevede l'art. 33, par. 1 [1]. Il Garante vigila [2].",
+     ["Lo prevede l'art. 33, par. 1 [1].", "Il Garante vigila [2]."]),
+    ("Il d.lgs. n. 196 del 2003 e il Reg. (UE) 2016/679 [1]. «Entro 72 ore» [2]",
+     ["Il d.lgs. n. 196 del 2003 e il Reg. (UE) 2016/679 [1].", "«Entro 72 ore» [2]"]),
+    ("Notifica entro 72 ore. [1][2] Comunicazione [3].",
+     ["Notifica entro 72 ore. [1][2]", "Comunicazione [3]."]),
+])
+def test_the_summary_is_split_into_sentences_at_sentence_ends_only(text, sentences):
+    from src.answer_generation import _sentences
+    assert _sentences(text) == sentences
 
 
 def test_without_the_support_check_no_summary_is_shown():

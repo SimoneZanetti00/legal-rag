@@ -367,8 +367,9 @@ class AnswerResult:
     verification: GenerationProvenance | None = None  # the support check, when it ran
     mode: str = Mode.VERIFIED.value  # the evidence policy the result was produced under
     as_of: str | None = None  # the date of the answer (answer_question()), YYYY-MM-DD
-    # The model's summary, shown only when every claim it cites is SUPPORTED and in the main
-    # answer and its text passes the reference check; claim markers rewritten to [C1], [C2].
+    # The model's summary, sentence by sentence: only the sentences whose cited claims are all
+    # SUPPORTED and in the main answer and whose text passes the reference check (_summary());
+    # claim markers rewritten to [C1], [C2].
     summary: str | None = None
     summary_claim_ids: tuple[str, ...] = ()
 
@@ -822,41 +823,71 @@ def _kept_positions(raw_claims: Sequence[Mapping[str, Any]],
     return positions
 
 
+# A summary sentence ends at ".", "!" or "?" (with the claim markers right after it) followed by
+# a capital letter, an opening quote or the end of the text, so "art. 33", "d.lgs. n. 196" and
+# "Reg. (UE)" do not end one.
+_SENTENCE_END = re.compile(r"[.!?](?:\s*\[\d{1,2}\])*(?=\s+[A-ZÀ-ÖØ-Þ«\"']|\s*$)")
+
+
+def _sentences(text: str) -> list[str]:
+    """`text` split into sentences, each with its claim markers."""
+    sentences, start = [], 0
+    for end in _SENTENCE_END.finditer(text):
+        sentences.append(text[start:end.end()].strip())
+        start = end.end()
+    sentences.append(text[start:].strip())
+    return [s for s in sentences if s]
+
+
 def _summary(raw: str | None, positions: Mapping[int, str], claims: Sequence[AnswerClaim],
              evidence: EvidenceSet, warnings: list[str]) -> tuple[str | None, tuple[str, ...]]:
     """The summary to show, with its markers as claim IDs, or (None, ()) with a warning.
 
-    Shown only if it cites at least one claim, every claim it cites survived the checks, is
-    rated SUPPORTED and is in the main answer, and its text names no article or act outside the
-    evidence those claims cite (the claims' reference check)."""
+    Judged sentence by sentence. A sentence is shown only if it cites at least one claim, every
+    claim it cites survived the checks, is rated SUPPORTED and is in the main answer, and its
+    text names no article or act outside the evidence those claims cite (the claims' reference
+    check). The other sentences are left out, and a warning says which and why; with none left,
+    no summary is shown."""
     text = _clean(raw)
     if not text:
         return None, ()
-
-    def refuse(reason: str) -> tuple[None, tuple[()]]:
-        warnings.append(f"summary_not_shown: {reason}")
-        return None, ()
-
     if len(text) > MAX_SUMMARY_CHARS:
-        return refuse(f"longer than {MAX_SUMMARY_CHARS} characters")
-    numbers = [int(n) for n in _SUMMARY_MARKER.findall(text)]
-    if not numbers:
-        return refuse("it cites no claim")
+        warnings.append(f"summary_not_shown: longer than {MAX_SUMMARY_CHARS} characters")
+        return None, ()
     by_id = {claim.claim_id: claim for claim in claims}
-    ids: list[str] = []
-    for n in numbers:
-        claim = by_id.get(positions.get(n, ""))
-        if claim is None or claim.verification != VerificationStatus.SUPPORTED:
-            return refuse(f"it cites [{n}], which is not a supported claim of the answer")
-        if claim.claim_id not in ids:
-            ids.append(claim.claim_id)
     items = {item.evidence_id: item for item in evidence.items}
-    cited = [items[e] for cid in ids for e in by_id[cid].evidence_ids if e in items]
-    bad = unsupported_references(_SUMMARY_MARKER.sub(" ", text), _allowed_references(cited))
-    if bad:
-        return refuse(f"unsupported reference {', '.join(bad)}")
-    shown = _SUMMARY_MARKER.sub(lambda m: f"[{positions[int(m.group(1))]}]", text)
-    return shown, tuple(ids)
+    shown: list[str] = []
+    ids: list[str] = []
+    left_out: list[str] = []
+    for number, sentence in enumerate(_sentences(text), 1):
+        cites: list[str] = []
+        reason = None
+        for n in (int(m) for m in _SUMMARY_MARKER.findall(sentence)):
+            claim = by_id.get(positions.get(n, ""))
+            if claim is None or claim.verification != VerificationStatus.SUPPORTED:
+                reason = f"it cites [{n}], which is not a supported claim of the answer"
+                break
+            cites.append(claim.claim_id)
+        if reason is None and not cites:
+            reason = "it cites no claim"
+        if reason is None:
+            cited = [items[e] for cid in cites for e in by_id[cid].evidence_ids if e in items]
+            bad = unsupported_references(_SUMMARY_MARKER.sub(" ", sentence),
+                                         _allowed_references(cited))
+            if bad:
+                reason = f"unsupported reference {', '.join(bad)}"
+        if reason is not None:
+            left_out.append(f"sentence {number}: {reason}")
+            continue
+        shown.append(_SUMMARY_MARKER.sub(lambda m: f"[{positions[int(m.group(1))]}]", sentence))
+        ids += [cid for cid in dict.fromkeys(cites) if cid not in ids]
+    if not shown:
+        warnings.append(f"summary_not_shown: no sentence cites only supported claims of the "
+                        f"answer ({'; '.join(left_out)})")
+        return None, ()
+    if left_out:
+        warnings.append(f"summary_sentences_left_out: {'; '.join(left_out)}")
+    return " ".join(shown), tuple(ids)
 
 
 def _verify_support(claims: list[AnswerClaim], rejected: list[RejectedClaim],

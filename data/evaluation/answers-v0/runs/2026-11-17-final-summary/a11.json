@@ -1,0 +1,1230 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Il responsabile del trattamento deve notificare una violazione dei dati personali al Garante per la protezione dei dati personali?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda gli obblighi di notifica di una violazione dei dati personali all'autorità di controllo, disciplinati dal GDPR e dal Codice privacy.",
+    "search_queries_it": [
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "responsabile del trattamento informa il titolare del trattamento della violazione",
+     "violazione dei dati personali senza ingiustificato ritardo",
+     "Garante per la protezione dei dati personali notifica violazione",
+     "comunicazione di una violazione dei dati personali all'interessato"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "33",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "notifica della violazione all'autorità di controllo e obbligo del responsabile verso il titolare"
+     },
+     {
+      "article": "4",
+      "instrument": "eu-reg-2016-679",
+      "point": "12",
+      "reason": "definizione di violazione dei dati personali"
+     },
+     {
+      "article": "28",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "obblighi del responsabile del trattamento, assistenza al titolare"
+     },
+     {
+      "article": "34",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "comunicazione della violazione all'interessato (correlata)"
+     }
+    ],
+    "uncertainty": "La domanda non precisa se riguardi l'Italia o altro Stato membro; si assume il contesto italiano (Garante). Non è chiaro se si intenda l'obbligo diretto del responsabile o il suo ruolo rispetto al titolare."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8Qqr2PQCBi6SEUZ3jga"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "227beb1de4fc6243a3938fe318d8012e0b5aca13ab853ae115b57893c3c1ffd7",
+   "task": "query_analysis",
+   "usage": null,
+   "user_sha256": "ce1af7b3cd1d8663a45aacc8f8c0ac4621406b27aa486681f1526f09e730df3f"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "In caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza"
+       }
+      ],
+      "text": "L'obbligo di notificare la violazione all'autorità di controllo competente è posto in capo al titolare del trattamento, entro 72 ore ove possibile, salvo che sia improbabile un rischio per i diritti e le libertà delle persone fisiche."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione."
+       }
+      ],
+      "text": "Il responsabile del trattamento ha l'obbligo di informare il titolare, senza ingiustificato ritardo, dopo essere venuto a conoscenza della violazione."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "il titolare del trattamento notifica la violazione all'autorità di controllo competente"
+       },
+       {
+        "evidence_id": "E2",
+        "quote": "Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione."
+       }
+      ],
+      "text": "Dal testo dell'articolo 33 risulta che il responsabile non è destinatario di un obbligo diretto di notifica al Garante: la notifica spetta al titolare, mentre al responsabile è imposto solo di informare il titolare."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali"
+       }
+      ],
+      "text": "Nell'ordinamento italiano l'autorità di controllo è individuata nel Garante per la protezione dei dati personali."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E4",
+        "quote": "assista il titolare del trattamento nel garantire il rispetto degli obblighi di cui agli articoli da 32 a 36"
+       }
+      ],
+      "text": "Il responsabile deve assistere il titolare nel rispetto degli obblighi previsti dagli articoli da 32 a 36, tra cui rientra l'articolo 33."
+     }
+    ],
+    "limitations": [
+     "L'articolo 83 è riprodotto solo in estratto e le sue previsioni sulle sanzioni non sono state usate per determinare gli obblighi del responsabile.",
+     "Il testo del Codice privacy (E1) è una trascrizione non ufficiale, di validità giuridica non verificata.",
+     "Gli articoli 55 (competenza) e 153 non sono forniti tra le prove."
+    ],
+    "outcome": "answer",
+    "summary": "Secondo l'articolo 33 del GDPR la notifica al Garante spetta al titolare del trattamento, non al responsabile [1][3]. Il responsabile deve informare senza ingiustificato ritardo il titolare e assisterlo negli obblighi collegati [2][5]. In Italia l'autorità di controllo è il Garante [4].",
+    "unanswered_issues": []
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8mEBi1FFbqxf9nrmR8b"
+   ],
+   "schema_sha256": "d8a27d64b6aa12eaaee825a48db3d6d6394c1ca218fe8e3c1931c4eac1161fce",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "004a4fa0b9fa85c7be10287fa90d2f495be7bcf3f12097b0e1a7ad01cf844932",
+   "task": "answer_generation",
+   "usage": null,
+   "user_sha256": "13a803b5a36fe9199a480b1567b0af174326f719fb9edf1b78de8fb383ba507b"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8mEncixeS3Kzthx7fTD"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": null,
+   "user_sha256": "e373142cd31122db49867dcbb82c2b5676067a23431e46acd368ca1f80286877"
+  }
+ ],
+ "query_id": "a11",
+ "question": "Il responsabile del trattamento deve notificare la violazione al Garante?",
+ "rendered": "question: Il responsabile del trattamento deve notificare la violazione al Garante?\noutcome: ANSWER\nas of: 2026-11-17\nExperimental prototype. Not legal advice.\n\nissues found by the query analysis (questions written by the model, not answers; query-analysis-v3):\n  I1  Il responsabile del trattamento deve notificare una violazione dei dati personali al Garante per la protezione dei dati personali?\n  search queries: notifica di una violazione dei dati personali all'autorità di controllo; responsabile del trattamento informa il titolare del trattamento della violazione; violazione dei dati personali senza ingiustificato ritardo; Garante per la protezione dei dati personali notifica violazione; comunicazione di una violazione dei dati personali all'interessato\n\nanswer (each claim with its quotations; quotations are checked against the evidence, support was assessed by a model, which is not legal validation):\n  summary: In Italia l'autorità di controllo è il Garante [C4].\n  C2 [I1] (source statement; support: supported) Il responsabile del trattamento ha l'obbligo di informare il titolare, senza ingiustificato ritardo, dopo essere venuto a conoscenza della violazione.\n      E2: «Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione.»\n  C3 [I1] (inference; support: supported) Dal testo dell'articolo 33 risulta che il responsabile non è destinatario di un obbligo diretto di notifica al Garante: la notifica spetta al titolare, mentre al responsabile è imposto solo di informare il titolare.\n      E2: «il titolare del trattamento notifica la violazione all'autorità di controllo competente»\n      E2: «Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione.»\n  C4 [I1] (source statement; support: supported) Nell'ordinamento italiano l'autorità di controllo è individuata nel Garante per la protezione dei dati personali.\n      E1: «L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali»\n\ncitations (sources of the answer; in research mode they may be pending human review, as each source's qualifications and status say):\n  [E1] it-dlgs-2003-196 Art. 2-bis (( (Autorità di controllo). )) (page 2)\n      it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis; legal validity not_established\n      qualifications: unofficial_transcription, reference_date_unverified, legal_validity_not_established\n  [E2] eu-reg-2016-679 Articolo 33 Notifica di una violazione dei dati personali all'autorità di controllo (page 52)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:33; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n\nPartially supported or uncertain — not part of the answer:\n  C1 [I1] (source statement; support: partially supported) L'obbligo di notificare la violazione all'autorità di controllo competente è posto in capo al titolare del trattamento, entro 72 ore ove possibile, salvo che sia improbabile un rischio per i diritti e le libertà delle persone fisiche.\n      E2: «In caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza»\n\nremoved by validation: 1 claim(s), not part of the answer:\n  - unsupported_reference:articolo 33\n\nMODEL NOTES — UNVERIFIED — NOT PART OF THE LEGAL ANSWER\n  (written by the model; checked only for references to provisions outside the evidence)\n  - L'articolo 83 è riprodotto solo in estratto e le sue previsioni sulle sanzioni non sono state usate per determinare gli obblighi del responsabile.\n  - Il testo del Codice privacy (E1) è una trascrizione non ufficiale, di validità giuridica non verificata.\n  - Gli articoli 55 (competenza) e 153 non sono forniti tra le prove.\n\nqualifications:\n  - MODALITÀ DIMOSTRATIVA DI RICERCA: questo risultato può basarsi su disposizioni il cui testo non ha superato la revisione umana. Ogni fonte qui sotto indica il proprio stato di revisione; una fonte in attesa di revisione non è citabile in modalità verificata e non va considerata verificata.\n  - Questo sistema non stabilisce se una disposizione sia giuridicamente valida, in vigore o applicabile a una qualsiasi data.\n  - Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.\n  - 16 further candidate provisions were left out by the evidence limits (max_items).\n  - Data di riferimento 2026-11-17: questa risposta riflette i testi presenti nel corpus a tale data. Non stabilisce il diritto vigente a quella data o successivamente.\n  - Una proposta in corso (Digital Omnibus, COM(2025) 837, non adottata al 2026-11-08) modificherebbe la soglia e il termine dell'art. 33; questa risposta riflette il testo presente nel corpus.\n\ncorpus preflight: build build-f76ff6031f2fc82c4852f0a2bde27807; articles: 2 blocked, 319 internal_only; 0 citable\nevidence: build build-f76ff6031f2fc82c4852f0a2bde27807; 12 items (0 citable); about 5580 tokens\nwarnings: no_item_citable_in_verified_mode; summary_sentences_left_out: sentence 1: it cites [1], which is not a supported claim of the answer; sentence 2: it cites [5], which is not a supported claim of the answer\nmodels: analysis anthropic/claude-sonnet-5-5, 1 attempt(s); generation anthropic/claude-sonnet-5-5, 1 attempt(s); support check anthropic/claude-sonnet-5-5, 1 attempt(s)",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Il responsabile del trattamento deve notificare una violazione dei dati personali al Garante per la protezione dei dati personali?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v3",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8Qqr2PQCBi6SEUZ3jga"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Il responsabile del trattamento deve notificare la violazione al Garante?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda gli obblighi di notifica di una violazione dei dati personali all'autorità di controllo, disciplinati dal GDPR e dal Codice privacy.",
+   "search_queries_it": [
+    "notifica di una violazione dei dati personali all'autorità di controllo",
+    "responsabile del trattamento informa il titolare del trattamento della violazione",
+    "violazione dei dati personali senza ingiustificato ritardo",
+    "Garante per la protezione dei dati personali notifica violazione",
+    "comunicazione di una violazione dei dati personali all'interessato"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "2-bis",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "added by the application: the question names the Garante or Italy"
+    },
+    {
+     "article": "33",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "notifica della violazione all'autorità di controllo e obbligo del responsabile verso il titolare"
+    },
+    {
+     "article": "4",
+     "instrument": "eu-reg-2016-679",
+     "point": "12",
+     "reason": "definizione di violazione dei dati personali"
+    },
+    {
+     "article": "28",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "obblighi del responsabile del trattamento, assistenza al titolare"
+    },
+    {
+     "article": "34",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "comunicazione della violazione all'interessato (correlata)"
+    }
+   ],
+   "uncertainty": "La domanda non precisa se riguardi l'Italia o altro Stato membro; si assume il contesto italiano (Garante). Non è chiaro se si intenda l'obbligo diretto del responsabile o il suo ruolo rispetto al titolare."
+  },
+  "as_of": "2026-11-17",
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Art. 2-bis",
+    "instrument_id": "it-dlgs-2003-196",
+    "label": "2-bis",
+    "legal_validity": "not_established",
+    "page_end": 2,
+    "page_start": 2,
+    "path": "PARTE I > TITOLO I > CAPO I > Art. 2-bis",
+    "point": null,
+    "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis",
+    "qualifications": [
+     "unofficial_transcription",
+     "reference_date_unverified",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "(( (Autorità di controllo). ))",
+    "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 33",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "33",
+    "legal_validity": "not_established",
+    "page_end": 52,
+    "page_start": 52,
+    "path": "CAPO IV > Sezione 2 > Articolo 33",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "In caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza"
+     }
+    ],
+    "text": "L'obbligo di notificare la violazione all'autorità di controllo competente è posto in capo al titolare del trattamento, entro 72 ore ove possibile, salvo che sia improbabile un rischio per i diritti e le libertà delle persone fisiche.",
+    "verification": "PARTIALLY_SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione."
+     }
+    ],
+    "text": "Il responsabile del trattamento ha l'obbligo di informare il titolare, senza ingiustificato ritardo, dopo essere venuto a conoscenza della violazione.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "il titolare del trattamento notifica la violazione all'autorità di controllo competente"
+     },
+     {
+      "evidence_id": "E2",
+      "text": "Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione."
+     }
+    ],
+    "text": "Dal testo dell'articolo 33 risulta che il responsabile non è destinatario di un obbligo diretto di notifica al Garante: la notifica spetta al titolare, mentre al responsabile è imposto solo di informare il titolare.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali"
+     }
+    ],
+    "text": "Nell'ordinamento italiano l'autorità di controllo è individuata nel Garante per la protezione dei dati personali.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "51",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:51",
+     "reason": "max_items",
+     "tokens": 379
+    },
+    {
+     "label": "153",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:153",
+     "reason": "max_items",
+     "tokens": 1067
+    },
+    {
+     "label": "55",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:33"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:55",
+     "reason": "max_items",
+     "tokens": 219
+    },
+    {
+     "label": "32",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:28",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:83",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:32",
+     "reason": "max_items",
+     "tokens": 650
+    },
+    {
+     "label": "42",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:28",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:83"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:42",
+     "reason": "max_items",
+     "tokens": 1100
+    },
+    {
+     "label": "43",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:28"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:43",
+     "reason": "max_items",
+     "tokens": 1578
+    },
+    {
+     "label": "93",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:28"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:93",
+     "reason": "max_items",
+     "tokens": 144
+    },
+    {
+     "label": "63",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:28",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:41"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:63",
+     "reason": "max_items",
+     "tokens": 93
+    },
+    {
+     "label": "82",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:28"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:82",
+     "reason": "max_items",
+     "tokens": 704
+    },
+    {
+     "label": "84",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:28"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:84",
+     "reason": "max_items",
+     "tokens": 195
+    },
+    {
+     "label": "25",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:83",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:25",
+     "reason": "max_items",
+     "tokens": 542
+    },
+    {
+     "label": "58",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:83"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:58",
+     "reason": "max_items",
+     "tokens": 1752
+    },
+    {
+     "label": "24",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:24",
+     "reason": "max_items",
+     "tokens": 328
+    },
+    {
+     "label": "77",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:77",
+     "reason": "max_items",
+     "tokens": 208
+    },
+    {
+     "label": "79",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:79",
+     "reason": "max_items",
+     "tokens": 361
+    },
+    {
+     "label": "156",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:156",
+     "reason": "max_items",
+     "tokens": 1711
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 4176,
+       "char_start": 3948,
+       "page": 2,
+       "page_end": 2
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Art. 2-bis",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-bis",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 2,
+     "page_start": 2,
+     "path": "PARTE I > TITOLO I > CAPO I > Art. 2-bis",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-bis\n\n(( (Autorità di controllo). ))\n\n((\n\n1. L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei\ndati personali, di seguito «Garante», di cui all'articolo 153.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Autorità di controllo). ))",
+     "tokens": 76,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 255123,
+       "char_start": 253118,
+       "page": 52,
+       "page_end": 52
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0296-c5e96e79",
+      "doc-8f7504d289853f57-0297-0683bb04"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 33",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "33",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:2",
+      "query:3",
+      "query:4",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:34"
+     ],
+     "page_end": 52,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 33",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 33\n\nNotifica di una violazione dei dati personali all'autorità di controllo\n\n1.\nIn caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo \ncompetente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è \nvenuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le \nlibertà delle persone fisiche. Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei \nmotivi del ritardo.\n\n2.\nIl responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a \nconoscenza della violazione.\n\n3.\nLa notifica di cui al paragrafo 1 deve almeno:\n\na) descrivere la natura della violazione dei dati personali compresi, ove possibile, le categorie e il numero approssi­\n\nmativo di interessati in questione nonché le categorie e il numero approssimativo di registrazioni dei dati personali in \nquestione;\n\nb)  comunicare il nome e i dati di contatto del responsabile della protezione dei dati o di altro punto di contatto presso\n\ncui ottenere più informazioni;\n\nc)  descrivere le probabili conseguenze della violazione dei dati personali;\n\nd)  descrivere le misure adottate o di cui si propone l'adozione da parte del titolare del trattamento per porre rimedio\n\nalla violazione dei dati personali e anche, se del caso, per attenuarne i possibili effetti negativi.\n\n4.\nQualora e nella misura in cui non sia possibile fornire le informazioni contestualmente, le informazioni possono \nessere fornite in fasi successive senza ulteriore ingiustificato ritardo.\n\n5.\nIl titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, \nle sue conseguenze e i provvedimenti adottati per porvi rimedio. Tale documentazione consente all'autorità di controllo \ndi verificare il rispetto del presente articolo.",
+     "tier": "internal_only",
+     "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+     "tokens": 669,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 186316,
+       "char_start": 186057,
+       "page": 34,
+       "page_end": 34
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 4",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "4",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 34,
+     "page_start": 34,
+     "path": "CAPO I > Articolo 4",
+     "point": "12",
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:4",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "12) «violazione dei dati personali»: la violazione di sicurezza che comporta accidentalmente o in modo illecito la \ndistruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati \no comunque trattati;",
+     "tier": "internal_only",
+     "title": "Definizioni",
+     "tokens": 87,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 244293,
+       "char_start": 240778,
+       "page": 49,
+       "page_end": 49
+      },
+      {
+       "char_end": 247149,
+       "char_start": 244357,
+       "page": 50,
+       "page_end": 50
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0281-5ccf8f08"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 28",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "28",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:2"
+     ],
+     "page_end": 50,
+     "page_start": 49,
+     "path": "CAPO IV > Sezione 1 > Articolo 28",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:28",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 28\n\nResponsabile del trattamento\n\n1.\nQualora un trattamento debba essere effettuato per conto del titolare del trattamento, quest'ultimo ricorre \nunicamente a responsabili del trattamento che presentino garanzie sufficienti per mettere in atto misure tecniche e \norganizzative adeguate in modo tale che il trattamento soddisfi i requisiti del presente regolamento e garantisca la tutela \ndei diritti dell'interessato.\n\n2.\nIl responsabile del trattamento non ricorre a un altro responsabile senza previa autorizzazione scritta, specifica o \ngenerale, del titolare del trattamento. Nel caso di autorizzazione scritta generale, il responsabile del trattamento informa \nil titolare del trattamento di eventuali modifiche previste riguardanti l'aggiunta o la sostituzione di altri responsabili del \ntrattamento, dando così al titolare del trattamento l'opportunità di opporsi a tali modifiche.\n\n3.\nI trattamenti da parte di un responsabile del trattamento sono disciplinati da un contratto o da altro atto giuridico \na norma del diritto dell'Unione o degli Stati membri, che vincoli il responsabile del trattamento al titolare del \ntrattamento e che stipuli la materia disciplinata e la durata del trattamento, la natura e la finalità del trattamento, il tipo \ndi dati personali e le categorie di interessati, gli obblighi e i diritti del titolare del trattamento. Il contratto o altro atto \ngiuridico prevede, in particolare, che il responsabile del trattamento:\n\na)  tratti i dati personali soltanto su istruzione documentata del titolare del trattamento, anche in caso di trasferimento di\n\ndati personali verso un paese terzo o un'organizzazione internazionale, salvo che lo richieda il diritto dell'Unione o \nnazionale cui è soggetto il responsabile del trattamento; in tal caso, il responsabile del trattamento informa il titolare \ndel trattamento circa tale obbligo giuridico prima del trattamento, a meno che il diritto vieti tale informazione per \nrilevanti motivi di interesse pubblico;\n\nb)  garantisca che le persone autorizzate al trattamento dei dati personali si siano impegnate alla riservatezza o abbiano\n\nun adeguato obbligo legale di riservatezza;\n\nc)  adotti tutte le misure richieste ai sensi dell'articolo 32;\n\nd)  rispetti le condizioni di cui ai paragrafi 2 e 4 per ricorrere a un altro responsabile del trattamento;\n\ne)  tenendo conto della natura del trattamento, assista il titolare del trattamento con misure tecniche e organizzative\n\nadeguate, nella misura in cui ciò sia possibile, al fine di soddisfare l'obbligo del titolare del trattamento di dare seguito \nalle richieste per l'esercizio dei diritti dell'interessato di cui al capo III;\n\nf)  assista il titolare del trattamento nel garantire il rispetto degli obblighi di cui agli articoli da 32 a 36, tenendo conto\n\ndella natura del trattamento e delle informazioni a disposizione del responsabile del trattamento;\n\ng)  su scelta del titolare del trattamento, cancelli o gli restituisca tutti i dati personali dopo che è terminata la prestazione\n\ndei servizi relativi al trattamento e cancelli le copie esistenti, salvo che il diritto dell'Unione o degli Stati membri \npreveda la conservazione dei dati; e\n\nh)  metta a disposizione del titolare del trattamento tutte le informazioni necessarie per dimostrare il rispetto degli\n\nobblighi di cui al presente articolo e consenta e contribuisca alle attività di revisione, comprese le ispezioni, realizzati \ndal titolare del trattamento o da un altro soggetto da questi incaricato.\n\nCon riguardo alla lettera h) del primo comma, il responsabile del trattamento informa immediatamente il titolare del \ntrattamento qualora, a suo parere, un'istruzione violi il presente regolamento o altre disposizioni, nazionali o \ndell'Unione, relative alla protezione dei dati.\n\n4.\nQuando un responsabile del trattamento ricorre a un altro responsabile del trattamento per l'esecuzione di \nspecifiche attività di trattamento per conto del titolare del trattamento, su tale altro responsabile del trattamento sono \nimposti, mediante un contratto o un altro atto giuridico a norma del diritto dell'Unione o degli Stati membri, gli stessi \nobblighi in materia di protezione dei dati contenuti nel contratto o in altro atto giuridico tra il titolare del trattamento e \nil responsabile del trattamento di cui al paragrafo 3, prevedendo in particolare garanzie sufficienti per mettere in atto \nmisure tecniche e organizzative adeguate in modo tale che il trattamento soddisfi i requisiti del presente regolamento. \nQualora l'altro responsabile del trattamento ometta di adempiere ai propri obblighi in materia di protezione dei dati, il \nresponsabile iniziale conserva nei confronti del titolare del trattamento l'intera responsabilità dell'adempimento degli \nobblighi dell'altro responsabile.\n\n5.\nL'adesione da parte del responsabile del trattamento a un codice di condotta approvato di cui all'articolo 40 o a un \nmeccanismo di certificazione approvato di cui all'articolo 42 può essere utilizzata come elemento per dimostrare le \ngaranzie sufficienti di cui ai paragrafi 1 e 4 del presente articolo.\n\n6.\nFatto salvo un contratto individuale tra il titolare del trattamento e il responsabile del trattamento, il contratto o \naltro atto giuridico di cui ai paragrafi 3 e 4 del presente articolo può basarsi, in tutto o in parte, su clausole contrattuali \ntipo di cui ai paragrafi 7 e 8 del presente articolo, anche laddove siano parte di una certificazione concessa al titolare del \ntrattamento o al responsabile del trattamento ai sensi degli articoli 42 e 43.\n\n7.\nLa Commissione può stabilire clausole contrattuali tipo per le materie di cui ai paragrafi 3 e 4 del presente articolo \ne secondo la procedura d'esame di cui all'articolo 93, paragrafo 2.\n\n8.\nUn'autorità di controllo può adottare clausole contrattuali tipo per le materie di cui ai paragrafi 3 e 4 del presente \narticolo in conformità del meccanismo di coerenza di cui all'articolo 63.\n\n9.\nIl contratto o altro atto giuridico di cui ai paragrafi 3 e 4 è stipulato in forma scritta, anche in formato elettronico.\n\n10.\nFatti salvi gli articoli 82, 83 e 84, se un responsabile del trattamento viola il presente regolamento, determinando \nle finalità e i mezzi del trattamento, è considerato un titolare del trattamento in questione.",
+     "tier": "internal_only",
+     "title": "Responsabile del trattamento",
+     "tokens": 2103,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 255446,
+       "char_start": 255125,
+       "page": 52,
+       "page_end": 52
+      },
+      {
+       "char_end": 257013,
+       "char_start": 255510,
+       "page": 53,
+       "page_end": 53
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0298-036e8f92",
+      "doc-8f7504d289853f57-0299-eb81eca8"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 34",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "34",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:5",
+      "query:3"
+     ],
+     "page_end": 53,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 34",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 34\n\nComunicazione di una violazione dei dati personali all'interessato\n\n1.\nQuando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle \npersone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.\n\n2.\nLa comunicazione all'interessato di cui al paragrafo 1 del presente articolo descrive con un linguaggio semplice e \nchiaro la natura della violazione dei dati personali e contiene almeno le informazioni e le misure di cui all'articolo 33, \nparagrafo 3, lettere b), c) e d).\n\n3.\nNon è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:\n\na)  il titolare del trattamento ha messo in atto le misure tecniche e organizzative adeguate di protezione e tali misure\n\nerano state applicate ai dati personali oggetto della violazione, in particolare quelle destinate a rendere i dati personali \nincomprensibili a chiunque non sia autorizzato ad accedervi, quali la cifratura;\n\nb)  il titolare del trattamento ha successivamente adottato misure atte a scongiurare il sopraggiungere di un rischio\n\nelevato per i diritti e le libertà degli interessati di cui al paragrafo 1;\n\nc)  detta comunicazione richiederebbe sforzi sproporzionati. In tal caso, si procede invece a una comunicazione pubblica\n\no a una misura simile, tramite la quale gli interessati sono informati con analoga efficacia.\n\n4.\nNel caso in cui il titolare del trattamento non abbia ancora comunicato all'interessato la violazione dei dati \npersonali, l'autorità di controllo può richiedere, dopo aver valutato la probabilità che la violazione dei dati personali \npresenti un rischio elevato, che vi provveda o può decidere che una delle condizioni di cui al paragrafo 3 è soddisfatta.",
+     "tier": "internal_only",
+     "title": "Comunicazione di una violazione dei dati personali all'interessato",
+     "tokens": 608,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 372089,
+       "char_start": 370933,
+       "page": 82,
+       "page_end": 82
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0440-513a4ab4"
+     ],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Articolo 83",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "83",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:2",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:28",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166"
+     ],
+     "page_end": 82,
+     "page_start": 82,
+     "path": "CAPO VIII > Articolo 83",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:83",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "d)  il grado di responsabilità del titolare del trattamento o del responsabile del trattamento tenendo conto delle misure\n\ntecniche e organizzative da essi messe in atto ai sensi degli articoli 25 e 32;\n\ne)  eventuali precedenti violazioni pertinenti commesse dal titolare del trattamento o dal responsabile del trattamento;\n\nf)  il grado di cooperazione con l'autorità di controllo al fine di porre rimedio alla violazione e attenuarne i possibili\n\neffetti negativi;\n\ng)  le categorie di dati personali interessate dalla violazione;\n\nh)  la maniera in cui l'autorità di controllo ha preso conoscenza della violazione, in particolare se e in che misura il\n\ntitolare del trattamento o il responsabile del trattamento ha notificato la violazione;\n\ni)  qualora siano stati precedentemente disposti provvedimenti di cui all'articolo 58, paragrafo 2, nei confronti del\n\ntitolare del trattamento o del responsabile del trattamento in questione relativamente allo stesso oggetto, il rispetto di \ntali provvedimenti;\n\nj)  l'adesione ai codici di condotta approvati ai sensi dell'articolo 40 o ai meccanismi di certificazione approvati ai sensi\n\ndell'articolo 42; e",
+     "tier": "internal_only",
+     "title": "Condizioni generali per infliggere sanzioni amministrative pecuniarie",
+     "tokens": 386,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 272824,
+       "char_start": 272178,
+       "page": 57,
+       "page_end": 57
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0320-6d44e82b"
+     ],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Articolo 40",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "40",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1",
+      "query:5",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:28",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:83"
+     ],
+     "page_end": 57,
+     "page_start": 57,
+     "path": "CAPO IV > Sezione 5 > Articolo 40",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:40",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "sabilità genitoriale sul minore;\n\nh)  le misure e le procedure di cui agli articoli 24 e 25 e le misure volte a garantire la sicurezza del trattamento di cui\n\nall'articolo 32;\n\ni)  la notifica di una violazione dei dati personali alle autorità di controllo e la comunicazione di tali violazioni dei dati\n\npersonali all'interessato;\n\nj)  il trasferimento di dati personali verso paesi terzi o organizzazioni internazionali; o\n\nk)  le procedure stragiudiziali e di altro tipo per comporre le controversie tra titolari del trattamento e interessati in\n\nmateria di trattamento, fatti salvi i diritti degli interessati ai sensi degli articoli 77 e 79.",
+     "tier": "internal_only",
+     "title": "Codici di condotta",
+     "tokens": 216,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 331681,
+       "char_start": 330842,
+       "page": 71,
+       "page_end": 71
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0390-6db7adfe"
+     ],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Articolo 60",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "60",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:2"
+     ],
+     "page_end": 71,
+     "page_start": 71,
+     "path": "CAPO VII > Sezione 1 > Articolo 60",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:60",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "9.\nSe l'autorità di controllo capofila e le autorità di controllo interessate convengono di archiviare o rigettare parti di \nun reclamo e di intervenire su altre parti di tale reclamo, è adottata una decisione separata per ciascuna di tali parti della \nquestione. L'autorità di controllo capofila adotta la decisione per la parte riguardante azioni in relazione al titolare del \ntrattamento e la notifica allo stabilimento principale o allo stabilimento unico del responsabile del trattamento o del \nresponsabile del trattamento sul territorio del suo Stato membro e ne informa il reclamante, mentre l'autorità di \ncontrollo del reclamante adotta la decisione per la parte riguardante l'archiviazione o il rigetto di detto reclamo, la \nnotifica a detto reclamante e ne informa il titolare del trattamento o il responsabile del trattamento.",
+     "tier": "internal_only",
+     "title": "Cooperazione tra l'autorità di controllo capofila e le altre autorità di controllo interessate",
+     "tokens": 280,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 180066,
+       "char_start": 178788,
+       "page": 49,
+       "page_end": 49
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0375-8ff7e8a5"
+     ],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Art. 166",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "166",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4"
+     ],
+     "page_end": 49,
+     "page_start": 49,
+     "path": "PARTE III > TITOLO III > CAPO I > Art. 166",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "7. Nell'adozione dei provvedimenti sanzionatori nei casi di cui al comma 3 si osservano, in quanto applicabili,\ngli articoli da 1 a 9, da 18 a 22 e da 24 a 28 della legge 24 novembre 1981, n. 689; nei medesimi casi può\nessere applicata la sanzione amministrativa accessoria della pubblicazione dell'ordinanza-ingiunzione, per\nintero o per estratto, sul sito internet del Garante ((o dell'ingiunzione a realizzare campagne di comunicazione\nistituzionale volte alla promozione della consapevolezza del diritto alla protezione dei dati personali, sulla base\ndi progetti previamente approvati dal Garante e che tengano conto della gravità della violazione. Nella\ndeterminazione della sanzione ai sensi dell'articolo 83, paragrafo 2, del Regolamento, il Garante tiene conto\nanche di eventuali campagne di comunicazione istituzionale volte alla promozione della consapevolezza del\ndiritto alla protezione dei dati personali, realizzate dal trasgressore anteriormente alla commissione della\nviolazione)). I proventi delle sanzioni, nella misura del cinquanta per cento del totale annuo, sono riassegnati al\nfondo di cui all'articolo 156, comma 8, per essere destinati alle specifiche attività di sensibilizzazione e di\nispezione nonché di attuazione del Regolamento svolte dal Garante.",
+     "tier": "internal_only",
+     "title": "(Criteri di applicazione delle sanzioni amministrative pecuniarie e procedimento per l'adozione dei provvedimenti correttivi e sanzionatori)",
+     "tokens": 426,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 278780,
+       "char_start": 277688,
+       "page": 58,
+       "page_end": 58
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0326-d4ca2b49"
+     ],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Articolo 41",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "41",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:2"
+     ],
+     "page_end": 58,
+     "page_start": 58,
+     "path": "CAPO IV > Sezione 5 > Articolo 41",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:41",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "o è attuato da un titolare del trattamento o un responsabile del trattamento e a rendere dette procedure e strutture \ntrasparenti per gli interessati e il pubblico; e\n\nd)  dimostrato in modo convincente all'autorità di controllo competente che i compiti e le funzioni da esso svolti non\n\ndanno adito a conflitto di interessi.\n\n3.\nL'autorità di controllo competente presenta al comitato il progetto di criteri per l'accreditamento dell'organismo di \ncui al paragrafo 1 del presente articolo, ai sensi del meccanismo di coerenza di cui all'articolo 63.\n\n4.\nFatti salvi i compiti e i poteri dell'autorità di controllo competente e le disposizioni del capo VIII, un organismo di \ncui al paragrafo 1 del presente articolo adotta, stanti garanzie appropriate, le opportune misure in caso di violazione del \ncodice da parte di un titolare del trattamento o responsabile del trattamento, tra cui la sospensione o l'esclusione dal \ncodice del titolare del trattamento o del responsabile del trattamento. Esso informa l'autorità di controllo competente di \ntali misure e dei motivi della loro adozione.",
+     "tier": "internal_only",
+     "title": "Monitoraggio dei codici di condotta approvati",
+     "tokens": 364,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 222401,
+       "char_start": 222030,
+       "page": 43,
+       "page_end": 43
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0255-1ddf9083"
+     ],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Articolo 16",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "16",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:3"
+     ],
+     "page_end": 43,
+     "page_start": 43,
+     "path": "CAPO III > Sezione 3 > Articolo 16",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:16",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 16\n\nDiritto di rettifica\n\nL'interessato ha il diritto di ottenere dal titolare del trattamento la rettifica dei dati personali inesatti che lo riguardano \nsenza ingiustificato ritardo. Tenuto conto delle finalità del trattamento, l'interessato ha il diritto di ottenere l'integrazione \ndei dati personali incompleti, anche fornendo una dichiarazione integrativa.",
+     "tier": "internal_only",
+     "title": "Diritto di rettifica",
+     "tokens": 124,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 218659,
+       "char_start": 217937,
+       "page": 42,
+       "page_end": 42
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0250-cb94cfc4"
+     ],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Articolo 14",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "14",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5"
+     ],
+     "page_end": 42,
+     "page_start": 42,
+     "path": "CAPO III > Sezione 2 > Articolo 14",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "prima comunicazione all'interessato; oppure\n\nc)  nel caso sia prevista la comunicazione ad altro destinatario, non oltre la prima comunicazione dei dati personali.\n\n4.\nQualora il titolare del trattamento intenda trattare ulteriormente i dati personali per una finalità diversa da quella \nper cui essi sono stati ottenuti, prima di tale ulteriore trattamento fornisce all'interessato informazioni in merito a tale \ndiversa finalità e ogni informazione pertinente di cui al paragrafo 2.\n\n5.\nI paragrafi da 1 a 4 non si applicano se e nella misura in cui:\n\na)  l'interessato dispone già delle informazioni;\n\nb)  comunicare tali informazioni risulta impossibile o implicherebbe uno sforzo sproporzionato; in particolare per il",
+     "tier": "internal_only",
+     "title": "Informazioni da fornire qualora i dati personali non siano stati ottenuti presso l'interessato",
+     "tokens": 241,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "2-bis",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "33",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "4",
+      "point": "12"
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "28",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "34",
+      "point": null
+     }
+    ],
+    "queries": [
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "responsabile del trattamento informa il titolare del trattamento della violazione",
+     "violazione dei dati personali senza ingiustificato ritardo",
+     "Garante per la protezione dei dati personali notifica violazione",
+     "comunicazione di una violazione dei dati personali all'interessato"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 5580,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v5",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8mEBi1FFbqxf9nrmR8b"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "L'articolo 83 è riprodotto solo in estratto e le sue previsioni sulle sanzioni non sono state usate per determinare gli obblighi del responsabile.",
+   "Il testo del Codice privacy (E1) è una trascrizione non ufficiale, di validità giuridica non verificata.",
+   "Gli articoli 55 (competenza) e 153 non sono forniti tra le prove."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "16 further candidate provisions were left out by the evidence limits (max_items).",
+   "As-of date 2026-11-17: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later.",
+   "A pending proposal (Digital Omnibus, COM(2025) 837, not adopted as of 2026-11-08) would change the Art. 33 threshold and deadline; this answer reflects the text in the corpus."
+  ],
+  "question": "Il responsabile del trattamento deve notificare la violazione al Garante?",
+  "question_references": [],
+  "rejected_claims": [
+   {
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E4",
+      "text": "assista il titolare del trattamento nel garantire il rispetto degli obblighi di cui agli articoli da 32 a 36"
+     }
+    ],
+    "reasons": [
+     "unsupported_reference:articolo 33"
+    ],
+    "text": "Il responsabile deve assistere il titolare nel rispetto degli obblighi previsti dagli articoli da 32 a 36, tra cui rientra l'articolo 33."
+   }
+  ],
+  "summary": "In Italia l'autorità di controllo è il Garante [C4].",
+  "summary_claim_ids": [
+   "C4"
+  ],
+  "unanswered_issues": [],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8mEncixeS3Kzthx7fTD"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode",
+   "summary_sentences_left_out: sentence 1: it cites [1], which is not a supported claim of the answer; sentence 2: it cites [5], which is not a supported claim of the answer"
+  ]
+ },
+ "split": "dev"
+}

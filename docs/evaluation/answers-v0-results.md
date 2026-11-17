@@ -153,7 +153,27 @@ changes and run-to-run variation. Repeated runs were not made, to keep within th
 
    a14 had the same report in T7 and is an `answer` here. One run cannot tell whether the
    prompt change or run-to-run variation caused that.
-3. **The summary is withheld in 17 of 20 answers.** It is shown only if every claim it cites is
-   rated SUPPORTED. Under the stricter check, almost every summary cites at least one claim
-   that is held apart: in a01, for example, the first claim. That rule is all-or-nothing and was
-   not changed here. It is an open design question.
+3. **The summary was withheld in 17 of 20 answers.** The rule was all-or-nothing: a summary
+   was shown only if every claim it cited was rated SUPPORTED. Under the stricter check, almost
+   every summary cited at least one claim that is held apart.
+
+   **The rule now works sentence by sentence.** A sentence is shown only if every claim it
+   cites is SUPPORTED and in the main answer and it passes the reference check. If no sentence
+   is left, no summary is shown.
+
+   **Re-render.** The run was re-rendered offline under the new rule as
+   `2026-11-17-final-summary`:
+   - every call was replayed from this run, with no model call;
+   - the results are identical apart from the summary fields;
+   - the report is identical.
+
+   Summaries now appear in 18 of 20 answers, 15 of them with some sentences left out. The
+   replay in `demo/replay/` comes from this re-render.
+
+   **Limits of the sentence rule** (open):
+   - **It checks citations, not content.** It confirms that a sentence's cited claims are
+     supported, not that the sentence says what they say. In a01 the only sentence left is "The
+     evidence does not contain any sector-specific rules [C3]", and C3 is the definition of a
+     breach.
+   - **Some sentences do not stand alone.** In a05, a06 and a07 the sentence left starts with
+     "…adds", "They" or "It", which refer back to a sentence that was left out.
