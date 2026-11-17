@@ -1,0 +1,1273 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "In assenza di una decisione di adeguatezza della Commissione, a quali condizioni è consentito trasferire dati personali verso un paese terzo o un'organizzazione internazionale?"
+     },
+     {
+      "question": "Quali garanzie adeguate (ad esempio clausole tipo di protezione dei dati, norme vincolanti d'impresa, codici di condotta, meccanismi di certificazione) possono legittimare il trasferimento e a quali condizioni, compresa l'eventuale autorizzazione dell'autorità di controllo?"
+     },
+     {
+      "question": "Quali deroghe per situazioni specifiche (ad esempio consenso esplicito dell'interessato, esecuzione di un contratto, importanti motivi di interesse pubblico, accertamento di un diritto in sede giudiziaria) consentono il trasferimento in mancanza di adeguatezza o di garanzie adeguate, e con quali limiti?"
+     },
+     {
+      "question": "Quali obblighi di informazione e di documentazione gravano sul titolare o sul responsabile del trattamento in caso di trasferimento verso un paese terzo?"
+     },
+     {
+      "question": "Come si distingue la decisione di adeguatezza dalle altre basi di trasferimento e come si applicano i principi generali dei trasferimenti?"
+     },
+     {
+      "question": "Esistono disposizioni del Codice privacy italiano rilevanti per i trasferimenti verso paesi terzi?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda le condizioni del trasferimento di dati personali verso paesi terzi ai sensi del GDPR, materia di protezione dei dati personali.",
+    "search_queries_it": [
+     "trasferimento di dati personali verso un paese terzo o un'organizzazione internazionale",
+     "decisione di adeguatezza",
+     "trasferimento soggetto a garanzie adeguate",
+     "clausole tipo di protezione dei dati",
+     "norme vincolanti d'impresa",
+     "deroghe per situazioni specifiche trasferimento",
+     "consenso esplicito dell'interessato al trasferimento",
+     "trasferimento dati all'estero Garante per la protezione dei dati personali"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "44",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "principio generale dei trasferimenti"
+     },
+     {
+      "article": "45",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "decisione di adeguatezza"
+     },
+     {
+      "article": "46",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "garanzie adeguate in assenza di adeguatezza"
+     },
+     {
+      "article": "47",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "norme vincolanti d'impresa"
+     },
+     {
+      "article": "49",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "deroghe per situazioni specifiche"
+     },
+     {
+      "article": "13",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "informazione sul trasferimento all'interessato"
+     },
+     {
+      "article": "30",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "registro dei trattamenti e trasferimenti"
+     }
+    ],
+    "uncertainty": "Non sono indicati il tipo di dati, i soggetti coinvolti né il paese terzo di destinazione; la risposta dipende dalla base di trasferimento concretamente applicabile. Eventuali atti della Commissione (decisioni di adeguatezza, clausole contrattuali tipo) e altre norme non sono nel corpus. Le disposizioni nazionali del Codice privacy sono incerte e non indicate."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8MXxkbJHkomLwx1wXvU"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "17219fe03011e7159b2a472f9d86f7a9948642681a4bd4e5df7eb66d5e13aa2d",
+   "task": "query_analysis",
+   "user_sha256": "c60acc8aecc4c2e5c0c8d4b39755e3c171620d8228015088b22320801644bada"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1",
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "ha luogo soltanto se il titolare del trattamento e il responsabile del trattamento rispettano le condizioni di cui al presente capo"
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "Tutte le disposizioni del presente capo sono applicate al fine di assicurare che il livello di protezione delle persone fisiche garantito dal presente regolamento non sia pregiudicato."
+       }
+      ],
+      "text": "Il trasferimento verso un paese terzo o un'organizzazione internazionale ha luogo soltanto se titolare e responsabile rispettano le condizioni del capo V del regolamento, in modo da non pregiudicare il livello di protezione delle persone fisiche."
+     },
+     {
+      "issue_ids": [
+       "I5",
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "Il trasferimento di dati personali verso un paese terzo o un'organizzazione internazionale è ammesso se la Commissione ha deciso che il paese terzo, un territorio o uno o più settori specifici all'interno del paese terzo, o l'organizzazione internazionale in questione garantiscono un livello di protezione adeguato."
+       },
+       {
+        "evidence_id": "E2",
+        "quote": "In tal caso il trasferimento non necessita di autorizzazioni specifiche."
+       }
+      ],
+      "text": "La decisione di adeguatezza è una base di trasferimento: il trasferimento è ammesso se la Commissione ha deciso che il paese terzo, un territorio, un settore o l'organizzazione garantiscono un livello di protezione adeguato, e in tal caso non servono autorizzazioni specifiche."
+     },
+     {
+      "issue_ids": [
+       "I1",
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "può trasferire dati personali verso un paese terzo o un'organizzazione internazionale solo se ha fornito garanzie adeguate e a condizione che gli interessati dispongano di diritti azionabili e mezzi di ricorso effettivi"
+       }
+      ],
+      "text": "In mancanza di una decisione di adeguatezza, il trasferimento è possibile solo se il titolare o il responsabile ha fornito garanzie adeguate e gli interessati dispongono di diritti azionabili e mezzi di ricorso effettivi."
+     },
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "le norme vincolanti d'impresa in conformità dell'articolo 47;"
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "le clausole tipo di protezione dei dati adottate dalla Commissione secondo la procedura d'esame di cui all'articolo 93, paragrafo 2;"
+       }
+      ],
+      "text": "Possono costituire garanzie adeguate, senza autorizzazioni specifiche di un'autorità di controllo, tra l'altro le norme vincolanti d'impresa e le clausole tipo di protezione dei dati adottate dalla Commissione."
+     },
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "le clausole tipo di protezione dei dati adottate da un'autorità di controllo e approvate dalla Commissione secondo la procedura d'esame di cui all'articolo 93, paragrafo 2;"
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "un codice di condotta approvato a norma dell'articolo 40"
+       }
+      ],
+      "text": "Sono garanzie adeguate anche le clausole tipo adottate da un'autorità di controllo e approvate dalla Commissione, e un codice di condotta approvato a norma dell'articolo 40 (con impegno vincolante, il cui testo è però troncato)."
+     },
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E4",
+        "quote": "L'autorità di controllo competente approva le norme vincolanti d'impresa in conformità del meccanismo di coerenza di cui all'articolo 63, a condizione che queste:"
+       },
+       {
+        "evidence_id": "E4",
+        "quote": "conferiscano espressamente agli interessati diritti azionabili in relazione al trattamento dei loro dati personali; e"
+       }
+      ],
+      "text": "Le norme vincolanti d'impresa sono approvate dall'autorità di controllo competente secondo il meccanismo di coerenza, a condizione che siano giuridicamente vincolanti per tutti i membri del gruppo, conferiscano agli interessati diritti azionabili e soddisfino i requisiti del paragrafo 2."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E5",
+        "quote": "è ammesso il trasferimento o un complesso di trasferimenti di dati personali verso un paese terzo o un'organizzazione internazionale soltanto se si verifica una delle seguenti condizioni:"
+       },
+       {
+        "evidence_id": "E5",
+        "quote": "l'interessato abbia esplicitamente acconsentito al trasferimento proposto, dopo essere stato informato dei possibili rischi di siffatti trasferimenti per l'interessato"
+       },
+       {
+        "evidence_id": "E5",
+        "quote": "il trasferimento sia necessario per importanti motivi di interesse pubblico;"
+       }
+      ],
+      "text": "In mancanza di adeguatezza o di garanzie adeguate, il trasferimento è ammesso soltanto se si verifica una delle condizioni elencate, tra cui il consenso esplicito dell'interessato informato dei rischi, la necessità per l'esecuzione di un contratto e importanti motivi di interesse pubblico."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E5",
+        "quote": "il trasferimento sia necessario all'esecuzione di un contratto concluso tra l'interessato e il titolare del trattamento ovvero all'esecuzione di misure precontrattuali adottate su istanza dell'interessato;"
+       },
+       {
+        "evidence_id": "E5",
+        "quote": "il trasferimento sia necessario per la conclusione o l'esecuzione di un contratto stipulato tra il titolare del trattamento e un'altra persona fisica o giuridica a favore dell'interessato;"
+       }
+      ],
+      "text": "La deroga contrattuale copre il trasferimento necessario all'esecuzione di un contratto tra interessato e titolare, o di misure precontrattuali su istanza dell'interessato, e quello necessario per un contratto a favore dell'interessato con un'altra persona."
+     },
+     {
+      "issue_ids": [
+       "I1",
+       "I5"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "In mancanza di una decisione ai sensi dell'articolo 45, paragrafo 3, il titolare del trattamento o il responsabile del trattamento può trasferire dati personali"
+       },
+       {
+        "evidence_id": "E5",
+        "quote": "In mancanza di una decisione di adeguatezza ai sensi dell'articolo 45, paragrafo 3, o di garanzie adeguate ai sensi dell'articolo 46"
+       }
+      ],
+      "text": "Dalle disposizioni citate risulta che, senza decisione di adeguatezza, il trasferimento non è escluso: è possibile con garanzie adeguate o, in mancanza, solo in presenza di una delle deroghe specifiche."
+     }
+    ],
+    "limitations": [
+     "Gli articoli 45, 46, 47 e 49 sono estratti parziali.",
+     "Le decisioni di adeguatezza e le clausole tipo della Commissione non sono nel corpus.",
+     "Non sono noti tipo di dati, soggetti e paese terzo: la base applicabile dipende dal caso concreto."
+    ],
+    "outcome": "answer_limited",
+    "unanswered_issues": [
+     {
+      "issue_id": "I2",
+      "reason": "Gli estratti sono troncati: mancano il testo completo sul codice di condotta e sui meccanismi di certificazione, le garanzie che richiedono autorizzazione dell'autorità di controllo (art. 46, par. 3) e i requisiti completi delle norme vincolanti d'impresa."
+     },
+     {
+      "issue_id": "I3",
+      "reason": "L'elenco delle deroghe è troncato dopo la lettera d): mancano l'accertamento di un diritto in sede giudiziaria e le altre deroghe, nonché i limiti ulteriori."
+     },
+     {
+      "issue_id": "I4",
+      "reason": "Nessun elemento fornito riguarda obblighi di informazione e documentazione in caso di trasferimento."
+     },
+     {
+      "issue_id": "I6",
+      "reason": "Nessuna disposizione del Codice privacy italiano è tra gli elementi forniti."
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8MYYrT9tYBKdrMNrJy2"
+   ],
+   "schema_sha256": "958b2be51ffa530f9267f985c758125ecff38d8bcb558d93f182bc5ea60defee",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "a4316fff0471471b36fb2ed20f090ba325500d3fcfb1723ee2160e9ab5a95f80",
+   "task": "answer_generation",
+   "user_sha256": "ca745a6d9bd8c0a35bfd712d6e1ec3c61accdee7e5c8b8a723a22642d749ba34"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C8",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C9",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8MZhDGV69CyrhR2Dd4t"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "e125d66867796bf590fbc60aea974405ca557abd3b818c1c8243652db157f309",
+   "task": "claim_verification",
+   "user_sha256": "8f9b395bfa60e3b24876235f4eba5d1ceddb04e2264c690e2e36c536e76eae3e"
+  }
+ ],
+ "query_id": "a20",
+ "question": "Si possono trasferire dati personali verso un paese terzo senza una decisione di adeguatezza?",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "In assenza di una decisione di adeguatezza della Commissione, a quali condizioni è consentito trasferire dati personali verso un paese terzo o un'organizzazione internazionale?"
+    },
+    {
+     "id": "I2",
+     "question": "Quali garanzie adeguate (ad esempio clausole tipo di protezione dei dati, norme vincolanti d'impresa, codici di condotta, meccanismi di certificazione) possono legittimare il trasferimento e a quali condizioni, compresa l'eventuale autorizzazione dell'autorità di controllo?"
+    },
+    {
+     "id": "I3",
+     "question": "Quali deroghe per situazioni specifiche (ad esempio consenso esplicito dell'interessato, esecuzione di un contratto, importanti motivi di interesse pubblico, accertamento di un diritto in sede giudiziaria) consentono il trasferimento in mancanza di adeguatezza o di garanzie adeguate, e con quali limiti?"
+    },
+    {
+     "id": "I4",
+     "question": "Quali obblighi di informazione e di documentazione gravano sul titolare o sul responsabile del trattamento in caso di trasferimento verso un paese terzo?"
+    },
+    {
+     "id": "I5",
+     "question": "Come si distingue la decisione di adeguatezza dalle altre basi di trasferimento e come si applicano i principi generali dei trasferimenti?"
+    },
+    {
+     "id": "I6",
+     "question": "Esistono disposizioni del Codice privacy italiano rilevanti per i trasferimenti verso paesi terzi?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v2",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8MXxkbJHkomLwx1wXvU"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Si possono trasferire dati personali verso un paese terzo senza una decisione di adeguatezza?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda le condizioni del trasferimento di dati personali verso paesi terzi ai sensi del GDPR, materia di protezione dei dati personali.",
+   "search_queries_it": [
+    "trasferimento di dati personali verso un paese terzo o un'organizzazione internazionale",
+    "decisione di adeguatezza",
+    "trasferimento soggetto a garanzie adeguate",
+    "clausole tipo di protezione dei dati",
+    "norme vincolanti d'impresa",
+    "deroghe per situazioni specifiche trasferimento",
+    "consenso esplicito dell'interessato al trasferimento",
+    "trasferimento dati all'estero Garante per la protezione dei dati personali"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "44",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "principio generale dei trasferimenti"
+    },
+    {
+     "article": "45",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "decisione di adeguatezza"
+    },
+    {
+     "article": "46",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "garanzie adeguate in assenza di adeguatezza"
+    },
+    {
+     "article": "47",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "norme vincolanti d'impresa"
+    },
+    {
+     "article": "49",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "deroghe per situazioni specifiche"
+    },
+    {
+     "article": "13",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "informazione sul trasferimento all'interessato"
+    },
+    {
+     "article": "30",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "registro dei trattamenti e trasferimenti"
+    }
+   ],
+   "uncertainty": "Non sono indicati il tipo di dati, i soggetti coinvolti né il paese terzo di destinazione; la risposta dipende dalla base di trasferimento concretamente applicabile. Eventuali atti della Commissione (decisioni di adeguatezza, clausole contrattuali tipo) e altre norme non sono nel corpus. Le disposizioni nazionali del Codice privacy sono incerte e non indicate."
+  },
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 44",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "44",
+    "legal_validity": "not_established",
+    "page_end": 60,
+    "page_start": 60,
+    "path": "CAPO V > Articolo 44",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:44",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Principio generale per il trasferimento",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 45",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "45",
+    "legal_validity": "not_established",
+    "page_end": 61,
+    "page_start": 61,
+    "path": "CAPO V > Articolo 45",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:45",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Trasferimento sulla base di una decisione di adeguatezza",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": false
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 46",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "46",
+    "legal_validity": "not_established",
+    "page_end": 62,
+    "page_start": 62,
+    "path": "CAPO V > Articolo 46",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:46",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Trasferimento soggetto a garanzie adeguate",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": false
+   },
+   {
+    "citable": false,
+    "evidence_id": "E4",
+    "heading": "Articolo 47",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "47",
+    "legal_validity": "not_established",
+    "page_end": 63,
+    "page_start": 62,
+    "path": "CAPO V > Articolo 47",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:47",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Norme vincolanti d'impresa",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": false
+   },
+   {
+    "citable": false,
+    "evidence_id": "E5",
+    "heading": "Articolo 49",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "49",
+    "legal_validity": "not_established",
+    "page_end": 64,
+    "page_start": 64,
+    "path": "CAPO V > Articolo 49",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:49",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Deroghe in specifiche situazioni",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": false
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1",
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "ha luogo soltanto se il titolare del trattamento e il responsabile del trattamento rispettano le condizioni di cui al presente capo"
+     },
+     {
+      "evidence_id": "E1",
+      "text": "Tutte le disposizioni del presente capo sono applicate al fine di assicurare che il livello di protezione delle persone fisiche garantito dal presente regolamento non sia pregiudicato."
+     }
+    ],
+    "text": "Il trasferimento verso un paese terzo o un'organizzazione internazionale ha luogo soltanto se titolare e responsabile rispettano le condizioni del capo V del regolamento, in modo da non pregiudicare il livello di protezione delle persone fisiche.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I5",
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "Il trasferimento di dati personali verso un paese terzo o un'organizzazione internazionale è ammesso se la Commissione ha deciso che il paese terzo, un territorio o uno o più settori specifici all'interno del paese terzo, o l'organizzazione internazionale in questione garantiscono un livello di protezione adeguato."
+     },
+     {
+      "evidence_id": "E2",
+      "text": "In tal caso il trasferimento non necessita di autorizzazioni specifiche."
+     }
+    ],
+    "text": "La decisione di adeguatezza è una base di trasferimento: il trasferimento è ammesso se la Commissione ha deciso che il paese terzo, un territorio, un settore o l'organizzazione garantiscono un livello di protezione adeguato, e in tal caso non servono autorizzazioni specifiche.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I1",
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "può trasferire dati personali verso un paese terzo o un'organizzazione internazionale solo se ha fornito garanzie adeguate e a condizione che gli interessati dispongano di diritti azionabili e mezzi di ricorso effettivi"
+     }
+    ],
+    "text": "In mancanza di una decisione di adeguatezza, il trasferimento è possibile solo se il titolare o il responsabile ha fornito garanzie adeguate e gli interessati dispongono di diritti azionabili e mezzi di ricorso effettivi.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "le norme vincolanti d'impresa in conformità dell'articolo 47;"
+     },
+     {
+      "evidence_id": "E3",
+      "text": "le clausole tipo di protezione dei dati adottate dalla Commissione secondo la procedura d'esame di cui all'articolo 93, paragrafo 2;"
+     }
+    ],
+    "text": "Possono costituire garanzie adeguate, senza autorizzazioni specifiche di un'autorità di controllo, tra l'altro le norme vincolanti d'impresa e le clausole tipo di protezione dei dati adottate dalla Commissione.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "le clausole tipo di protezione dei dati adottate da un'autorità di controllo e approvate dalla Commissione secondo la procedura d'esame di cui all'articolo 93, paragrafo 2;"
+     },
+     {
+      "evidence_id": "E3",
+      "text": "un codice di condotta approvato a norma dell'articolo 40"
+     }
+    ],
+    "text": "Sono garanzie adeguate anche le clausole tipo adottate da un'autorità di controllo e approvate dalla Commissione, e un codice di condotta approvato a norma dell'articolo 40 (con impegno vincolante, il cui testo è però troncato).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E4"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E4",
+      "text": "L'autorità di controllo competente approva le norme vincolanti d'impresa in conformità del meccanismo di coerenza di cui all'articolo 63, a condizione che queste:"
+     },
+     {
+      "evidence_id": "E4",
+      "text": "conferiscano espressamente agli interessati diritti azionabili in relazione al trattamento dei loro dati personali; e"
+     }
+    ],
+    "text": "Le norme vincolanti d'impresa sono approvate dall'autorità di controllo competente secondo il meccanismo di coerenza, a condizione che siano giuridicamente vincolanti per tutti i membri del gruppo, conferiscano agli interessati diritti azionabili e soddisfino i requisiti del paragrafo 2.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C7",
+    "evidence_ids": [
+     "E5"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E5",
+      "text": "è ammesso il trasferimento o un complesso di trasferimenti di dati personali verso un paese terzo o un'organizzazione internazionale soltanto se si verifica una delle seguenti condizioni:"
+     },
+     {
+      "evidence_id": "E5",
+      "text": "l'interessato abbia esplicitamente acconsentito al trasferimento proposto, dopo essere stato informato dei possibili rischi di siffatti trasferimenti per l'interessato"
+     },
+     {
+      "evidence_id": "E5",
+      "text": "il trasferimento sia necessario per importanti motivi di interesse pubblico;"
+     }
+    ],
+    "text": "In mancanza di adeguatezza o di garanzie adeguate, il trasferimento è ammesso soltanto se si verifica una delle condizioni elencate, tra cui il consenso esplicito dell'interessato informato dei rischi, la necessità per l'esecuzione di un contratto e importanti motivi di interesse pubblico.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C8",
+    "evidence_ids": [
+     "E5"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E5",
+      "text": "il trasferimento sia necessario all'esecuzione di un contratto concluso tra l'interessato e il titolare del trattamento ovvero all'esecuzione di misure precontrattuali adottate su istanza dell'interessato;"
+     },
+     {
+      "evidence_id": "E5",
+      "text": "il trasferimento sia necessario per la conclusione o l'esecuzione di un contratto stipulato tra il titolare del trattamento e un'altra persona fisica o giuridica a favore dell'interessato;"
+     }
+    ],
+    "text": "La deroga contrattuale copre il trasferimento necessario all'esecuzione di un contratto tra interessato e titolare, o di misure precontrattuali su istanza dell'interessato, e quello necessario per un contratto a favore dell'interessato con un'altra persona.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C9",
+    "evidence_ids": [
+     "E3",
+     "E5"
+    ],
+    "issue_ids": [
+     "I1",
+     "I5"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "In mancanza di una decisione ai sensi dell'articolo 45, paragrafo 3, il titolare del trattamento o il responsabile del trattamento può trasferire dati personali"
+     },
+     {
+      "evidence_id": "E5",
+      "text": "In mancanza di una decisione di adeguatezza ai sensi dell'articolo 45, paragrafo 3, o di garanzie adeguate ai sensi dell'articolo 46"
+     }
+    ],
+    "text": "Dalle disposizioni citate risulta che, senza decisione di adeguatezza, il trasferimento non è escluso: è possibile con garanzie adeguate o, in mancanza, solo in presenza di una delle deroghe specifiche.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "13",
+     "origins": [
+      "lookup"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+     "reason": "max_items",
+     "tokens": 1125
+    },
+    {
+     "label": "30",
+     "origins": [
+      "lookup"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:30",
+     "reason": "max_items",
+     "tokens": 1060
+    },
+    {
+     "label": "2-bis",
+     "origins": [
+      "query:8"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis",
+     "reason": "max_items",
+     "tokens": 76
+    },
+    {
+     "label": "144-bis",
+     "origins": [
+      "query:7"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:144-bis",
+     "reason": "max_items",
+     "tokens": 374
+    },
+    {
+     "label": "58",
+     "origins": [
+      "query:4"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:58",
+     "reason": "max_items",
+     "tokens": 337
+    },
+    {
+     "label": "85",
+     "origins": [
+      "query:6"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:85",
+     "reason": "max_items",
+     "tokens": 378
+    },
+    {
+     "label": "9",
+     "origins": [
+      "query:7"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+     "reason": "max_items",
+     "tokens": 307
+    },
+    {
+     "label": "93",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:46"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:93",
+     "reason": "max_items",
+     "tokens": 144
+    },
+    {
+     "label": "40",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:46"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:40",
+     "reason": "max_items",
+     "tokens": 1804
+    },
+    {
+     "label": "63",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:47"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:63",
+     "reason": "max_items",
+     "tokens": 93
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 288503,
+       "char_start": 287698,
+       "page": 60,
+       "page_end": 60
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0338-fa4f898a"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 44",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "44",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1"
+     ],
+     "page_end": 60,
+     "page_start": 60,
+     "path": "CAPO V > Articolo 44",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:44",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 44\n\nPrincipio generale per il trasferimento\n\nQualunque trasferimento di dati personali oggetto di un trattamento o destinati a essere oggetto di un trattamento dopo \nil trasferimento verso un paese terzo o un'organizzazione internazionale, compresi trasferimenti successivi di dati \npersonali da un paese terzo o un'organizzazione internazionale verso un altro paese terzo o un'altra organizzazione \ninternazionale, ha luogo soltanto se il titolare del trattamento e il responsabile del trattamento rispettano le condizioni \ndi cui al presente capo, fatte salve le altre disposizioni del presente regolamento. Tutte le disposizioni del presente capo \nsono applicate al fine di assicurare che il livello di protezione delle persone fisiche garantito dal presente regolamento \nnon sia pregiudicato.",
+     "tier": "internal_only",
+     "title": "Principio generale per il trasferimento",
+     "tokens": 269,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 289295,
+       "char_start": 288569,
+       "page": 61,
+       "page_end": 61
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0339-6d93905f"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 45",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "45",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:2",
+      "query:1",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:46",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:49"
+     ],
+     "page_end": 61,
+     "page_start": 61,
+     "path": "CAPO V > Articolo 45",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:45",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 45\n\nTrasferimento sulla base di una decisione di adeguatezza\n\n1.\nIl trasferimento di dati personali verso un paese terzo o un'organizzazione internazionale è ammesso se la \nCommissione ha deciso che il paese terzo, un territorio o uno o più settori specifici all'interno del paese terzo, o l'orga­\nnizzazione internazionale in questione garantiscono un livello di protezione adeguato. In tal caso il trasferimento non \nnecessita di autorizzazioni specifiche.\n\n2.\nNel valutare l'adeguatezza del livello di protezione, la Commissione prende in considerazione in particolare i \nseguenti elementi:\n\na)  lo stato di diritto, il rispetto dei diritti umani e delle libertà fondamentali, la pertinente legislazione generale e",
+     "tier": "internal_only",
+     "title": "Trasferimento sulla base di una decisione di adeguatezza",
+     "tokens": 242,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 295247,
+       "char_start": 294059,
+       "page": 62,
+       "page_end": 62
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0345-1d532596"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 46",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "46",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:3",
+      "query:4",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:49"
+     ],
+     "page_end": 62,
+     "page_start": 62,
+     "path": "CAPO V > Articolo 46",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:46",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 46\n\nTrasferimento soggetto a garanzie adeguate\n\n1.\nIn mancanza di una decisione ai sensi dell'articolo 45, paragrafo 3, il titolare del trattamento o il responsabile del \ntrattamento può trasferire dati personali verso un paese terzo o un'organizzazione internazionale solo se ha fornito \ngaranzie adeguate e a condizione che gli interessati dispongano di diritti azionabili e mezzi di ricorso effettivi.\n\n2.\nPossono costituire garanzie adeguate di cui al paragrafo 1 senza necessitare di autorizzazioni specifiche da parte di \nun'autorità di controllo:\n\na)  uno strumento giuridicamente vincolante e avente efficacia esecutiva tra autorità pubbliche o organismi pubblici;\n\nb)  le norme vincolanti d'impresa in conformità dell'articolo 47;\n\nc)  le clausole tipo di protezione dei dati adottate dalla Commissione secondo la procedura d'esame di cui all'articolo 93,\n\nparagrafo 2;\n\nd)  le clausole tipo di protezione dei dati adottate da un'autorità di controllo e approvate dalla Commissione secondo la\n\nprocedura d'esame di cui all'articolo 93, paragrafo 2;\n\ne)  un codice di condotta approvato a norma dell'articolo 40,unitamente all'impegno vincolante ed esecutivo da parte del",
+     "tier": "internal_only",
+     "title": "Trasferimento soggetto a garanzie adeguate",
+     "tokens": 396,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 297426,
+       "char_start": 297012,
+       "page": 62,
+       "page_end": 62
+      },
+      {
+       "char_end": 298181,
+       "char_start": 297490,
+       "page": 63,
+       "page_end": 63
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0348-24e6dd04",
+      "doc-8f7504d289853f57-0350-1036f5a3",
+      "doc-8f7504d289853f57-0352-b4beb1c3",
+      "doc-8f7504d289853f57-0349-5f80d0b0"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 47",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "47",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:5",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:46"
+     ],
+     "page_end": 63,
+     "page_start": 62,
+     "path": "CAPO V > Articolo 47",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:47",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 47\n\nNorme vincolanti d'impresa\n\n1.\nL'autorità di controllo competente approva le norme vincolanti d'impresa in conformità del meccanismo di \ncoerenza di cui all'articolo 63, a condizione che queste:\n\na)  siano giuridicamente vincolanti e si applichino a tutti i membri interessati del gruppo imprenditoriale o del gruppo\n\ndi imprese che svolgono un'attività economica comune, compresi i loro dipendenti;\n\nb)  conferiscano espressamente agli interessati diritti azionabili in relazione al trattamento dei loro dati personali; e\n\nc)  soddisfino i requisiti di cui al paragrafo 2.\n\n2.\nLe norme vincolanti d'impresa di cui al paragrafo 1 specificano almeno:\n\na)  la struttura e le coordinate di contatto del gruppo imprenditoriale o del gruppo di imprese che svolgono un'attività\n\neconomica comune e di ciascuno dei suoi membri;\n\nb)  i trasferimenti o il complesso di trasferimenti di dati, in particolare le categorie di dati personali, il tipo di\n\ntrattamento e relative finalità, il tipo di interessati cui si riferiscono i dati e l'identificazione del paese terzo o dei \npaesi terzi in questione;",
+     "tier": "internal_only",
+     "title": "Norme vincolanti d'impresa",
+     "tokens": 369,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 304387,
+       "char_start": 303231,
+       "page": 64,
+       "page_end": 64
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0354-b062e184",
+      "doc-8f7504d289853f57-0355-602d5fe4",
+      "doc-8f7504d289853f57-0356-ab3634c5"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 49",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "49",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:6",
+      "query:7",
+      "query:2",
+      "query:3"
+     ],
+     "page_end": 64,
+     "page_start": 64,
+     "path": "CAPO V > Articolo 49",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:49",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 49\n\nDeroghe in specifiche situazioni\n\n1.\nIn mancanza di una decisione di adeguatezza ai sensi dell'articolo 45, paragrafo 3, o di garanzie adeguate ai sensi \ndell'articolo 46, comprese le norme vincolanti d'impresa, è ammesso il trasferimento o un complesso di trasferimenti di \ndati personali verso un paese terzo o un'organizzazione internazionale soltanto se si verifica una delle seguenti \ncondizioni:\n\na)  l'interessato abbia esplicitamente acconsentito al trasferimento proposto, dopo essere stato informato dei possibili\n\nrischi di siffatti trasferimenti per l'interessato, dovuti alla mancanza di una decisione di adeguatezza e di garanzie \nadeguate;\n\nb)  il trasferimento sia necessario all'esecuzione di un contratto concluso tra l'interessato e il titolare del trattamento\n\novvero all'esecuzione di misure precontrattuali adottate su istanza dell'interessato;\n\nc)  il trasferimento sia necessario per la conclusione o l'esecuzione di un contratto stipulato tra il titolare del trattamento\n\ne un'altra persona fisica o giuridica a favore dell'interessato;\n\nd)  il trasferimento sia necessario per importanti motivi di interesse pubblico;",
+     "tier": "internal_only",
+     "title": "Deroghe in specifiche situazioni",
+     "tokens": 386,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    }
+   ],
+   "max_items": 5,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "44",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "45",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "46",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "47",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "49",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "13",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "30",
+      "point": null
+     }
+    ],
+    "queries": [
+     "trasferimento di dati personali verso un paese terzo o un'organizzazione internazionale",
+     "decisione di adeguatezza",
+     "trasferimento soggetto a garanzie adeguate",
+     "clausole tipo di protezione dei dati",
+     "norme vincolanti d'impresa",
+     "deroghe per situazioni specifiche trasferimento",
+     "consenso esplicito dell'interessato al trasferimento",
+     "trasferimento dati all'estero Garante per la protezione dei dati personali"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 3000,
+   "total_tokens": 1662,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8MYYrT9tYBKdrMNrJy2"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "Gli articoli 45, 46, 47 e 49 sono estratti parziali.",
+   "Le decisioni di adeguatezza e le clausole tipo della Commissione non sono nel corpus.",
+   "Non sono noti tipo di dati, soggetti e paese terzo: la base applicabile dipende dal caso concreto."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "10 further candidate provisions were left out by the evidence limits (max_items)."
+  ],
+  "question": "Si possono trasferire dati personali verso un paese terzo senza una decisione di adeguatezza?",
+  "question_references": [],
+  "rejected_claims": [],
+  "unanswered_issues": [
+   {
+    "issue_id": "I2",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I3",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I4",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I6",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   }
+  ],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8MZhDGV69CyrhR2Dd4t"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "test"
+}

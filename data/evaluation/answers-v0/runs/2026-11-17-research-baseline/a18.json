@@ -1,0 +1,1057 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Quale disciplina sulla notifica delle violazioni di dati personali era in vigore nel 2017, prima della data di applicazione del Regolamento (UE) 2016/679?"
+     },
+     {
+      "question": "Da quando si applicano gli obblighi di notifica al Garante e di comunicazione all'interessato previsti dal Regolamento (UE) 2016/679?"
+     },
+     {
+      "question": "Il Codice in materia di protezione dei dati personali, nel testo disponibile, contiene o conteneva disposizioni sulla notifica delle violazioni di dati personali, e a quali soggetti si applicavano?"
+     },
+     {
+      "question": "Cambia la disciplina applicabile se la violazione è avvenuta nel 2017 ma è stata scoperta o notificata dopo la data di applicazione del Regolamento?"
+     },
+     {
+      "question": "Quali sono, nel regime del Regolamento, i presupposti, i termini e il contenuto della notifica all'autorità di controllo, da tenere distinti dalla comunicazione all'interessato?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda la disciplina della notifica di una violazione di dati personali (data breach), materia del GDPR e del Codice in materia di protezione dei dati personali, con profilo di diritto intertemporale.",
+    "search_queries_it": [
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "violazione dei dati personali comunicazione all'interessato",
+     "entrata in vigore e applicazione del regolamento",
+     "notifica violazione dati personali Garante per la protezione dei dati personali",
+     "definizione di violazione dei dati personali",
+     "disposizioni transitorie e abrogazioni Codice protezione dati personali"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "99",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "entrata in vigore e data di applicazione del Regolamento"
+     },
+     {
+      "article": "33",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "notifica della violazione all'autorità di controllo"
+     },
+     {
+      "article": "34",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "comunicazione della violazione all'interessato"
+     },
+     {
+      "article": "4",
+      "instrument": "eu-reg-2016-679",
+      "point": "12",
+      "reason": "definizione di violazione dei dati personali"
+     }
+    ],
+    "uncertainty": "Il regime del 2017 dipendeva dalla normativa precedente al Regolamento (applicabile dal 25 maggio 2018), compresi eventuali atti nazionali o dell'Unione non presenti nel corpus, come le norme transitorie di modifica del Codice. Il testo del Codice nel corpus è una trascrizione non ufficiale e potrebbe non riprodurre le disposizioni abrogate. Non è chiaro se la violazione sia stata notificata nel 2017 o successivamente, né se il titolare fosse un fornitore di servizi di comunicazione elettronica."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8MVvnUFvQny8SLpZEvb"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "17219fe03011e7159b2a472f9d86f7a9948642681a4bd4e5df7eb66d5e13aa2d",
+   "task": "query_analysis",
+   "user_sha256": "bda09608dc5629128f6de3216538d100657d1a297a608b799f7e2cec7c9f326d"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Esso si applica a decorrere da 25 maggio 2018."
+       }
+      ],
+      "text": "Il Regolamento (UE) 2016/679 si applica a decorrere dal 25 maggio 2018 (art. 99)."
+     },
+     {
+      "issue_ids": [
+       "I1",
+       "I2"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Esso si applica a decorrere da 25 maggio 2018."
+       }
+      ],
+      "text": "Una violazione avvenuta nel 2017 (prima del 25 maggio 2018) è anteriore alla data di applicazione del Regolamento; le norme sulla notifica del Regolamento non si applicavano ancora in quel momento. Quale disciplina fosse allora in vigore non risulta dalle prove fornite."
+     },
+     {
+      "issue_ids": [
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei motivi del ritardo."
+       },
+       {
+        "evidence_id": "E2",
+        "quote": "In caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza"
+       }
+      ],
+      "text": "Nel regime del Regolamento, il titolare notifica la violazione all'autorità di controllo competente senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, salvo sia improbabile un rischio per i diritti e le libertà delle persone fisiche; oltre le 72 ore la notifica indica i motivi del ritardo."
+     },
+     {
+      "issue_ids": [
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "La notifica di cui al paragrafo 1 deve almeno:"
+       },
+       {
+        "evidence_id": "E2",
+        "quote": "descrivere le probabili conseguenze della violazione dei dati personali;"
+       }
+      ],
+      "text": "La notifica deve almeno descrivere la natura della violazione, comunicare i dati di contatto del responsabile della protezione dei dati o di altro punto di contatto, descrivere le probabili conseguenze e descrivere le misure adottate o proposte."
+     },
+     {
+      "issue_ids": [
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione."
+       },
+       {
+        "evidence_id": "E2",
+        "quote": "le informazioni possono essere fornite in fasi successive senza ulteriore ingiustificato ritardo."
+       }
+      ],
+      "text": "Il responsabile del trattamento informa il titolare senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione, e le informazioni possono essere fornite in fasi successive se non è possibile fornirle contestualmente."
+     },
+     {
+      "issue_ids": [
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo."
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "Non è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:"
+       }
+      ],
+      "text": "La comunicazione all'interessato è distinta dalla notifica: è dovuta quando la violazione è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, ed è esclusa al ricorrere di determinate condizioni (misure di protezione come la cifratura, misure successive, sforzi sproporzionati)."
+     },
+     {
+      "issue_ids": [
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E4",
+        "quote": "la violazione di sicurezza che comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati o comunque trattati"
+       }
+      ],
+      "text": "Il Regolamento definisce la violazione dei dati personali come violazione di sicurezza che comporta accidentalmente o in modo illecito distruzione, perdita, modifica, divulgazione non autorizzata o accesso ai dati personali."
+     }
+    ],
+    "limitations": [
+     "Le prove non includono atti nazionali o dell'Unione precedenti al Regolamento né norme transitorie.",
+     "Non è noto se la violazione sia stata notificata nel 2017 o dopo, né se il titolare fosse un fornitore di servizi di comunicazione elettronica.",
+     "L'art. 40 è presente solo come estratto e non è sufficiente a descrivere un regime di notifica."
+    ],
+    "outcome": "answer_limited",
+    "unanswered_issues": [
+     {
+      "issue_id": "I1",
+      "reason": "Le prove non contengono la disciplina vigente nel 2017 prima del Regolamento; indicano solo la data di applicazione del Regolamento."
+     },
+     {
+      "issue_id": "I3",
+      "reason": "Nessun testo del Codice in materia di protezione dei dati personali è presente tra le prove, quindi non si può dire se contenesse disposizioni sulla notifica né a quali soggetti."
+     },
+     {
+      "issue_id": "I4",
+      "reason": "Le prove non contengono norme transitorie o intertemporali sulle violazioni avvenute prima del 25 maggio 2018 e scoperte o notificate dopo."
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8MWjikTf3bChXSLggya"
+   ],
+   "schema_sha256": "958b2be51ffa530f9267f985c758125ecff38d8bcb558d93f182bc5ea60defee",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "a4316fff0471471b36fb2ed20f090ba325500d3fcfb1723ee2160e9ab5a95f80",
+   "task": "answer_generation",
+   "user_sha256": "d56b5a6c5ea8b32235591c06fe9169bc52892709301aec18aa58cb485b68b213"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8MXcyDdrwMLE3jYzAFt"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "e125d66867796bf590fbc60aea974405ca557abd3b818c1c8243652db157f309",
+   "task": "claim_verification",
+   "user_sha256": "5ec8e5e687b42c94e055784b2111f1d9dab738530b93fa33bfda6f56086b9a19"
+  }
+ ],
+ "query_id": "a18",
+ "question": "Qual era la disciplina applicabile alla notifica di una violazione dei dati personali avvenuta nel 2017?",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Quale disciplina sulla notifica delle violazioni di dati personali era in vigore nel 2017, prima della data di applicazione del Regolamento (UE) 2016/679?"
+    },
+    {
+     "id": "I2",
+     "question": "Da quando si applicano gli obblighi di notifica al Garante e di comunicazione all'interessato previsti dal Regolamento (UE) 2016/679?"
+    },
+    {
+     "id": "I3",
+     "question": "Il Codice in materia di protezione dei dati personali, nel testo disponibile, contiene o conteneva disposizioni sulla notifica delle violazioni di dati personali, e a quali soggetti si applicavano?"
+    },
+    {
+     "id": "I4",
+     "question": "Cambia la disciplina applicabile se la violazione è avvenuta nel 2017 ma è stata scoperta o notificata dopo la data di applicazione del Regolamento?"
+    },
+    {
+     "id": "I5",
+     "question": "Quali sono, nel regime del Regolamento, i presupposti, i termini e il contenuto della notifica all'autorità di controllo, da tenere distinti dalla comunicazione all'interessato?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v2",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8MVvnUFvQny8SLpZEvb"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Qual era la disciplina applicabile alla notifica di una violazione dei dati personali avvenuta nel 2017?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda la disciplina della notifica di una violazione di dati personali (data breach), materia del GDPR e del Codice in materia di protezione dei dati personali, con profilo di diritto intertemporale.",
+   "search_queries_it": [
+    "notifica di una violazione dei dati personali all'autorità di controllo",
+    "violazione dei dati personali comunicazione all'interessato",
+    "entrata in vigore e applicazione del regolamento",
+    "notifica violazione dati personali Garante per la protezione dei dati personali",
+    "definizione di violazione dei dati personali",
+    "disposizioni transitorie e abrogazioni Codice protezione dati personali"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "99",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "entrata in vigore e data di applicazione del Regolamento"
+    },
+    {
+     "article": "33",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "notifica della violazione all'autorità di controllo"
+    },
+    {
+     "article": "34",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "comunicazione della violazione all'interessato"
+    },
+    {
+     "article": "4",
+     "instrument": "eu-reg-2016-679",
+     "point": "12",
+     "reason": "definizione di violazione dei dati personali"
+    }
+   ],
+   "uncertainty": "Il regime del 2017 dipendeva dalla normativa precedente al Regolamento (applicabile dal 25 maggio 2018), compresi eventuali atti nazionali o dell'Unione non presenti nel corpus, come le norme transitorie di modifica del Codice. Il testo del Codice nel corpus è una trascrizione non ufficiale e potrebbe non riprodurre le disposizioni abrogate. Non è chiaro se la violazione sia stata notificata nel 2017 o successivamente, né se il titolare fosse un fornitore di servizi di comunicazione elettronica."
+  },
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 99",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "99",
+    "legal_validity": "not_established",
+    "page_end": 87,
+    "page_start": 87,
+    "path": "CAPO XI > Articolo 99",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:99",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Entrata in vigore e applicazione",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 33",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "33",
+    "legal_validity": "not_established",
+    "page_end": 52,
+    "page_start": 52,
+    "path": "CAPO IV > Sezione 2 > Articolo 33",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 34",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "34",
+    "legal_validity": "not_established",
+    "page_end": 53,
+    "page_start": 52,
+    "path": "CAPO IV > Sezione 2 > Articolo 34",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Comunicazione di una violazione dei dati personali all'interessato",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E4",
+    "heading": "Articolo 4",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "4",
+    "legal_validity": "not_established",
+    "page_end": 34,
+    "page_start": 34,
+    "path": "CAPO I > Articolo 4",
+    "point": "12",
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:4",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Definizioni",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": false
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Esso si applica a decorrere da 25 maggio 2018."
+     }
+    ],
+    "text": "Il Regolamento (UE) 2016/679 si applica a decorrere dal 25 maggio 2018 (art. 99).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1",
+     "I2"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Esso si applica a decorrere da 25 maggio 2018."
+     }
+    ],
+    "text": "Una violazione avvenuta nel 2017 (prima del 25 maggio 2018) è anteriore alla data di applicazione del Regolamento; le norme sulla notifica del Regolamento non si applicavano ancora in quel momento. Quale disciplina fosse allora in vigore non risulta dalle prove fornite.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei motivi del ritardo."
+     },
+     {
+      "evidence_id": "E2",
+      "text": "In caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza"
+     }
+    ],
+    "text": "Nel regime del Regolamento, il titolare notifica la violazione all'autorità di controllo competente senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, salvo sia improbabile un rischio per i diritti e le libertà delle persone fisiche; oltre le 72 ore la notifica indica i motivi del ritardo.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "La notifica di cui al paragrafo 1 deve almeno:"
+     },
+     {
+      "evidence_id": "E2",
+      "text": "descrivere le probabili conseguenze della violazione dei dati personali;"
+     }
+    ],
+    "text": "La notifica deve almeno descrivere la natura della violazione, comunicare i dati di contatto del responsabile della protezione dei dati o di altro punto di contatto, descrivere le probabili conseguenze e descrivere le misure adottate o proposte.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione."
+     },
+     {
+      "evidence_id": "E2",
+      "text": "le informazioni possono essere fornite in fasi successive senza ulteriore ingiustificato ritardo."
+     }
+    ],
+    "text": "Il responsabile del trattamento informa il titolare senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione, e le informazioni possono essere fornite in fasi successive se non è possibile fornirle contestualmente.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo."
+     },
+     {
+      "evidence_id": "E3",
+      "text": "Non è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:"
+     }
+    ],
+    "text": "La comunicazione all'interessato è distinta dalla notifica: è dovuta quando la violazione è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, ed è esclusa al ricorrere di determinate condizioni (misure di protezione come la cifratura, misure successive, sforzi sproporzionati).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C7",
+    "evidence_ids": [
+     "E4"
+    ],
+    "issue_ids": [
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E4",
+      "text": "la violazione di sicurezza che comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati o comunque trattati"
+     }
+    ],
+    "text": "Il Regolamento definisce la violazione dei dati personali come violazione di sicurezza che comporta accidentalmente o in modo illecito distruzione, perdita, modifica, divulgazione non autorizzata o accesso ai dati personali.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "183",
+     "origins": [
+      "query:3",
+      "query:6"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:183",
+     "reason": "max_items",
+     "tokens": 366
+    },
+    {
+     "label": "152",
+     "origins": [
+      "query:3"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:152",
+     "reason": "max_items",
+     "tokens": 456
+    },
+    {
+     "label": "14",
+     "origins": [
+      "query:2"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+     "reason": "max_items",
+     "tokens": 241
+    },
+    {
+     "label": "91",
+     "origins": [
+      "query:3"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:91",
+     "reason": "max_items",
+     "tokens": 239
+    },
+    {
+     "label": "166",
+     "origins": [
+      "query:4"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166",
+     "reason": "max_items",
+     "tokens": 426
+    },
+    {
+     "label": "55",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:33"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:55",
+     "reason": "max_items",
+     "tokens": 219
+    },
+    {
+     "label": "24",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:24",
+     "reason": "max_items",
+     "tokens": 328
+    },
+    {
+     "label": "25",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:25",
+     "reason": "max_items",
+     "tokens": 542
+    },
+    {
+     "label": "32",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:32",
+     "reason": "max_items",
+     "tokens": 650
+    },
+    {
+     "label": "77",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:77",
+     "reason": "max_items",
+     "tokens": 208
+    },
+    {
+     "label": "79",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:79",
+     "reason": "max_items",
+     "tokens": 361
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 389799,
+       "char_start": 389562,
+       "page": 87,
+       "page_end": 87
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0467-9de4381c"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 99",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "99",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:3"
+     ],
+     "page_end": 87,
+     "page_start": 87,
+     "path": "CAPO XI > Articolo 99",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:99",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 99\n\nEntrata in vigore e applicazione\n\n1.\nIl presente regolamento entra in vigore il ventesimo giorno successivo alla pubblicazione nella Gazzetta ufficiale \ndell'Unione europea.\n\n2.\nEsso si applica a decorrere da 25 maggio 2018.",
+     "tier": "internal_only",
+     "title": "Entrata in vigore e applicazione",
+     "tokens": 79,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 255123,
+       "char_start": 253118,
+       "page": 52,
+       "page_end": 52
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0296-c5e96e79",
+      "doc-8f7504d289853f57-0297-0683bb04"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 33",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "33",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:4",
+      "query:5",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:34"
+     ],
+     "page_end": 52,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 33",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 33\n\nNotifica di una violazione dei dati personali all'autorità di controllo\n\n1.\nIn caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo \ncompetente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è \nvenuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le \nlibertà delle persone fisiche. Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei \nmotivi del ritardo.\n\n2.\nIl responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a \nconoscenza della violazione.\n\n3.\nLa notifica di cui al paragrafo 1 deve almeno:\n\na) descrivere la natura della violazione dei dati personali compresi, ove possibile, le categorie e il numero approssi­\n\nmativo di interessati in questione nonché le categorie e il numero approssimativo di registrazioni dei dati personali in \nquestione;\n\nb)  comunicare il nome e i dati di contatto del responsabile della protezione dei dati o di altro punto di contatto presso\n\ncui ottenere più informazioni;\n\nc)  descrivere le probabili conseguenze della violazione dei dati personali;\n\nd)  descrivere le misure adottate o di cui si propone l'adozione da parte del titolare del trattamento per porre rimedio\n\nalla violazione dei dati personali e anche, se del caso, per attenuarne i possibili effetti negativi.\n\n4.\nQualora e nella misura in cui non sia possibile fornire le informazioni contestualmente, le informazioni possono \nessere fornite in fasi successive senza ulteriore ingiustificato ritardo.\n\n5.\nIl titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, \nle sue conseguenze e i provvedimenti adottati per porvi rimedio. Tale documentazione consente all'autorità di controllo \ndi verificare il rispetto del presente articolo.",
+     "tier": "internal_only",
+     "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+     "tokens": 669,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 255446,
+       "char_start": 255125,
+       "page": 52,
+       "page_end": 52
+      },
+      {
+       "char_end": 257013,
+       "char_start": 255510,
+       "page": 53,
+       "page_end": 53
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0298-036e8f92",
+      "doc-8f7504d289853f57-0299-eb81eca8"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 34",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "34",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:2",
+      "query:5"
+     ],
+     "page_end": 53,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 34",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 34\n\nComunicazione di una violazione dei dati personali all'interessato\n\n1.\nQuando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle \npersone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.\n\n2.\nLa comunicazione all'interessato di cui al paragrafo 1 del presente articolo descrive con un linguaggio semplice e \nchiaro la natura della violazione dei dati personali e contiene almeno le informazioni e le misure di cui all'articolo 33, \nparagrafo 3, lettere b), c) e d).\n\n3.\nNon è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:\n\na)  il titolare del trattamento ha messo in atto le misure tecniche e organizzative adeguate di protezione e tali misure\n\nerano state applicate ai dati personali oggetto della violazione, in particolare quelle destinate a rendere i dati personali \nincomprensibili a chiunque non sia autorizzato ad accedervi, quali la cifratura;\n\nb)  il titolare del trattamento ha successivamente adottato misure atte a scongiurare il sopraggiungere di un rischio\n\nelevato per i diritti e le libertà degli interessati di cui al paragrafo 1;\n\nc)  detta comunicazione richiederebbe sforzi sproporzionati. In tal caso, si procede invece a una comunicazione pubblica\n\no a una misura simile, tramite la quale gli interessati sono informati con analoga efficacia.\n\n4.\nNel caso in cui il titolare del trattamento non abbia ancora comunicato all'interessato la violazione dei dati \npersonali, l'autorità di controllo può richiedere, dopo aver valutato la probabilità che la violazione dei dati personali \npresenti un rischio elevato, che vi provveda o può decidere che una delle condizioni di cui al paragrafo 3 è soddisfatta.",
+     "tier": "internal_only",
+     "title": "Comunicazione di una violazione dei dati personali all'interessato",
+     "tokens": 608,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 186316,
+       "char_start": 186057,
+       "page": 34,
+       "page_end": 34
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 4",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "4",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 34,
+     "page_start": 34,
+     "path": "CAPO I > Articolo 4",
+     "point": "12",
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:4",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "12) «violazione dei dati personali»: la violazione di sicurezza che comporta accidentalmente o in modo illecito la \ndistruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati \no comunque trattati;",
+     "tier": "internal_only",
+     "title": "Definizioni",
+     "tokens": 87,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 272824,
+       "char_start": 272178,
+       "page": 57,
+       "page_end": 57
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0320-6d44e82b"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 40",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "40",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1",
+      "query:2"
+     ],
+     "page_end": 57,
+     "page_start": 57,
+     "path": "CAPO IV > Sezione 5 > Articolo 40",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:40",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "sabilità genitoriale sul minore;\n\nh)  le misure e le procedure di cui agli articoli 24 e 25 e le misure volte a garantire la sicurezza del trattamento di cui\n\nall'articolo 32;\n\ni)  la notifica di una violazione dei dati personali alle autorità di controllo e la comunicazione di tali violazioni dei dati\n\npersonali all'interessato;\n\nj)  il trasferimento di dati personali verso paesi terzi o organizzazioni internazionali; o\n\nk)  le procedure stragiudiziali e di altro tipo per comporre le controversie tra titolari del trattamento e interessati in\n\nmateria di trattamento, fatti salvi i diritti degli interessati ai sensi degli articoli 77 e 79.",
+     "tier": "internal_only",
+     "title": "Codici di condotta",
+     "tokens": 216,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    }
+   ],
+   "max_items": 5,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "99",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "33",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "34",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "4",
+      "point": "12"
+     }
+    ],
+    "queries": [
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "violazione dei dati personali comunicazione all'interessato",
+     "entrata in vigore e applicazione del regolamento",
+     "notifica violazione dati personali Garante per la protezione dei dati personali",
+     "definizione di violazione dei dati personali",
+     "disposizioni transitorie e abrogazioni Codice protezione dati personali"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 3000,
+   "total_tokens": 1659,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8MWjikTf3bChXSLggya"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "Le prove non includono atti nazionali o dell'Unione precedenti al Regolamento né norme transitorie.",
+   "Non è noto se la violazione sia stata notificata nel 2017 o dopo, né se il titolare fosse un fornitore di servizi di comunicazione elettronica.",
+   "L'art. 40 è presente solo come estratto e non è sufficiente a descrivere un regime di notifica."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "11 further candidate provisions were left out by the evidence limits (max_items)."
+  ],
+  "question": "Qual era la disciplina applicabile alla notifica di una violazione dei dati personali avvenuta nel 2017?",
+  "question_references": [],
+  "rejected_claims": [],
+  "unanswered_issues": [
+   {
+    "issue_id": "I1",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I3",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I4",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   }
+  ],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8MXcyDdrwMLE3jYzAFt"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "test"
+}

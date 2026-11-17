@@ -1,0 +1,1314 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "What are the principles relating to the processing of personal data set out in the GDPR (lawfulness, fairness and transparency, purpose limitation, data minimisation, accuracy, storage limitation, integrity and confidentiality)?"
+     },
+     {
+      "question": "Who is responsible for complying with these principles and for demonstrating compliance (accountability)?"
+     },
+     {
+      "question": "What conditions make the processing lawful, and what rules apply to consent and to special categories of data as closely related but distinct requirements?"
+     },
+     {
+      "question": "Are there exceptions or derogations to the principles, for example for archiving, scientific or historical research or statistical purposes, or compatible further processing?"
+     },
+     {
+      "question": "How do the principles relate to data protection by design and by default and to the rights of the data subject?"
+     }
+    ],
+    "language": "en",
+    "scope_reason": "The question concerns the principles governing the processing of personal data under the GDPR, which falls within the data protection corpus.",
+    "search_queries_it": [
+     "principi applicabili al trattamento di dati personali",
+     "liceità, correttezza e trasparenza",
+     "limitazione della finalità",
+     "minimizzazione dei dati",
+     "esattezza e limitazione della conservazione",
+     "integrità e riservatezza",
+     "responsabilizzazione del titolare del trattamento",
+     "liceità del trattamento condizioni"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "5",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "principles relating to processing and accountability"
+     },
+     {
+      "article": "6",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "lawfulness of processing"
+     },
+     {
+      "article": "7",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "conditions for consent"
+     },
+     {
+      "article": "9",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "special categories of data"
+     },
+     {
+      "article": "24",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "responsibility of the controller"
+     },
+     {
+      "article": "25",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "data protection by design and by default"
+     },
+     {
+      "article": "89",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "derogations for archiving, research, statistics"
+     }
+    ],
+    "uncertainty": "The question is general; 'main principles' is read as the principles in the GDPR's provisions on processing, and it is unclear whether the user also wants the Italian Privacy Code's complementary rules."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8M5PrDHDoGc4EXBGmE1"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "17219fe03011e7159b2a472f9d86f7a9948642681a4bd4e5df7eb66d5e13aa2d",
+   "task": "query_analysis",
+   "user_sha256": "0f1ababece24df0a8fa1187e2b3f22f2e8d450f608d8de3d3a9260eacde51c49"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "trattati in modo lecito, corretto e trasparente nei confronti dell'interessato («liceità, correttezza e trasparenza»);"
+       }
+      ],
+      "text": "Personal data must be processed lawfully, fairly and transparently towards the data subject (lawfulness, fairness and transparency)."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "raccolti per finalità determinate, esplicite e legittime, e successivamente trattati in modo che non sia incompatibile con tali finalità"
+       }
+      ],
+      "text": "Data must be collected for specified, explicit and legitimate purposes and not further processed in a way incompatible with those purposes (purpose limitation)."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "adeguati, pertinenti e limitati a quanto necessario rispetto alle finalità per le quali sono trattati («minimizzazione dei dati»);"
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "esatti e, se necessario, aggiornati;"
+       }
+      ],
+      "text": "Data must be adequate, relevant and limited to what is necessary for the purposes (data minimisation), and accurate and, where necessary, kept up to date, with reasonable steps to erase or rectify inaccurate data without delay (accuracy)."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "conservati in una forma che consenta l'identificazione degli interessati per un arco di tempo non superiore al conseguimento delle finalità per le quali sono trattati;"
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "trattati in maniera da garantire un'adeguata sicurezza dei dati personali"
+       }
+      ],
+      "text": "Data must be kept in identifiable form no longer than necessary for the purposes (storage limitation), and processed so as to ensure appropriate security, including protection against unauthorised or unlawful processing and accidental loss, destruction or damage (integrity and confidentiality)."
+     },
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Il titolare del trattamento è competente per il rispetto del paragrafo 1 e in grado di comprovarlo («responsabilizzazione»)."
+       }
+      ],
+      "text": "The controller is responsible for compliance with the principles and must be able to demonstrate it (accountability)."
+     },
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E4",
+        "quote": "il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire, ed essere in grado di dimostrare, che il trattamento è effettuato conformemente al presente regolamento."
+       },
+       {
+        "evidence_id": "E4",
+        "quote": "può essere utilizzato come elemento per dimostrare il rispetto degli obblighi del titolare del trattamento."
+       }
+      ],
+      "text": "The controller must implement appropriate technical and organisational measures to ensure and be able to demonstrate that processing complies with the Regulation; adherence to codes of conduct or certification mechanisms may be used as an element to demonstrate compliance."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "il titolare del trattamento deve essere in grado di dimostrare che l'interessato ha prestato il proprio consenso al trattamento dei propri dati personali."
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "L'interessato ha il diritto di revocare il proprio consenso in qualsiasi momento."
+       }
+      ],
+      "text": "Where processing is based on consent, the controller must be able to demonstrate that the data subject consented, and the data subject may withdraw consent at any time without affecting the lawfulness of processing before withdrawal."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "la richiesta di consenso è presentata in modo chiaramente distinguibile dalle altre materie, in forma comprensibile e facilmente accessibile, utilizzando un linguaggio semplice e chiaro."
+       }
+      ],
+      "text": "A consent request within a written declaration covering other matters must be clearly distinguishable, intelligible, easily accessible and in plain language."
+     },
+     {
+      "issue_ids": [
+       "I4"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "un ulteriore trattamento dei dati personali a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini statistici non è, conformemente all'articolo 89, paragrafo 1, considerato incompatibile con le finalità iniziali"
+       }
+      ],
+      "text": "Further processing for archiving in the public interest, scientific or historical research or statistical purposes is not considered incompatible with the initial purposes, in accordance with Article 89(1)."
+     },
+     {
+      "issue_ids": [
+       "I4"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "i dati personali possono essere conservati per periodi più lunghi a condizione che siano trattati esclusivamente a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini statistici"
+       }
+      ],
+      "text": "Personal data may be stored for longer periods if processed solely for archiving in the public interest, scientific or historical research or statistical purposes, subject to appropriate technical and organisational measures."
+     },
+     {
+      "issue_ids": [
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E5",
+        "quote": "volte ad attuare in modo efficace i principi di protezione dei dati, quali la minimizzazione, e a integrare nel trattamento le necessarie garanzie al fine di soddisfare i requisiti del presente regolamento e tutelare i diritti degli interessati."
+       },
+       {
+        "evidence_id": "E5",
+        "quote": "solo i dati personali necessari per ogni specifica finalità del trattamento."
+       }
+      ],
+      "text": "The controller must implement appropriate measures, such as pseudonymisation, to apply data protection principles such as minimisation effectively and to protect data subjects' rights, and by default process only the data necessary for each specific purpose."
+     }
+    ],
+    "limitations": [
+     "Article 6 is only an excerpt and does not set out the conditions for lawful processing.",
+     "No provisions on special categories of data or on data subject rights are provided.",
+     "Article 89(1) is referred to but its text is not supplied.",
+     "The Italian Privacy Code's complementary rules are not in the evidence."
+    ],
+    "outcome": "answer_limited",
+    "unanswered_issues": [
+     {
+      "issue_id": "I3",
+      "reason": "The evidence contains only an excerpt of Article 6 and no list of lawful bases; it has no provision on special categories of data. Only consent conditions (Article 7) are covered."
+     },
+     {
+      "issue_id": "I5",
+      "reason": "Data protection by design and by default is covered, but the evidence has no provisions on data subject rights themselves."
+     },
+     {
+      "issue_id": "I4",
+      "reason": "Article 89 itself and any other derogations are not in the evidence; only the exceptions inside Article 5(1) are covered."
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8M5pZFb9Q8QHoJa2EbU"
+   ],
+   "schema_sha256": "958b2be51ffa530f9267f985c758125ecff38d8bcb558d93f182bc5ea60defee",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "a4316fff0471471b36fb2ed20f090ba325500d3fcfb1723ee2160e9ab5a95f80",
+   "task": "answer_generation",
+   "user_sha256": "5c48bbcc60de3dbd7948c1e909d668b444a7422f746b15d3b16392defbc2b131"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C8",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C9",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C10",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8M6qjEaWVLA59kVrDMx"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "e125d66867796bf590fbc60aea974405ca557abd3b818c1c8243652db157f309",
+   "task": "claim_verification",
+   "user_sha256": "cfc9786245a0353b1d379d7546778842f790c8b87d10d88128d5e0337a99aa58"
+  }
+ ],
+ "query_id": "a05",
+ "question": "What are the main principles governing the processing of personal data under the GDPR?",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "What are the principles relating to the processing of personal data set out in the GDPR (lawfulness, fairness and transparency, purpose limitation, data minimisation, accuracy, storage limitation, integrity and confidentiality)?"
+    },
+    {
+     "id": "I2",
+     "question": "Who is responsible for complying with these principles and for demonstrating compliance (accountability)?"
+    },
+    {
+     "id": "I3",
+     "question": "What conditions make the processing lawful, and what rules apply to consent and to special categories of data as closely related but distinct requirements?"
+    },
+    {
+     "id": "I4",
+     "question": "Are there exceptions or derogations to the principles, for example for archiving, scientific or historical research or statistical purposes, or compatible further processing?"
+    },
+    {
+     "id": "I5",
+     "question": "How do the principles relate to data protection by design and by default and to the rights of the data subject?"
+    }
+   ],
+   "language": "en",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v2",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8M5PrDHDoGc4EXBGmE1"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "What are the main principles governing the processing of personal data under the GDPR?",
+   "rejected_suggestions": [],
+   "scope_reason": "The question concerns the principles governing the processing of personal data under the GDPR, which falls within the data protection corpus.",
+   "search_queries_it": [
+    "principi applicabili al trattamento di dati personali",
+    "liceità, correttezza e trasparenza",
+    "limitazione della finalità",
+    "minimizzazione dei dati",
+    "esattezza e limitazione della conservazione",
+    "integrità e riservatezza",
+    "responsabilizzazione del titolare del trattamento",
+    "liceità del trattamento condizioni"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "5",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "principles relating to processing and accountability"
+    },
+    {
+     "article": "6",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "lawfulness of processing"
+    },
+    {
+     "article": "7",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "conditions for consent"
+    },
+    {
+     "article": "9",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "special categories of data"
+    },
+    {
+     "article": "24",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "responsibility of the controller"
+    },
+    {
+     "article": "25",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "data protection by design and by default"
+    },
+    {
+     "article": "89",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "derogations for archiving, research, statistics"
+    }
+   ],
+   "uncertainty": "The question is general; 'main principles' is read as the principles in the GDPR's provisions on processing, and it is unclear whether the user also wants the Italian Privacy Code's complementary rules."
+  },
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 5",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "5",
+    "legal_validity": "not_established",
+    "page_end": 36,
+    "page_start": 35,
+    "path": "CAPO II > Articolo 5",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:5",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Principi applicabili al trattamento di dati personali",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 7",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "7",
+    "legal_validity": "not_established",
+    "page_end": 37,
+    "page_start": 37,
+    "path": "CAPO II > Articolo 7",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:7",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Condizioni per il consenso",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E5",
+    "heading": "Articolo 25",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "25",
+    "legal_validity": "not_established",
+    "page_end": 48,
+    "page_start": 48,
+    "path": "CAPO IV > Sezione 1 > Articolo 25",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:25",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Protezione dei dati fin dalla progettazione e protezione per impostazione predefinita",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "trattati in modo lecito, corretto e trasparente nei confronti dell'interessato («liceità, correttezza e trasparenza»);"
+     }
+    ],
+    "text": "Personal data must be processed lawfully, fairly and transparently towards the data subject (lawfulness, fairness and transparency).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "raccolti per finalità determinate, esplicite e legittime, e successivamente trattati in modo che non sia incompatibile con tali finalità"
+     }
+    ],
+    "text": "Data must be collected for specified, explicit and legitimate purposes and not further processed in a way incompatible with those purposes (purpose limitation).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "adeguati, pertinenti e limitati a quanto necessario rispetto alle finalità per le quali sono trattati («minimizzazione dei dati»);"
+     },
+     {
+      "evidence_id": "E1",
+      "text": "esatti e, se necessario, aggiornati;"
+     }
+    ],
+    "text": "Data must be adequate, relevant and limited to what is necessary for the purposes (data minimisation), and accurate and, where necessary, kept up to date, with reasonable steps to erase or rectify inaccurate data without delay (accuracy).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "conservati in una forma che consenta l'identificazione degli interessati per un arco di tempo non superiore al conseguimento delle finalità per le quali sono trattati;"
+     },
+     {
+      "evidence_id": "E1",
+      "text": "trattati in maniera da garantire un'adeguata sicurezza dei dati personali"
+     }
+    ],
+    "text": "Data must be kept in identifiable form no longer than necessary for the purposes (storage limitation), and processed so as to ensure appropriate security, including protection against unauthorised or unlawful processing and accidental loss, destruction or damage (integrity and confidentiality).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Il titolare del trattamento è competente per il rispetto del paragrafo 1 e in grado di comprovarlo («responsabilizzazione»)."
+     }
+    ],
+    "text": "The controller is responsible for compliance with the principles and must be able to demonstrate it (accountability).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "il titolare del trattamento deve essere in grado di dimostrare che l'interessato ha prestato il proprio consenso al trattamento dei propri dati personali."
+     },
+     {
+      "evidence_id": "E3",
+      "text": "L'interessato ha il diritto di revocare il proprio consenso in qualsiasi momento."
+     }
+    ],
+    "text": "Where processing is based on consent, the controller must be able to demonstrate that the data subject consented, and the data subject may withdraw consent at any time without affecting the lawfulness of processing before withdrawal.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C7",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "la richiesta di consenso è presentata in modo chiaramente distinguibile dalle altre materie, in forma comprensibile e facilmente accessibile, utilizzando un linguaggio semplice e chiaro."
+     }
+    ],
+    "text": "A consent request within a written declaration covering other matters must be clearly distinguishable, intelligible, easily accessible and in plain language.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C8",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I4"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "un ulteriore trattamento dei dati personali a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini statistici non è, conformemente all'articolo 89, paragrafo 1, considerato incompatibile con le finalità iniziali"
+     }
+    ],
+    "text": "Further processing for archiving in the public interest, scientific or historical research or statistical purposes is not considered incompatible with the initial purposes, in accordance with Article 89(1).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C9",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I4"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "i dati personali possono essere conservati per periodi più lunghi a condizione che siano trattati esclusivamente a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini statistici"
+     }
+    ],
+    "text": "Personal data may be stored for longer periods if processed solely for archiving in the public interest, scientific or historical research or statistical purposes, subject to appropriate technical and organisational measures.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C10",
+    "evidence_ids": [
+     "E5"
+    ],
+    "issue_ids": [
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E5",
+      "text": "volte ad attuare in modo efficace i principi di protezione dei dati, quali la minimizzazione, e a integrare nel trattamento le necessarie garanzie al fine di soddisfare i requisiti del presente regolamento e tutelare i diritti degli interessati."
+     },
+     {
+      "evidence_id": "E5",
+      "text": "solo i dati personali necessari per ogni specifica finalità del trattamento."
+     }
+    ],
+    "text": "The controller must implement appropriate measures, such as pseudonymisation, to apply data protection principles such as minimisation effectively and to protect data subjects' rights, and by default process only the data necessary for each specific purpose.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "9",
+     "origins": [
+      "lookup"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+     "reason": "token_budget",
+     "tokens": 1590
+    },
+    {
+     "label": "89",
+     "origins": [
+      "lookup",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:5"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:89",
+     "reason": "max_items",
+     "tokens": 698
+    },
+    {
+     "label": "2",
+     "origins": [
+      "query:1"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:2",
+     "reason": "max_items",
+     "tokens": 516
+    },
+    {
+     "label": "23",
+     "origins": [
+      "query:3",
+      "query:5"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:23",
+     "reason": "max_items",
+     "tokens": 832
+    },
+    {
+     "label": "110-bis",
+     "origins": [
+      "query:4"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:110-bis",
+     "reason": "max_items",
+     "tokens": 799
+    },
+    {
+     "label": "18",
+     "origins": [
+      "query:5"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:18",
+     "reason": "max_items",
+     "tokens": 511
+    },
+    {
+     "label": "27",
+     "origins": [
+      "query:7"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:27",
+     "reason": "max_items",
+     "tokens": 570
+    },
+    {
+     "label": "2-novies",
+     "origins": [
+      "query:1"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-novies",
+     "reason": "max_items",
+     "tokens": 195
+    },
+    {
+     "label": "2-quater",
+     "origins": [
+      "query:2"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-quater",
+     "reason": "max_items",
+     "tokens": 395
+    },
+    {
+     "label": "47",
+     "origins": [
+      "query:3",
+      "query:4",
+      "query:5"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:47",
+     "reason": "max_items",
+     "tokens": 400
+    },
+    {
+     "label": "32",
+     "origins": [
+      "query:6"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:32",
+     "reason": "max_items",
+     "tokens": 650
+    },
+    {
+     "label": "89-bis",
+     "origins": [
+      "query:2"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:89-bis",
+     "reason": "max_items",
+     "tokens": 154
+    },
+    {
+     "label": "2-duodecies",
+     "origins": [
+      "query:3"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-duodecies",
+     "reason": "max_items",
+     "tokens": 692
+    },
+    {
+     "label": "106",
+     "origins": [
+      "query:6",
+      "query:4"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:106",
+     "reason": "max_items",
+     "tokens": 132
+    },
+    {
+     "label": "29",
+     "origins": [
+      "query:7"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:29",
+     "reason": "max_items",
+     "tokens": 139
+    },
+    {
+     "label": "88",
+     "origins": [
+      "query:2"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:88",
+     "reason": "max_items",
+     "tokens": 489
+    },
+    {
+     "label": "76",
+     "origins": [
+      "query:6"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:76",
+     "reason": "max_items",
+     "tokens": 122
+    },
+    {
+     "label": "40",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:24"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:40",
+     "reason": "max_items",
+     "tokens": 1804
+    },
+    {
+     "label": "42",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:24",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:25"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:42",
+     "reason": "max_items",
+     "tokens": 1100
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 192676,
+       "char_start": 191676,
+       "page": 35,
+       "page_end": 35
+      },
+      {
+       "char_end": 194066,
+       "char_start": 193017,
+       "page": 36,
+       "page_end": 36
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0219-8b08f8f2",
+      "doc-8f7504d289853f57-0220-d2661b6a"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 5",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "5",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:2",
+      "query:6",
+      "query:3",
+      "query:1",
+      "query:5"
+     ],
+     "page_end": 36,
+     "page_start": 35,
+     "path": "CAPO II > Articolo 5",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:5",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 5\n\nPrincipi applicabili al trattamento di dati personali\n\n1.\nI dati personali sono:\n\na)  trattati in modo lecito, corretto e trasparente nei confronti dell'interessato («liceità, correttezza e trasparenza»);\n\nb)  raccolti per finalità determinate, esplicite e legittime, e successivamente trattati in modo che non sia incompatibile\n\ncon tali finalità; un ulteriore trattamento dei dati personali a fini di archiviazione nel pubblico interesse, di ricerca \nscientifica o storica o a fini statistici non è, conformemente all'articolo 89, paragrafo 1, considerato incompatibile \ncon le finalità iniziali («limitazione della finalità»);\n\nc)  adeguati, pertinenti e limitati a quanto necessario rispetto alle finalità per le quali sono trattati («minimizzazione dei\n\ndati»);\n\nd)  esatti e, se necessario, aggiornati; devono essere adottate tutte le misure ragionevoli per cancellare o rettificare\n\ntempestivamente i dati inesatti rispetto alle finalità per le quali sono trattati («esattezza»);\n\ne)  conservati in una forma che consenta l'identificazione degli interessati per un arco di tempo non superiore al\n\nconseguimento delle finalità per le quali sono trattati; i dati personali possono essere conservati per periodi più \nlunghi a condizione che siano trattati esclusivamente a fini di archiviazione nel pubblico interesse, di ricerca \nscientifica o storica o a fini statistici, conformemente all'articolo 89, paragrafo 1, fatta salva l'attuazione di misure \ntecniche e organizzative adeguate richieste dal presente regolamento a tutela dei diritti e delle libertà dell'interessato \n(«limitazione della conservazione»);\n\nf)  trattati in maniera da garantire un'adeguata sicurezza dei dati personali, compresa la protezione, mediante misure\n\ntecniche e organizzative adeguate, da trattamenti non autorizzati o illeciti e dalla perdita, dalla distruzione o dal \ndanno accidentali («integrità e riservatezza»).\n\n2.\nIl titolare del trattamento è competente per il rispetto del paragrafo 1 e in grado di comprovarlo («responsabiliz­\nzazione»).",
+     "tier": "internal_only",
+     "title": "Principi applicabili al trattamento di dati personali",
+     "tokens": 683,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 196796,
+       "char_start": 196044,
+       "page": 36,
+       "page_end": 36
+      },
+      {
+       "char_end": 197211,
+       "char_start": 196860,
+       "page": 37,
+       "page_end": 37
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0223-3074f5c6",
+      "doc-8f7504d289853f57-0221-8f546e68"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 6",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "6",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:8"
+     ],
+     "page_end": 37,
+     "page_start": 36,
+     "path": "CAPO II > Articolo 6",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "La finalità del trattamento è determinata in tale base giuridica o, per quanto riguarda il trattamento di cui al paragrafo 1, \nlettera e), è necessaria per l'esecuzione di un compito svolto nel pubblico interesse o connesso all'esercizio di pubblici \npoteri di cui è investito il titolare del trattamento. Tale base giuridica potrebbe contenere disposizioni specifiche per \nadeguare l'applicazione delle norme del presente regolamento, tra cui: le condizioni generali relative alla liceità del \ntrattamento da parte del titolare del trattamento; le tipologie di dati oggetto del trattamento; gli interessati; i soggetti cui \npossono essere comunicati i dati personali e le finalità per cui sono comunicati; le limitazioni della finalità, i periodi di\n\nconservazione e le operazioni e procedure di trattamento, comprese le misure atte a garantire un trattamento lecito e \ncorretto, quali quelle per altre specifiche situazioni di trattamento di cui al capo IX. Il diritto dell'Unione o degli Stati \nmembri persegue un obiettivo di interesse pubblico ed è proporzionato all'obiettivo legittimo perseguito.",
+     "tier": "internal_only",
+     "title": "Liceità del trattamento",
+     "tokens": 368,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 199853,
+       "char_start": 198511,
+       "page": 37,
+       "page_end": 37
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0226-6cd70101"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 7",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "7",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:8"
+     ],
+     "page_end": 37,
+     "page_start": 37,
+     "path": "CAPO II > Articolo 7",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:7",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 7\n\nCondizioni per il consenso\n\n1.\nQualora il trattamento sia basato sul consenso, il titolare del trattamento deve essere in grado di dimostrare che \nl'interessato ha prestato il proprio consenso al trattamento dei propri dati personali.\n\n2.\nSe il consenso dell'interessato è prestato nel contesto di una dichiarazione scritta che riguarda anche altre \nquestioni, la richiesta di consenso è presentata in modo chiaramente distinguibile dalle altre materie, in forma compren­\nsibile e facilmente accessibile, utilizzando un linguaggio semplice e chiaro. Nessuna parte di una tale dichiarazione che \ncostituisca una violazione del presente regolamento è vincolante.\n\n3.\nL'interessato ha il diritto di revocare il proprio consenso in qualsiasi momento. La revoca del consenso non \npregiudica la liceità del trattamento basata sul consenso prima della revoca. Prima di esprimere il proprio consenso, \nl'interessato è informato di ciò. Il consenso è revocato con la stessa facilità con cui è accordato.\n\n4.\nNel valutare se il consenso sia stato liberamente prestato, si tiene nella massima considerazione l'eventualità, tra le \naltre, che l'esecuzione di un contratto, compresa la prestazione di un servizio, sia condizionata alla prestazione del \nconsenso al trattamento di dati personali non necessario all'esecuzione di tale contratto.",
+     "tier": "internal_only",
+     "title": "Condizioni per il consenso",
+     "tokens": 448,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 236113,
+       "char_start": 235131,
+       "page": 47,
+       "page_end": 47
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 24",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "24",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 47,
+     "page_start": 47,
+     "path": "CAPO IV > Sezione 1 > Articolo 24",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:24",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 24\n\nResponsabilità del titolare del trattamento\n\n1.\nTenuto conto della natura, dell'ambito di applicazione, del contesto e delle finalità del trattamento, nonché dei \nrischi aventi probabilità e gravità diverse per i diritti e le libertà delle persone fisiche, il titolare del trattamento mette in \natto misure tecniche e organizzative adeguate per garantire, ed essere in grado di dimostrare, che il trattamento è \neffettuato conformemente al presente regolamento. Dette misure sono riesaminate e aggiornate qualora necessario.\n\n2.\nSe ciò è proporzionato rispetto alle attività di trattamento, le misure di cui al paragrafo 1 includono l'attuazione di \npolitiche adeguate in materia di protezione dei dati da parte del titolare del trattamento.\n\n3.\nL'adesione ai codici di condotta di cui all'articolo 40 o a un meccanismo di certificazione di cui all'articolo 42 può \nessere utilizzata come elemento per dimostrare il rispetto degli obblighi del titolare del trattamento.",
+     "tier": "internal_only",
+     "title": "Responsabilità del titolare del trattamento",
+     "tokens": 328,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 237805,
+       "char_start": 236179,
+       "page": 48,
+       "page_end": 48
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0276-d4450900"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 25",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "25",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:4"
+     ],
+     "page_end": 48,
+     "page_start": 48,
+     "path": "CAPO IV > Sezione 1 > Articolo 25",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:25",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 25\n\nProtezione dei dati fin dalla progettazione e protezione per impostazione predefinita\n\n1.\nTenendo conto dello stato dell'arte e dei costi di attuazione, nonché della natura, dell'ambito di applicazione, del \ncontesto e delle finalità del trattamento, come anche dei rischi aventi probabilità e gravità diverse per i diritti e le libertà \ndelle persone fisiche costituiti dal trattamento, sia al momento di determinare i mezzi del trattamento sia all'atto del \ntrattamento stesso il titolare del trattamento mette in atto misure tecniche e organizzative adeguate, quali la pseudoni­\nmizzazione, volte ad attuare in modo efficace i principi di protezione dei dati, quali la minimizzazione, e a integrare nel \ntrattamento le necessarie garanzie al fine di soddisfare i requisiti del presente regolamento e tutelare i diritti degli \ninteressati.\n\n2.\nIl titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire che siano trattati, \nper impostazione predefinita, solo i dati personali necessari per ogni specifica finalità del trattamento. Tale obbligo vale \nper la quantità dei dati personali raccolti, la portata del trattamento, il periodo di conservazione e l'accessibilità. In \nparticolare, dette misure garantiscono che, per impostazione predefinita, non siano resi accessibili dati personali a un \nnumero indefinito di persone fisiche senza l'intervento della persona fisica.\n\n3.\nUn meccanismo di certificazione approvato ai sensi dell'articolo 42 può essere utilizzato come elemento per \ndimostrare la conformità ai requisiti di cui ai paragrafi 1 e 2 del presente articolo.",
+     "tier": "internal_only",
+     "title": "Protezione dei dati fin dalla progettazione e protezione per impostazione predefinita",
+     "tokens": 542,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 5,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "5",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "6",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "7",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "9",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "24",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "25",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "89",
+      "point": null
+     }
+    ],
+    "queries": [
+     "principi applicabili al trattamento di dati personali",
+     "liceità, correttezza e trasparenza",
+     "limitazione della finalità",
+     "minimizzazione dei dati",
+     "esattezza e limitazione della conservazione",
+     "integrità e riservatezza",
+     "responsabilizzazione del titolare del trattamento",
+     "liceità del trattamento condizioni"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 3000,
+   "total_tokens": 2369,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8M5pZFb9Q8QHoJa2EbU"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "Article 6 is only an excerpt and does not set out the conditions for lawful processing.",
+   "No provisions on special categories of data or on data subject rights are provided.",
+   "Article 89(1) is referred to but its text is not supplied.",
+   "The Italian Privacy Code's complementary rules are not in the evidence."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "19 further candidate provisions were left out by the evidence limits (max_items, token_budget)."
+  ],
+  "question": "What are the main principles governing the processing of personal data under the GDPR?",
+  "question_references": [],
+  "rejected_claims": [
+   {
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E4",
+      "text": "il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire, ed essere in grado di dimostrare, che il trattamento è effettuato conformemente al presente regolamento."
+     },
+     {
+      "evidence_id": "E4",
+      "text": "può essere utilizzato come elemento per dimostrare il rispetto degli obblighi del titolare del trattamento."
+     }
+    ],
+    "reasons": [
+     "quote_not_found:E4"
+    ],
+    "text": "The controller must implement appropriate technical and organisational measures to ensure and be able to demonstrate that processing complies with the Regulation; adherence to codes of conduct or certification mechanisms may be used as an element to demonstrate compliance."
+   }
+  ],
+  "unanswered_issues": [
+   {
+    "issue_id": "I3",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I5",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I4",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   }
+  ],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8M6qjEaWVLA59kVrDMx"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E3",
+    "E5"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "dev"
+}
