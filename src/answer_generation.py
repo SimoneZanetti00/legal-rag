@@ -574,7 +574,8 @@ def answer_question(question: str, llm: LLMClient, explorer: ProvisionExplorer, 
         request = _with_question_lookups(analysis.to_evidence_request(), references)
         evidence = assemble(request, explorer, settings=settings)
     return finish(generate_answer(question, analysis, evidence, llm,
-                                  verify_support=settings.semantic_verification, mode=mode))
+                                  verify_support=settings.semantic_verification, mode=mode,
+                                  show_summary=settings.show_summary))
 
 
 def _article_text(explorer: ProvisionExplorer):
@@ -631,7 +632,8 @@ def corpus_preflight(explorer: ProvisionExplorer) -> CorpusPreflight:
 
 def generate_answer(question: str, analysis: QueryAnalysis, evidence: EvidenceSet | None,
                     llm: LLMClient, *, verify_support: bool = False,
-                    mode: Mode | str = Mode.VERIFIED) -> AnswerResult:
+                    mode: Mode | str = Mode.VERIFIED,
+                    show_summary: bool = False) -> AnswerResult:
     """A validated answer to `question` from `evidence`, or an abstention with its reason.
 
     `evidence` may be None only when the analysis is out of scope or needs clarification.
@@ -639,13 +641,17 @@ def generate_answer(question: str, analysis: QueryAnalysis, evidence: EvidenceSe
     model support check (src/support_verification.py): unsupported claims are removed, and
     only claims assessed as supported can make a complete answer. `mode` decides which
     evidence items may be supplied to the model and cited (usable); every check is the same.
+    With `show_summary` (SHOW_SUMMARY, off by default), the model's summary is shown, sentence by
+    sentence (_summary()); otherwise the result has none.
     """
     mode = Mode(mode)
-    return _in_mode(_generate(question, analysis, evidence, llm, verify_support, mode), mode)
+    return _in_mode(_generate(question, analysis, evidence, llm, verify_support, mode,
+                              show_summary), mode)
 
 
 def _generate(question: str, analysis: QueryAnalysis, evidence: EvidenceSet | None,
-              llm: LLMClient, verify_support: bool, mode: Mode) -> AnswerResult:
+              llm: LLMClient, verify_support: bool, mode: Mode,
+              show_summary: bool = False) -> AnswerResult:
     question = question.strip()
     if question != analysis.question:
         raise AnswerGenerationError("the question is not the one the analysis was made for")
@@ -697,13 +703,15 @@ def _generate(question: str, analysis: QueryAnalysis, evidence: EvidenceSet | No
         quote_normalisation=QUOTE_PROFILE,
         supplied_evidence_ids=tuple(item.evidence_id for item in supplied))
     return _decide(question, analysis, evidence, supplied, result.data, provenance,
-                   verifier=llm if verify_support else None, mode=mode)
+                   verifier=llm if verify_support else None, mode=mode,
+                   show_summary=show_summary)
 
 
 def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
             supplied: tuple[EvidenceItem, ...], data: Mapping[str, Any],
             provenance: GenerationProvenance, *,
-            verifier: LLMClient | None = None, mode: Mode = Mode.VERIFIED) -> AnswerResult:
+            verifier: LLMClient | None = None, mode: Mode = Mode.VERIFIED,
+            show_summary: bool = False) -> AnswerResult:
     warnings: list[str] = []
     issue_ids = {issue.id for issue in analysis.issues}
 
@@ -750,7 +758,9 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
         [u.issue_id for u in unanswered], check)
     unanswered += [UnansweredIssue(issue_id, reason) for issue_id, reason in missing]
     cited = {eid for claim in claims for eid in claim.evidence_ids}
-    summary, summary_ids = _summary(data.get("summary"), positions, claims, evidence, warnings)
+    summary, summary_ids = (
+        _summary(data.get("summary"), positions, claims, evidence, warnings) if show_summary
+        else (None, ()))
     return AnswerResult(
         question=question,
         outcome=Outcome.ANSWER if complete else Outcome.ANSWER_LIMITED,

@@ -32,8 +32,8 @@ Reasons to prefer the static export over a Space that runs the Python server:
 ## Steps
 
 The export of the final run is committed in `demo/replay/`. It covers the dev questions
-a01–a12 and comes from `2026-11-17-final-summary`, the offline re-render of `2026-11-17-final`
-under the sentence-level summary rule. To deploy it as it is, skip step 1 and use that folder in steps 2 and 4. A test
+a01–a12 and comes from `2026-11-17-final-nosummary`, the offline re-render of
+`2026-11-17-final` with the summary display off (the default). To deploy it as it is, skip step 1 and use that folder in steps 2 and 4. A test
 (`tests/test_web_replay.py`) checks that it matches the page code and the saved run.
 
 1. **Export** (local; needs the recorded corpus build, as the local demo does):

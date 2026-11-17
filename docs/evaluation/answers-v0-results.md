@@ -167,8 +167,7 @@ changes and run-to-run variation. Repeated runs were not made, to keep within th
    - the results are identical apart from the summary fields;
    - the report is identical.
 
-   Summaries now appear in 18 of 20 answers, 15 of them with some sentences left out. The
-   replay in `demo/replay/` comes from this re-render.
+   Summaries now appear in 18 of 20 answers, 15 of them with some sentences left out.
 
    **Limits of the sentence rule** (open):
    - **It checks citations, not content.** It confirms that a sentence's cited claims are
@@ -177,3 +176,12 @@ changes and run-to-run variation. Repeated runs were not made, to keep within th
      breach.
    - **Some sentences do not stand alone.** In a05, a06 and a07 the sentence left starts with
      "…adds", "They" or "It", which refer back to a sentence that was left out.
+
+   **The summary display is now off by default** (`SHOW_SUMMARY=false`), until a per-sentence
+   support check exists (TECHNICAL_DEBT.md TD-067). The run was re-rendered offline once more,
+   as `2026-11-17-final-nosummary`:
+   - no model call;
+   - no summary;
+   - results and report otherwise identical.
+
+   The replay in `demo/replay/` comes from this re-render.

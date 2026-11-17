@@ -218,8 +218,8 @@ Both modes run the same pipeline and differ only in the provisions an answer may
 - **Retrieval.** The pipeline uses BM25 with exact lookups and one hop of references. The dense
   and hybrid retrievers in the repository are not used by the pipeline.
 - **The model checks.** The support check is a model's reading, not legal validation. The
-  summary check confirms that each sentence cites only supported claims, not that the sentence
-  says what they say.
+  model's summary is off by default (`SHOW_SUMMARY`): its check confirms that each sentence cites
+  only supported claims, not that the sentence says what they say.
 
 ## Next steps
 
@@ -235,6 +235,8 @@ Both modes run the same pipeline and differ only in the provisions an answer may
    runs to measure run-to-run variance.
 6. **A retrieval benchmark.** Add questions whose provisions BM25 and the lookups miss, before
    comparing hybrid retrieval and reranking.
+7. **A per-sentence support check for summaries,** so that the summary can be shown again
+   (TD-067).
 
 ## Documentation
 

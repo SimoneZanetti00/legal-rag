@@ -1240,6 +1240,7 @@ defaults are listed in [.env.example](../.env.example).
 | `MIN_RETRIEVAL_SCORE` / `MIN_RERANK_SCORE` | *(empty = disabled)* | **Inactive (reserved):** parsed and validated, but no code reads them. Abstention does not use score thresholds |
 | `UNDATED_SOURCE_POLICY` | `warn` | **Inactive (reserved):** parsed and validated (`warn` or `exclude`), but no code reads it. It does not currently control how sources without effective dates are handled, in "as of" questions or elsewhere |
 | `MAX_GENERATION_RETRIES` | `1` | Retries for malformed LLM output (0 or 1) |
+| `SHOW_SUMMARY` | `false` | Show the model's summary, keeping only the sentences whose cited claims are all rated supported. Off by default: that check confirms citations, not content (TECHNICAL_DEBT.md TD-067) |
 
 Invalid settings stop the program with a message that lists every problem.
 

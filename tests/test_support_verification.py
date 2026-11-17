@@ -67,12 +67,13 @@ def verdicts(**levels):
     return {"verdicts": [{"claim_id": cid, "support": level} for cid, level in levels.items()]}
 
 
-def run(*verification_replies, verify=True, generation=None):
+def run(*verification_replies, verify=True, generation=None, summary=False):
     script = {TASK: [generation or reply(NOTIFY, INFORM)]}
     if verification_replies:
         script[VERIFY_TASK] = list(verification_replies)
     llm = MockLLM(script)
-    return generate_answer(QUESTION, analysis(), EVIDENCE, llm, verify_support=verify), llm
+    return generate_answer(QUESTION, analysis(), EVIDENCE, llm, verify_support=verify,
+                           show_summary=summary), llm
 
 
 def test_schema_and_prompt():
@@ -291,7 +292,7 @@ def test_decide_coverage(claims, reported, check, expected):
 def summarised(summary, *claims, **levels):
     generation = {**reply(*(claims or (NOTIFY, INFORM))), "summary": summary}
     return run(verdicts(**(levels or {"C1": "supported", "C2": "supported"})),
-               generation=generation)[0]
+               generation=generation, summary=True)[0]
 
 
 def test_a_summary_citing_supported_claims_is_shown_with_claim_ids():
@@ -359,8 +360,18 @@ def test_the_summary_is_split_into_sentences_at_sentence_ends_only(text, sentenc
 
 def test_without_the_support_check_no_summary_is_shown():
     generation = {**reply(NOTIFY, INFORM), "summary": "Notifica [1]; comunicazione [2]."}
-    result, _ = run(verify=False, generation=generation)
+    result, _ = run(verify=False, generation=generation, summary=True)
     assert result.summary is None
+
+
+def test_the_summary_is_not_shown_by_default():
+    generation = {**reply(NOTIFY, INFORM), "summary": "Notifica [1]; comunicazione [2]."}
+    result, _ = run(verdicts(C1="supported", C2="supported"), generation=generation)
+    assert result.summary is None and result.summary_claim_ids == ()
+    assert not any(w.startswith("summary") for w in result.warnings)
+    from src.config import load_settings
+    assert load_settings({}).show_summary is False
+    assert load_settings({"SHOW_SUMMARY": "true"}).show_summary is True
 
 
 def test_the_summary_is_asked_for_in_the_language_of_the_question():

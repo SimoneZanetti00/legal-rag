@@ -108,6 +108,7 @@ the phase reports and are not asserted by the test suite.
 | TD-062 | Corpus builds and anchors are tied to the whole-repository code version | Provenance | Confirmed | Low | Open |
 | TD-063 | Segmentation rules rest on the sources' formatting | Provision anchors | Confirmed | Medium | Open |
 | TD-066 | A web demo test fails intermittently | Testing | Observed | Low | Open |
+| TD-067 | Summary sentences are checked for citations, not content | Answer quality | Observed | Medium | Open |
 
 ## Ingestion and chunking (Phase 2)
 
@@ -537,6 +538,16 @@ the phase reports and are not asserted by the test suite.
 - **Evidence:** `tests/test_web_demo.py::test_requests_from_other_hosts_or_sites_are_refused[headers1]` failed once in a full run on 2026-11-17 (Windows 11, 2234 passed), then passed three times on its own and in a run of its whole file (71 passed). The test starts the local demo server; the cause, presumably timing in that server, was not investigated.
 - **Impact:** an occasional red full run that is not a regression.
 - **Follow-up:** reproduce it in a loop, find the cause, and make the test deterministic. Not fixed for now (owner's decision, 2026-11-17).
+
+### TD-067 · Summary sentences are checked for citations, not content
+- **Kind:** Observed · **Priority:** Medium · **Status:** Open
+- **What the check does:** `answer_generation._summary()` shows a summary sentence only if every claim it cites is rated SUPPORTED and in the main answer, and the sentence passes the reference check.
+- **What it misses:** whether the sentence says what those claims say.
+- **Evidence:** in the offline re-render `2026-11-17-final-summary`:
+  - a01's only remaining sentence was "The evidence does not contain any sector-specific rules [C3]", and C3 is the definition of a breach;
+  - in a05, a06 and a07 the remaining sentence began with "…adds", "They" or "It", pointing back to a sentence that was left out.
+- **Mitigation:** the summary display is off by default (`SHOW_SUMMARY=false`, owner's decision, 2026-11-17).
+- **Follow-up:** a per-sentence support check for summaries, judging each sentence against the claims it cites (as the claim support check does), or a summary built from the supported claims themselves. Then turn the display back on.
 
 ## Risks and questions for later phases
 
