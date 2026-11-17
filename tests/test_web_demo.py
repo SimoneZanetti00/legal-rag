@@ -471,3 +471,10 @@ def test_the_page_reads_only_fields_the_server_provides(synthetic_result):
     for variable, provided in contract.items():
         assert used(variable), f"{variable} is not used in app.js"
         assert used(variable) <= provided, f"{variable}: {sorted(used(variable) - provided)}"
+
+
+def test_the_footer_says_where_questions_and_evidence_are_sent():
+    page = (web.STATIC_DIR / "index.html").read_text(encoding="utf-8")
+    assert ("Local server. Questions and evidence are sent to Anthropic's API for analysis, "
+            "generation and verification.") in page
+    assert "Runs locally" not in page
