@@ -29,6 +29,7 @@ from src.llm import (
 from src.provision_explorer import ExplorerError, ProvisionExplorer, find_recorded_build
 from src.query_analysis import (
     CORPUS_INSTRUMENTS,
+    MAX_ISSUES,
     MAX_QUERIES,
     MAX_QUERY_CHARS,
     PROMPT_VERSION,
@@ -134,7 +135,7 @@ def test_corpus_descriptions_claim_no_more_than_the_registry():
     assert f"- it-dlgs-2003-196: {privacy_code}" in SYSTEM_PROMPT
     for word in ("consolidat", "vigente", "in force", "current"):
         assert word not in SYSTEM_PROMPT.lower(), word
-    assert PROMPT_VERSION == "query-analysis-v2"
+    assert PROMPT_VERSION == "query-analysis-v3"
 
 
 def test_prompt_states_the_task_and_does_not_carry_the_demo_answer():
@@ -144,8 +145,11 @@ def test_prompt_states_the_task_and_does_not_carry_the_demo_answer():
                    "retrieval hints, not citations", "Never name any other act",
                    "do not choose one silently", "Do not answer the question"):
         assert phrase in SYSTEM_PROMPT
-    # No article numbers, deadlines or wording specific to the demonstration question.
-    assert re.search(r"\b(4|33|34|55|72)\b", SYSTEM_PROMPT) is None
+    # No article numbers, deadlines or wording specific to the demonstration question (the
+    # issue limit "at most 4" is the prompt's own limit, not an article).
+    assert f"at most {MAX_ISSUES}," in SYSTEM_PROMPT
+    unlimited = SYSTEM_PROMPT.replace(f"at most {MAX_ISSUES},", "at most N,")
+    assert re.search(r"\b(4|33|34|55|72)\b", unlimited) is None
     for phrase in ("2-bis", "violazione", "breach", "notific", "ore"):
         assert not re.search(rf"\b{phrase}", SYSTEM_PROMPT, re.IGNORECASE), phrase
 

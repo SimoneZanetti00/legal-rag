@@ -27,13 +27,15 @@ from src.evidence import EvidenceRequest, ProvisionRequest
 from src.llm import LLMClient, LLMSchemaError
 
 TASK = "query_analysis"
-PROMPT_VERSION = "query-analysis-v2"  # v2: the Privacy Code described as a user transcription
+# v3: only the issues the user asked, at most 4; at most 8 lookups; the Privacy Code only for
+# questions about Italy or the Code. v2: the Privacy Code described as a user transcription.
+PROMPT_VERSION = "query-analysis-v3"
 
 MAX_QUESTION_CHARS = 2000
-MAX_ISSUES = 8
+MAX_ISSUES = 4
 MAX_QUERIES = 8
 MAX_QUERY_CHARS = 200
-MAX_SUGGESTIONS = 10
+MAX_SUGGESTIONS = 8
 
 # The instruments in the corpus, by registry ID (data/reference/instruments.json; tests keep
 # the IDs, and how each text is described, in step with the registry). The model may suggest
@@ -192,22 +194,23 @@ only another country's law, or not a legal question. When false, leave issues, \
 search_queries_it and suggested_provisions empty.
 scope_reason: one sentence on why the question is or is not in scope.
 
-issues: the distinct legal questions a complete answer must address, at most {MAX_ISSUES}, \
-most important first, each a neutral question in the language of the user's question. Split \
-compound questions. Include what a complete answer depends on: who is obliged, the triggering \
-conditions and any thresholds or exceptions, deadlines and form, and any closely related \
-obligation that must be kept distinct from the one asked about. Leave out unrelated topics. \
-Do not answer the issues.
+issues: the legal questions the user actually asked, at most {MAX_ISSUES}, most important \
+first, each a neutral question in the language of the user's question. A simple question is one \
+issue; split a question only where it asks several things. The conditions, thresholds, \
+exceptions, deadlines and form of what was asked belong to that issue, not to new ones. Add no \
+issue for a related topic or obligation the user did not ask about. Do not answer the issues.
 
 search_queries_it: 2 to {MAX_QUERIES} short Italian search queries (phrases, not sentences) \
 that together cover every issue. Write them in Italian even when the question is in English. \
+Write queries aimed at the Privacy Code only when the question concerns Italy or the Code. \
 Use the terms the Italian texts use, not everyday paraphrases or literal translations, for \
 example: controller = «titolare del trattamento»; processor = «responsabile del trattamento»; \
 data subject = «interessato»; supervisory authority = «autorità di controllo»; Italian Data \
 Protection Authority = «Garante per la protezione dei dati personali».
 
 suggested_provisions: articles of the two instruments above worth looking up directly, at most \
-{MAX_SUGGESTIONS}. They are retrieval hints, not citations or conclusions. Suggest an article \
+{MAX_SUGGESTIONS}. They are retrieval hints, not citations or conclusions. Suggest articles of \
+the Privacy Code only when the question concerns Italy or the Code. Suggest an article \
 only if you are confident it exists in that instrument and bears on one of the issues; when \
 unsure, leave it out, because the search queries will still look for it. Never name any other \
 act; if the question depends on one, say so in uncertainty.

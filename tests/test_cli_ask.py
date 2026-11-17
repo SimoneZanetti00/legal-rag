@@ -123,7 +123,7 @@ def test_ask_json(explored, capsys):
     assert all(c["citable"] for c in result["citations"])
     assert "E2" in [r["evidence_id"] for r in result["non_authoritative"]]
     assert result["generation"]["prompt_version"] == "answer-generation-v3"
-    assert result["analysis"]["provenance"]["prompt_version"] == "query-analysis-v2"
+    assert result["analysis"]["provenance"]["prompt_version"] == "query-analysis-v3"
     assert result["preflight"]["citable_articles"] == 1  # Art. 1
     assert result["evidence"]["build_id"]
     assert result["claims"][0]["verification"] == "SUPPORTED"

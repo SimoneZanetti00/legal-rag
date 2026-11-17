@@ -1,0 +1,1860 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "What rights does the GDPR grant data subjects regarding their personal data?"
+     }
+    ],
+    "language": "en",
+    "scope_reason": "The question concerns the rights of data subjects over their personal data under the GDPR, which is within the scope of the corpus.",
+    "search_queries_it": [
+     "diritti dell'interessato",
+     "diritto di accesso dell'interessato",
+     "diritto di rettifica e cancellazione",
+     "diritto alla limitazione di trattamento",
+     "diritto alla portabilità dei dati",
+     "diritto di opposizione al trattamento",
+     "informazioni da fornire all'interessato",
+     "processo decisionale automatizzato relativo alle persone fisiche"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "12",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "modalità di esercizio dei diritti dell'interessato"
+     },
+     {
+      "article": "13",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "informazioni all'interessato quando i dati sono raccolti presso di lui"
+     },
+     {
+      "article": "14",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "informazioni quando i dati non sono raccolti presso l'interessato"
+     },
+     {
+      "article": "15",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "diritto di accesso"
+     },
+     {
+      "article": "16",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "diritto di rettifica"
+     },
+     {
+      "article": "17",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "diritto alla cancellazione"
+     },
+     {
+      "article": "18",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "diritto di limitazione di trattamento"
+     },
+     {
+      "article": "20",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "diritto alla portabilità dei dati"
+     }
+    ],
+    "uncertainty": "The question is general and does not specify a context; it does not mention Italy, so the Italian Privacy Code provisions were not suggested. Other rights (Articles 19, 21, 22) are covered by the search queries."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8QjFy6kLBVStHaiQJzK"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "227beb1de4fc6243a3938fe318d8012e0b5aca13ab853ae115b57893c3c1ffd7",
+   "task": "query_analysis",
+   "user_sha256": "07f667361db6cbd9ac17337059add573b034eca9c1add45f20c271298a60c113"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E4",
+        "quote": "L'interessato ha il diritto di ottenere dal titolare del trattamento la conferma che sia o meno in corso un trattamento di dati personali che lo riguardano"
+       }
+      ],
+      "text": "Right of access (Art. 15): the data subject may obtain from the controller confirmation of whether personal data concerning them are being processed, and if so access to the data and to the related information."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E5",
+        "quote": "L'interessato ha il diritto di ottenere dal titolare del trattamento la rettifica dei dati personali inesatti che lo riguardano senza ingiustificato ritardo."
+       },
+       {
+        "evidence_id": "E5",
+        "quote": "Tenuto conto delle finalità del trattamento, l'interessato ha il diritto di ottenere l'integrazione dei dati personali incompleti"
+       }
+      ],
+      "text": "Right to rectification (Art. 16): the data subject may obtain the rectification of inaccurate personal data without undue delay, and the completion of incomplete data."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E6",
+        "quote": "L'interessato ha il diritto di ottenere dal titolare del trattamento la cancellazione dei dati personali che lo riguardano senza ingiustificato ritardo"
+       },
+       {
+        "evidence_id": "E6",
+        "quote": "se sussiste uno dei motivi seguenti:"
+       }
+      ],
+      "text": "Right to erasure, or 'right to be forgotten' (Art. 17): the data subject may obtain erasure of their personal data without undue delay where one of the listed grounds applies."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E7",
+        "quote": "L'interessato ha il diritto di ottenere dal titolare del trattamento la limitazione del trattamento quando ricorre una delle seguenti ipotesi:"
+       },
+       {
+        "evidence_id": "E7",
+        "quote": "l'interessato contesta l'esattezza dei dati personali, per il periodo necessario al titolare del trattamento per verificare l'esattezza di tali dati personali;"
+       }
+      ],
+      "text": "Right to restriction of processing (Art. 18): the data subject may obtain restriction of processing in the cases listed, for example when they contest the accuracy of the data."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E8",
+        "quote": "L'interessato ha il diritto di ricevere in un formato strutturato, di uso comune e leggibile da dispositivo automatico i dati personali che lo riguardano forniti a un titolare del trattamento"
+       },
+       {
+        "evidence_id": "E8",
+        "quote": "il trattamento sia effettuato con mezzi automatizzati."
+       }
+      ],
+      "text": "Right to data portability (Art. 20): the data subject may receive the data they provided to a controller in a structured, commonly used, machine-readable format and transmit them to another controller, where processing is based on consent or contract and carried out by automated means."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E12",
+        "quote": "L'interessato ha il diritto di opporsi in qualsiasi momento, per motivi connessi alla sua situazione particolare, al trattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f), compresa la profilazione sulla base di tali disposizioni."
+       }
+      ],
+      "text": "Right to object (Art. 21): the data subject may object at any time, on grounds relating to their particular situation, to processing based on Art. 6(1)(e) or (f), including profiling."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E12",
+        "quote": "Qualora i dati personali siano trattati per finalità di marketing diretto, l'interessato ha il diritto di opporsi in qualsiasi momento al trattamento dei dati personali che lo riguardano effettuato per tali finalità, compresa la profilazione nella misura in cui sia connessa a tale marketing diretto."
+       },
+       {
+        "evidence_id": "E12",
+        "quote": "i dati personali non sono più oggetto di trattamento per tali finalità."
+       }
+      ],
+      "text": "Where data are processed for direct marketing, the data subject may object at any time, and once they object the data are no longer processed for those purposes."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "il titolare del trattamento fornisce all'interessato, nel momento in cui i dati personali sono ottenuti, le seguenti informazioni:"
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "Qualora i dati non siano stati ottenuti presso l'interessato, il titolare del trattamento fornisce all'interessato le seguenti informazioni:"
+       }
+      ],
+      "text": "Right to information (Arts. 13 and 14): the controller must give the data subject specified information when data are collected from them (Art. 13) and also when the data were not obtained from them (Art. 14)."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "l'esistenza del diritto di revocare il consenso in qualsiasi momento senza pregiudicare la liceità del trattamento basata sul consenso prestato prima della revoca;"
+       },
+       {
+        "evidence_id": "E2",
+        "quote": "il diritto di proporre reclamo a un'autorità di controllo;"
+       }
+      ],
+      "text": "The controller must inform the data subject of the right to withdraw consent at any time, without affecting the lawfulness of processing based on consent given before withdrawal, and of the right to lodge a complaint with a supervisory authority."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Il titolare del trattamento agevola l'esercizio dei diritti dell'interessato ai sensi degli articoli da 15 a 22."
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "senza ingiustificato ritardo e, comunque, al più tardi entro un mese dal ricevimento della richiesta stessa."
+       }
+      ],
+      "text": "Art. 12 requires the controller to facilitate the exercise of the rights in Arts. 15 to 22, and to report on action taken on a request without undue delay and at the latest within one month of receiving it."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "dei motivi dell'inottemperanza e della possibilità di proporre reclamo a un'autorità di controllo e di proporre ricorso giurisdizionale."
+       }
+      ],
+      "text": "Art. 12 also provides that, if the controller does not comply with a request, it must give the reasons and tell the data subject of the possibility of lodging a complaint with a supervisory authority and seeking judicial remedy."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E10",
+        "quote": "il diritto di non essere sottoposto a decisioni basate unicamente sul trattamento automatizzato, compresa la profilazione ai sensi dell'articolo 22"
+       }
+      ],
+      "text": "An excerpt of Art. 47, on binding corporate rules, lists among data subject rights the right not to be subject to decisions based solely on automated processing, including profiling under Art. 22."
+     }
+    ],
+    "limitations": [
+     "Several rights are subject to conditions and exceptions: Art. 17(3) exceptions to erasure, the conditions in Art. 20(1), and the limits in Art. 15(4) and Art. 20(4) concerning the rights and freedoms of others. They are only briefly noted here.",
+     "The right to withdraw consent and the right to complain are shown only as information the controller must give (Arts. 13 and 14); the provisions that establish them directly are not in the evidence.",
+     "E10 is only an excerpt of Art. 47 and only mentions the Art. 22 right in passing.",
+     "E9 and E11 are unofficial, unverified transcriptions of the Italian Privacy Code. They concern medical records and the data of deceased persons, so they were not used for this general question."
+    ],
+    "outcome": "answer_limited",
+    "unanswered_issues": [
+     {
+      "issue_id": "I1",
+      "reason": "The texts of Art. 19 (notification obligation) and Art. 22 (automated individual decision-making) were not supplied, nor were provisions on consent withdrawal or complaints and remedies in their own right. The list of rights is therefore only partial."
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8QjeZeh1BPyLqHA6GqC"
+   ],
+   "schema_sha256": "958b2be51ffa530f9267f985c758125ecff38d8bcb558d93f182bc5ea60defee",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "a4316fff0471471b36fb2ed20f090ba325500d3fcfb1723ee2160e9ab5a95f80",
+   "task": "answer_generation",
+   "user_sha256": "d9c225a11ac6dfefa77dd1eea82762e85d7ac16226c1e49d2c1b16737baf6924"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C8",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C9",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C10",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C11",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C12",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8QmfHNPLog3zM7U3p3H"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "e125d66867796bf590fbc60aea974405ca557abd3b818c1c8243652db157f309",
+   "task": "claim_verification",
+   "user_sha256": "389fd739afb0560123db59be055db26b26938f54b7f496157e53fcda57a2083a"
+  }
+ ],
+ "query_id": "a06",
+ "question": "What rights do individuals have regarding their personal data under the GDPR?",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "What rights does the GDPR grant data subjects regarding their personal data?"
+    }
+   ],
+   "language": "en",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v3",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8QjFy6kLBVStHaiQJzK"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "What rights do individuals have regarding their personal data under the GDPR?",
+   "rejected_suggestions": [],
+   "scope_reason": "The question concerns the rights of data subjects over their personal data under the GDPR, which is within the scope of the corpus.",
+   "search_queries_it": [
+    "diritti dell'interessato",
+    "diritto di accesso dell'interessato",
+    "diritto di rettifica e cancellazione",
+    "diritto alla limitazione di trattamento",
+    "diritto alla portabilità dei dati",
+    "diritto di opposizione al trattamento",
+    "informazioni da fornire all'interessato",
+    "processo decisionale automatizzato relativo alle persone fisiche"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "12",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "modalità di esercizio dei diritti dell'interessato"
+    },
+    {
+     "article": "13",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "informazioni all'interessato quando i dati sono raccolti presso di lui"
+    },
+    {
+     "article": "14",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "informazioni quando i dati non sono raccolti presso l'interessato"
+    },
+    {
+     "article": "15",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "diritto di accesso"
+    },
+    {
+     "article": "16",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "diritto di rettifica"
+    },
+    {
+     "article": "17",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "diritto alla cancellazione"
+    },
+    {
+     "article": "18",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "diritto di limitazione di trattamento"
+    },
+    {
+     "article": "20",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "diritto alla portabilità dei dati"
+    }
+   ],
+   "uncertainty": "The question is general and does not specify a context; it does not mention Italy, so the Italian Privacy Code provisions were not suggested. Other rights (Articles 19, 21, 22) are covered by the search queries."
+  },
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 12",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "12",
+    "legal_validity": "not_established",
+    "page_end": 40,
+    "page_start": 39,
+    "path": "CAPO III > Sezione 1 > Articolo 12",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:12",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Informazioni, comunicazioni e modalità trasparenti per l'esercizio dei diritti dell'interessato",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 13",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "13",
+    "legal_validity": "not_established",
+    "page_end": 41,
+    "page_start": 40,
+    "path": "CAPO III > Sezione 2 > Articolo 13",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Informazioni da fornire qualora i dati personali siano raccolti presso l'interessato",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 14",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "14",
+    "legal_validity": "not_established",
+    "page_end": 42,
+    "page_start": 41,
+    "path": "CAPO III > Sezione 2 > Articolo 14",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Informazioni da fornire qualora i dati personali non siano stati ottenuti presso l'interessato",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E4",
+    "heading": "Articolo 15",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "15",
+    "legal_validity": "not_established",
+    "page_end": 43,
+    "page_start": 43,
+    "path": "CAPO III > Sezione 2 > Articolo 15",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:15",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Diritto di accesso dell'interessato",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E5",
+    "heading": "Articolo 16",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "16",
+    "legal_validity": "not_established",
+    "page_end": 43,
+    "page_start": 43,
+    "path": "CAPO III > Sezione 3 > Articolo 16",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:16",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Diritto di rettifica",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E6",
+    "heading": "Articolo 17",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "17",
+    "legal_validity": "not_established",
+    "page_end": 44,
+    "page_start": 43,
+    "path": "CAPO III > Sezione 3 > Articolo 17",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:17",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Diritto alla cancellazione («diritto all'oblio»)",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E7",
+    "heading": "Articolo 18",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "18",
+    "legal_validity": "not_established",
+    "page_end": 45,
+    "page_start": 44,
+    "path": "CAPO III > Sezione 3 > Articolo 18",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:18",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Diritto di limitazione di trattamento",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E8",
+    "heading": "Articolo 20",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "20",
+    "legal_validity": "not_established",
+    "page_end": 45,
+    "page_start": 45,
+    "path": "CAPO III > Sezione 3 > Articolo 20",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:20",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Diritto alla portabilità dei dati",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E10",
+    "heading": "Articolo 47",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "47",
+    "legal_validity": "not_established",
+    "page_end": 63,
+    "page_start": 63,
+    "path": "CAPO V > Articolo 47",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:47",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Norme vincolanti d'impresa",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": false
+   },
+   {
+    "citable": false,
+    "evidence_id": "E12",
+    "heading": "Articolo 21",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "21",
+    "legal_validity": "not_established",
+    "page_end": 46,
+    "page_start": 45,
+    "path": "CAPO III > Sezione 4 > Articolo 21",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:21",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Diritto di opposizione",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E4"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E4",
+      "text": "L'interessato ha il diritto di ottenere dal titolare del trattamento la conferma che sia o meno in corso un trattamento di dati personali che lo riguardano"
+     }
+    ],
+    "text": "Right of access (Art. 15): the data subject may obtain from the controller confirmation of whether personal data concerning them are being processed, and if so access to the data and to the related information.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E5"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E5",
+      "text": "L'interessato ha il diritto di ottenere dal titolare del trattamento la rettifica dei dati personali inesatti che lo riguardano senza ingiustificato ritardo."
+     },
+     {
+      "evidence_id": "E5",
+      "text": "Tenuto conto delle finalità del trattamento, l'interessato ha il diritto di ottenere l'integrazione dei dati personali incompleti"
+     }
+    ],
+    "text": "Right to rectification (Art. 16): the data subject may obtain the rectification of inaccurate personal data without undue delay, and the completion of incomplete data.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E6"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E6",
+      "text": "L'interessato ha il diritto di ottenere dal titolare del trattamento la cancellazione dei dati personali che lo riguardano senza ingiustificato ritardo"
+     },
+     {
+      "evidence_id": "E6",
+      "text": "se sussiste uno dei motivi seguenti:"
+     }
+    ],
+    "text": "Right to erasure, or 'right to be forgotten' (Art. 17): the data subject may obtain erasure of their personal data without undue delay where one of the listed grounds applies.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E7"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E7",
+      "text": "L'interessato ha il diritto di ottenere dal titolare del trattamento la limitazione del trattamento quando ricorre una delle seguenti ipotesi:"
+     },
+     {
+      "evidence_id": "E7",
+      "text": "l'interessato contesta l'esattezza dei dati personali, per il periodo necessario al titolare del trattamento per verificare l'esattezza di tali dati personali;"
+     }
+    ],
+    "text": "Right to restriction of processing (Art. 18): the data subject may obtain restriction of processing in the cases listed, for example when they contest the accuracy of the data.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E8"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E8",
+      "text": "L'interessato ha il diritto di ricevere in un formato strutturato, di uso comune e leggibile da dispositivo automatico i dati personali che lo riguardano forniti a un titolare del trattamento"
+     },
+     {
+      "evidence_id": "E8",
+      "text": "il trattamento sia effettuato con mezzi automatizzati."
+     }
+    ],
+    "text": "Right to data portability (Art. 20): the data subject may receive the data they provided to a controller in a structured, commonly used, machine-readable format and transmit them to another controller, where processing is based on consent or contract and carried out by automated means.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E12"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E12",
+      "text": "L'interessato ha il diritto di opporsi in qualsiasi momento, per motivi connessi alla sua situazione particolare, al trattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f), compresa la profilazione sulla base di tali disposizioni."
+     }
+    ],
+    "text": "Right to object (Art. 21): the data subject may object at any time, on grounds relating to their particular situation, to processing based on Art. 6(1)(e) or (f), including profiling.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C7",
+    "evidence_ids": [
+     "E12"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E12",
+      "text": "Qualora i dati personali siano trattati per finalità di marketing diretto, l'interessato ha il diritto di opporsi in qualsiasi momento al trattamento dei dati personali che lo riguardano effettuato per tali finalità, compresa la profilazione nella misura in cui sia connessa a tale marketing diretto."
+     },
+     {
+      "evidence_id": "E12",
+      "text": "i dati personali non sono più oggetto di trattamento per tali finalità."
+     }
+    ],
+    "text": "Where data are processed for direct marketing, the data subject may object at any time, and once they object the data are no longer processed for those purposes.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C8",
+    "evidence_ids": [
+     "E2",
+     "E3"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "il titolare del trattamento fornisce all'interessato, nel momento in cui i dati personali sono ottenuti, le seguenti informazioni:"
+     },
+     {
+      "evidence_id": "E3",
+      "text": "Qualora i dati non siano stati ottenuti presso l'interessato, il titolare del trattamento fornisce all'interessato le seguenti informazioni:"
+     }
+    ],
+    "text": "Right to information (Arts. 13 and 14): the controller must give the data subject specified information when data are collected from them (Art. 13) and also when the data were not obtained from them (Art. 14).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C9",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "l'esistenza del diritto di revocare il consenso in qualsiasi momento senza pregiudicare la liceità del trattamento basata sul consenso prestato prima della revoca;"
+     },
+     {
+      "evidence_id": "E2",
+      "text": "il diritto di proporre reclamo a un'autorità di controllo;"
+     }
+    ],
+    "text": "The controller must inform the data subject of the right to withdraw consent at any time, without affecting the lawfulness of processing based on consent given before withdrawal, and of the right to lodge a complaint with a supervisory authority.",
+    "verification": "PARTIALLY_SUPPORTED"
+   },
+   {
+    "claim_id": "C10",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Il titolare del trattamento agevola l'esercizio dei diritti dell'interessato ai sensi degli articoli da 15 a 22."
+     },
+     {
+      "evidence_id": "E1",
+      "text": "senza ingiustificato ritardo e, comunque, al più tardi entro un mese dal ricevimento della richiesta stessa."
+     }
+    ],
+    "text": "Art. 12 requires the controller to facilitate the exercise of the rights in Arts. 15 to 22, and to report on action taken on a request without undue delay and at the latest within one month of receiving it.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C11",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "dei motivi dell'inottemperanza e della possibilità di proporre reclamo a un'autorità di controllo e di proporre ricorso giurisdizionale."
+     }
+    ],
+    "text": "Art. 12 also provides that, if the controller does not comply with a request, it must give the reasons and tell the data subject of the possibility of lodging a complaint with a supervisory authority and seeking judicial remedy.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C12",
+    "evidence_ids": [
+     "E10"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E10",
+      "text": "il diritto di non essere sottoposto a decisioni basate unicamente sul trattamento automatizzato, compresa la profilazione ai sensi dell'articolo 22"
+     }
+    ],
+    "text": "An excerpt of Art. 47, on binding corporate rules, lists among data subject rights the right not to be subject to decisions based solely on automated processing, including profiling under Art. 22.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "22",
+     "origins": [
+      "query:8",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:15"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:22",
+     "reason": "max_items",
+     "tokens": 501
+    },
+    {
+     "label": "60",
+     "origins": [
+      "query:2"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:60",
+     "reason": "max_items",
+     "tokens": 177
+    },
+    {
+     "label": "175",
+     "origins": [
+      "query:3"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:175",
+     "reason": "max_items",
+     "tokens": 746
+    },
+    {
+     "label": "19",
+     "origins": [
+      "query:3"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:19",
+     "reason": "max_items",
+     "tokens": 189
+    },
+    {
+     "label": "130",
+     "origins": [
+      "query:6"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:130",
+     "reason": "max_items",
+     "tokens": 330
+    },
+    {
+     "label": "23",
+     "origins": [
+      "query:4"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:23",
+     "reason": "max_items",
+     "tokens": 832
+    },
+    {
+     "label": "34",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+     "reason": "max_items",
+     "tokens": 608
+    },
+    {
+     "label": "11",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:11",
+     "reason": "max_items",
+     "tokens": 274
+    },
+    {
+     "label": "92",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:92",
+     "reason": "max_items",
+     "tokens": 492
+    },
+    {
+     "label": "6",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:17",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:20",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:21"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+     "reason": "max_items",
+     "tokens": 1459
+    },
+    {
+     "label": "46",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:15"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:46",
+     "reason": "max_items",
+     "tokens": 984
+    },
+    {
+     "label": "49",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:49",
+     "reason": "max_items",
+     "tokens": 1424
+    },
+    {
+     "label": "9",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:17",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:20",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:92"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+     "reason": "max_items",
+     "tokens": 1590
+    },
+    {
+     "label": "89",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:17",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:21"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:89",
+     "reason": "max_items",
+     "tokens": 698
+    },
+    {
+     "label": "8",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:17"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:8",
+     "reason": "max_items",
+     "tokens": 371
+    },
+    {
+     "label": "79",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:47"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:79",
+     "reason": "max_items",
+     "tokens": 361
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 208126,
+       "char_start": 207345,
+       "page": 39,
+       "page_end": 39
+      },
+      {
+       "char_end": 211203,
+       "char_start": 208190,
+       "page": 40,
+       "page_end": 40
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0241-48a559fe",
+      "doc-8f7504d289853f57-0238-8b081ae5",
+      "doc-8f7504d289853f57-0239-9b6d92d4"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 12",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "12",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:7",
+      "query:1"
+     ],
+     "page_end": 40,
+     "page_start": 39,
+     "path": "CAPO III > Sezione 1 > Articolo 12",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:12",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 12\n\nInformazioni, comunicazioni e modalità trasparenti per l'esercizio dei diritti dell'interessato\n\n1.\nIl titolare del trattamento adotta misure appropriate per fornire all'interessato tutte le informazioni di cui agli \narticoli 13 e 14 e le comunicazioni di cui agli articoli da 15 a 22 e all'articolo 34 relative al trattamento in forma \nconcisa, trasparente, intelligibile e facilmente accessibile, con un linguaggio semplice e chiaro, in particolare nel caso di \ninformazioni destinate specificamente ai minori. Le informazioni sono fornite per iscritto o con altri mezzi, anche, se \ndel caso, con mezzi elettronici. Se richiesto dall'interessato, le informazioni possono essere fornite oralmente, purché sia \ncomprovata con altri mezzi l'identità dell'interessato.\n\n2.\nIl titolare del trattamento agevola l'esercizio dei diritti dell'interessato ai sensi degli articoli da 15 a 22. Nei casi di \ncui all'articolo 11, paragrafo 2, il titolare del trattamento non può rifiutare di soddisfare la richiesta dell'interessato al \nfine di esercitare i suoi diritti ai sensi degli articoli da 15 a 22, salvo che il titolare del trattamento dimostri che non è in \ngrado di identificare l'interessato.\n\n3.\nIl titolare del trattamento fornisce all'interessato le informazioni relative all'azione intrapresa riguardo a una \nrichiesta ai sensi degli articoli da 15 a 22 senza ingiustificato ritardo e, comunque, al più tardi entro un mese dal \nricevimento della richiesta stessa. Tale termine può essere prorogato di due mesi, se necessario, tenuto conto della \ncomplessità e del numero delle richieste. Il titolare del trattamento informa l'interessato di tale proroga, e dei motivi del \nritardo, entro un mese dal ricevimento della richiesta. Se l'interessato presenta la richiesta mediante mezzi elettronici, le \ninformazioni sono fornite, ove possibile, con mezzi elettronici, salvo diversa indicazione dell'interessato.\n\n4.\nSe non ottempera alla richiesta dell'interessato, il titolare del trattamento informa l'interessato senza ritardo, e al \npiù tardi entro un mese dal ricevimento della richiesta, dei motivi dell'inottemperanza e della possibilità di proporre \nreclamo a un'autorità di controllo e di proporre ricorso giurisdizionale.\n\n5.\nLe informazioni fornite ai sensi degli articoli 13 e 14 ed eventuali comunicazioni e azioni intraprese ai sensi degli \narticoli da 15 a 22 e dell'articolo 34 sono gratuite. Se le richieste dell'interessato sono manifestamente infondate o \neccessive, in particolare per il loro carattere ripetitivo, il titolare del trattamento può:\n\na)  addebitare un contributo spese ragionevole tenendo conto dei costi amministrativi sostenuti per fornire le\n\ninformazioni o la comunicazione o intraprendere l'azione richiesta; oppure\n\nb)  rifiutare di soddisfare la richiesta.\n\nIncombe al titolare del trattamento l'onere di dimostrare il carattere manifestamente infondato o eccessivo della richiesta.\n\n6.\nFatto salvo l'articolo 11, qualora il titolare del trattamento nutra ragionevoli dubbi circa l'identità della persona \nfisica che presenta la richiesta di cui agli articoli da 15 a 21, può richiedere ulteriori informazioni necessarie per \nconfermare l'identità dell'interessato.\n\n7.\nLe informazioni da fornire agli interessati a norma degli articoli 13 e 14 possono essere fornite in combinazione \ncon icone standardizzate per dare, in modo facilmente visibile, intelligibile e chiaramente leggibile, un quadro d'insieme \ndel trattamento previsto. Se presentate elettronicamente, le icone sono leggibili da dispositivo automatico.\n\n8.\nAlla Commissione è conferito il potere di adottare atti delegati conformemente all'articolo 92 al fine di stabilire le \ninformazioni da presentare sotto forma di icona e le procedure per fornire icone standardizzate.",
+     "tier": "internal_only",
+     "title": "Informazioni, comunicazioni e modalità trasparenti per l'esercizio dei diritti dell'interessato",
+     "tokens": 1265,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 211867,
+       "char_start": 211258,
+       "page": 40,
+       "page_end": 40
+      },
+      {
+       "char_end": 214696,
+       "char_start": 211931,
+       "page": 41,
+       "page_end": 41
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0244-47407757"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 13",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "13",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:5",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "page_end": 41,
+     "page_start": 40,
+     "path": "CAPO III > Sezione 2 > Articolo 13",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 13\n\nInformazioni da fornire qualora i dati personali siano raccolti presso l'interessato\n\n1.\nIn caso di raccolta presso l'interessato di dati che lo riguardano, il titolare del trattamento fornisce all'interessato, \nnel momento in cui i dati personali sono ottenuti, le seguenti informazioni:\n\na)  l'identità e i dati di contatto del titolare del trattamento e, ove applicabile, del suo rappresentante;\n\nb)  i dati di contatto del responsabile della protezione dei dati, ove applicabile;\n\nc)  le finalità del trattamento cui sono destinati i dati personali nonché la base giuridica del trattamento;\n\nd)  qualora il trattamento si basi sull'articolo 6, paragrafo 1, lettera f), i legittimi interessi perseguiti dal titolare del\n\ntrattamento o da terzi;\n\ne)  gli eventuali destinatari o le eventuali categorie di destinatari dei dati personali;\n\nf) ove applicabile, l'intenzione del titolare del trattamento di trasferire dati personali a un paese terzo o a un'organiz­\n\nzazione internazionale e l'esistenza o l'assenza di una decisione di adeguatezza della Commissione o, nel caso dei \ntrasferimenti di cui all'articolo 46 o 47, o all'articolo 49, secondo comma, il riferimento alle garanzie appropriate o \nopportune e i mezzi per ottenere una copia di tali dati o il luogo dove sono stati resi disponibili.\n\n2.\nIn aggiunta alle informazioni di cui al paragrafo 1, nel momento in cui i dati personali sono ottenuti, il titolare del \ntrattamento fornisce all'interessato le seguenti ulteriori informazioni necessarie per garantire un trattamento corretto e \ntrasparente:\n\na)  il periodo di conservazione dei dati personali oppure, se non è possibile, i criteri utilizzati per determinare tale\n\nperiodo;\n\nb)  l'esistenza del diritto dell'interessato di chiedere al titolare del trattamento l'accesso ai dati personali e la rettifica o la\n\ncancellazione degli stessi o la limitazione del trattamento che lo riguardano o di opporsi al loro trattamento, oltre al \ndiritto alla portabilità dei dati;\n\nc)  qualora il trattamento sia basato sull'articolo 6, paragrafo 1, lettera a), oppure sull'articolo 9, paragrafo 2, lettera a),\n\nl'esistenza del diritto di revocare il consenso in qualsiasi momento senza pregiudicare la liceità del trattamento basata \nsul consenso prestato prima della revoca;\n\nd)  il diritto di proporre reclamo a un'autorità di controllo;\n\ne)  se la comunicazione di dati personali è un obbligo legale o contrattuale oppure un requisito necessario per la\n\nconclusione di un contratto, e se l'interessato ha l'obbligo di fornire i dati personali nonché le possibili conseguenze \ndella mancata comunicazione di tali dati;\n\nf)  l'esistenza di un processo decisionale automatizzato, compresa la profilazione di cui all'articolo 22, paragrafi 1 e 4, e,\n\nalmeno in tali casi, informazioni significative sulla logica utilizzata, nonché l'importanza e le conseguenze previste di \ntale trattamento per l'interessato.\n\n3.\nQualora il titolare del trattamento intenda trattare ulteriormente i dati personali per una finalità diversa da quella \nper cui essi sono stati raccolti, prima di tale ulteriore trattamento fornisce all'interessato informazioni in merito a tale \ndiversa finalità e ogni ulteriore informazione pertinente di cui al paragrafo 2.\n\n4.\nI paragrafi 1, 2 e 3 non si applicano se e nella misura in cui l'interessato dispone già delle informazioni.",
+     "tier": "internal_only",
+     "title": "Informazioni da fornire qualora i dati personali siano raccolti presso l'interessato",
+     "tokens": 1125,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 215400,
+       "char_start": 214698,
+       "page": 41,
+       "page_end": 41
+      },
+      {
+       "char_end": 219704,
+       "char_start": 215464,
+       "page": 42,
+       "page_end": 42
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0248-9ecf858e"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 14",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "14",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:5",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "page_end": 42,
+     "page_start": 41,
+     "path": "CAPO III > Sezione 2 > Articolo 14",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 14\n\nInformazioni da fornire qualora i dati personali non siano stati ottenuti presso l'interessato\n\n1.\nQualora i dati non siano stati ottenuti presso l'interessato, il titolare del trattamento fornisce all'interessato le \nseguenti informazioni:\n\na)  l'identità e i dati di contatto del titolare del trattamento e, ove applicabile, del suo rappresentante;\n\nb)  i dati di contatto del responsabile della protezione dei dati, ove applicabile;\n\nc)  le finalità del trattamento cui sono destinati i dati personali nonché la base giuridica del trattamento;\n\nd)  le categorie di dati personali in questione;\n\ne)  gli eventuali destinatari o le eventuali categorie di destinatari dei dati personali;\n\nf)  ove applicabile, l'intenzione del titolare del trattamento di trasferire dati personali a un destinatario in un paese terzo\n\no a un'organizzazione internazionale e l'esistenza o l'assenza di una decisione di adeguatezza della Commissione o, \nnel caso dei trasferimenti di cui all'articolo 46 o 47, o all'articolo 49, secondo comma, il riferimento alle garanzie \nadeguate o opportune e i mezzi per ottenere una copia di tali dati o il luogo dove sono stati resi disponibili.\n\n2.\nOltre alle informazioni di cui al paragrafo 1, il titolare del trattamento fornisce all'interessato le seguenti \ninformazioni necessarie per garantire un trattamento corretto e trasparente nei confronti dell'interessato:\n\na)  il periodo di conservazione dei dati personali oppure, se non è possibile, i criteri utilizzati per determinare tale\n\nperiodo;\n\nb)  qualora il trattamento si basi sull'articolo 6, paragrafo 1, lettera f), i legittimi interessi perseguiti dal titolare del\n\ntrattamento o da terzi;\n\nc)  l'esistenza del diritto dell'interessato di chiedere al titolare del trattamento l'accesso ai dati personali e la rettifica o la\n\ncancellazione degli stessi o la limitazione del trattamento dei dati personali che lo riguardano e di opporsi al loro \ntrattamento, oltre al diritto alla portabilità dei dati;\n\nd)  qualora il trattamento sia basato sull'articolo 6, paragrafo 1, lettera a), oppure sull'articolo 9, paragrafo 2, lettera a),\n\nl'esistenza del diritto di revocare il consenso in qualsiasi momento senza pregiudicare la liceità del trattamento basata \nsul consenso prima della revoca;\n\ne)  il diritto di proporre reclamo a un'autorità di controllo;\n\nf)  la fonte da cui hanno origine i dati personali e, se del caso, l'eventualità che i dati provengano da fonti accessibili al\n\npubblico;\n\ng)  l'esistenza di un processo decisionale automatizzato, compresa la profilazione di cui all'articolo 22, paragrafi 1 e 4, e,\n\nalmeno in tali casi, informazioni significative sulla logica utilizzata, nonché l'importanza e le conseguenze previste di \ntale trattamento per l'interessato.\n\n3.\nIl titolare del trattamento fornisce le informazioni di cui ai paragrafi 1 e 2:\n\na)  entro un termine ragionevole dall'ottenimento dei dati personali, ma al più tardi entro un mese, in considerazione\n\ndelle specifiche circostanze in cui i dati personali sono trattati;\n\nb)  nel caso in cui i dati personali siano destinati alla comunicazione con l'interessato, al più tardi al momento della\n\nprima comunicazione all'interessato; oppure\n\nc)  nel caso sia prevista la comunicazione ad altro destinatario, non oltre la prima comunicazione dei dati personali.\n\n4.\nQualora il titolare del trattamento intenda trattare ulteriormente i dati personali per una finalità diversa da quella \nper cui essi sono stati ottenuti, prima di tale ulteriore trattamento fornisce all'interessato informazioni in merito a tale \ndiversa finalità e ogni informazione pertinente di cui al paragrafo 2.\n\n5.\nI paragrafi da 1 a 4 non si applicano se e nella misura in cui:\n\na)  l'interessato dispone già delle informazioni;\n\nb)  comunicare tali informazioni risulta impossibile o implicherebbe uno sforzo sproporzionato; in particolare per il\n\ntrattamento a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini statistici, fatte salve le \ncondizioni e le garanzie di cui all'articolo 89, paragrafo 1, o nella misura in cui l'obbligo di cui al paragrafo 1 del \npresente articolo rischi di rendere impossibile o di pregiudicare gravemente il conseguimento delle finalità di tale \ntrattamento. In tali casi, il titolare del trattamento adotta misure appropriate per tutelare i diritti, le libertà e i \nlegittimi interessi dell'interessato, anche rendendo pubbliche le informazioni;\n\nc)  l'ottenimento o la comunicazione sono espressamente previsti dal diritto dell'Unione o dello Stato membro cui è\n\nsoggetto il titolare del trattamento e che prevede misure appropriate per tutelare gli interessi legittimi dell'interessato; \noppure\n\nd)  qualora i dati personali debbano rimanere riservati conformemente a un obbligo di segreto professionale disciplinato\n\ndal diritto dell'Unione o degli Stati membri, compreso un obbligo di segretezza previsto per legge.",
+     "tier": "internal_only",
+     "title": "Informazioni da fornire qualora i dati personali non siano stati ottenuti presso l'interessato",
+     "tokens": 1648,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 221990,
+       "char_start": 219770,
+       "page": 43,
+       "page_end": 43
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0252-df86c6b4",
+      "doc-8f7504d289853f57-0253-aaef0a24"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 15",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "15",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:2",
+      "query:3",
+      "query:8"
+     ],
+     "page_end": 43,
+     "page_start": 43,
+     "path": "CAPO III > Sezione 2 > Articolo 15",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:15",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 15\n\nDiritto di accesso dell'interessato\n\n1.\nL'interessato ha il diritto di ottenere dal titolare del trattamento la conferma che sia o meno in corso un \ntrattamento di dati personali che lo riguardano e in tal caso, di ottenere l'accesso ai dati personali e alle seguenti \ninformazioni:\n\na)  le finalità del trattamento;\n\nb)  le categorie di dati personali in questione;\n\nc)  i destinatari o le categorie di destinatari a cui i dati personali sono stati o saranno comunicati, in particolare se\n\ndestinatari di paesi terzi o organizzazioni internazionali;\n\nd)  quando possibile, il periodo di conservazione dei dati personali previsto oppure, se non è possibile, i criteri utilizzati\n\nper determinare tale periodo;\n\ne)  l'esistenza del diritto dell'interessato di chiedere al titolare del trattamento la rettifica o la cancellazione dei dati\n\npersonali o la limitazione del trattamento dei dati personali che lo riguardano o di opporsi al loro trattamento;\n\nf)  il diritto di proporre reclamo a un'autorità di controllo;\n\ng)  qualora i dati non siano raccolti presso l'interessato, tutte le informazioni disponibili sulla loro origine;\n\nh)  l'esistenza di un processo decisionale automatizzato, compresa la profilazione di cui all'articolo 22, paragrafi 1 e 4, e,\n\nalmeno in tali casi, informazioni significative sulla logica utilizzata, nonché l'importanza e le conseguenze previste di \ntale trattamento per l'interessato.\n\n2.\nQualora i dati personali siano trasferiti a un paese terzo o a un'organizzazione internazionale, l'interessato ha il \ndiritto di essere informato dell'esistenza di garanzie adeguate ai sensi dell'articolo 46 relative al trasferimento.\n\n3.\nIl titolare del trattamento fornisce una copia dei dati personali oggetto di trattamento. In caso di ulteriori copie \nrichieste dall'interessato, il titolare del trattamento può addebitare un contributo spese ragionevole basato sui costi \namministrativi. Se l'interessato presenta la richiesta mediante mezzi elettronici, e salvo indicazione diversa dell'inte­\nressato, le informazioni sono fornite in un formato elettronico di uso comune.\n\n4.\nIl diritto di ottenere una copia di cui al paragrafo 3 non deve ledere i diritti e le libertà altrui.",
+     "tier": "internal_only",
+     "title": "Diritto di accesso dell'interessato",
+     "tokens": 740,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 222401,
+       "char_start": 222030,
+       "page": 43,
+       "page_end": 43
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0255-1ddf9083"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 16",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "16",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:3"
+     ],
+     "page_end": 43,
+     "page_start": 43,
+     "path": "CAPO III > Sezione 3 > Articolo 16",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:16",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 16\n\nDiritto di rettifica\n\nL'interessato ha il diritto di ottenere dal titolare del trattamento la rettifica dei dati personali inesatti che lo riguardano \nsenza ingiustificato ritardo. Tenuto conto delle finalità del trattamento, l'interessato ha il diritto di ottenere l'integrazione \ndei dati personali incompleti, anche fornendo una dichiarazione integrativa.",
+     "tier": "internal_only",
+     "title": "Diritto di rettifica",
+     "tokens": 124,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 222889,
+       "char_start": 222403,
+       "page": 43,
+       "page_end": 43
+      },
+      {
+       "char_end": 225296,
+       "char_start": 222953,
+       "page": 44,
+       "page_end": 44
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Articolo 17",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "17",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:20"
+     ],
+     "page_end": 44,
+     "page_start": 43,
+     "path": "CAPO III > Sezione 3 > Articolo 17",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:17",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 17\n\nDiritto alla cancellazione («diritto all'oblio»)\n\n1.\nL'interessato ha il diritto di ottenere dal titolare del trattamento la cancellazione dei dati personali che lo \nriguardano senza ingiustificato ritardo e il titolare del trattamento ha l'obbligo di cancellare senza ingiustificato ritardo i \ndati personali, se sussiste uno dei motivi seguenti:\n\na)  i dati personali non sono più necessari rispetto alle finalità per le quali sono stati raccolti o altrimenti trattati;\n\nb)  l'interessato revoca il consenso su cui si basa il trattamento conformemente all'articolo 6, paragrafo 1, lettera a), o\n\nall'articolo 9, paragrafo 2, lettera a), e se non sussiste altro fondamento giuridico per il trattamento;\n\nc)  l'interessato si oppone al trattamento ai sensi dell'articolo 21, paragrafo 1, e non sussiste alcun motivo legittimo\n\nprevalente per procedere al trattamento, oppure si oppone al trattamento ai sensi dell'articolo 21, paragrafo 2;\n\nd)  i dati personali sono stati trattati illecitamente;\n\ne)  i dati personali devono essere cancellati per adempiere un obbligo legale previsto dal diritto dell'Unione o dello Stato\n\nmembro cui è soggetto il titolare del trattamento;\n\nf)  i dati personali sono stati raccolti relativamente all'offerta di servizi della società dell'informazione di cui all'articolo 8,\n\nparagrafo 1.\n\n2.\nIl titolare del trattamento, se ha reso pubblici dati personali ed è obbligato, ai sensi del paragrafo 1, a cancellarli, \ntenendo conto della tecnologia disponibile e dei costi di attuazione adotta le misure ragionevoli, anche tecniche, per \ninformare i titolari del trattamento che stanno trattando i dati personali della richiesta dell'interessato di cancellare \nqualsiasi link, copia o riproduzione dei suoi dati personali.\n\n3.\nI paragrafi 1 e 2 non si applicano nella misura in cui il trattamento sia necessario:\n\na)  per l'esercizio del diritto alla libertà di espressione e di informazione;\n\nb)  per l'adempimento di un obbligo legale che richieda il trattamento previsto dal diritto dell'Unione o dello Stato\n\nmembro cui è soggetto il titolare del trattamento o per l'esecuzione di un compito svolto nel pubblico interesse \noppure nell'esercizio di pubblici poteri di cui è investito il titolare del trattamento;\n\nc)  per motivi di interesse pubblico nel settore della sanità pubblica in conformità dell'articolo 9, paragrafo 2, lettere h)\n\ne i), e dell'articolo 9, paragrafo 3;\n\nd)  a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini statistici conformemente\n\nall'articolo 89, paragrafo 1, nella misura in cui il diritto di cui al paragrafo 1 rischi di rendere impossibile o di \npregiudicare gravemente il conseguimento degli obiettivi di tale trattamento; o\n\ne)  per l'accertamento, l'esercizio o la difesa di un diritto in sede giudiziaria.",
+     "tier": "internal_only",
+     "title": "Diritto alla cancellazione («diritto all'oblio»)",
+     "tokens": 943,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 226659,
+       "char_start": 225298,
+       "page": 44,
+       "page_end": 44
+      },
+      {
+       "char_end": 226894,
+       "char_start": 226723,
+       "page": 45,
+       "page_end": 45
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0259-252f400d",
+      "doc-8f7504d289853f57-0260-01745672"
+     ],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Articolo 18",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "18",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:4"
+     ],
+     "page_end": 45,
+     "page_start": 44,
+     "path": "CAPO III > Sezione 3 > Articolo 18",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:18",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 18\n\nDiritto di limitazione di trattamento\n\n1.\nL'interessato ha il diritto di ottenere dal titolare del trattamento la limitazione del trattamento quando ricorre una \ndelle seguenti ipotesi:\n\na)  l'interessato contesta l'esattezza dei dati personali, per il periodo necessario al titolare del trattamento per verificare\n\nl'esattezza di tali dati personali;\n\nb)  il trattamento è illecito e l'interessato si oppone alla cancellazione dei dati personali e chiede invece che ne sia\n\nlimitato l'utilizzo;\n\nc)  benché il titolare del trattamento non ne abbia più bisogno ai fini del trattamento, i dati personali sono necessari\n\nall'interessato per l'accertamento, l'esercizio o la difesa di un diritto in sede giudiziaria;\n\nd)  l'interessato si è opposto al trattamento ai sensi dell'articolo 21, paragrafo 1, in attesa della verifica in merito\n\nall'eventuale prevalenza dei motivi legittimi del titolare del trattamento rispetto a quelli dell'interessato.\n\n2.\nSe il trattamento è limitato a norma del paragrafo 1, tali dati personali sono trattati, salvo che per la conservazione, \nsoltanto con il consenso dell'interessato o per l'accertamento, l'esercizio o la difesa di un diritto in sede giudiziaria \noppure per tutelare i diritti di un'altra persona fisica o giuridica o per motivi di interesse pubblico rilevante dell'Unione \no di uno Stato membro.\n\n3.\nL'interessato che ha ottenuto la limitazione del trattamento a norma del paragrafo 1 è informato dal titolare del \ntrattamento prima che detta limitazione sia revocata.",
+     "tier": "internal_only",
+     "title": "Diritto di limitazione di trattamento",
+     "tokens": 511,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 228786,
+       "char_start": 227464,
+       "page": 45,
+       "page_end": 45
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0262-6740676e"
+     ],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Articolo 20",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "20",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:5"
+     ],
+     "page_end": 45,
+     "page_start": 45,
+     "path": "CAPO III > Sezione 3 > Articolo 20",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:20",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 20\n\nDiritto alla portabilità dei dati\n\n1.\nL'interessato ha il diritto di ricevere in un formato strutturato, di uso comune e leggibile da dispositivo automatico \ni dati personali che lo riguardano forniti a un titolare del trattamento e ha il diritto di trasmettere tali dati a un altro \ntitolare del trattamento senza impedimenti da parte del titolare del trattamento cui li ha forniti qualora:\n\na)  il trattamento si basi sul consenso ai sensi dell'articolo 6, paragrafo 1, lettera a), o dell'articolo 9, paragrafo 2,\n\nlettera a), o su un contratto ai sensi dell'articolo 6, paragrafo 1, lettera b); e\n\nb)  il trattamento sia effettuato con mezzi automatizzati.\n\n2.\nNell'esercitare i propri diritti relativamente alla portabilità dei dati a norma del paragrafo 1, l'interessato ha il \ndiritto di ottenere la trasmissione diretta dei dati personali da un titolare del trattamento all'altro, se tecnicamente \nfattibile.\n\n3.\nL'esercizio del diritto di cui al paragrafo 1 del presente articolo lascia impregiudicato l'articolo 17. Tale diritto non \nsi applica al trattamento necessario per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di \npubblici poteri di cui è investito il titolare del trattamento.\n\n4.\nIl diritto di cui al paragrafo 1 non deve ledere i diritti e le libertà altrui.",
+     "tier": "internal_only",
+     "title": "Diritto alla portabilità dei dati",
+     "tokens": 441,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 66315,
+       "char_start": 66306,
+       "page": 20,
+       "page_end": 20
+      },
+      {
+       "char_end": 67660,
+       "char_start": 66375,
+       "page": 21,
+       "page_end": 21
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0181-819bf804"
+     ],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Art. 92",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "92",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:2"
+     ],
+     "page_end": 21,
+     "page_start": 20,
+     "path": "PARTE II > TITOLO V > CAPO VI > Art. 92",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:92",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 92\n\n(Cartelle cliniche)\n\n1. Nei casi in cui ((strutture, pubbliche e private, che erogano prestazioni sanitarie e socio-sanitarie)) redigono\ne conservano una cartella clinica in conformità alla disciplina applicabile, sono adottati opportuni accorgimenti\nper assicurare la comprensibilità dei dati e per distinguere i dati relativi al paziente da quelli eventualmente\nriguardanti altri interessati, ivi comprese informazioni relative a nascituri.\n\n2. Eventuali richieste di presa visione o di rilascio di copia della cartella e dell'acclusa scheda di dimissione\nospedaliera da parte di soggetti diversi dall'interessato possono essere accolte, in tutto o in parte, solo se la\nrichiesta è giustificata dalla documentata necessità:\n\na) ((di esercitare)) o difendere un diritto in sede giudiziaria ((, ai sensi dell'articolo 9, paragrafo 2, lettera f), del\nRegolamento,)) di rango pari a quello dell'interessato, ovvero consistente in un diritto della personalità o in un\naltro diritto o libertà fondamentale ((...));\n\nb) di tutelare, in conformità alla disciplina sull'accesso ai documenti amministrativi, una situazione\ngiuridicamente rilevante di rango pari a quella dell'interessato, ovvero consistente in un diritto della\npersonalità o in un altro diritto o libertà fondamentale ((...)).",
+     "tier": "internal_only",
+     "title": "(Cartelle cliniche)",
+     "tokens": 432,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 299382,
+       "char_start": 298183,
+       "page": 63,
+       "page_end": 63
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0349-5f80d0b0"
+     ],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Articolo 47",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "47",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14"
+     ],
+     "page_end": 63,
+     "page_start": 63,
+     "path": "CAPO V > Articolo 47",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:47",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "c)  la loro natura giuridicamente vincolante, a livello sia interno che esterno;\n\nd)  l'applicazione dei principi generali di protezione dei dati, in particolare in relazione alla limitazione della finalità, alla\n\nminimizzazione dei dati, alla limitazione del periodo di conservazione, alla qualità dei dati, alla protezione fin dalla \nprogettazione e alla protezione per impostazione predefinita, alla base giuridica del trattamento e al trattamento di \ncategorie particolari di dati personali, le misure a garanzia della sicurezza dei dati e i requisiti per i trasferimenti \nsuccessivi ad organismi che non sono vincolati dalle norme vincolanti d'impresa;\n\ne)  i diritti dell'interessato in relazione al trattamento e i mezzi per esercitarli, compresi il diritto di non essere\n\nsottoposto a decisioni basate unicamente sul trattamento automatizzato, compresa la profilazione ai sensi dell'ar­\nticolo 22, il diritto di proporre reclamo all'autorità di controllo competente e di ricorrere alle autorità giurisdizionali \ncompetenti degli Stati membri conformemente all'articolo 79, e il diritto di ottenere riparazione e, se del caso, il \nrisarcimento per violazione delle norme vincolanti d'impresa;",
+     "tier": "internal_only",
+     "title": "Norme vincolanti d'impresa",
+     "tokens": 400,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 34110,
+       "char_start": 32826,
+       "page": 8,
+       "page_end": 8
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0041-413c2e67"
+     ],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Art. 2-terdecies",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-terdecies",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1"
+     ],
+     "page_end": 8,
+     "page_start": 8,
+     "path": "PARTE I > TITOLO I > CAPO III > Art. 2-terdecies",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-terdecies",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-terdecies\n\n(( (Diritti riguardanti le persone decedute). ))\n\n((\n\n1. I diritti di cui agli articoli da 15 a 22 del Regolamento riferiti ai dati personali concernenti persone decedute\npossono essere esercitati da chi ha un interesse proprio, o agisce a tutela dell'interessato, in qualità di suo\nmandatario, o per ragioni familiari meritevoli di protezione.\n\n2. L'esercizio dei diritti di cui al comma 1 non è ammesso nei casi previsti dalla legge o quando, limitatamente\nall'offerta diretta di servizi della società dell'informazione, l'interessato lo ha espressamente vietato con\ndichiarazione scritta presentata al titolare del trattamento o a quest'ultimo comunicata.\n\n3. La volontà dell'interessato di vietare l'esercizio dei diritti di cui al comma 1 deve risultare in modo non\nequivoco e deve essere specifica, libera e informata; il divieto può riguardare l'esercizio soltanto di alcuni dei\ndiritti di cui al predetto comma.\n\n4. L'interessato ha in ogni momento il diritto di revocare o modificare il divieto di cui ai commi 2 e 3.\n\n5. In ogni caso, il divieto non può produrre effetti pregiudizievoli per l'esercizio da parte dei terzi dei diritti\npatrimoniali che derivano dalla morte dell'interessato nonché del diritto di difendere in giudizio i propri\ninteressi.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Diritti riguardanti le persone decedute). ))",
+     "tokens": 428,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 230022,
+       "char_start": 228891,
+       "page": 45,
+       "page_end": 45
+      },
+      {
+       "char_end": 230944,
+       "char_start": 230086,
+       "page": 46,
+       "page_end": 46
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0266-bc318574",
+      "doc-8f7504d289853f57-0265-0a3d3dc5"
+     ],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Articolo 21",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "21",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:6",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:17",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:18"
+     ],
+     "page_end": 46,
+     "page_start": 45,
+     "path": "CAPO III > Sezione 4 > Articolo 21",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:21",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 21\n\nDiritto di opposizione\n\n1.\nL'interessato ha il diritto di opporsi in qualsiasi momento, per motivi connessi alla sua situazione particolare, al \ntrattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f), compresa la \nprofilazione sulla base di tali disposizioni. Il titolare del trattamento si astiene dal trattare ulteriormente i dati personali \nsalvo che egli dimostri l'esistenza di motivi legittimi cogenti per procedere al trattamento che prevalgono sugli interessi, \nsui diritti e sulle libertà dell'interessato oppure per l'accertamento, l'esercizio o la difesa di un diritto in sede giudiziaria.\n\n2.\nQualora i dati personali siano trattati per finalità di marketing diretto, l'interessato ha il diritto di opporsi in \nqualsiasi momento al trattamento dei dati personali che lo riguardano effettuato per tali finalità, compresa la \nprofilazione nella misura in cui sia connessa a tale marketing diretto.\n\n3.\nQualora l'interessato si opponga al trattamento per finalità di marketing diretto, i dati personali non sono più \noggetto di trattamento per tali finalità.\n\n4.\nIl diritto di cui ai paragrafi 1 e 2 è esplicitamente portato all'attenzione dell'interessato ed è presentato chiaramente \ne separatamente da qualsiasi altra informazione al più tardi al momento della prima comunicazione con l'interessato.\n\n5.\nNel contesto dell'utilizzo di servizi della società dell'informazione e fatta salva la direttiva 2002/58/CE, l'interessato \npuò esercitare il proprio diritto di opposizione con mezzi automatizzati che utilizzano specifiche tecniche.\n\n6.\nQualora i dati personali siano trattati a fini di ricerca scientifica o storica o a fini statistici a norma dell'articolo 89, \nparagrafo 1, l'interessato, per motivi connessi alla sua situazione particolare, ha il diritto di opporsi al trattamento di dati \npersonali che lo riguarda, salvo se il trattamento è necessario per l'esecuzione di un compito di interesse pubblico.",
+     "tier": "internal_only",
+     "title": "Diritto di opposizione",
+     "tokens": 663,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "12",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "13",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "14",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "15",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "16",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "17",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "18",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "20",
+      "point": null
+     }
+    ],
+    "queries": [
+     "diritti dell'interessato",
+     "diritto di accesso dell'interessato",
+     "diritto di rettifica e cancellazione",
+     "diritto alla limitazione di trattamento",
+     "diritto alla portabilità dei dati",
+     "diritto di opposizione al trattamento",
+     "informazioni da fornire all'interessato",
+     "processo decisionale automatizzato relativo alle persone fisiche"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 8720,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8QjeZeh1BPyLqHA6GqC"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "Several rights are subject to conditions and exceptions: Art. 17(3) exceptions to erasure, the conditions in Art. 20(1), and the limits in Art. 15(4) and Art. 20(4) concerning the rights and freedoms of others. They are only briefly noted here.",
+   "The right to withdraw consent and the right to complain are shown only as information the controller must give (Arts. 13 and 14); the provisions that establish them directly are not in the evidence.",
+   "E10 is only an excerpt of Art. 47 and only mentions the Art. 22 right in passing.",
+   "E9 and E11 are unofficial, unverified transcriptions of the Italian Privacy Code. They concern medical records and the data of deceased persons, so they were not used for this general question."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "16 further candidate provisions were left out by the evidence limits (max_items)."
+  ],
+  "question": "What rights do individuals have regarding their personal data under the GDPR?",
+  "question_references": [],
+  "rejected_claims": [],
+  "unanswered_issues": [
+   {
+    "issue_id": "I1",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   }
+  ],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8QmfHNPLog3zM7U3p3H"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E10",
+    "E12"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "dev"
+}
