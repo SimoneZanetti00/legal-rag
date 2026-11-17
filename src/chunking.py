@@ -1,7 +1,7 @@
 """Legal-aware chunking of a `LegalDocument` into `LegalChunk`s.
 
 The heuristics are deliberately conservative; they will miss some structures
-and occasionally misread one (see README, "Limitations").
+and occasionally misread one (see docs/REFERENCE.md, "Limitations").
 
 1. The text is split into blocks: paragraphs separated by blank lines, heading
    lines, and, inside an article, lines that start with a paragraph number

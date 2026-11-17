@@ -1,0 +1,1315 @@
+# Reference documentation
+
+Detailed documentation of each component, as built: setup, the commands, retrieval, the corpus
+build, `ask`, the web demo and the replay, configuration, limitations and privacy. The project
+overview and the evaluation story are in the [README](../README.md); the specification is
+[PROJECT_SPEC.md](../PROJECT_SPEC.md), and planned work is in [ROADMAP.md](ROADMAP.md).
+
+## Demo (offline, no API key)
+
+```powershell
+.\.venv\Scripts\python.exe -m src.demo
+```
+
+One command, two demonstrations. Nothing is sent to an LLM provider, no API key
+is needed, and the output is the same on every run. The exit code is 0, or 1
+only if the demonstration itself fails.
+
+1. **Real corpus.** The recorded build of the GDPR and the Italian Privacy Code,
+   for the question *"When is a personal data breach required to be notified to
+   the Italian Data Protection Authority?"*. A fixed retrieval plan, written by
+   hand (one Italian query, three article lookups), assembles the real evidence.
+   Each item is shown with its text, page and character anchors, source and
+   inventory hashes, eligibility tier, and the reasons it may not be cited. Then
+   the real `ask` pipeline runs on the question. It abstains at the corpus
+   preflight: no provision has passed human review yet, so nothing may be cited
+   and no model is called. Part 1 needs the recorded build, which is not in the
+   repository: without it, Part 1 is skipped with a warning and Part 2 still
+   runs (see "Part 1 from a fresh clone" below).
+2. **Synthetic, end to end.** A fictional act, the *Legge dimostrativa di
+   Valdoria*, is built in a temporary directory by the project's own build,
+   anchor and link steps. A synthetic review makes two of its articles citable.
+   The real pipeline runs on it with scripted MockLLM replies: six claims go in,
+   and two valid ones come out with their citations. Deterministic validation
+   removes a fabricated quotation, a fabricated article reference and a claim
+   that cites non-citable evidence. A scripted support verdict, not a real
+   model's evaluation, removes an overstated claim. The scripted answer claims to
+   be complete; because the removals leave one of its three issues without a
+   supported claim, the pipeline reports `answer_limited`. Every part of the output is labelled SYNTHETIC
+   DEMONSTRATION, FICTIONAL LEGAL INSTRUMENT, SYNTHETIC REVIEW — NOT HUMAN LEGAL
+   REVIEW, SCRIPTED MOCK LLM OUTPUT — NOT A REAL MODEL RESPONSE, and NOT LEGAL
+   ADVICE.
+
+Only the model replies in part 2 are scripted; everything else runs as it does
+in `ask`, which still needs a real provider (see "Asking a question" below).
+Part 2 therefore shows how the pipeline handles model output. It does not show
+how reliably a real model judges whether evidence supports a claim.
+
+### Part 1 from a fresh clone
+
+The recorded build and its two source PDFs are git-ignored, so a fresh clone has
+neither, and Part 1 is skipped. The build needs both files, byte for byte, at
+the paths in
+[data/corpus_specs/first_prototype.json](../data/corpus_specs/first_prototype.json):
+
+| Path | What it is | SHA-256 |
+|---|---|---|
+| `data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf` | Regulation (EU) 2016/679 as originally published in the Official Journal, L 119 of 4.5.2016, Italian (88 pages) | `8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b` |
+| `data/raw/trial-2026-10-10/documents/codice_privacy_dlgs_196_2003.pdf` | A user-provided transcription of d.lgs. 196/2003 (101 pages) | `0d264a29f564b4baec978b1786898c09329e1d4de0d57cfad9673bda9116ffe5` |
+
+With both files in place, from a clean tree:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.provision_cli build
+.\.venv\Scripts\python.exe -m src.provision_cli build-anchors
+.\.venv\Scripts\python.exe -m src.provision_cli link
+.\.venv\Scripts\python.exe -m src.demo
+```
+
+The build refuses a missing file or one whose SHA-256 differs. Its build ID
+records the code commit, so it differs from the one in older output.
+
+**Limitation:** the repository does not record where either PDF was obtained.
+The GDPR file is identified only by its publication and its hash. The Privacy
+Code file is a user-provided transcription that is not distributed with the
+repository. Until both files are available, Part 1 cannot be reproduced from a
+fresh clone.
+
+## Repository layout
+
+```text
+src/
+  config.py      # centralized, validated settings (env / .env)
+  models.py      # LegalDocument, LegalChunk, RetrievedPassage, Citation, Claim, LegalAnswer
+  ingestion.py   # TXT/PDF loading, batch ingestion, CLI
+  chunking.py    # legal-aware chunking
+  chunk_store.py # JSONL serialization of chunks
+  corpus_identity.py # ingestion-variant and corpus-build IDs (used by corpus_build.py)
+  reference_inventory.py # format and validation of the reference inventories (P1.2)
+  provisions.py  # instrument registry, review ledger, provisions, eligibility (P1.3)
+  corpus_build.py # reproducible corpus builds of ingestion variants, CLI (P1.3)
+  provision_anchors.py # segment maps and exact passage links (P1.3)
+  provision_explorer.py # article lookup and BM25 search mapped to provisions (P1.3)
+  provision_cli.py # command line for the explorer (P1.3)
+  text_normalization.py # comparison-only text normalisation, profile ws-markers-softhyphen-v1
+  retrieval_common.py # shared by the retrievers: argument checks, result formatting, Retriever interface
+  retrieval.py   # tokenizer and BM25 retriever, search CLI
+  dense_retrieval.py # embedding-based retriever, embedding cache, search CLI
+  hybrid_retrieval.py # Reciprocal Rank Fusion, hybrid retriever, search CLI
+  retrieval_eval.py # retrieval metrics, evaluation data loading, evaluation CLI
+  citations.py   # legal references in a question, resolved to provisions
+  query_analysis.py # the question's issues, Italian search queries and suggested lookups (LLM)
+  evidence.py    # evidence assembly: search hits and lookups to E1..En, within the limits
+  answer_generation.py # the answer pipeline: generation, validation, outcome rule, qualifications
+  support_verification.py # the support check: each claim against its own quotations (LLM)
+  source_status.py # what is known about each evidence item's source
+  llm.py         # one structured-JSON interface to the model; MockLLM and AnthropicLLM
+  answer_benchmark.py / answer_benchmark_run.py # benchmark answers-v0: format, runs, replay, report
+  web_demo.py    # the local web page and its JSON API
+  web_replay.py  # the static replay of a saved run
+  web_static/    # the page: index.html, app.css, app.js
+demo/replay/     # the replay of the final run's dev questions (a static site)
+tools/
+  reference_inventory/ # build and cross-check the reference inventories (see data/reference/README.md)
+tests/           # pytest suite; builds synthetic TXT/PDF fixtures on the fly
+  fixtures/synthetic_retrieval/ # SYNTHETIC chunks, queries and judgments for tests only
+data/
+  raw/           # your source documents (git-ignored)
+  processed/     # parsed documents and chunks (git-ignored)
+  indexes/embeddings/ # dense embedding cache (git-ignored; safe to delete)
+  evaluation/    # benchmarks: answers-v0 (with its saved runs), legal-v1/v2 (provision search)
+  reference/     # article inventories of the GDPR and the Privacy Code, built from the
+                 # source PDFs, pending human review; instrument registry and review
+                 # ledger (version-controlled; see its README.md)
+  corpus_specs/  # corpus build specifications (version-controlled)
+  processed/builds/<build_id>/ # corpus builds with their anchors and links (git-ignored)
+```
+
+## Setup (Windows, PowerShell)
+
+Requires Python 3.11+ (developed on 3.13.2). Always use the project's
+virtual environment interpreter so nothing is installed globally.
+
+```powershell
+# Create the virtual environment (skip if .venv already exists)
+py -3.13 -m venv .venv
+
+# Install dependencies into .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+# Optional: create a local configuration file
+Copy-Item .env.example .env
+```
+
+Activating the environment is optional, because every command below calls
+`.\.venv\Scripts\python.exe` explicitly. To activate it anyway:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+# If scripts are blocked, allow them for the current user once:
+#   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+deactivate  # when finished
+```
+
+On macOS/Linux, use `.venv/bin/python` instead of `.\.venv\Scripts\python.exe`.
+
+Dependencies:
+- `python-dotenv` loads `.env`.
+- `PyMuPDF` extracts PDF text; it is licensed AGPL-3.0 or commercial.
+- `rank-bm25` computes BM25 scores and installs `numpy`.
+- `sentence-transformers` computes embeddings for dense retrieval. It installs
+  `torch` (the CPU build on Windows, about 500 MB installed; the whole
+  environment is about 1 GB), `transformers` and `huggingface-hub`. The first `import` can take tens of seconds; it happens
+  only when a real embedding model is needed.
+- `pytest` runs the tests.
+
+## Usage
+
+```powershell
+# Validate the configuration and print it (the API key is masked)
+.\.venv\Scripts\python.exe -m src.config
+
+# Ingest documents (see "Ingestion" below)
+.\.venv\Scripts\python.exe -m src.ingestion --input data/raw --output data/processed/chunks.jsonl
+
+# Search the ingested chunks with BM25 (see "Lexical retrieval (BM25)" below)
+.\.venv\Scripts\python.exe -m src.retrieval "obblighi del datore di lavoro" --top-k 5
+
+# Search them by embedding similarity (see "Dense retrieval" below; downloads the model on first use)
+.\.venv\Scripts\python.exe -m src.dense_retrieval "obblighi del datore di lavoro" --top-k 5
+
+# Search with both and fuse the rankings (see "Hybrid retrieval" below; also needs the model)
+.\.venv\Scripts\python.exe -m src.hybrid_retrieval "obblighi del datore di lavoro" --top-k 5
+
+# Evaluate retrieval against labelled queries (see "Retrieval evaluation" below)
+.\.venv\Scripts\python.exe -m src.retrieval_eval --k 1 5 10 --output data/processed/eval_bm25.json
+
+# Look up an article and search a question over a verified corpus build
+# (see "Provision store and corpus explorer" below)
+.\.venv\Scripts\python.exe -m src.provision_cli lookup gdpr 33
+.\.venv\Scripts\python.exe -m src.provision_cli search "Quando devo notificare una violazione dei dati personali al Garante?"
+
+# Run the tests
+.\.venv\Scripts\python.exe -m pytest -v
+```
+
+## Ingestion
+
+Ingestion turns local documents into small, traceable chunks. Each chunk keeps
+its document ID, source file, page range, and detected article, section, or
+paragraph, so later phases can cite it precisely.
+
+1. Put `.txt` (UTF-8) and/or `.pdf` files in `data/raw/`. Subfolders are fine.
+   Use only synthetic or public documents you are allowed to process.
+   `data/raw/` is git-ignored.
+2. Optionally add known legal metadata in a sidecar next to a document,
+   named `<file name>.meta.json` (for example `law.pdf.meta.json`):
+
+   ```json
+   {"jurisdiction": "IT", "language": "it", "document_type": "statute",
+    "issuing_authority": "Parliament", "publication_date": "2023-12-20",
+    "effective_from": "2024-01-01", "effective_to": null}
+   ```
+
+   All keys are optional, and dates use `YYYY-MM-DD`. Without a sidecar every
+   legal metadata field is `null` (unknown). Nothing is guessed from the text.
+3. Run:
+
+   ```powershell
+   .\.venv\Scripts\python.exe -m src.ingestion --input data/raw --output data/processed/chunks.jsonl
+   ```
+
+   Both arguments are optional and default to `<DATA_DIR>/raw` and
+   `<DATA_DIR>/processed/chunks.jsonl`. `--input` may also be a single file.
+   Chunk size and overlap come from `CHUNK_SIZE` and `CHUNK_OVERLAP`.
+
+The command prints one line per file (`OK`, `WARNING`, or `FAILED` with the
+reason), followed by a summary:
+
+```text
+OK       data/raw/act.txt: 3 chunk(s) [doc-1a2b3c4d5e6f7a8b]
+FAILED   data/raw/scan.pdf: no extractable text: the PDF appears to be scanned (...). OCR is required and is not implemented.
+Documents processed: 1
+Documents failed:    1
+Chunks written:      3
+Output:              data/processed/chunks.jsonl
+```
+
+Exit codes: `0` means every file was ingested. `1` means at least one file
+failed or no files were found; the successful files are still written. `2`
+means invalid arguments, paths, or configuration, or an end boundary
+(below) that could not be applied.
+
+**Ingesting only the start of a document (`--end-before`).** For a single input
+file, `--end-before LINE` keeps only the text before one exact line and leaves
+out that line and everything after it. It is used to ingest a code's main body
+without its annexes:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.ingestion --input data/raw/codice.pdf `
+    --output data/processed/codice_main_body.jsonl --end-before "ALLEGATO A.1"
+```
+
+- *Matching:* a line matches only if its whole text, ignoring spaces at its
+  start and end, is exactly `LINE`. Case matters, and text that merely contains
+  `LINE` (for example "si veda l'ALLEGATO A.1 al Codice") does not match.
+- *Uniqueness:* the line must occur exactly once. If it is missing or appears
+  more than once (the error names the pages), nothing is written, an existing
+  output file is left unchanged, and the exit code is `2`. There is no fallback
+  to ingesting the whole file.
+- *Provenance:* the source file is not changed or copied. The kept text is the
+  unchanged beginning of the extracted text, so chunk page numbers are the
+  original PDF page numbers, including on a page shared with the excluded part.
+  The document ID is still the hash of the whole source file, so a whole-file
+  run and a boundary run of the same file produce chunks with the same document
+  ID; keep the two outputs in separate files and record which is which.
+- The report adds a `WARNING` line saying on which page the text was cut and how
+  many characters were left out. The option cannot be combined with a directory
+  input.
+
+**Output.** `data/processed/chunks.jsonl` is git-ignored UTF-8 JSON Lines, one
+chunk per line:
+
+```json
+{"chunk_id": "doc-1a2b3c4d5e6f7a8b-0000-9f86d081", "doc_id": "doc-1a2b3c4d5e6f7a8b",
+ "chunk_index": 0, "text": "Article 1 - Scope\n1. ...",
+ "location": {"source_path": "data/raw/act.txt", "page": null, "page_end": null,
+              "section": "Chapter I", "article": "1", "paragraph": "1, 2"},
+ "metadata": {"jurisdiction": null, "language": null, "document_type": null,
+              "issuing_authority": null, "publication_date": null,
+              "effective_from": null, "effective_to": null}}
+```
+
+Use `src.chunk_store.read_chunks(path)` to load the file back as `LegalChunk` objects.
+
+**Policies**
+
+- *Repeated runs:* the output file is rebuilt from scratch on every run. It is
+  written to a temporary file and then replaced, so it contains exactly the
+  documents ingested in the latest run and never mixes in stale records.
+  Source files are never modified.
+- *Document ID:* `doc-` plus the first 16 hex characters of the SHA-256 of the
+  file's bytes. It does not depend on file name, location, or machine, and it
+  changes whenever the file changes. Byte-identical files in one run are
+  reported as duplicates.
+- *Chunk ID:* `<doc_id>-<index>-<first 8 hex chars of SHA-256(chunk text)>`.
+  It is stable for the same file and chunk settings, and never reused for
+  different text.
+- *Skipped silently:* only hidden files (such as `.gitkeep`) and metadata
+  sidecars. Any other unsupported file is reported as a failure.
+
+**Chunking**
+
+- Text is split into paragraphs (at blank lines), heading lines, and numbered
+  paragraphs inside an article (`1.`, `2)`, `(3)`, `1-bis.`).
+- Headings are recognized conservatively, in English and Italian:
+  - article headings such as `Article 5`, `Art. 5 - Scope`, `Articolo 2-bis (Definizioni)`;
+  - section-level headings: Book/Part/Title/Chapter/Section and
+    Libro/Parte/Titolo/Capo/Sezione, followed by a Roman or Arabic number.
+- A chunk never crosses an article or section heading, and a heading stays
+  with the text that follows it.
+- Whole paragraphs are packed into chunks of at most `CHUNK_SIZE` characters.
+- A paragraph longer than `CHUNK_SIZE` is split at the last sentence end in the
+  window (or at whitespace, or as a last resort exactly at the limit).
+  Consecutive pieces then overlap by up to `CHUNK_OVERLAP` characters. Clean
+  paragraph or heading boundaries are not overlapped.
+- Chunk text is always an exact excerpt of the extracted document text.
+  PDF page ranges (`page` to `page_end`) are computed from character offsets.
+
+**Ingestion variants and corpus builds** (`src/corpus_identity.py`; not yet
+used by ingestion, retrieval or evaluation). A document ID names a file's
+bytes only, so a whole-file run and an `--end-before` run of the same file
+share it (TECHNICAL_DEBT.md TD-059). Two further IDs make the processing
+explicit:
+
+- `variant_id` (`var-` plus 32 hex characters) names one processing of one
+  file. It is the hash of the source file's SHA-256, the reader (`pdf` or
+  `txt`), its `.meta.json` sidecar's SHA-256 (or none), `end_before`,
+  `CHUNK_SIZE`, `CHUNK_OVERLAP`, the Git commit with its clean or dirty
+  state, and the PyMuPDF and Python versions. The reader is included because
+  ingestion chooses it from the file extension, not from the bytes, so the
+  same bytes saved as `.txt` and as `.pdf` are processed differently. An
+  unsupported extension gets no variant.
+- `build_id` (`build-` plus 32 hex characters) names one corpus. It is the
+  hash of its variant IDs, in sorted order, and the assembly format. A build
+  holds at most one variant per source file.
+- *Recorded, not hashed:* where the output was written, its SHA-256, size and
+  chunk count, and the source path. They describe a result, so they never
+  change an ID. Chunk records contain the source path, so a re-run of the
+  same variant reproduces the output hash only if the source is at the same
+  path.
+- *Code version:* a commit is required. Uncommitted changes give the state
+  `dirty` with a fingerprint of the changed files, so a dirty run never gets
+  the ID of the clean commit. They are: a modified, deleted or renamed
+  tracked file; a file marked assume-unchanged or skip-worktree; or an
+  untracked file not ignored by the repository's `.gitignore` files. Local
+  excludes do not count as ignored.
+- IDs are computed from canonical JSON (sorted keys, no whitespace, UTF-8, no
+  Unicode normalization), which includes a schema version, so a change to
+  these rules changes every ID.
+
+## Lexical retrieval (BM25)
+
+BM25 ranks chunks by the query words they contain. A chunk scores higher when
+it uses a query word often, when the word is rare in the corpus, and when the
+chunk is short. It matches words, not meaning.
+
+**Command line** (run ingestion first):
+
+```powershell
+.\.venv\Scripts\python.exe -m src.retrieval "sanzioni del Garante" --top-k 3
+.\.venv\Scripts\python.exe -m src.retrieval "data breach" --chunks path\to\chunks.jsonl
+```
+
+The command prints each result's rank, score, chunk ID, source (file, page
+range, article, paragraph), and a text excerpt. Exit code `2` means a missing
+or malformed chunk file or an invalid query or `--top-k`.
+
+**Python:**
+
+```python
+from pathlib import Path
+from src.retrieval import BM25Retriever
+
+retriever = BM25Retriever.from_jsonl(Path("data/processed/chunks.jsonl"))
+for passage in retriever.search("obblighi del datore di lavoro", top_k=5):
+    chunk = passage.chunk
+    print(passage.rank, round(passage.score, 3), chunk.chunk_id,
+          chunk.location.source_path, chunk.location.page, chunk.location.article)
+```
+
+`BM25Retriever(chunks)` also accepts any iterable of `LegalChunk`. Each
+result is a `RetrievedPassage` with `method=RetrievalMethod.BM25`, a 1-based
+`rank`, the BM25 `score`, and the unchanged `LegalChunk`, which carries its
+IDs, text, source location, and metadata.
+
+**Behavior**
+
+- *Tokenization* is the same for chunks and queries:
+  - case and accents are folded (`Responsabilità`, `RESPONSABILITA'` and
+    `responsabilita` all match);
+  - punctuation splits words, and Italian elisions are separated
+    (`dell'articolo` → `dell`, `articolo`);
+  - compound identifiers are kept whole and also split into their parts
+    (`2016/679` → `2016/679`, `2016`, `679`; `2-bis`; `d.lgs`);
+  - an article or paragraph keyword followed by a number becomes a structural
+    token in place of the keyword:
+    - `Articolo 5`, `art. 5`, `Art.5` and `Article 5` → `art:5`, `5`;
+    - `comma 2`, `paragrafo 2` and `paragraph 2` → `par:2`, `2`;
+    - only the first number is linked (`artt. 5 e 6` → `art:5`, `5`, `e`, `6`);
+  - no stop words are removed and no stemming is applied.
+- *Indexed structure:* each chunk is indexed as its text plus tokens from its
+  metadata: the section heading, `art:<article>`, and `par:<label>` for each
+  paragraph label.
+  - A metadata token is added only if the text lacks it, and only once, so the
+    text's term counts are not inflated.
+  - Continuation chunks, which don't repeat their article's heading, are
+    therefore found by `articolo 5` or by the heading words.
+  - Structural tokens come only from metadata. A reference in running text
+    ("chi viola l'articolo 5") is indexed as ordinary words, so a chunk citing
+    article 5 ranks below article 5 itself.
+  - Displayed text is never changed. The document title is not stored on
+    chunks and is not indexed.
+- *Results* are chunks that contain at least one indexed query token, ordered
+  by descending score. Ties keep corpus order. Fewer than `top_k` results are
+  returned rather than padding with unrelated chunks, and a query with no
+  matching words returns an empty list.
+- *Scores* are BM25 with k1=1.5 and b=0.75, computed by `rank_bm25.BM25Okapi`
+  with one change: the IDF is `ln(1 + (N − n + 0.5) / (n + 0.5))`, the formula
+  Lucene uses, where N is the number of chunks and n the number containing
+  the word.
+  - This IDF is always positive, so every match scores above 0, and matching
+    one more query word never lowers a chunk's score.
+  - The library's original Okapi IDF, `ln((N − n + 0.5) / (n + 0.5))`, is 0
+    for a word in exactly half of the chunks. For a word in more than half it
+    is replaced by a floor that can itself be ≤ 0 in small or repetitive
+    corpora. There, a matching chunk scored 0, and a chunk matching two query
+    words ranked below one matching only one of them.
+  - The Okapi behavior stays available for comparison with
+    `BM25Retriever(chunks, positive_idf=False)`.
+  - The trade-off is that very common words still add a little to the score
+    instead of being ignored.
+  - Scores only order the results of a single query. They are not
+    probabilities and cannot be compared across queries or corpora.
+- *Validation:* a blank query raises `ValueError`. `top_k` must be an `int`
+  ≥ 1, and booleans are rejected with `TypeError`. An empty corpus returns `[]`.
+
+**Limitations**
+
+- It is purely lexical:
+  - different word forms don't match (`obbligo` vs `obblighi`, `lavoratore`
+    vs `lavoratori`, `sanzione` vs `sanzioni`);
+  - abbreviations aren't expanded (`decreto legislativo` vs `d.lgs.`);
+  - synonyms and related concepts aren't matched (`licenziamento` vs `recesso
+    del datore`).
+
+  The tests record these cases. Stemming is deliberately not used yet (see
+  below), and dense retrieval is planned for a later phase.
+- Structural tokens depend on the chunker's heading detection. An article
+  whose heading was not recognized has no `art:` token. A range such as
+  `artt. 5-7` or a list such as `artt. 5 e 6` links only the first number.
+- Stemming is not added. An Italian stemmer (for example Snowball) would
+  connect `obbligo` and `obblighi`, but it also merges distinct legal terms
+  and makes article identifiers harder to reason about. Whether it helps
+  should be measured on the labelled retrieval set planned for the
+  evaluation phase, not assumed.
+- The index lives in memory and is rebuilt from the JSONL file each time a
+  retriever is created, so re-run ingestion and rebuild after the corpus
+  changes. Nothing is persisted, and search is a linear scan, which is
+  adequate for prototype-sized corpora.
+- A high score only means the words match. It is not evidence that a passage
+  answers a legal question.
+
+## Dense retrieval
+
+Dense retrieval turns every chunk and every query into an embedding (a vector
+of numbers) with a neural model. It then ranks chunks by the cosine similarity
+between query and chunk vectors. The aim is to match paraphrases,
+inflections and translations that BM25 misses (`licenziamento` vs `recesso
+del datore`, `obblighi` vs `obbligo`), since similar meanings should get
+similar vectors. Whether it does so on a given corpus has to be measured with
+the evaluator. It can also rank a passage highly for being loosely on-topic.
+
+**Model.** The default is `intfloat/multilingual-e5-small`: 12 layers,
+384-dimensional embeddings, multilingual, MIT-licensed, about 470 MB. It is an
+initial general-purpose baseline, **not a legally validated or legal-domain
+fine-tuned model**. Configure it with `EMBEDDING_MODEL` in `.env`, or with
+`--model` for one command. Any sentence-transformers model name or local path
+works.
+
+- E5 models expect every input to start with `query: ` (queries) or
+  `passage: ` (chunks), including non-English text, as stated on the model
+  card. These prefixes are added automatically when the model name contains
+  an `e5` part (for example `multilingual-e5-small`). Other models get no
+  prefix. `DenseRetriever(..., query_prefix=..., passage_prefix=...)`
+  overrides this.
+- Embeddings are L2-normalized, so the dot product equals the cosine
+  similarity (−1 to 1).
+
+**First run and installation.** `sentence-transformers` is installed by
+`requirements.txt`. The model itself is downloaded from Hugging Face the
+first time a dense search, or a dense evaluation, needs it. It is stored in
+the Hugging Face cache (`%USERPROFILE%\.cache\huggingface`), and later runs
+work offline. The model is loaded once per retriever, and not at all when
+the corpus is empty. To forbid downloads, set `HF_HUB_OFFLINE=1`; the model
+must then already be in the cache.
+
+**Command line** (run ingestion first):
+
+```powershell
+.\.venv\Scripts\python.exe -m src.dense_retrieval "notifica di una violazione dei dati" --top-k 3
+.\.venv\Scripts\python.exe -m src.dense_retrieval "recesso" --chunks path\to\chunks.jsonl --model intfloat/multilingual-e5-base --no-cache
+```
+
+Output has the same layout as the BM25 command: rank, cosine score, chunk ID,
+source, and an excerpt. The first line also names the model and the cache
+status. Exit code `2` means a missing or malformed chunk file, an invalid query
+or `--top-k`/`--batch-size`, or a model that could not be loaded.
+
+**Python:**
+
+```python
+from pathlib import Path
+from src.dense_retrieval import DenseRetriever
+
+retriever = DenseRetriever.from_jsonl(
+    Path("data/processed/chunks.jsonl"), cache_dir=Path("data/indexes/embeddings")
+)
+for passage in retriever.search("obblighi del datore di lavoro", top_k=5):
+    print(passage.rank, round(passage.score, 3), passage.chunk.chunk_id)
+```
+
+Results are the same `RetrievedPassage` objects as BM25's, with
+`method=RetrievalMethod.DENSE`, a 1-based `rank`, the cosine similarity as
+`score`, and the unchanged chunk. Validation of `query` and `top_k` is
+identical to BM25's. Ties keep corpus order, and an empty corpus returns `[]`.
+
+**Embedding cache.** Encoding the corpus is the slow step, so the CLI and the
+evaluator save chunk embeddings in `data/indexes/embeddings/` (under
+`INDEX_DIR`, git-ignored). `--no-cache` disables this in the CLI; in Python
+the cache is off unless `cache_dir` is given.
+
+- *Keying.* The file name is a SHA-256 of the model name, the passage prefix,
+  and every chunk's ID and text. Changing the chunks or the model identifier
+  therefore uses a new file.
+- *Validation.* A file is used only if it loads without pickle and has the
+  right shape, float32 values, and unit-length rows. Otherwise it is
+  recomputed and replaced.
+- *Model updates.* The key does not cover model weights: after updating a
+  model under the same name, clear the cache.
+- *Clearing it:* `Remove-Item -Recurse data\indexes\embeddings`. This is
+  always safe, and old files are not cleaned up automatically.
+
+**Testing with the real models (opt-in).** The default test suite never loads
+a real model: it uses fake encoders and scorers, forces Hugging Face offline
+mode in every test (`tests/conftest.py`), and skips the three real-model
+tests, so a default run reports `3 skipped`. One variable,
+`RUN_REAL_MODEL_TESTS=1`, enables all three:
+
+| Test | Model | If the model is not cached |
+|---|---|---|
+| `tests/test_dense_retrieval.py::test_real_model_smoke` | `intfloat/multilingual-e5-small` | fails |
+| `tests/test_hybrid_retrieval.py::test_real_model_smoke` | `intfloat/multilingual-e5-small` | fails |
+| `tests/test_reranking.py::test_real_model_smoke` | `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1` | skipped |
+
+```powershell
+$env:RUN_REAL_MODEL_TESTS="1"
+# All three:
+.\.venv\Scripts\python.exe -m pytest -k real_model -v
+# Or one at a time (-s shows the reranker test's printed scores and timings):
+.\.venv\Scripts\python.exe -m pytest tests/test_dense_retrieval.py -k real_model -v
+.\.venv\Scripts\python.exe -m pytest tests/test_hybrid_retrieval.py -k real_model -v
+.\.venv\Scripts\python.exe -m pytest tests/test_reranking.py -k real_model -v -s
+Remove-Item Env:RUN_REAL_MODEL_TESTS
+```
+
+Each model must already be in the local Hugging Face cache. The tests load
+it with `local_files_only=True` and run offline, so they never download
+anything, and `HF_HUB_OFFLINE` does not need to be set. They use the default
+model names above, not `EMBEDDING_MODEL` or `RERANKER_MODEL`. To fetch a
+model, run a dense search once (embedding model) or an evaluation with
+`--retriever hybrid-rerank` once (reranker).
+
+The tests check integration, and none of them is a quality benchmark:
+- *Dense:* the model loads, embeddings are valid, results are well-formed and
+  same-language queries rank their passage first.
+- *Hybrid:* fused results over the synthetic fixture are valid and
+  repeatable; no ranking is expected.
+- *Reranker:* scores are finite, repeatable and not all equal; reranked
+  results keep their first-stage provenance; an input longer than the model's
+  limit still gets a finite score; 20 passages are reranked and timed. No
+  order is expected.
+
+**Troubleshooting: `CERTIFICATE_VERIFY_FAILED` when downloading a model.**
+Some antivirus products and corporate proxies inspect HTTPS traffic by
+re-signing every site's certificate with their own root certificate. Windows
+and browsers trust that root, but the Hugging Face client verifies against
+Python's bundled certificate list, so the download fails with `certificate
+verify failed: unable to get local issuer certificate`.
+
+- Do **not** disable certificate verification, and do not turn off your
+  antivirus protection, to get around it.
+- *Use another trusted network or machine* that does not inspect HTTPS,
+  download the model there, and copy the Hugging Face cache folder across.
+- *Or use a properly verified certificate configuration:*
+  1. Confirm that the inspecting root certificate in your Windows certificate
+     store really belongs to your security software, and that it is the root
+     presented on the connection.
+  2. Create a certificate file made of the standard `certifi` bundle plus that
+     one root.
+  3. Point `SSL_CERT_FILE` at it for the download command only.
+     Verification stays on; setting `HF_HUB_DISABLE_XET=1` for the same
+     command keeps every file on the client that reads `SSL_CERT_FILE`.
+- Keep certificate files outside the repository and never commit them.
+- On a machine with this problem, a model that is already cached still loads
+  slowly, because the client retries its online checks before falling back to
+  the cache. In one measured run that took 238 seconds instead of 24.
+  Setting `HF_HUB_OFFLINE=1` skips those checks:
+
+  ```powershell
+  $env:HF_HUB_OFFLINE = "1"      # this PowerShell session only
+  ```
+
+  `HF_HUB_OFFLINE=1` means cache-only operation. Use it only when the model
+  you need is already downloaded. While it is set nothing can be downloaded or
+  updated: a different `EMBEDDING_MODEL`, or a first download, fails with a
+  "couldn't find them in the cached files" error. Remove it
+  (`Remove-Item Env:HF_HUB_OFFLINE`) before downloading or updating a model.
+  On a network without HTTPS inspection it is not needed.
+
+**Limitations**
+
+- **Not legal-domain.** The model has no legal fine-tuning. Similar scores
+  do not mean legal equivalence, and exact identifiers such as article numbers
+  or `2016/679` are typically matched less reliably than by BM25 (not measured
+  here yet).
+- **Short cross-language queries.** A short query in one language may not
+  retrieve the matching passage in another language at rank 1. In the
+  project's three-passage synthetic check, the Italian query `notifica di una
+  violazione dei dati` ranked the English data-breach passage last (0.776),
+  behind two unrelated Italian passages (0.822 and 0.808). The English query
+  `notification of a personal data breach` ranked it first, and so did a
+  longer Italian query that added `personali entro 72 ore`. This is one
+  observation on a synthetic fixture, not a general conclusion about the
+  model's multilingual retrieval quality; that needs a curated benchmark.
+- **Truncation.** Inputs longer than the model limit (512 tokens for E5) are
+  cut off, and the tail of the chunk is left out of the embedding without any
+  warning. Measured with the model's tokenizer on synthetic text, a default
+  1200-character chunk is about 260–280 tokens of Italian or English prose,
+  and about 480 tokens when it is dense with citations and numbers. Prose
+  passes the limit between 2,000 and 2,400 characters; citation-dense text
+  passes it just above 1,200. Keep `CHUNK_SIZE` near the default for this
+  model.
+- **No relevance cut-off.** Every chunk has a similarity, so `top_k` results
+  come back even when nothing is relevant; there is no threshold yet. Scores
+  are not probabilities, and they are not comparable across models.
+- **Search cost.** Search is a brute-force comparison with every chunk in
+  memory. That is fine for prototype corpora, but there is no vector database.
+- **Speed.** Encoding runs on CPU unless a GPU build of `torch` is installed.
+
+## Hybrid retrieval
+
+Hybrid retrieval runs BM25 and dense retrieval for the same query and merges
+their two rankings into one with Reciprocal Rank Fusion (RRF). The intent is
+to combine exact word and identifier matching with meaning-based matching.
+Whether that helps on legal text has not been measured.
+
+**How the fusion works.** Each retriever returns its best candidates in
+order. A chunk's fused score is
+
+```text
+score(chunk) = sum of 1 / (RRF_K + rank) over the retrievers that returned it
+```
+
+where `rank` is the chunk's position (1 = best) in that retriever's list.
+
+- Only ranks are used. BM25 scores and cosine similarities are on unrelated
+  scales, so they are never compared, normalized or weighted.
+- A chunk returned by both retrievers is one result; its two contributions
+  are added.
+- Results are ordered by fused score. Equal scores are ordered by chunk ID, so
+  the output is fully deterministic.
+- Example with `RRF_K=60`: BM25 returns `[A, B, C]` and dense returns
+  `[C, A, D]`. Then A scores 1/61 + 1/62, C scores 1/63 + 1/61, B scores 1/62
+  and D scores 1/63, giving the order A, C, B, D.
+
+**Settings.** No new settings were added; hybrid retrieval uses three that
+already existed:
+
+| Setting | Default | Role |
+|---|---|---|
+| `BM25_TOP_K` | `20` | How many BM25 candidates enter the fusion |
+| `DENSE_TOP_K` | `20` | How many dense candidates enter the fusion |
+| `RRF_K` | `60` | The constant in the formula; larger values make rank position matter less |
+
+These candidate depths are fixed. They do not change with the number of
+results you ask for, so `search(q, 5)` is always the first five results of
+`search(q, 10)`. At most `BM25_TOP_K + DENSE_TOP_K` results can be returned,
+which matters when evaluating at a large k (see "Comparing retrievers").
+The number of results is the `top_k` argument, as for the other retrievers.
+
+**Command line** (run ingestion first; needs the embedding model):
+
+```powershell
+.\.venv\Scripts\python.exe -m src.hybrid_retrieval "obblighi del datore di lavoro" --top-k 3
+```
+
+```text
+Indexed 9 chunk(s) from tests\fixtures\synthetic_retrieval\chunks.jsonl with intfloat/multilingual-e5-small (embedding cache: hit)
+Candidates: BM25 5 (depth 20), dense 9 (depth 20); fusion: RRF, rrf_k=60
+#1  score=0.0325  syn-a-0001
+    synthetic/legge_sintetica.txt | art. 2 | par. 1
+    Art. 2 (Obblighi del datore di lavoro) 1. Il datore di lavoro valuta tutti i rischi ...
+    from: bm25 #1 (score 4.7021) | dense #2 (score 0.9026)
+```
+
+Each result shows its fused rank and score, then a `from:` line with the rank
+and original score from every retriever that returned it. The second line
+says how many candidates each retriever contributed. If BM25 finds no chunk
+sharing a word with the query, the output says so, and the results come from
+dense retrieval alone. `--chunks`, `--model` and `--no-cache` work as in the
+dense command. Exit code `2` means a missing or malformed chunk file, an
+invalid query or `--top-k`, or a model that could not be loaded.
+
+**Python:**
+
+```python
+from pathlib import Path
+from src.hybrid_retrieval import HybridRetriever
+
+retriever = HybridRetriever.from_jsonl(
+    Path("data/processed/chunks.jsonl"), cache_dir=Path("data/indexes/embeddings")
+)
+for passage in retriever.search("obblighi del datore di lavoro", top_k=5):
+    print(passage.rank, round(passage.score, 4), passage.method_ranks, passage.chunk.chunk_id)
+```
+
+`HybridRetriever(bm25, dense, bm25_top_k=20, dense_top_k=20, rrf_k=60)` also
+accepts two retrievers you built yourself. Build both from the same chunks:
+this is your responsibility and is not verified (see the special cases
+below). Results are the usual `RetrievedPassage` objects with
+`method=RetrievalMethod.HYBRID`. `method_ranks` and `method_scores` hold each
+retriever's rank and original score; a retriever missing from them did not
+return that chunk. The pure function `reciprocal_rank_fusion(...)` fuses any
+ranked lists without a retriever.
+
+**Behavior in special cases**
+
+- *One retriever returns nothing:* the other's results are returned in their
+  order, and `method_ranks` shows which retriever they came from.
+- *Both return nothing:* an empty list.
+- *A retriever fails* (for example the embedding model cannot be loaded): the
+  error is raised. Hybrid retrieval never silently falls back to BM25 alone.
+- *The two retrievers were built from different chunks:* this is detected only
+  in one case. If a chunk ID returned by both retrievers has different content
+  in each, a `ValueError` is raised. Nothing else is checked: two corpora that
+  share no chunk ID are fused without any error, as if they were one corpus.
+- *Validation* of `query` and `top_k` is identical to the other retrievers.
+
+**Limitations**
+
+- **Untuned defaults.** `RRF_K=60` and the depths of 20 are conventional
+  starting values. Nothing has been tuned, because there is no benchmark to
+  tune against.
+- **Ranks only.** RRF ignores how large the original scores were: a decisive
+  first place counts the same as a narrow one.
+- **The fused score is not a confidence.** It only orders results. It is not a
+  probability, and it cannot be compared across queries or used as a
+  relevance threshold.
+- **"Found by both" always wins at the defaults.** A chunk returned by both
+  retrievers outranks any chunk returned by only one, whenever the candidate
+  depth is below `RRF_K + 2`.
+- **Small corpora.** Dense retrieval returns candidates for every query. On a
+  corpus with no more chunks than `DENSE_TOP_K`, its list is the whole corpus,
+  so every BM25 match counts as "found by both" and hybrid results say little.
+  This applies to the nine-chunk synthetic fixture.
+- **Ties are common, and the tie-break is arbitrary.** Two chunks ranked 1st
+  and 2nd by one retriever and 2nd and 1st by the other score exactly the same.
+  The chunk ID then decides. On the synthetic fixture this decides the top
+  result for one query.
+- **Needs the embedding model.** Hybrid retrieval cannot run without it, and
+  each search costs a BM25 scan plus a dense scan.
+- **No filters.** Filtering by jurisdiction, document type or date is not
+  implemented.
+
+## Retrieval evaluation
+
+`src/retrieval_eval.py` measures whether a retriever ranks the chunks a person
+judged relevant near the top of its results. It only sees ranked chunk IDs, so
+the same queries, judgments and metrics can compare any retriever.
+
+**Data format** (UTF-8 JSON Lines, one object per line):
+
+```jsonl
+# queries.jsonl: query_id must be unique; "notes" is optional
+{"query_id": "q01", "text": "obblighi del datore di lavoro", "notes": "..."}
+
+# qrels.jsonl: one line per judged (query, chunk) pair
+{"query_id": "q01", "chunk_id": "doc-5de8c317e7a9f3d7-0001-da460b66", "relevance": 2}
+{"query_id": "q01", "chunk_id": "doc-5de8c317e7a9f3d7-0002-a03d3cee", "relevance": 0}
+```
+
+(The `#` lines above are explanations; JSON Lines has no comments.)
+
+- `relevance` is an integer ≥ 0. `0` means judged not relevant, and `1` or
+  more means relevant; higher grades are only used by nDCG. A 0–2 scale is
+  typical: 2 = directly answers, 1 = partly relevant.
+- Loading fails with the file name and line number on:
+  - invalid JSON, missing or unknown keys, or empty IDs or text;
+  - duplicate query IDs or duplicate (query, chunk) judgments;
+  - relevance that isn't an integer ≥ 0 (booleans included);
+  - judgments that reference an unknown query.
+- **Judgments are tied to one chunk file.** Chunk IDs change whenever a
+  document or `CHUNK_SIZE`/`CHUNK_OVERLAP` changes. Judgments that reference a
+  chunk ID missing from the chunk file are therefore an error, not a silent
+  zero. Re-run ingestion with the settings used for labelling, or relabel.
+
+**Metrics** (k = cutoff; only the first k retrieved IDs count):
+
+| Metric | Definition |
+|---|---|
+| Recall@k | relevant chunks in the top k ÷ all relevant chunks for the query (cannot reach 1 if there are more than k) |
+| MRR@k | mean over queries of 1/rank of the first relevant chunk in the top k (0 if none) |
+| nDCG@k | DCG@k ÷ ideal DCG@k, where DCG@k = Σ relevance_i / log2(i + 1) (linear gain) and the ideal ranking sorts the judged grades |
+
+Edge cases:
+- *Unjudged* retrieved chunks count as not relevant.
+- *Duplicate* chunk IDs count only at their first position; repeats still use
+  up positions but earn nothing.
+- *Fewer than k results, or none,* score lower; denominators never shrink.
+- *Ties in relevance:* the order among equally graded chunks does not change nDCG.
+- *Queries without any relevant judgment* (unjudged, or judged only 0) can't
+  be scored. They are listed as skipped and excluded from the means.
+- *Aggregates* are unweighted means over the evaluated queries.
+
+**Running it:**
+
+```powershell
+# Defaults: data/processed/chunks.jsonl, data/evaluation/queries.jsonl, data/evaluation/qrels.jsonl
+.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever bm25 --k 1 5 10 --output data/processed/eval_bm25.json
+
+# The synthetic fixture (a smoke test, not a benchmark):
+.\.venv\Scripts\python.exe -m src.retrieval_eval --chunks tests/fixtures/synthetic_retrieval/chunks.jsonl `
+    --queries tests/fixtures/synthetic_retrieval/queries.jsonl --qrels tests/fixtures/synthetic_retrieval/qrels.jsonl
+```
+
+The terminal shows mean metrics at each k and per-query scores at the largest
+k. The `--output` JSON report records:
+- the retriever name and the k values;
+- the chunk count, and the path and SHA-256 of the chunk, query and judgment files;
+- per query: the retrieved IDs, the duplicate count, the metrics or the skip reason;
+- the means;
+- `warnings`: empty unless a cutoff is larger than the retriever can serve
+  (see "Comparing retrievers" below).
+
+The report is deterministic: same files and retriever, same report. It
+contains no timestamps. Exit codes: `0` evaluated; `1` no query had a
+relevant judgment; `2` missing or invalid files or arguments.
+
+`--retriever` accepts:
+- `bm25`, the default, with positive IDF;
+- `bm25-okapi`, the library's original IDF;
+- `dense`, with the `EMBEDDING_MODEL` setting and the embedding cache;
+- `hybrid`, which fuses `bm25` and `dense` using `BM25_TOP_K`, `DENSE_TOP_K`
+  and `RRF_K`.
+
+For dense and hybrid runs the report adds `retriever_details`, and the
+terminal summary shows the model. The details are the model and input
+prefixes, plus the fusion method, `rrf_k` and both candidate depths for
+hybrid. BM25 reports carry an empty `retriever_details`.
+
+**Synthetic tests vs a curated benchmark**
+- `tests/fixtures/synthetic_retrieval/` holds invented passages and judgments.
+  They only check that the evaluation code works, and their scores say nothing
+  about legal retrieval quality.
+- A real benchmark goes in `data/evaluation/` (version-controlled), next to the
+  chunk file it was labelled against. Its judgments should come from people
+  qualified to judge the legal relevance of the documents. None exists yet.
+- The evaluation reports say which files were used (path and hash), so it is
+  always visible which data a score came from.
+
+**Comparing retrievers.** Run the same command on the same files once per
+retriever, write each to its own `--output` file, and compare the JSON
+reports query by query:
+
+```powershell
+.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever bm25   --output data/processed/eval_bm25.json
+.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever dense  --output data/processed/eval_dense.json
+.\.venv\Scripts\python.exe -m src.retrieval_eval --retriever hybrid --output data/processed/eval_hybrid.json
+```
+
+All three use the same queries, judgments, metrics and report format, and
+each report records the hashes of its input files. Compare only reports whose
+hashes and k values match.
+
+When comparing, keep three things in mind:
+- BM25 returns only chunks that share a word with the query, while dense and
+  hybrid always return results. At a k close to the corpus size, recall
+  therefore favors them for a reason unrelated to quality. Compare at a k well
+  below the number of chunks.
+- Hybrid results depend on `BM25_TOP_K`, `DENSE_TOP_K` and `RRF_K`. Keep them
+  fixed across the runs being compared; the report records them.
+- **Keep k within hybrid's candidate depths.** Hybrid returns at most
+  `BM25_TOP_K + DENSE_TOP_K` results per query (40 by default), while BM25 and
+  dense can return as many as you ask for. At a larger k, hybrid's ranking
+  simply ends, so its recall looks worse for a reason unrelated to ranking
+  quality.
+  - The evaluator does not change or hide those numbers. It adds a
+    `WARNING:` line to the summary and an entry to `warnings` in the report,
+    saying which cutoffs are affected. The run still succeeds.
+  - The warning covers only cutoffs above that maximum. Hybrid can return
+    fewer results than the maximum when both retrievers pick the same chunks,
+    so a k between the smaller candidate depth and the maximum may also be
+    cut short. Each query's `retrieved` list in the report shows how many
+    results it really had.
+  - For a clean comparison, use a k no larger than the smaller of
+    `BM25_TOP_K` and `DENSE_TOP_K` (20 by default), or raise the depths.
+
+Only a curated benchmark can say which retriever is better for legal
+questions. Synthetic-fixture numbers cannot. A new retriever needs a
+`search(query, top_k) -> list[RetrievedPassage]` method, optionally
+`describe()`, and an entry in `RETRIEVERS` in `src/retrieval_eval.py`.
+
+**Limitations**
+
+- Retrieval metrics measure ranking against the judgments given. They depend
+  on judgment quality and completeness: relevant chunks nobody judged count as
+  misses.
+- A small query set gives unstable means. No significance tests or confidence
+  intervals are computed.
+- This evaluator supports only chunk-level relevance. Article-level relevance
+  is covered by the provision-level evaluator below.
+- Answer quality and grounding are evaluated separately, in a later phase.
+
+### Provision-level evaluation of the `ask` search
+
+`src/provision_eval.py` measures the BM25 search that `ask` uses
+(`ProvisionExplorer.search`), at article level. Its benchmarks hold questions
+with fixed, hand-written Italian search queries, and judgments keyed by
+instrument and article label (grades 0–2), each with its provenance and review
+status. It reports Recall@1, Recall@5, Recall@10, MRR@10 and nDCG@10, per
+question and as means. Each report records the benchmark's hashes, the build
+ID, the corpus hash and the code commit.
+
+```powershell
+.\.venv\Scripts\python.exe -m src.provision_eval --benchmark data/evaluation/legal-v1 `
+    --output data/processed/evaluation/bm25.json
+```
+
+The first real benchmark,
+[data/evaluation/legal-v1/](../data/evaluation/legal-v1/README.md), holds 24
+questions, 16 dev and 8 test. It is provisional: its questions and judgments
+are candidates that no person has reviewed, so its numbers are not validated
+retrieval quality. The synthetic fixture in
+`tests/fixtures/synthetic_provision_eval/` tests the evaluator only. The schema,
+the grades, the judging rules, the metric conventions and the limitations are in
+[docs/evaluation/guidelines.md](evaluation/guidelines.md).
+
+Its revision, [data/evaluation/legal-v2/](../data/evaluation/legal-v2/README.md)
+(M4 P2.2), was frozen at Gate 3 and is now the default benchmark.
+- **What it is:** schema 2, with the same 24 questions in two query scenarios
+  (`--scenario technical` and `--scenario natural`), regraded under a stricter
+  grade-1 policy. Its six files are pinned by SHA-256 in
+  `tests/test_legal_benchmarks.py`.
+- **Review status:** at Gate 2 the owner reviewed 28 of its 673 judgments. The
+  rest are unreviewed candidates. Owner review is not expert legal validation.
+- **First results** (BM25 search of `ask`, chunk depth 20, nDCG@10 over the
+  scored questions): technical 0.709 dev (14 questions) and 0.715 test (6
+  questions, held out); natural 0.457 dev and 0.408 test.
+  - All metrics, the split policy and the limitations are in
+    [docs/evaluation/legal-v2-first-evaluation.md](evaluation/legal-v2-first-evaluation.md).
+  - These results are not comparable with legal-v1, and they are not a measure
+    of legal correctness.
+- **The plan** is in
+  [docs/evaluation/legal-v2-implementation-plan.md](evaluation/legal-v2-implementation-plan.md).
+
+## Provision store and corpus explorer (P1.3)
+
+The provision store turns the reference inventories (`data/reference/`) into
+provisions with stable IDs, and anchors them to the exact text of a corpus
+build. The explorer looks up an article or searches a question with the
+existing BM25 retriever, and shows which provisions the retrieved passages
+belong to, with their exact text, pages, provenance and citation eligibility.
+It is a development interface: the CLI is a thin layer over
+`src/provision_explorer.py`, whose results (`--json`) a chat interface can use.
+
+**Workflow**
+
+```powershell
+# 1. Build the corpus from the tracked specification (both acts). A recorded build
+#    needs a clean Git tree and is written to data/processed/builds/<build_id>/.
+.\.venv\Scripts\python.exe -m src.provision_cli build
+#    From a dirty tree, only a temporary verification build is possible, outside
+#    data/processed/builds/:
+.\.venv\Scripts\python.exe -m src.provision_cli build --allow-dirty --output-root <temp-dir>
+
+# 2. Segment maps: the exact text of each source divided into articles, division
+#    headings, recitals, editorial notes, footnotes, running headers and so on.
+.\.venv\Scripts\python.exe -m src.provision_cli build-anchors [--build-dir <build>]
+
+# 3. Passage links: every chunk placed at exact offsets, with the provisions it overlaps.
+.\.venv\Scripts\python.exe -m src.provision_cli link [--build-dir <build>]
+
+# 4. Look up an article (label exactly as printed, or in lower case) and search.
+.\.venv\Scripts\python.exe -m src.provision_cli lookup gdpr 33 [--json]
+.\.venv\Scripts\python.exe -m src.provision_cli lookup "codice privacy" 2-bis
+.\.venv\Scripts\python.exe -m src.provision_cli search "<domanda>" [--top-k 5] [--full] [--json]
+```
+
+`--build-dir` defaults to the only recorded build in `data/processed/builds/`;
+a verification build must be named. Exit codes: 0 success, 1 no such instrument
+or article, 2 missing, damaged or stale build, anchors or links, refused build,
+or invalid arguments. Errors say which command to run.
+
+**What is checked before anything is shown**
+
+- The build record, every chunk file and the corpus file match their recorded
+  hashes; each source is the one the instrument registry expects.
+- Each segment map was extracted with the build's code, PyMuPDF and Python
+  versions, end boundary and page separator, from the expected source and
+  document; its text matches `content_sha256`; and the inventory structure
+  (headings, pages, labels) and the registry are those it was made from. A
+  review recorded later does not make it stale; a structural change does.
+- Each links file matches its chunk file, segment map and the provision store.
+- Chunks are placed by exact text only, in order, with exactly one possible
+  position each; every non-whitespace character must be in some chunk. There is
+  no fuzzy or normalised matching anywhere, and article lookup is exact too.
+  (`src/text_normalization.py` is used only to compare two renderings of a
+  text, for example ours and an official source; it never changes anchors,
+  evidence or stored text.)
+
+**Evidence, context and eligibility**
+
+- Only article text is evidence. Recitals, front matter, the enacting and
+  closing formulas, division headings, editorial notes, footnotes and running
+  headers are shown as context and never offered as citations. A retrieved
+  chunk without article text is marked `CONTEXT ONLY`.
+- Each provision shows three separate things: its structural review
+  (`auto_unreviewed`, `auto_verified`, `manually_curated` or `ambiguous`), what
+  the source prints about its status (for example `marked_repealed`), and its
+  legal validity, which is always `not_established`: nothing here says a
+  provision is valid or in force.
+- Eligibility tiers: `primary` (may be cited), `internal_only` (inspect only),
+  `context_only` (divisions) and `blocked` (ambiguous or without anchored text),
+  each with reason codes and mandatory qualifications (for example "original
+  publication, not a consolidated text" for the GDPR, "user-provided
+  transcription" for the Privacy Code). In the first demonstration only
+  reviewed, not repealed, unambiguous articles are `primary`. An article whose
+  text a reviewer found to differ from an official source (the ledger's
+  optional `official_check`) is not `primary` either (`official_text_differs`).
+  The review ledger is empty, so no provision is `primary` yet.
+
+**Limitations**
+
+- BM25 scores are uncalibrated ranking signals, not probabilities. Running
+  headers are excluded from evidence but remain inside the indexed chunk text,
+  so they can affect the ranking (TECHNICAL_DEBT.md TD-061).
+- A build and its anchors belong to one code version: after any change to the
+  repository, make a new build (TD-062).
+- Segmentation rules rest on the sources' formatting, with expected counts that
+  make any deviation fail (TD-063). The chunker's section field is wrong for
+  division headings printed with `((` (TD-060); the explorer does not use it.
+- The recorded build is not in the repository (`data/processed/` is
+  git-ignored): a fresh clone has none until it is built from the source PDFs
+  (see "Part 1 from a fresh clone").
+
+## Asking a question (`ask`)
+
+```powershell
+.\.venv\Scripts\python.exe -m src.cli ask "Cosa prevede l'articolo 33 GDPR?" [--json]
+```
+
+`ask` needs a real LLM provider (`LLM_PROVIDER=anthropic`, `LLM_MODEL`,
+`ANTHROPIC_API_KEY`; see `.env.example`). In order:
+
+1. **Citation resolution** (`src/citations.py`, deterministic). Legal references
+   written in the question are resolved to provisions, instrument and article
+   together: `resolved`, `partially_resolved` (article found, a named paragraph,
+   point or letter not), `ambiguous` (the act is not stated; candidates are listed
+   but never looked up) or `unresolved` (an act outside the corpus, or no such
+   article). An article number alone never resolves. Only `resolved` references
+   become exact lookups.
+2. **Corpus preflight**: if no article of the build may be cited, `ask` abstains
+   and sends nothing to any provider. With the empty review ledger this is
+   always the outcome today.
+3. **Query analysis** (LLM), **evidence assembly** (BM25, exact lookups, and one
+   hop of explicit references: in the Privacy Code, "articolo 51 del regolamento"
+   is GDPR Art. 51), and **answer generation** (LLM, citable evidence only).
+   BM25 is the only retriever here: the dense, hybrid and reranking retrievers
+   are not used by `ask`.
+4. **Validation**: every claim must quote its cited evidence exactly, and every
+   article it names must match, by instrument and label together, a cited
+   provision or one that the cited text itself names.
+5. **Support check** (LLM, `SEMANTIC_VERIFICATION=true` by default): a model
+   assesses whether each claim's cited evidence states it (`supported`,
+   `partially_supported`, `unsupported`, `uncertain`). Unsupported claims are
+   removed; only supported ones make a complete answer. This is a model's
+   assessment, not legal validation or human review.
+
+Exit codes: 0 an answer or an abstention; 2 configuration, build or argument
+errors; 3 the LLM provider request failed. Planned work and known limits:
+[docs/ROADMAP.md](ROADMAP.md).
+
+## Web demo (local)
+
+```powershell
+.\.venv\Scripts\python.exe -m src.web_demo            # http://127.0.0.1:8000/
+.\.venv\Scripts\python.exe -m src.web_demo --port 0   # any free port
+```
+
+A browser interface over the same pipeline as `ask`. Every answer comes from
+`answer_question()` on the recorded build. The page shows `AnswerResult.to_dict()`
+as returned, together with the source status of each evidence item:
+- the outcome, or the abstention reason with its explanation;
+- the answer as readable statements, each with its citations, and the exact
+  quotations behind each statement;
+- what could not be established;
+- the caveats;
+- the sources, with how reliable each one is;
+- a research-transparency panel: the provisions retrieved, with their best
+  BM25 rank, what was excluded and why, the question analysis, and the model
+  and mode.
+
+**Requirements:** the same as `ask`. You need the recorded build and the source
+PDFs, plus `LLM_PROVIDER=anthropic`, `LLM_MODEL` and `ANTHROPIC_API_KEY`;
+`mock` is refused. No new dependency is used: the server is the standard
+library's.
+
+### Two modes: verified and research demo
+
+The two modes are evidence policies over **one** pipeline. In both, the steps
+are the same:
+- retrieval: BM25 search, direct article lookups and one hop of references,
+  exactly as in `ask`;
+- evidence assembly;
+- the generation prompt;
+- the exact-quotation and citation checks;
+- the model support check;
+- every abstention rule.
+
+Only the set of provisions an answer may rest on differs
+(`answer_generation.Mode`, `usable()`):
+
+| | Verified (default) | Research demo |
+|---|---|---|
+| Provisions an answer may rest on | Those that passed human review (tier `primary`) | Those, plus those pending human review (`internal_only`). Never `blocked` ones. |
+| Today, with an empty review ledger | Every question abstains before any model call | Answers can be produced from the 319 articles pending review |
+| Status of the sources | Citable | Unchanged: a source pending review stays `citable: false`, with its reasons |
+| Marking | — | `mode: "research"`, a research caveat first in the qualifications, and «human review pending» on every such source |
+
+Research mode changes no inventory, review ledger or eligibility. Tests check
+the review files byte for byte. The page always opens in verified mode.
+Switching to research shows a warning and needs an explicit confirmation, and
+the choice is never remembered.
+
+**Source status.** Each evidence item states five things separately
+(`src/source_status.py`), from the registry and the review record only:
+
+| Statement | Values |
+|---|---|
+| Source | Official publication (the GDPR, as published in 2016; the authenticity of the copy is not established), or unofficial transcription (the Privacy Code) |
+| Text extraction | Checked against an official text only if the review ledger records an official-source check. Today none is recorded, so every text is «extracted automatically and anchored; not compared with an official text». |
+| Human review | Pending for every provision today |
+| Legal currency | Never established. The system does not say whether a provision is valid, in force or applicable at any date; the GDPR text is the 2016 original, without later amendments. |
+| Citable in verified mode | Yes or no |
+
+### Running a real question
+
+1. Start the server, as above, and open the URL it prints.
+2. Select **Research demo**, then tick the confirmation.
+3. Ask, for example: «When is a personal data breach required to be notified
+   to the Italian Data Protection Authority?»
+
+That is one real, billed question: up to three model tasks (analysis,
+generation, support check), each with at most one retry.
+
+To send the same request from PowerShell instead of the browser:
+
+```powershell
+$body = [Text.Encoding]::UTF8.GetBytes((@{ question = "When is a personal data breach required to be notified to the Italian Data Protection Authority?"; mode = "research" } | ConvertTo-Json))
+Invoke-RestMethod -Uri http://127.0.0.1:8000/api/ask -Method Post -ContentType "application/json; charset=utf-8" -Body $body | ConvertTo-Json -Depth 12
+```
+
+### Local-only operation
+
+- **Local only.** The server binds to `127.0.0.1` only. It refuses requests
+  from other hosts or sites, non-JSON bodies, and any `mode` other than
+  `verified` or `research`. A request that names no mode is answered in
+  verified mode.
+- **One question at a time.**
+- **What is logged.** The console logs method, path and status only; it never
+  logs the question, an error message from the provider, or a key.
+- **When the model is called.** Starting the server sends nothing. A question
+  reaches the provider only when its mode has usable evidence.
+- **Endpoints:**
+  - `GET /`, the page;
+  - `GET /api/health`, the build, the article counts per mode, the provider
+    and model;
+  - `POST /api/ask` with `{"question": "...", "mode": "verified" | "research"}`.
+
+**Before this is a reliable legal research system:**
+- recorded human review of the provisions an answer cites, so that verified
+  mode can answer;
+- official-source checks recorded in the review ledger;
+- authentic or consolidated texts, with dates and versions;
+- broader evaluation of answers, not only of retrieval;
+- reviewed benchmark judgments.
+
+Research mode is for demonstration and development only.
+
+### Hosted replay (no API key)
+
+```powershell
+.\.venv\Scripts\python.exe -m src.web_replay   # writes dist/replay/
+```
+
+This command writes a static copy of the page that replays the saved answers of one benchmark
+run (by default the latest run with every dev question). The page shows:
+- "Replay of saved answers generated on <date> with <model>. No live model calls.";
+- a question selector instead of the question box.
+
+Nothing is sent to a server or a model. Any static host can serve the folder; deployment as a
+Hugging Face static Space is described in [docs/deploy-replay.md](deploy-replay.md).
+
+## Configuration
+
+All settings come from environment variables, optionally loaded from a
+`.env` file in the project root. Variables already set in the process
+environment take precedence over `.env`. Every variable is optional, and the
+defaults are listed in [.env.example](../.env.example).
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `DATA_DIR` | `data` | Data root; relative paths resolve against the project root |
+| `INDEX_DIR` | `data/indexes` | Where local search indexes will be stored |
+| `EMBEDDING_MODEL` | `intfloat/multilingual-e5-small` | Dense embedding model |
+| `RERANKER_ENABLED` | `false` | **Inactive (reserved):** no code reads it. When `true`, it only requires `RERANKER_MODEL` to be set. Reranking runs only in the evaluator, with `--retriever hybrid-rerank` |
+| `RERANKER_MODEL` | `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1` | Reranker model |
+| `LLM_PROVIDER` | `mock` | `mock`, `anthropic`, or `openai`; `mock` never calls an external service |
+| `LLM_MODEL` | *(empty)* | Required when a real provider is selected; for `anthropic`, a Claude model ID. No model is chosen by default |
+| `ANTHROPIC_API_KEY` | *(empty)* | Required by `anthropic`, and read only by it: a Claude Console API key. Keep it in `.env`, never commit it |
+| `LLM_API_KEY` | *(empty)* | For other providers (none implemented); `anthropic` ignores it |
+| `LLM_TIMEOUT_SECONDS` | `120` | Seconds per request attempt |
+| `LLM_REFUSAL_FALLBACK` | `false` | `anthropic`, opt-in: on a refusal, let the API re-run the request on Anthropic's fallback model (recorded as `served_by`) |
+| `BM25_TOP_K` / `DENSE_TOP_K` | `20` | Candidates each retriever contributes to hybrid fusion |
+| `RERANK_TOP_K` | `20` | Candidates passed to the reranker |
+| `FINAL_EVIDENCE_COUNT` | `12` | Evidence items (provisions) given to the LLM |
+| `RRF_K` | `60` | Reciprocal Rank Fusion constant used by hybrid retrieval |
+| `CONTEXT_TOKEN_BUDGET` | `12000` | Maximum evidence size in the prompt (estimated tokens) |
+| `CHUNK_SIZE` / `CHUNK_OVERLAP` | `1200` / `150` | Chunking size and overlap in characters |
+| `MIN_RETRIEVAL_SCORE` / `MIN_RERANK_SCORE` | *(empty = disabled)* | **Inactive (reserved):** parsed and validated, but no code reads them. Abstention does not use score thresholds |
+| `UNDATED_SOURCE_POLICY` | `warn` | **Inactive (reserved):** parsed and validated (`warn` or `exclude`), but no code reads it. It does not currently control how sources without effective dates are handled, in "as of" questions or elsewhere |
+| `MAX_GENERATION_RETRIES` | `1` | Retries for malformed LLM output (0 or 1) |
+
+Invalid settings stop the program with a message that lists every problem.
+
+**Using Anthropic.** The client is `AnthropicLLM` in `src/llm.py`, built by
+`make_llm()` from the settings; `ask`, query analysis, the support check and the
+query understanding layer all use it.
+
+1. Install the dependencies. `anthropic` is pinned in `requirements.txt`:
+   `.\.venv\Scripts\python.exe -m pip install -r requirements.txt`.
+2. Create `.env` from the example, without overwriting an existing one:
+   `if (-not (Test-Path .env)) { Copy-Item .env.example .env }`.
+3. In `.env` (Git-ignored), set `LLM_PROVIDER=anthropic`, `LLM_MODEL` to a Claude
+   model ID, and `ANTHROPIC_API_KEY` to an API key from the Claude Console. API
+   use is billed to that Console account; a Claude subscription, including
+   Claude Code, does not by itself provide API access.
+4. Check: `.\.venv\Scripts\python.exe -m src.config` prints the settings with
+   the key masked, and sends nothing.
+
+Questions, and in `ask` the evidence, are sent to Anthropic. With `mock` (the
+default) nothing leaves the machine. For the query understanding experiment,
+see [the dev experiment](evaluation/query-understanding-dev-experiment.md#running-b-d-with-anthropic).
+
+The model defaults are provisional choices for this prototype. They are
+downloaded and exercised only in the phases that use them.
+
+## Limitations
+
+This is an engineering prototype, not a validated legal advice system.
+
+- **No human review yet.** No provision of the real corpus has completed the
+  human review, so none may be cited, and `ask` in verified mode abstains on every
+  question. Research mode answers from provisions pending review, marked as such.
+- **Legal validity is not established** for any provision. Nothing here says a
+  provision is valid, in force or applicable at any date.
+- **The Privacy Code text is an unofficial transcription,** supplied by the user
+  and not independently verified against an official text. The GDPR text is the
+  2016 original publication, without later corrigenda. Saved benchmark runs
+  (`data/evaluation/answers-v0/runs/`) contain excerpts of both texts as evidence;
+  the Privacy Code excerpts come from this unverified user transcription, whose PDF
+  is not in the repository.
+- **The synthetic demo's model replies are scripted.** It shows how the pipeline
+  handles model output, not how reliably a real model verifies support.
+- **Retrieval quality is measured only narrowly.** The answers-v0 benchmark (22
+  questions, candidate expectations) finds every core provision among the candidates,
+  so it cannot compare retrievers; the chunk-level evaluator runs on a synthetic
+  fixture, and the provision-level search evaluation on legal-v1/v2.
+
+More: [docs/ROADMAP.md](ROADMAP.md).
+
+**Ingestion**
+
+- **Scanned PDFs:** there is no OCR. Image-only PDFs fail with an explicit
+  message. Image-only pages inside otherwise readable PDFs produce a warning,
+  and their content is missing from the output.
+- **PDF extraction** follows PyMuPDF's text blocks. Multi-column layouts,
+  tables, headers/footers, footnotes, and hyphenation may come out in an
+  imperfect order or form. Page headers and footers are not removed.
+- **Structure detection is heuristic.** It misses headings in other formats,
+  such as `Art. 1 Oggetto` (no separator), `§ 1`, or languages other than English
+  and Italian. It may also misread a short numbered line as a heading. Numbered
+  lists inside articles are treated as paragraphs. Documents without
+  recognized structure are still chunked by paragraphs.
+- **TXT files must be UTF-8.** Other encodings fail with a message asking
+  for conversion. DOCX is not supported.
+- **Chunk sizes are in characters, not model tokens.**
+- **Password-protected PDFs** are rejected.
+
+## Privacy
+
+- `.env`, `.venv/`, `data/raw/`, `data/processed/`, and `data/indexes/` are git-ignored.
+- Use only synthetic or public-domain documents in this public repository.
+- The default `mock` provider sends nothing to an external service. Only
+  select a real provider if you are permitted to send your documents to it.

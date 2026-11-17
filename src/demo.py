@@ -116,7 +116,7 @@ def real_corpus(write: Write, build_dir: Path | None = None) -> RealRun | None:
         explorer = ProvisionExplorer.open(build_dir or find_recorded_build())
     except (ExplorerError, ProvisionError) as exc:
         write(f"WARNING: no usable recorded build ({exc}).")
-        write("Part 1 is skipped. To create the build, see the README section \"Provision "
+        write("Part 1 is skipped. To create the build, see docs/REFERENCE.md, section \"Provision "
               "store and corpus explorer\".")
         return None
 
