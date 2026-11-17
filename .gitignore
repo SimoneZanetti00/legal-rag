@@ -30,3 +30,6 @@ data/indexes/
 .vscode/
 # Generated static replay site (python -m src.web_replay)
 dist/
+
+# Private research notes, kept out of the repository
+docs/research/LEGAL_AI_PRODUCTS_PUBLIC_CAPABILITIES.md

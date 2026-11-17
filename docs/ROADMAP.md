@@ -1,9 +1,8 @@
 # Roadmap
 
 What the `ask` pipeline does today, what it does not, and what comes next. The longer design
-documents are [the architecture proposal](architecture/LEGAL_ASSISTANT_ARCHITECTURE.md) (§10,
-steps P0–P8) and [the research report](research/LEXROOM_TECHNICAL_REVERSE_ENGINEERING.md)
-(§10.2 citation resolver, §18 phases R0–R7).
+document is [the architecture proposal](architecture/LEGAL_ASSISTANT_ARCHITECTURE.md) (§10,
+steps P0–P8).
 
 ## Implemented (MVP)
 

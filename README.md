@@ -246,3 +246,10 @@ Both modes run the same pipeline and differ only in the provisions an answer may
 - [docs/deploy-replay.md](docs/deploy-replay.md): hosting the replay.
 - [docs/ROADMAP.md](docs/ROADMAP.md), [TECHNICAL_DEBT.md](TECHNICAL_DEBT.md) and
   [PROJECT_SPEC.md](PROJECT_SPEC.md).
+
+## Licence
+
+The code is released under the [MIT licence](LICENSE). Third-party texts in the repository keep
+their own terms: see [official-sources/NOTICE.md](data/raw/trial-2026-10-10/official-sources/NOTICE.md).
+PDF extraction uses PyMuPDF, which is licensed under the AGPL (or a commercial licence from
+Artifex).

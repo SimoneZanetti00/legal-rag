@@ -18,7 +18,8 @@ not specified, choose the simplest reasonable option, document it, and
 continue. Ask only if proceeding would risk data loss, unexpected cost,
 or a major change in scope.
 
-Do not assume or claim knowledge of Lexroom's internal architecture. Any
+Do not assume or claim knowledge of the internal architecture of commercial legal research
+products. Any
 model, database, or retrieval design you choose is a choice for this
 prototype unless supported by an explicit public source.
 

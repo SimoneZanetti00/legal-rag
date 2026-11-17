@@ -260,7 +260,6 @@ def test_the_schema_identifier_is_neutral_and_shared_by_every_command(explored, 
     outputs = [run_json(capsys, "lookup", "prova", "2", "--build-dir", build_dir),
                search(capsys, build_dir, "violazione")]
     assert {r["schema"] for r in outputs} == {"legal-rag.provision-explorer/2"}
-    assert all("lexroom" not in json.dumps(r).lower() for r in outputs)
 
 
 def test_search_json_has_a_stable_schema(explored, capsys):
