@@ -470,9 +470,71 @@ function renderTransparency(result, statusById) {
     el("summary", {}, "Research transparency: retrieval, exclusions, execution"), blocks));
 }
 
+// --- Replay of saved answers (python -m src.web_replay) -------------------------------------------
+// A static export sets data-replay on <html> to its file of saved answers. The page then sends
+// nothing anywhere: it never calls /api/*, and a visitor chooses one of the saved questions, whose
+// answer is rendered by renderResult() exactly as a live one.
+
+const REPLAY_FILE = document.documentElement.dataset.replay || null;
+let saved = null;  // the replay file: { replay, info, questions, answers }
+
+async function loadReplay() {
+  const statusLine = $("#status");
+  try {
+    const response = await fetch(REPLAY_FILE, { headers: { Accept: "application/json" } });
+    if (!response.ok) throw new Error(String(response.status));
+    saved = await response.json();
+  } catch {
+    statusLine.textContent = "The saved answers could not be loaded.";
+    statusLine.className = "status stop";
+    return;
+  }
+  info = { ...info, ...saved.info };
+  const replay = saved.replay;
+  statusLine.textContent = replay.label;
+  statusLine.className = "status warn";
+  const research = replay.mode === "research";
+  $("#mode-pill").textContent = MODE_LABELS[replay.mode] || replay.mode;
+  $("#mode-pill").className = `mode-pill ${research ? "research" : "verified"}`;
+  $("#research-warning").hidden = !research;
+  const names = Object.values(info.instruments);
+  $("#corpus").textContent = names.length ? `Corpus: ${names.join(" · ")}.` : "";
+
+  const picker = el("select", { id: "replay-question", class: "replay-select" },
+    el("option", { value: "" }, "Choose a question…"),
+    saved.questions.map((question) => el("option", { value: question.id }, `${question.id} · ${question.question}`)));
+  picker.addEventListener("change", () => showSaved(picker.value));
+  $("#ask-form").after(el("section", { class: "card ask-card replay-card" },
+    el("p", { class: "replay-label" }, replay.label),
+    el("label", { for: "replay-question", class: "label" }, "Saved question"),
+    picker,
+    el("p", { class: "muted" }, "Development questions of the project's benchmark. Each answer was generated once " +
+      "and saved; choosing a question shows it again without calling any model.")));
+  $("#empty").replaceChildren(el("h2", {}, "Choose a saved question"),
+    el("p", { class: "muted" }, "The answer cites the provisions it rests on, quotes them exactly, shows how " +
+      "reliable each source is, and lists what it could not establish."));
+}
+
+function showSaved(id) {
+  $("#state").replaceChildren();
+  if (!id) {
+    $("#result").replaceChildren();
+    $("#result").hidden = true;
+    $("#empty").hidden = false;
+    return;
+  }
+  $("#empty").hidden = true;
+  renderResult(saved.answers[id]);
+}
+
 // --- Wiring -------------------------------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (REPLAY_FILE) {
+    $("#ask-form").hidden = true;  // a replay asks nothing
+    loadReplay();
+    return;
+  }
   $("#ask-form").addEventListener("submit", ask);
   $("#reset").addEventListener("click", reset);
   $("#question").addEventListener("input", updateCounter);

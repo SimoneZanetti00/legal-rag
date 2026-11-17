@@ -53,6 +53,7 @@ from src.answer_generation import (
     RESEARCH_QUALIFICATION,
     USABLE_TIERS,
     AnswerResult,
+    CorpusPreflight,
     Mode,
     answer_question,
     corpus_preflight,
@@ -302,17 +303,13 @@ def create_server(app: DemoApp, port: int = DEFAULT_PORT) -> ThreadingHTTPServer
 # --- The real pipeline -------------------------------------------------------------------------
 
 
-def build_app(*, build_dir: Path | None = None, settings: Settings | None = None) -> DemoApp:
-    """answer_question() on the recorded build, with the configured LLM, as `ask` runs it.
-    Building the client sends nothing; no request is made until a question needs one."""
-    settings = settings or load_settings()
-    if settings.llm_provider == "mock":
-        raise LLMConfigError(MOCK_PROVIDER_MESSAGE)
-    llm = make_llm(settings)
-    explorer = ProvisionExplorer.open(build_dir or find_recorded_build())
-    preflight = corpus_preflight(explorer)
+def page_info(preflight: CorpusPreflight, *, provider: str, model: str,
+              semantic_verification: bool) -> dict[str, Any]:
+    """What /api/health reports (besides "status"): the build, the modes, the provider and model,
+    and the project's own explanations of the codes the page displays. Also the page's data in
+    a static replay (src/web_replay.py)."""
     tiers = dict(preflight.article_tiers)
-    info = {
+    return {
         "build_id": preflight.build_id,
         "citable_articles": preflight.citable_articles,
         "research_usable_articles": sum(count for tier, count in tiers.items()
@@ -321,9 +318,9 @@ def build_app(*, build_dir: Path | None = None, settings: Settings | None = None
         "modes": list(MODES),
         "default_mode": DEFAULT_MODE,
         "research_qualification": RESEARCH_QUALIFICATION,
-        "provider": getattr(llm, "provider", ""),
-        "model": getattr(llm, "model", ""),
-        "semantic_verification": settings.semantic_verification,
+        "provider": provider,
+        "model": model,
+        "semantic_verification": semantic_verification,
         "max_question_chars": MAX_QUESTION_CHARS,
         "instruments": dict(CORPUS_INSTRUMENTS),
         "reasons": dict(REASONS),
@@ -331,6 +328,19 @@ def build_app(*, build_dir: Path | None = None, settings: Settings | None = None
         "source_categories": dict(CATEGORIES),
         "model_notes_label": MODEL_NOTES_LABEL,
     }
+
+
+def build_app(*, build_dir: Path | None = None, settings: Settings | None = None) -> DemoApp:
+    """answer_question() on the recorded build, with the configured LLM, as `ask` runs it.
+    Building the client sends nothing; no request is made until a question needs one."""
+    settings = settings or load_settings()
+    if settings.llm_provider == "mock":
+        raise LLMConfigError(MOCK_PROVIDER_MESSAGE)
+    llm = make_llm(settings)
+    explorer = ProvisionExplorer.open(build_dir or find_recorded_build())
+    info = page_info(corpus_preflight(explorer), provider=getattr(llm, "provider", ""),
+                     model=getattr(llm, "model", ""),
+                     semantic_verification=settings.semantic_verification)
 
     def answer(question: str, mode: str) -> AnswerResult:
         return answer_question(question, llm, explorer, settings=settings, mode=mode)

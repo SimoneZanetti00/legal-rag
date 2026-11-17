@@ -125,7 +125,22 @@ textarea {
   border-radius: 10px;
   padding: 12px 14px;
 }
-textarea:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible {
+/* Replay of saved answers (src/web_replay.py) */
+.replay-label { margin: 0 0 12px; padding: 10px 12px; border-radius: 10px; background: var(--warn-bg); color: var(--warn); font-weight: 600; }
+.replay-select {
+  width: 100%;
+  max-width: 100%;
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+.replay-card p.muted { margin: 0; font-size: 0.9rem; }
+
+textarea:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent);
   outline-offset: 2px;
 }

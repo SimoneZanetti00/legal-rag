@@ -1219,6 +1219,20 @@ Invoke-RestMethod -Uri http://127.0.0.1:8000/api/ask -Method Post -ContentType "
 
 Research mode is for demonstration and development only.
 
+### Hosted replay (no API key)
+
+```powershell
+.\.venv\Scripts\python.exe -m src.web_replay   # writes dist/replay/
+```
+
+This command writes a static copy of the page that replays the saved answers of one benchmark
+run (by default the latest run with every dev question). The page shows:
+- "Replay of saved answers generated on <date> with <model>. No live model calls.";
+- a question selector instead of the question box.
+
+Nothing is sent to a server or a model. Any static host can serve the folder; deployment as a
+Hugging Face static Space is described in [docs/deploy-replay.md](docs/deploy-replay.md).
+
 ## Configuration
 
 All settings come from environment variables, optionally loaded from a

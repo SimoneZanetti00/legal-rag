@@ -966,10 +966,17 @@ QUALIFICATIONS_IT = {
 def display_qualifications(result: AnswerResult) -> tuple[str, ...]:
     """The qualifications as shown: the fixed ones in Italian when the question is in Italian
     (as the query analysis detected it), every other one as it is."""
-    if result.analysis is None or result.analysis.language != "it":
-        return result.qualifications
+    return qualifications_in(result.qualifications,
+                             result.analysis.language if result.analysis else None)
+
+
+def qualifications_in(qualifications: Sequence[str], language: str | None) -> tuple[str, ...]:
+    """display_qualifications() for saved results: `qualifications` as shown for a question in
+    `language`."""
+    if language != "it":
+        return tuple(qualifications)
     shown = []
-    for text in result.qualifications:
+    for text in qualifications:
         as_of = _AS_OF_EN.fullmatch(text)
         shown.append(AS_OF_QUALIFICATION_IT.format(as_of=as_of.group(1)) if as_of
                      else QUALIFICATIONS_IT.get(text, text))

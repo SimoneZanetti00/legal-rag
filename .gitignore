@@ -28,3 +28,5 @@ data/indexes/
 
 # IDE
 .vscode/
+# Generated static replay site (python -m src.web_replay)
+dist/
