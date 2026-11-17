@@ -740,27 +740,12 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
                         f"{', '.join(codes)}).", rejected=rejected, unanswered=unanswered,
                         verification=verification, **common)
 
-    # The outcome rule: `answer` when every issue is covered by a claim of the main answer that
-    # the support check rated SUPPORTED (with the check switched off, by any claim of the main
-    # answer: nothing is rated); otherwise `answer_limited`. Held-apart claims, removed claims
-    # and the model's own outcome or unanswered list do not downgrade an answer by themselves;
-    # they stay visible. If the check was on but could not run, no issue is covered.
-    def covers(claim: AnswerClaim) -> bool:
-        if verifier is None:
-            return in_answer(claim)
-        return verification is not None and claim.verification == VerificationStatus.SUPPORTED
-
-    listed = {u.issue_id for u in unanswered}
-    addressed = {iid for claim in claims for iid in claim.issue_ids}
-    covered = {iid for claim in claims if covers(claim) for iid in claim.issue_ids}
-    for issue in analysis.issues:
-        if issue.id in listed:
-            continue
-        if issue.id not in addressed:
-            unanswered.append(UnansweredIssue(issue.id, NOT_COVERED))
-        elif issue.id not in covered and verification is not None:
-            unanswered.append(UnansweredIssue(issue.id, HELD_ONLY))
-    complete = all(issue.id in covered for issue in analysis.issues)
+    check = "off" if verifier is None else "ran" if verification is not None else "failed"
+    complete, missing = decide_coverage(
+        [issue.id for issue in analysis.issues],
+        [(claim.issue_ids, claim.verification.value) for claim in claims],
+        [u.issue_id for u in unanswered], check)
+    unanswered += [UnansweredIssue(issue_id, reason) for issue_id, reason in missing]
     cited = {eid for claim in claims for eid in claim.evidence_ids}
     summary, summary_ids = _summary(data.get("summary"), positions, claims, evidence, warnings)
     return AnswerResult(
@@ -779,6 +764,44 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
         analysis=analysis, evidence=evidence, generation=provenance,
         verification=verification, summary=summary, summary_claim_ids=summary_ids,
     )
+
+
+def decide_coverage(issue_ids: Sequence[str],
+                    claims: Sequence[tuple[Sequence[str], str]],
+                    reported: Iterable[str], check: str
+                    ) -> tuple[bool, list[tuple[str, str]]]:
+    """The outcome rule, on plain data (also used to re-score saved results).
+
+    `claims`: (issue IDs, verification value) of each surviving claim; `reported`: the issues
+    the model reported as not, or only partly, answered; `check`: "off" (the support check is
+    switched off), "ran", or "failed" (on, but it could not run).
+
+    An issue is covered by a claim of the main answer rated SUPPORTED (with the check off, by
+    any claim of the main answer: nothing is rated; if it failed, by none). The answer is
+    complete (`answer`) when every issue is covered and the model reported none as not or only
+    partly answered; otherwise `answer_limited`. Held-apart and removed claims do not limit it
+    by themselves. Returns (complete, [(issue ID, reason)]) for the issues, in order, that are
+    neither covered nor reported (reported ones keep the model's entry).
+    """
+    reported = set(reported)
+
+    def covers(verification: str) -> bool:
+        if check == "off":
+            return verification in (VerificationStatus.SUPPORTED, VerificationStatus.NOT_VERIFIED)
+        return check == "ran" and verification == VerificationStatus.SUPPORTED
+
+    addressed = {iid for ids, _ in claims for iid in ids}
+    covered = {iid for ids, verification in claims if covers(verification) for iid in ids}
+    missing = []
+    for issue_id in issue_ids:
+        if issue_id in reported:
+            continue
+        if issue_id not in addressed:
+            missing.append((issue_id, NOT_COVERED))
+        elif issue_id not in covered and check == "ran":
+            missing.append((issue_id, HELD_ONLY))
+    complete = all(i in covered and i not in reported for i in issue_ids)
+    return complete, missing
 
 
 _SUMMARY_MARKER = re.compile(r"\[(\d{1,2})\]")

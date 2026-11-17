@@ -228,3 +228,23 @@ def test_a_run_can_be_limited_to_named_questions_and_saves_the_rendered_answer(t
         "rendered answer")
     with pytest.raises(run.RunError, match="unknown question"):
         run.run_questions(bench, tmp_path, ["dev"], answer, None, {}, only=["a99"])
+
+
+def test_a_saved_result_is_rescored_under_the_current_outcome_rule():
+    from src.answer_generation import HELD_ONLY, REPORTED_UNANSWERED
+    base = {"analysis": {"issues": [{"id": "I1"}, {"id": "I2"}]},
+            "verification": {"task": "claim_verification"}, "warnings": [],
+            "claims": [{"issue_ids": ["I1"], "verification": "SUPPORTED"},
+                       {"issue_ids": ["I2"], "verification": "PARTIALLY_SUPPORTED"}],
+            "unanswered_issues": [], "outcome": "answer"}
+    held = run.rescore_result(base)
+    assert held["outcome"] == "answer_limited"
+    assert held["unanswered_issues"] == [{"issue_id": "I2", "reason": HELD_ONLY}]
+    supported = {**base, "claims": [{"issue_ids": ["I1", "I2"], "verification": "SUPPORTED"}],
+                 "unanswered_issues": [{"issue_id": "I1", "reason": REPORTED_UNANSWERED},
+                                       {"issue_id": "I2", "reason": "No validated claim."}]}
+    rescored = run.rescore_result(supported)  # the model reported I1 as only partly answered
+    assert rescored["outcome"] == "answer_limited"
+    assert rescored["unanswered_issues"] == [{"issue_id": "I1", "reason": REPORTED_UNANSWERED}]
+    abstained = {**base, "outcome": "abstain"}
+    assert run.rescore_result(abstained) == abstained

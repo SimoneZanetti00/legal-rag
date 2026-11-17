@@ -13,6 +13,7 @@ from src.answer_generation import (
     DIGITAL_OMNIBUS_CAVEAT,
     HELD_CLAIMS_TITLE,
     HELD_ONLY,
+    NOT_COVERED,
     HELD_SOURCES_TITLE,
     NOT_VERIFIED_QUALIFICATION,
     REPORTED_UNANSWERED,
@@ -25,6 +26,7 @@ from src.answer_generation import (
     generate_answer,
     answer_sources,
     dated,
+    decide_coverage,
     in_answer,
     support_check_notice,
 )
@@ -256,13 +258,29 @@ def test_a_held_apart_claim_does_not_limit_an_answer_whose_issues_are_covered():
     assert result.unanswered_issues == ()
 
 
-def test_the_models_own_limited_outcome_does_not_decide_the_outcome():
+def test_the_models_partly_answered_report_limits_the_answer():
     generation = reply(NOTIFY, INFORM, outcome="answer_limited",
                        unanswered=[("I2", "Le prove non bastano.")])
     result, _ = run(verdicts(C1="supported", C2="supported"), generation=generation)
-    assert result.outcome == Outcome.ANSWER  # both issues have a supported claim
+    assert result.outcome == Outcome.ANSWER_LIMITED  # I2 has a supported claim, but see below
     assert [(u.issue_id, u.reason) for u in result.unanswered_issues] == [
-        ("I2", REPORTED_UNANSWERED)]  # still shown
+        ("I2", REPORTED_UNANSWERED)]
+    # The model's outcome label alone, with no issue reported, does not decide the outcome.
+    label_only = reply(NOTIFY, INFORM, outcome="answer_limited")
+    result, _ = run(verdicts(C1="supported", C2="supported"), generation=label_only)
+    assert result.outcome == Outcome.ANSWER and result.unanswered_issues == ()
+
+
+@pytest.mark.parametrize("claims, reported, check, expected", [
+    ([(("I1",), "SUPPORTED"), (("I2",), "SUPPORTED")], [], "ran", (True, [])),
+    ([(("I1",), "SUPPORTED"), (("I2",), "UNCERTAIN")], [], "ran", (False, [("I2", HELD_ONLY)])),
+    ([(("I1",), "SUPPORTED")], [], "ran", (False, [("I2", NOT_COVERED)])),
+    ([(("I1",), "SUPPORTED"), (("I2",), "SUPPORTED")], ["I2"], "ran", (False, [])),
+    ([(("I1", "I2"), "NOT_VERIFIED")], [], "off", (True, [])),
+    ([(("I1", "I2"), "NOT_VERIFIED")], [], "failed", (False, [])),
+])
+def test_decide_coverage(claims, reported, check, expected):
+    assert decide_coverage(["I1", "I2"], claims, reported, check) == expected
 
 
 # --- The summary: shown only when every claim it cites is SUPPORTED and in the answer -----------

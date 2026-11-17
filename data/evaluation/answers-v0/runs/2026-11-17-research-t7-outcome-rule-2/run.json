@@ -1,0 +1,65 @@
+{
+ "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+ "code": {
+  "changed_paths": [
+   " M src/answer_benchmark_run.py",
+   " M src/answer_generation.py",
+   " M tests/test_answer_benchmark_run.py",
+   " M tests/test_support_verification.py",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a01.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a02.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a03.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a04.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a05.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a06.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a07.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a08.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a09.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a10.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a11.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a12.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a13.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a14.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a15.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a16.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a17.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a18.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a19.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a20.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a21.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-17-research-t7-outcome-rule-2/a22.json",
+   "?? docs/PROJECT_OVERVIEW.md",
+   "?? docs/evaluation/answers-v0-review-sheet.md",
+   "?? docs/reviews/m1-review-record-2026-11-09.md"
+  ],
+  "commit": "e62f7cff819fb4385676441e4f32ea22ac825c99",
+  "fingerprint": "fcc057dcc553d414dacc3d003f8205f573c3aa9117b72a1d2a31a1079870bb47",
+  "state": "dirty"
+ },
+ "invocations": [
+  {
+   "at": "2026-11-17T15:59:11+01:00",
+   "rescore_of": "2026-11-17-research-t7-prompt"
+  }
+ ],
+ "kind": "answers-v0-run",
+ "mode": "research",
+ "model": "claude-sonnet-5-5",
+ "offline": true,
+ "prompt_versions": {
+  "answer_generation": "answer-generation-v3",
+  "claim_verification": "claim-verification-v2",
+  "query_analysis": "query-analysis-v3"
+ },
+ "provider": "anthropic",
+ "replay_of": null,
+ "rescore_of": "2026-11-17-research-t7-prompt",
+ "run_id": "2026-11-17-research-t7-outcome-rule-2",
+ "schema": 1,
+ "settings": {
+  "context_token_budget": 12000,
+  "final_evidence_count": 12,
+  "max_generation_retries": 1,
+  "semantic_verification": true
+ }
+}

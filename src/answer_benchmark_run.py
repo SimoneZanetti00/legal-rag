@@ -44,7 +44,7 @@ from typing import Any
 
 from src import answer_benchmark as ab
 from src.answer_generation import PROMPT_VERSION as GENERATION_PROMPT_VERSION
-from src.answer_generation import Mode, answer_question
+from src.answer_generation import REPORTED_UNANSWERED, Mode, answer_question, decide_coverage
 from src.config import PROJECT_ROOT, ConfigError, Settings, load_settings
 from src.corpus_identity import CodeVersionError, canonical_json, detect_code_version
 from src.llm import (
@@ -245,6 +245,54 @@ def run_record(run_id: str, *, mode: Mode, settings: Settings, build_id: str,
     }
 
 
+# --- Re-scoring saved results under the current outcome rule -----------------------------------
+
+
+def rescore_result(result: Mapping[str, Any]) -> dict[str, Any]:
+    """`result` (AnswerResult.to_dict()) with its outcome and unanswered issues decided again by
+    the current outcome rule (answer_generation.decide_coverage), from its saved claims, their
+    ratings and the issues the model reported. Abstentions and everything else are unchanged."""
+    out = dict(result)
+    if result["outcome"] == "abstain":
+        return out
+    reported = [u for u in result["unanswered_issues"] if u["reason"] == REPORTED_UNANSWERED]
+    check = ("ran" if result.get("verification") else
+             "failed" if any(w.startswith("support_verification_unavailable")
+                             for w in result.get("warnings", ())) else "off")
+    complete, missing = decide_coverage(
+        [issue["id"] for issue in result["analysis"]["issues"]],
+        [(claim["issue_ids"], claim["verification"]) for claim in result["claims"]],
+        [u["issue_id"] for u in reported], check)
+    out["outcome"] = "answer" if complete else "answer_limited"
+    out["unanswered_issues"] = reported + [{"issue_id": i, "reason": r} for i, r in missing]
+    return out
+
+
+def rescore_run(source_dir: Path, run_dir: Path) -> list[str]:
+    """Copy a saved run to `run_dir` with every result re-scored (rescore_result); no model is
+    called. Saved renderings are left out: they belong to the old outcome."""
+    record, saved = load_run(source_dir)
+    if run_dir.exists():
+        raise RunError(f"{run_dir} already exists; runs are never overwritten")
+    run_dir.mkdir(parents=True)
+    for query_id, item in saved.items():
+        new = {k: v for k, v in item.items() if k != "rendered"}
+        if "result" in item:
+            new["result"] = rescore_result(item["result"])
+        new["rescored_from"] = source_dir.name
+        (run_dir / f"{query_id}.json").write_text(
+            json.dumps(new, ensure_ascii=False, indent=1, sort_keys=True) + "\n",
+            encoding="utf-8", newline="\n")
+    now = datetime.datetime.now().astimezone().isoformat(timespec="seconds")
+    new_record = {**record, "run_id": run_dir.name, "rescore_of": source_dir.name,
+                  "offline": True, "code": code_record(),
+                  "invocations": [{"rescore_of": source_dir.name, "at": now}]}
+    (run_dir / RUN_RECORD).write_text(
+        json.dumps(new_record, ensure_ascii=False, indent=1, sort_keys=True) + "\n",
+        encoding="utf-8", newline="\n")
+    return sorted(saved)
+
+
 # --- Stage metrics (deterministic) ---------------------------------------------------------------
 
 
@@ -429,6 +477,10 @@ def _parser() -> argparse.ArgumentParser:
             cmd.add_argument("--offline", action="store_true",
                              help="replay only: no model is called, and a call with no saved "
                                   "reply fails that question")
+    res = sub.add_parser("rescore", help="re-score a saved run under the current outcome rule, "
+                                         "offline")
+    res.add_argument("--from", dest="source", required=True)
+    res.add_argument("--run-id", required=True)
     rep = sub.add_parser("report")
     rep.add_argument("--run-id", required=True)
     rep.add_argument("--json", action="store_true")
@@ -445,6 +497,10 @@ def main(argv: list[str] | None = None) -> int:
         explorer = ProvisionExplorer.open(find_recorded_build())
         if explorer.identity()["build_id"] != benchmark.build_id:
             raise RunError("the recorded build is not the one the benchmark names")
+        if args.command == "rescore":
+            done = rescore_run(RUNS_DIR / check_run_id(args.source), run_dir)
+            print(f"re-scored {len(done)} question(s) into {run_dir}")
+            return 0
         if args.command == "report":
             data = report(benchmark, run_dir, explorer_article_text(explorer))
             (run_dir / REPORT_FILE).write_text(
