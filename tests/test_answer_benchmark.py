@@ -41,7 +41,7 @@ def test_the_shipped_benchmark_loads_with_its_manifest(bench):
     assert (bench.benchmark_id, bench.version, bench.kind, bench.schema_version) == (
         "answers", "0-draft", "end_to_end", 1)
     assert bench.build_id == "build-f76ff6031f2fc82c4852f0a2bde27807"
-    assert (len(bench.questions), len(bench.expectations)) == (22, 81)
+    assert (len(bench.questions), len(bench.expectations)) == (22, 82)
     assert set(bench.files) == set(ab.FILES)
 
 
@@ -51,10 +51,28 @@ def test_ids_and_splits(bench):
         f"a{n:02d}" for n in range(1, 13)]
 
 
-def test_nothing_is_marked_reviewed(bench):
+OWNER_REVIEW = ("Simone Zanetti (owner); second opinion on each row: Claude (AI assistant, "
+                "claude.ai); the decisions are the owner's")
+
+
+def test_the_owner_review_of_2026_11_18(bench):
+    """a01-a13 and expectation rows 1-57 reviewed as drafted, row 82 added (a03, GDPR 34(4),
+    supporting); a14-a22 and rows 58-81 still candidates."""
+    reviewed = {f"a{n:02d}" for n in range(1, 14)}
+    for q in bench.questions:
+        assert ab.is_reviewed(q.provenance) == (q.query_id in reviewed), q.query_id
+    for n, row in enumerate(bench.expectations, 1):
+        assert ab.is_reviewed(row.provenance) == (n <= 57 or n == 82), n
     for record in (*bench.questions, *bench.expectations):
-        assert record.provenance.review_status == "candidate"
-        assert (record.provenance.reviewed_by, record.provenance.reviewed_on) == (None, None)
+        p = record.provenance
+        if ab.is_reviewed(p):
+            assert (p.review_status, p.reviewed_by, p.reviewed_on) == (
+                "owner_reviewed", OWNER_REVIEW, "2026-11-18")
+        else:
+            assert (p.review_status, p.reviewed_by, p.reviewed_on) == ("candidate", None, None)
+    added = bench.expectations[81]
+    assert (added.query_id, added.instrument, added.article, added.unit, added.role) == (
+        "a03", G, "34", ab.Unit("4"), "supporting")
 
 
 def test_outcomes_and_reasons(bench):
@@ -260,10 +278,10 @@ CASES = {
     "half a verification": (lambda m, q, e: q[0]["time_sensitive"].update(verified_by="X"),
                             "set together"),
     "reviewed without reviewer": (
-        lambda m, q, e: q[0]["provenance"].update(review_status="owner_reviewed"),
+        lambda m, q, e: q[-1]["provenance"].update(review_status="owner_reviewed"),  # a22
         "reviewed_by must be non-empty"),
     "candidate with reviewer": (
-        lambda m, q, e: q[0]["provenance"].update(reviewed_by="A Reviewer"),
+        lambda m, q, e: q[-1]["provenance"].update(reviewed_by="A Reviewer"),  # a22
         "a candidate has no reviewer"),
     "review before drafting": (
         lambda m, q, e: reviewed(q[0]["provenance"], reviewed_on="2026-11-01"),

@@ -1,12 +1,15 @@
 # Benchmark v0 (end-to-end answers): review sheet
 
-> **Draft, not reviewed.**
+> **Partly reviewed.** a01–a13 and their rows are `owner_reviewed` (2026-11-18); a14–a22 are
+> still `candidate`.
 >
 > - **Drafted** by Claude (AI assistant, claude.ai) on 2026-11-13.
 > - **Consolidated** by Claude Code (AI assistant) on 2026-11-16, applying the owner's
 >   corrections listed under «Changes from the draft».
-> - **Status:** every question and every row is `candidate`. Every expected provision is a legal
->   judgment, to be checked against the text and signed off by the project owner.
+> - **Status:** a01–a13 and their rows were reviewed by the owner on 2026-11-18, with a second
+>   opinion from an AI assistant (Claude, claude.ai) on each row; the decisions are the
+>   owner's (see «Owner review (2026-11-18)»). a14–a22 are `candidate`: every expected
+>   provision there is still a legal judgment to be checked and signed off by the owner.
 > - **Files:** `benchmark.json` (the manifest), `questions.jsonl`, `expectations.jsonl`. The table
 >   below is kept identical to the two JSONL files by `tests/test_answer_benchmark.py`.
 > - **Code:** `src/answer_benchmark.py` checks the files and computes the metrics. It does not run
@@ -25,19 +28,19 @@ Art. 4) or «letter x» (letter «x)» inside the paragraph or point). No unit m
 
 | ID | Split | Category | Expected outcome | Question | Core | Supporting | ✔ / correction |
 |---|---|---|---|---|---|---|---|
-| a01 | dev | breach | answer | When is a personal data breach required to be notified to the Italian Data Protection Authority? | GDPR 33 (par. 1) | GDPR 55 (par. 1), Codice 2-bis, GDPR 4 (point 12), GDPR 33 (par. 2), GDPR 34 | |
-| a02 | dev | definition | answer | Che cos'è una violazione dei dati personali? | GDPR 4 (point 12) | — | |
-| a03 | dev | breach | answer | Quando il titolare deve comunicare una violazione dei dati personali agli interessati? | GDPR 34 (par. 1), GDPR 34 (par. 3) | GDPR 33 | |
-| a04 | dev | authority | answer | Quale autorità di controllo è competente in Italia? | Codice 2-bis | GDPR 51 (par. 1), Codice 153, GDPR 55 | |
-| a05 | dev | overview | answer | What are the main principles governing the processing of personal data under the GDPR? | GDPR 5 (par. 1), GDPR 5 (par. 2) | — | |
-| a06 | dev | overview | answer | What rights do individuals have regarding their personal data under the GDPR? | GDPR 15, GDPR 16, GDPR 17, GDPR 18, GDPR 20, GDPR 21, GDPR 22 | GDPR 12, GDPR 13, GDPR 14, GDPR 19, GDPR 77, GDPR 79, GDPR 82, GDPR 7 (par. 3) | |
-| a07 | dev | overview | answer | What are the main obligations of a data controller under the GDPR? | GDPR 5 (par. 2), GDPR 24, GDPR 25, GDPR 30, GDPR 32, GDPR 33, GDPR 34, GDPR 35, GDPR 37 | GDPR 26, GDPR 28, GDPR 12, GDPR 13, GDPR 14 | |
-| a08 | dev | lawfulness | answer | Can a company process personal data without the consent of the data subject? | GDPR 6 (par. 1) | GDPR 9 (par. 2), GDPR 10, GDPR 7, GDPR 21 | |
-| a09 | dev | out_of_scope | abstain (out_of_scope) | What are the legal requirements for establishing a company in Germany? | — | — | |
-| a10 | dev | breach | answer | Entro quanto tempo va notificata una violazione dei dati personali al Garante? | GDPR 33 (par. 1) | Codice 2-bis | |
-| a11 | dev | false_premise | answer | Il responsabile del trattamento deve notificare la violazione al Garante? | GDPR 33 (par. 2) | GDPR 33 (par. 1), GDPR 28 (par. 3, letter f) | |
-| a12 | dev | false_premise | answer | Il GDPR prevede un termine di 96 ore per notificare una violazione dei dati personali? | GDPR 33 (par. 1) | — | |
-| a13 | test | definition | answer | Che cos'è un dato personale secondo il GDPR? | GDPR 4 (point 1) | — | |
+| a01 | dev | breach | answer | When is a personal data breach required to be notified to the Italian Data Protection Authority? | GDPR 33 (par. 1) | GDPR 55 (par. 1), Codice 2-bis, GDPR 4 (point 12), GDPR 33 (par. 2), GDPR 34 | ✔ owner_reviewed, 2026-11-18 |
+| a02 | dev | definition | answer | Che cos'è una violazione dei dati personali? | GDPR 4 (point 12) | — | ✔ owner_reviewed, 2026-11-18 |
+| a03 | dev | breach | answer | Quando il titolare deve comunicare una violazione dei dati personali agli interessati? | GDPR 34 (par. 1), GDPR 34 (par. 3) | GDPR 33, GDPR 34 (par. 4) | ✔ owner_reviewed, 2026-11-18 |
+| a04 | dev | authority | answer | Quale autorità di controllo è competente in Italia? | Codice 2-bis | GDPR 51 (par. 1), Codice 153, GDPR 55 | ✔ owner_reviewed, 2026-11-18 |
+| a05 | dev | overview | answer | What are the main principles governing the processing of personal data under the GDPR? | GDPR 5 (par. 1), GDPR 5 (par. 2) | — | ✔ owner_reviewed, 2026-11-18 |
+| a06 | dev | overview | answer | What rights do individuals have regarding their personal data under the GDPR? | GDPR 15, GDPR 16, GDPR 17, GDPR 18, GDPR 20, GDPR 21, GDPR 22 | GDPR 12, GDPR 13, GDPR 14, GDPR 19, GDPR 77, GDPR 79, GDPR 82, GDPR 7 (par. 3) | ✔ owner_reviewed, 2026-11-18 |
+| a07 | dev | overview | answer | What are the main obligations of a data controller under the GDPR? | GDPR 5 (par. 2), GDPR 24, GDPR 25, GDPR 30, GDPR 32, GDPR 33, GDPR 34, GDPR 35, GDPR 37 | GDPR 26, GDPR 28, GDPR 12, GDPR 13, GDPR 14 | ✔ owner_reviewed, 2026-11-18 |
+| a08 | dev | lawfulness | answer | Can a company process personal data without the consent of the data subject? | GDPR 6 (par. 1) | GDPR 9 (par. 2), GDPR 10, GDPR 7, GDPR 21 | ✔ owner_reviewed, 2026-11-18 |
+| a09 | dev | out_of_scope | abstain (out_of_scope) | What are the legal requirements for establishing a company in Germany? | — | — | ✔ owner_reviewed, 2026-11-18 |
+| a10 | dev | breach | answer | Entro quanto tempo va notificata una violazione dei dati personali al Garante? | GDPR 33 (par. 1) | Codice 2-bis | ✔ owner_reviewed, 2026-11-18 |
+| a11 | dev | false_premise | answer | Il responsabile del trattamento deve notificare la violazione al Garante? | GDPR 33 (par. 2) | GDPR 33 (par. 1), GDPR 28 (par. 3, letter f) | ✔ owner_reviewed, 2026-11-18 |
+| a12 | dev | false_premise | answer | Il GDPR prevede un termine di 96 ore per notificare una violazione dei dati personali? | GDPR 33 (par. 1) | — | ✔ owner_reviewed, 2026-11-18 |
+| a13 | test | definition | answer | Che cos'è un dato personale secondo il GDPR? | GDPR 4 (point 1) | — | ✔ owner_reviewed, 2026-11-18 |
 | a14 | test | obligations | answer | Quando è obbligatoria una valutazione d'impatto sulla protezione dei dati? | GDPR 35 (par. 1), GDPR 35 (par. 3) | GDPR 35 (par. 4), GDPR 36 | |
 | a15 | test | obligations | answer | Quando un'azienda deve designare un responsabile della protezione dei dati (DPO)? | GDPR 37 (par. 1) | GDPR 38, GDPR 39 | |
 | a16 | test | rights | answer | Posso chiedere a un'azienda di cancellare i miei dati? In quali casi? | GDPR 17 (par. 1), GDPR 17 (par. 3) | GDPR 12 (par. 3) | |
@@ -176,3 +179,16 @@ One record per reviewed answer, checked by `check_legal_review()`. **No record e
 9. **Digital Omnibus:** stays unverified. It was not re-checked and is not presented as current.
 
 **Still open:** the review of every question and row, and the re-verification of the Digital Omnibus status for a01, a10 and a12 (`verified_by`, `verified_on`).
+
+## Owner review (2026-11-18)
+
+- **Reviewer:** Simone Zanetti (owner), on 2026-11-18. An AI assistant (Claude, claude.ai) gave a
+  second opinion on each row; the decisions are the owner's. The decision for every question and
+  row is in `docs/evaluation/answers-v0-review-sheet.md`.
+- **Reviewed:** questions a01–a13 and expectation rows 1–57, all accepted as drafted (`ok`).
+  They are now `owner_reviewed`, and `reviewed_by` records the second opinion.
+- **Added:** a03, GDPR Art. 34 par. 4, supporting: the supervisory authority may require the
+  communication or decide that a condition of par. 3 is met. It is row 82, appended so that no
+  row number changes.
+- **Not reviewed yet:** a14–a22 (rows 58–81) stay `candidate`. They are not scored in the
+  owner-reviewed scope.

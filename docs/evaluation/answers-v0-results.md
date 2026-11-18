@@ -1,7 +1,8 @@
 # Benchmark answers-v0: results and findings
 
 *All results below are on **candidate expectations, not owner-reviewed** (scope "all rows").
-The owner-reviewed scope is empty until the review sheet is applied. Runs are saved under
+The owner-reviewed scope covers a01–a13 since the owner's review of 2026-11-18 (final
+section). Runs are saved under
 `data/evaluation/answers-v0/runs/` and re-scored offline with
 `python -m src.answer_benchmark_run report --run-id <id>`. Research mode, claude-sonnet-5-5,
 build `build-f76ff6031f2fc82c4852f0a2bde27807`.*
@@ -134,6 +135,21 @@ changes and run-to-run variation. Repeated runs were not made, to keep within th
 | Claims in the answer / held apart | 121 / 13 | 105 / 33 |
 | Claims removed by the checks | 2 | 4 (`unsupported_reference`) |
 | Core rows missing from evidence | 2 (`max_items`) | 2 (`max_items`: a06 Art. 22, a07 Art. 34) |
+
+**Owner-reviewed scope (a01–a13).** The owner reviewed these questions and their rows on
+2026-11-18, with a second opinion from an AI assistant (Claude, claude.ai) on each row; the
+decisions are the owner's. All rows were accepted as drafted, and GDPR Art. 34(4) was added to
+a03 as supporting. Re-scored offline, with no model call:
+
+| Owner-reviewed scope (13 questions) | Baseline | T6 | T7-prompt | T7, rule v2 | Final |
+|---|---|---|---|---|---|
+| Core recall in candidates | 100% | 100% | 100% | 100% | 100% |
+| Core recall in final evidence | 81% | 96% | 98% | 98% | 98% |
+| Core recall in main-answer citations | 81% | 95% | 97% | 97% | 94% |
+| Outcome matches | 1/13 | 3/13 | 6/13 | 11/13 | 11/13 |
+
+In the final run, the two mismatches are a06 and a07, both overview questions. Every saved
+report was regenerated; their all-rows figures are unchanged.
 
 **Reading.**
 

@@ -188,9 +188,10 @@ broad overview questions.
 token usage, under a budget guard that stops a run before it can exceed its limit. It is a
 single run, so model variance is not measured.
 
-> **PLACEHOLDER: owner-reviewed scope** (pending the owner's review of the benchmark sheet).
-> The runner also reports a scope with only owner-reviewed expectations. It is empty until the
-> review sheet is applied. Then add its figures for the final run here.
+**Owner-reviewed scope.** The owner reviewed a01–a13 and their rows on 2026-11-18, with a
+second opinion from an AI assistant on each row; the decisions are the owner's. On those 13
+questions, the final run scores core recall 100% / 98% / 94% (candidates / evidence /
+citations) and **11/13 outcomes**, missing only a06 and a07. The baseline scored 1/13.
 
 ## Research and verified modes
 
@@ -207,8 +208,8 @@ Both modes run the same pipeline and differ only in the provisions an answer may
 
 ## Limits
 
-- **The benchmark.** 22 questions with candidate expectations, not owner-reviewed: diagnostics,
-  not validated results. One run, so model variance is not measured.
+- **The benchmark.** 22 questions. Only a01–a13 are owner-reviewed; the rest are candidate
+  expectations. One run, so model variance is not measured.
 - **No human review recorded yet.** Verified mode abstains on every question, and every answer
   shown here rests on provisions pending review.
 - **The sources.** The Privacy Code text is an **unofficial transcription** supplied by the
@@ -231,8 +232,8 @@ Both modes run the same pipeline and differ only in the provisions an answer may
    and citation rules.
 4. **An LLM judge calibrated on human labels.** Grade whole answers with a model judge whose
    agreement with owner-reviewed labels is measured before its scores are used.
-5. **Owner review and variance.** Apply the owner's review of the benchmark, and make repeated
-   runs to measure run-to-run variance.
+5. **Owner review and variance.** Finish the owner's review (a14–a22), and make repeated runs
+   to measure run-to-run variance.
 6. **A retrieval benchmark.** Add questions whose provisions BM25 and the lookups miss, before
    comparing hybrid retrieval and reranking.
 7. **A per-sentence support check for summaries,** so that the summary can be shown again
