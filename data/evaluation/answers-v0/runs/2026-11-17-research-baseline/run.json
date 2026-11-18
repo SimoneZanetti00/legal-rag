@@ -1,0 +1,85 @@
+{
+ "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+ "code": {
+  "changed_paths": [
+   "?? docs/PROJECT_OVERVIEW.md",
+   "?? docs/evaluation/answers-v0-review-sheet.md",
+   "?? docs/reviews/m1-review-record-2026-11-09.md",
+   "?? src/answer_benchmark_run.py",
+   "?? tests/test_answer_benchmark_run.py"
+  ],
+  "commit": "b814916f6642ba474a1f6abd62d5145c8c261820",
+  "fingerprint": "a5c3a9fcc226ad85b194c37d083bb9f82257744033b962e3ab56ddf93017ee89",
+  "state": "dirty"
+ },
+ "invocations": [
+  {
+   "at": "2026-11-17T11:34:39+01:00",
+   "code": {
+    "changed_paths": [
+     "?? docs/PROJECT_OVERVIEW.md",
+     "?? docs/evaluation/answers-v0-review-sheet.md",
+     "?? docs/reviews/m1-review-record-2026-11-09.md",
+     "?? src/answer_benchmark_run.py",
+     "?? tests/test_answer_benchmark_run.py"
+    ],
+    "commit": "b814916f6642ba474a1f6abd62d5145c8c261820",
+    "fingerprint": "a5c3a9fcc226ad85b194c37d083bb9f82257744033b962e3ab56ddf93017ee89",
+    "state": "dirty"
+   },
+   "splits": [
+    "dev"
+   ]
+  },
+  {
+   "at": "2026-11-17T11:39:09+01:00",
+   "code": {
+    "changed_paths": [
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a01.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a02.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a03.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a04.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a05.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a06.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a07.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a08.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a09.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a10.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a11.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/a12.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/report.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-17-research-baseline/run.json",
+     "?? docs/PROJECT_OVERVIEW.md",
+     "?? docs/evaluation/answers-v0-review-sheet.md",
+     "?? docs/reviews/m1-review-record-2026-11-09.md",
+     "?? src/answer_benchmark_run.py",
+     "?? tests/test_answer_benchmark_run.py"
+    ],
+    "commit": "b814916f6642ba474a1f6abd62d5145c8c261820",
+    "fingerprint": "2e9c3cd380ade19df7a2ddae5f18ea5142a9d8aa6ed3e7353bbd496beda56d37",
+    "state": "dirty"
+   },
+   "splits": [
+    "test"
+   ]
+  }
+ ],
+ "kind": "answers-v0-run",
+ "mode": "research",
+ "model": "claude-sonnet-5-5",
+ "prompt_versions": {
+  "answer_generation": "answer-generation-v3",
+  "claim_verification": "claim-verification-v2",
+  "query_analysis": "query-analysis-v2"
+ },
+ "provider": "anthropic",
+ "replay_of": null,
+ "run_id": "2026-11-17-research-baseline",
+ "schema": 1,
+ "settings": {
+  "context_token_budget": 3000,
+  "final_evidence_count": 5,
+  "max_generation_retries": 1,
+  "semantic_verification": true
+ }
+}

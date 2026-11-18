@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" data-replay="replay.json">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Legal RAG</title>
+  <meta name="description" content="Evidence-grounded legal research for Italian and EU law.">
+  <link rel="stylesheet" href="app.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-row">
+      <div>
+        <h1 class="brand">Legal RAG</h1>
+        <p class="tagline">Evidence-grounded legal research for Italian and EU law.</p>
+      </div>
+      <span id="mode-pill" class="mode-pill verified" aria-live="polite">Verified mode</span>
+    </div>
+    <div class="wrap">
+      <p id="status" class="status" aria-live="polite">Loading the saved answers…</p>
+    </div>
+  </header>
+
+  <div id="research-warning" class="research-warning" role="alert" hidden>
+    <div class="wrap">
+      <strong>Research demo mode: experimental.</strong>
+      Answers may rest on provisions that no person has reviewed. Every such source is marked
+      «human review pending». Do not rely on these answers as verified law.
+    </div>
+  </div>
+
+  <main class="wrap">
+    <aside class="notice" role="note">
+      <strong>A research assistant, not legal advice.</strong>
+      Every statement quotes the provision it rests on, and the system says what it could not
+      establish instead of guessing. It does not establish whether a provision is valid or in
+      force, and it is no substitute for advice from a qualified lawyer.
+    </aside>
+
+    <form id="ask-form" class="card ask-card" novalidate>
+      <fieldset class="modes">
+        <legend class="label">Mode</legend>
+        <label class="mode-option">
+          <input type="radio" name="mode" value="verified" checked>
+          <span><strong>Verified</strong>
+            <small>Only provisions that have passed human review can be cited.</small></span>
+        </label>
+        <label class="mode-option research">
+          <input type="radio" name="mode" value="research">
+          <span><strong>Research demo</strong>
+            <small>Also provisions pending human review, each marked. Experimental.</small></span>
+        </label>
+      </fieldset>
+      <label id="ack-row" class="ack" hidden>
+        <input type="checkbox" id="ack">
+        <span>I understand that research answers may rest on unreviewed sources and are not
+          verified.</span>
+      </label>
+
+      <label for="question" class="label">Your question</label>
+      <textarea id="question" name="question" rows="5" maxlength="2000" required
+        placeholder="Ask in Italian or English, e.g.: Entro quanto tempo il titolare deve notificare una violazione dei dati personali all'autorità di controllo?"></textarea>
+      <div class="form-row">
+        <span id="counter" class="muted">0 / 2000</span>
+        <span class="muted">Enter to ask · Shift+Enter for a new line</span>
+      </div>
+      <div class="examples">
+        <span class="muted">Try:</span>
+        <button type="button" class="chip example">When is a personal data breach required to be notified to the Italian Data Protection Authority?</button>
+        <button type="button" class="chip example">Che cos'è una violazione dei dati personali?</button>
+        <button type="button" class="chip example">Quando il titolare deve comunicare una violazione dei dati personali agli interessati?</button>
+        <button type="button" class="chip example">Quale autorità di controllo è competente in Italia?</button>
+      </div>
+      <div class="actions">
+        <button type="submit" id="ask" class="button primary">Ask</button>
+        <button type="button" id="reset" class="button secondary" hidden>New question</button>
+      </div>
+    </form>
+
+    <section id="state" aria-live="polite"></section>
+
+    <section id="empty" class="card empty">
+      <h2>Ask a question about the GDPR or the Italian Privacy Code</h2>
+      <p class="muted">The answer cites the provisions it rests on, quotes them exactly, shows
+        how reliable each source is, and lists what it could not establish. When the evidence is
+        not enough, the system abstains and says why.</p>
+    </section>
+
+    <section id="result" hidden></section>
+  </main>
+
+  <footer class="wrap site-footer">
+    <p id="corpus" class="muted"></p>
+    <p class="muted">Prototype for research and demonstration. Not legal advice. Static replay: nothing you do on this page is sent to a server or a model. The answers were generated earlier with Anthropic's API and saved.</p>
+  </footer>
+</body>
+</html>

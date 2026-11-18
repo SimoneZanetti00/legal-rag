@@ -1,0 +1,99 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": false,
+    "issues": [],
+    "language": "it",
+    "scope_reason": "La domanda riguarda il diritto del lavoro (licenziamento per giusta causa) e non la protezione dei dati personali ai sensi del GDPR o del Codice privacy.",
+    "search_queries_it": [],
+    "suggested_provisions": [],
+    "uncertainty": null
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8R1M58EhRCF8xjBwEaX"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "227beb1de4fc6243a3938fe318d8012e0b5aca13ab853ae115b57893c3c1ffd7",
+   "task": "query_analysis",
+   "usage": null,
+   "user_sha256": "2e7439429f1690f0fa621ee738c924b3ea52f50d0cb824de8404eaa69ed1a832"
+  }
+ ],
+ "query_id": "a19",
+ "question": "Quali sono i requisiti per il licenziamento per giusta causa in Italia?",
+ "rendered": "question: Quali sono i requisiti per il licenziamento per giusta causa in Italia?\noutcome: ABSTAIN (out_of_scope)\n  The query analysis assessed the question as outside the corpus, which covers the GDPR and the Italian Privacy Code.\nas of: 2026-11-17\nExperimental prototype. Not legal advice.\n\nissues found by the query analysis (questions written by the model, not answers; query-analysis-v3):\n\nqualifications:\n  - MODALITÀ DIMOSTRATIVA DI RICERCA: questo risultato può basarsi su disposizioni il cui testo non ha superato la revisione umana. Ogni fonte qui sotto indica il proprio stato di revisione; una fonte in attesa di revisione non è citabile in modalità verificata e non va considerata verificata.\n  - Questo sistema non stabilisce se una disposizione sia giuridicamente valida, in vigore o applicabile a una qualsiasi data.\n  - Data di riferimento 2026-11-17: questa risposta riflette i testi presenti nel corpus a tale data. Non stabilisce il diritto vigente a quella data o successivamente.\n\ncorpus preflight: build build-f76ff6031f2fc82c4852f0a2bde27807; articles: 2 blocked, 319 internal_only; 0 citable\nmodels: analysis anthropic/claude-sonnet-5-5, 1 attempt(s); generation: not run",
+ "result": {
+  "abstention_detail": "The query analysis assessed the question as outside the corpus, which covers the GDPR and the Italian Privacy Code.",
+  "abstention_reason": "out_of_scope",
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": false,
+   "issues": [],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v3",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8R1M58EhRCF8xjBwEaX"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Quali sono i requisiti per il licenziamento per giusta causa in Italia?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda il diritto del lavoro (licenziamento per giusta causa) e non la protezione dei dati personali ai sensi del GDPR o del Codice privacy.",
+   "search_queries_it": [],
+   "suggested_provisions": [],
+   "uncertainty": null
+  },
+  "as_of": "2026-11-17",
+  "citations": [],
+  "claims": [],
+  "evidence": null,
+  "generation": null,
+  "mode": "research",
+  "model_notes": [],
+  "non_authoritative": [],
+  "outcome": "abstain",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "As-of date 2026-11-17: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later."
+  ],
+  "question": "Quali sono i requisiti per il licenziamento per giusta causa in Italia?",
+  "question_references": [],
+  "rejected_claims": [],
+  "summary": null,
+  "summary_claim_ids": [],
+  "unanswered_issues": [],
+  "verification": null,
+  "warnings": []
+ },
+ "split": "test",
+ "usage": {
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": 0.0,
+  "input_tokens": 0,
+  "output_tokens": 0
+ }
+}

@@ -565,5 +565,5 @@ def test_real_model_smoke():
 
     # 5. Cross-language diagnostic, with no ranking expectation. When this was
     # written, this short Italian query ranked the English breach passage last,
-    # behind both Italian passages (see README, dense retrieval limitations).
+    # behind both Italian passages (see docs/REFERENCE.md, dense retrieval limitations).
     check_valid(retriever.search("notifica di una violazione dei dati", top_k=3))

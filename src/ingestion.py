@@ -26,8 +26,20 @@ Output: the output file is rebuilt from scratch on every run (written to a
 temporary file, then atomically replaced), so it contains exactly the
 documents ingested successfully in that run. Source files are never modified.
 
+End boundary (optional, single file only): `--end-before "ALLEGATO A.1"` keeps
+only the text before the one line whose content, ignoring the whitespace around
+it, is exactly that string (case-sensitive). The line itself and everything
+after it are left out before chunking, so no excluded text can reach a chunk.
+The kept text is an unchanged prefix of the extracted text, so page numbers and
+character offsets are the same as in whole-file ingestion, and the document ID
+is still the hash of the whole file. If the line occurs zero or several times,
+nothing is written and the existing output file is left as it was; there is no
+fallback to whole-file ingestion. The ingestion report states where the text
+was cut.
+
 Exit codes: 0 = every file ingested; 1 = at least one file failed or no files
-were found; 2 = invalid arguments, paths, or configuration.
+were found; 2 = invalid arguments, paths, or configuration, or an end boundary
+that is missing or not unique.
 """
 
 from __future__ import annotations
@@ -37,6 +49,7 @@ import hashlib
 import json
 import os
 import sys
+from bisect import bisect_right
 from dataclasses import dataclass, field, fields
 from datetime import date
 from pathlib import Path
@@ -57,6 +70,10 @@ _METADATA_FIELDS = {f.name for f in fields(DocumentMetadata)}
 
 class IngestionError(Exception):
     """A single file could not be ingested; the message explains why."""
+
+
+class BoundaryError(ValueError):
+    """An end boundary was requested but cannot be applied exactly; nothing is written."""
 
 
 @dataclass(frozen=True)
@@ -115,8 +132,15 @@ def find_input_files(input_path: Path) -> list[Path]:
     return sorted(files, key=lambda p: p.relative_to(input_path).as_posix())
 
 
-def load_document(path: Path) -> tuple[LegalDocument, list[str]]:
-    """Read one file into a LegalDocument plus warnings; raise IngestionError on failure."""
+def load_document(
+    path: Path, *, end_before: str | None = None
+) -> tuple[LegalDocument, list[str]]:
+    """Read one file into a LegalDocument plus warnings; raise IngestionError on failure.
+
+    With `end_before`, the content stops before the unique line equal to it (see
+    the module docstring); BoundaryError is raised if that line is missing or
+    repeated, or if no text would remain.
+    """
     if path.name.endswith(METADATA_SUFFIX):
         raise IngestionError(
             f"metadata file has no matching document ({_document_for_sidecar(path).name})"
@@ -145,6 +169,9 @@ def load_document(path: Path) -> tuple[LegalDocument, list[str]]:
 
     if not content.strip():
         raise IngestionError("file contains only whitespace")
+    if end_before is not None:
+        content, page_starts, note = _cut_before_line(content, page_starts, end_before)
+        warnings.append(note)
 
     document = LegalDocument(
         doc_id=doc_id,
@@ -155,6 +182,48 @@ def load_document(path: Path) -> tuple[LegalDocument, list[str]]:
         page_starts=page_starts,
     )
     return document, warnings
+
+
+def _cut_before_line(
+    content: str, page_starts: tuple[int, ...], boundary: str
+) -> tuple[str, tuple[int, ...], str]:
+    """Keep the text before the unique line equal to `boundary`; return it with its pages.
+
+    The kept text is a prefix of `content`, so every offset and page number in it
+    is unchanged. Pages that start after the cut are dropped.
+    """
+    if not boundary.strip() or boundary != boundary.strip() or "\n" in boundary:
+        raise BoundaryError(
+            f"end boundary must be one line without surrounding whitespace (got {boundary!r})"
+        )
+
+    def page_of(offset: int) -> str:
+        return f"page {bisect_right(page_starts, offset)}" if page_starts else "no page"
+
+    starts = []
+    offset = 0
+    for line in content.split("\n"):
+        if line.strip() == boundary:
+            starts.append(offset + len(line) - len(line.lstrip()))
+        offset += len(line) + 1
+    if not starts:
+        raise BoundaryError(f"end boundary {boundary!r} not found as a line of its own")
+    if len(starts) > 1:
+        where = ", ".join(page_of(s) for s in starts)
+        raise BoundaryError(
+            f"end boundary {boundary!r} occurs {len(starts)} times ({where}); it must be unique"
+        )
+
+    cut = starts[0]
+    kept = content[:cut].rstrip()
+    if not kept.strip():
+        raise BoundaryError(f"no text before end boundary {boundary!r}")
+    kept_pages = tuple(start for start in page_starts if start < len(kept))
+    note = (
+        f"text cut before the line {boundary!r} ({page_of(cut)}); "
+        f"{len(content) - len(kept)} of {len(content)} characters excluded"
+    )
+    return kept, kept_pages, note
 
 
 def _read_txt(path: Path) -> str:
@@ -272,14 +341,27 @@ def _read_metadata(path: Path) -> DocumentMetadata:
         raise IngestionError(f"metadata file {name}: {exc}") from exc
 
 
-def ingest(input_path: Path, output_path: Path, chunk_size: int, chunk_overlap: int) -> IngestionReport:
+def ingest(
+    input_path: Path,
+    output_path: Path,
+    chunk_size: int,
+    chunk_overlap: int,
+    *,
+    end_before: str | None = None,
+) -> IngestionReport:
     """Ingest a file or directory and rebuild `output_path`.
 
     Raises ValueError for invalid paths; per-file problems are recorded in the
     report and never stop the rest of the batch.
+
+    `end_before` (see the module docstring) needs a single input file. If the
+    boundary cannot be applied, BoundaryError is raised and `output_path` is
+    neither created nor changed.
     """
     if not input_path.exists():
         raise ValueError(f"input path does not exist: {input_path}")
+    if end_before is not None and not input_path.is_file():
+        raise ValueError("an end boundary can only be used with a single input file")
     if output_path.suffix.lower() != ".jsonl":
         raise ValueError(f"output file must have a .jsonl extension: {output_path}")
     if input_path.is_dir() and output_path.resolve().is_relative_to(input_path.resolve()):
@@ -293,7 +375,9 @@ def ingest(input_path: Path, output_path: Path, chunk_size: int, chunk_overlap: 
     try:
         with tmp_path.open("w", encoding="utf-8", newline="\n") as out:
             for path in files:
-                report.results.append(_ingest_file(path, out, seen, chunk_size, chunk_overlap))
+                report.results.append(
+                    _ingest_file(path, out, seen, chunk_size, chunk_overlap, end_before)
+                )
         os.replace(tmp_path, output_path)
     finally:
         tmp_path.unlink(missing_ok=True)
@@ -301,16 +385,23 @@ def ingest(input_path: Path, output_path: Path, chunk_size: int, chunk_overlap: 
 
 
 def _ingest_file(
-    path: Path, out: TextIO, seen: dict[str, str], chunk_size: int, chunk_overlap: int
+    path: Path,
+    out: TextIO,
+    seen: dict[str, str],
+    chunk_size: int,
+    chunk_overlap: int,
+    end_before: str | None = None,
 ) -> FileResult:
     source = display_path(path)
     try:
-        document, warnings = load_document(path)
+        document, warnings = load_document(path, end_before=end_before)
         if document.doc_id in seen:
             raise IngestionError(
                 f"identical content to {seen[document.doc_id]}; skipped to avoid duplicate IDs"
             )
         chunks = chunk_document(document, chunk_size, chunk_overlap)
+    except BoundaryError:
+        raise  # stops the run: no output rather than a document without its boundary
     except IngestionError as exc:
         return FileResult(source, error=str(exc))
     except Exception as exc:  # keep the batch going and report it for this file
@@ -356,6 +447,12 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         help="JSONL file to write (default: <DATA_DIR>/processed/chunks.jsonl)",
     )
+    parser.add_argument(
+        "--end-before",
+        metavar="LINE",
+        help="single-file input only: keep only the text before the unique line equal to "
+        "LINE (case-sensitive); fails if the line is missing or repeated",
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -367,8 +464,14 @@ def main(argv: list[str] | None = None) -> int:
     output_path = args.output or settings.processed_dir / "chunks.jsonl"
 
     try:
-        report = ingest(input_path, output_path, settings.chunk_size, settings.chunk_overlap)
-    except ValueError as exc:
+        report = ingest(
+            input_path,
+            output_path,
+            settings.chunk_size,
+            settings.chunk_overlap,
+            end_before=args.end_before,
+        )
+    except ValueError as exc:  # BoundaryError is a ValueError
         print(f"Error: {exc}", file=sys.stderr)
         return 2
 

@@ -10,7 +10,7 @@ assistant based on retrieval-augmented generation (RAG).
 > software-engineering purposes. It is not legal advice and must not be
 > presented as a production legal service. It is conceptually inspired
 > by publicly described legal-RAG principles; it does not reproduce or
-> claim knowledge of Lexroom's internal implementation.
+> claim knowledge of the internal implementation of commercial legal research products.
 
 ## 1. Objective
 
@@ -77,7 +77,8 @@ review in VS Code, while complete enough to run end-to-end and evaluate.
     copyrighted/private legal databases.
 -   Distributed infrastructure, complex microservices, or
     production-grade multi-tenancy.
--   Claims that this implementation matches Lexroom's proprietary stack.
+-   Claims that this implementation matches the proprietary stack of commercial legal
+    research products.
 
 ## 4. High-level architecture
 

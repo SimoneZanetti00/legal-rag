@@ -1,0 +1,1128 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "In quali casi un'azienda, in qualità di titolare o responsabile del trattamento, è tenuta a designare un responsabile della protezione dei dati (DPO)?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda i casi in cui va designato il responsabile della protezione dei dati ai sensi del GDPR, materia di protezione dei dati personali.",
+    "search_queries_it": [
+     "designazione del responsabile della protezione dei dati",
+     "responsabile della protezione dei dati obbligo di designazione",
+     "titolare del trattamento e responsabile del trattamento designano responsabile della protezione dei dati",
+     "attività principali trattamento su larga scala monitoraggio regolare e sistematico degli interessati",
+     "categorie particolari di dati personali o dati relativi a condanne penali su larga scala",
+     "designazione di un unico responsabile della protezione dei dati per un gruppo imprenditoriale"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "37",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "condizioni di designazione obbligatoria del DPO"
+     },
+     {
+      "article": "38",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "posizione del DPO, utile come contesto"
+     },
+     {
+      "article": "39",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "compiti del DPO, utile come contesto"
+     }
+    ],
+    "uncertainty": "La domanda non indica se si tratti di un'azienda in Italia né le sue attività di trattamento (larga scala, categorie particolari di dati, monitoraggio); la designazione può inoltre essere prevista da altre norme di diritto dell'Unione o nazionale non incluse nel corpus."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8QunqzvizfTfoE5nrbJ"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "227beb1de4fc6243a3938fe318d8012e0b5aca13ab853ae115b57893c3c1ffd7",
+   "task": "query_analysis",
+   "usage": null,
+   "user_sha256": "94cbbd3c9d5103a694654ab7885dc124be724506d14f60760adc74f5fd8f7d4f"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "il trattamento è effettuato da un'autorità pubblica o da un organismo pubblico, eccettuate le autorità giurisdizionali quando esercitano le loro funzioni giurisdizionali;"
+       }
+      ],
+      "text": "Titolare e responsabile del trattamento designano sistematicamente un DPO quando il trattamento è effettuato da un'autorità pubblica o da un organismo pubblico, eccettuate le autorità giurisdizionali nell'esercizio delle loro funzioni giurisdizionali."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "richiedono il monitoraggio regolare e sistematico degli interessati su larga scala"
+       }
+      ],
+      "text": "La designazione è obbligatoria quando le attività principali del titolare o del responsabile consistono in trattamenti che richiedono il monitoraggio regolare e sistematico degli interessati su larga scala."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "consistono nel trattamento, su larga scala, di categorie particolari di dati personali di cui all'articolo 9 o di dati relativi a condanne penali e a reati di cui all'articolo 10."
+       }
+      ],
+      "text": "La designazione è obbligatoria anche quando le attività principali consistono nel trattamento, su larga scala, di categorie particolari di dati personali o di dati relativi a condanne penali e reati."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "possono o, se previsto dal diritto dell'Unione o degli Stati membri, devono designare un responsabile della protezione dei dati."
+       }
+      ],
+      "text": "Nei casi diversi da quelli obbligatori, la designazione è facoltativa, ma diventa obbligatoria se lo prevede il diritto dell'Unione o degli Stati membri."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Un gruppo imprenditoriale può nominare un unico responsabile della protezione dei dati, a condizione che un responsabile della protezione dei dati sia facilmente raggiungibile da ciascuno stabilimento."
+       }
+      ],
+      "text": "Un gruppo imprenditoriale può nominare un unico DPO, purché sia facilmente raggiungibile da ciascuno stabilimento."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "le attività principali del titolare del trattamento o del responsabile del trattamento consistono in trattamenti che, per loro natura, ambito di applicazione e/o finalità, richiedono il monitoraggio regolare e sistematico degli interessati su larga scala"
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "Nei casi diversi da quelli di cui al paragrafo 1, il titolare e del trattamento, il responsabile del trattamento"
+       }
+      ],
+      "text": "Per un'azienda privata, quindi, l'obbligo sorge in particolare se le sue attività principali comportano monitoraggio regolare e sistematico su larga scala oppure trattamento su larga scala di categorie particolari di dati o di dati su condanne e reati; altrimenti la designazione è facoltativa, salvo diversa previsione del diritto dell'Unione o nazionale."
+     }
+    ],
+    "limitations": [
+     "Le prove non contengono le norme di diritto dell'Unione o nazionale che possano imporre la designazione in altri casi, cui l'art. 37, par. 4 rinvia.",
+     "Gli articoli 9 e 10 sono richiamati dall'art. 37 per definire le categorie di dati; la loro portata non è sviluppata qui oltre i testi forniti.",
+     "Gli estratti degli artt. 35 e 47 e le disposizioni del Codice privacy fornite non riguardano l'obbligo di designare il DPO."
+    ],
+    "outcome": "answer_limited",
+    "summary": "Il DPO deve essere designato sistematicamente quando il trattamento è effettuato da un'autorità o organismo pubblico, oppure quando le attività principali comportano monitoraggio regolare e sistematico su larga scala o trattamento su larga scala di categorie particolari di dati o di dati su condanne e reati [1][2][3]. Negli altri casi la designazione è facoltativa, salvo che il diritto dell'Unione o nazionale la imponga [4][6]. Un gruppo imprenditoriale può nominare un unico DPO facilmente raggiungibile da ciascuno stabilimento [5].",
+    "unanswered_issues": [
+     {
+      "issue_id": "I1",
+      "reason": "Le prove non definiscono «larga scala», «attività principali» né «monitoraggio regolare e sistematico», né contengono le norme dell'Unione o nazionali che possano prevedere ulteriori obblighi di designazione."
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8mH3K4LygLvyYSUtSTe"
+   ],
+   "schema_sha256": "d8a27d64b6aa12eaaee825a48db3d6d6394c1ca218fe8e3c1931c4eac1161fce",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "004a4fa0b9fa85c7be10287fa90d2f495be7bcf3f12097b0e1a7ad01cf844932",
+   "task": "answer_generation",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 14346,
+    "output_tokens": 1743
+   },
+   "user_sha256": "694af02e221e2456be2657e8b60b1189c8d2e257567f33c7224963c4200bddca"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "partially_supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8mHpqFjR1zsXVj4o94C"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 2832,
+    "output_tokens": 123
+   },
+   "user_sha256": "e6aa02785ae75ee3022014afd30f5e5747650d2c32328b1c4f56ec78304ab2f9"
+  }
+ ],
+ "query_id": "a15",
+ "question": "Quando un'azienda deve designare un responsabile della protezione dei dati (DPO)?",
+ "rendered": "question: Quando un'azienda deve designare un responsabile della protezione dei dati (DPO)?\noutcome: ANSWER LIMITED\nas of: 2026-11-17\nExperimental prototype. Not legal advice.\n\nissues found by the query analysis (questions written by the model, not answers; query-analysis-v3):\n  I1  In quali casi un'azienda, in qualità di titolare o responsabile del trattamento, è tenuta a designare un responsabile della protezione dei dati (DPO)?\n  search queries: designazione del responsabile della protezione dei dati; responsabile della protezione dei dati obbligo di designazione; titolare del trattamento e responsabile del trattamento designano responsabile della protezione dei dati; attività principali trattamento su larga scala monitoraggio regolare e sistematico degli interessati; categorie particolari di dati personali o dati relativi a condanne penali su larga scala; designazione di un unico responsabile della protezione dei dati per un gruppo imprenditoriale\n\nanswer (each claim with its quotations; quotations are checked against the evidence, support was assessed by a model, which is not legal validation):\n  C1 [I1] (source statement; support: supported) Titolare e responsabile del trattamento designano sistematicamente un DPO quando il trattamento è effettuato da un'autorità pubblica o da un organismo pubblico, eccettuate le autorità giurisdizionali nell'esercizio delle loro funzioni giurisdizionali.\n      E1: «il trattamento è effettuato da un'autorità pubblica o da un organismo pubblico, eccettuate le autorità giurisdizionali quando esercitano le loro funzioni giurisdizionali;»\n  C2 [I1] (source statement; support: supported) La designazione è obbligatoria quando le attività principali del titolare o del responsabile consistono in trattamenti che richiedono il monitoraggio regolare e sistematico degli interessati su larga scala.\n      E1: «richiedono il monitoraggio regolare e sistematico degli interessati su larga scala»\n  C3 [I1] (source statement; support: supported) La designazione è obbligatoria anche quando le attività principali consistono nel trattamento, su larga scala, di categorie particolari di dati personali o di dati relativi a condanne penali e reati.\n      E1: «consistono nel trattamento, su larga scala, di categorie particolari di dati personali di cui all'articolo 9 o di dati relativi a condanne penali e a reati di cui all'articolo 10.»\n  C4 [I1] (source statement; support: supported) Nei casi diversi da quelli obbligatori, la designazione è facoltativa, ma diventa obbligatoria se lo prevede il diritto dell'Unione o degli Stati membri.\n      E1: «possono o, se previsto dal diritto dell'Unione o degli Stati membri, devono designare un responsabile della protezione dei dati.»\n  C5 [I1] (source statement; support: supported) Un gruppo imprenditoriale può nominare un unico DPO, purché sia facilmente raggiungibile da ciascuno stabilimento.\n      E1: «Un gruppo imprenditoriale può nominare un unico responsabile della protezione dei dati, a condizione che un responsabile della protezione dei dati sia facilmente raggiungibile da ciascuno stabilimento.»\n\ncitations (sources of the answer; in research mode they may be pending human review, as each source's qualifications and status say):\n  [E1] eu-reg-2016-679 Articolo 37 Designazione del responsabile della protezione dei dati (page 55)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:37; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n\nPartially supported or uncertain — not part of the answer:\n  C6 [I1] (inference; support: partially supported) Per un'azienda privata, quindi, l'obbligo sorge in particolare se le sue attività principali comportano monitoraggio regolare e sistematico su larga scala oppure trattamento su larga scala di categorie particolari di dati o di dati su condanne e reati; altrimenti la designazione è facoltativa, salvo diversa previsione del diritto dell'Unione o nazionale.\n      E1: «le attività principali del titolare del trattamento o del responsabile del trattamento consistono in trattamenti che, per loro natura, ambito di applicazione e/o finalità, richiedono il monitoraggio regolare e sistematico degli interessati su larga scala»\n      E1: «Nei casi diversi da quelli di cui al paragrafo 1, il titolare e del trattamento, il responsabile del trattamento»\n\nunanswered issues:\n  I1  Reported by the model as not answered, or only partly answered, by the supplied evidence.\n\nMODEL NOTES — UNVERIFIED — NOT PART OF THE LEGAL ANSWER\n  (written by the model; checked only for references to provisions outside the evidence)\n  - Le prove non contengono le norme di diritto dell'Unione o nazionale che possano imporre la designazione in altri casi, cui l'art. 37, par. 4 rinvia.\n  - Gli articoli 9 e 10 sono richiamati dall'art. 37 per definire le categorie di dati; la loro portata non è sviluppata qui oltre i testi forniti.\n\nqualifications:\n  - MODALITÀ DIMOSTRATIVA DI RICERCA: questo risultato può basarsi su disposizioni il cui testo non ha superato la revisione umana. Ogni fonte qui sotto indica il proprio stato di revisione; una fonte in attesa di revisione non è citabile in modalità verificata e non va considerata verificata.\n  - Questo sistema non stabilisce se una disposizione sia giuridicamente valida, in vigore o applicabile a una qualsiasi data.\n  - Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.\n  - 2 further candidate provisions were left out by the evidence limits (max_items).\n  - Data di riferimento 2026-11-17: questa risposta riflette i testi presenti nel corpus a tale data. Non stabilisce il diritto vigente a quella data o successivamente.\n\ncorpus preflight: build build-f76ff6031f2fc82c4852f0a2bde27807; articles: 2 blocked, 319 internal_only; 0 citable\nevidence: build build-f76ff6031f2fc82c4852f0a2bde27807; 12 items (0 citable); about 9935 tokens\nwarnings: no_item_citable_in_verified_mode; model_note_removed: unsupported reference articolo 35 (it-dlgs-2003-196), articolo 47 (it-dlgs-2003-196); summary_not_shown: it cites [6], which is not a supported claim of the answer\nmodels: analysis anthropic/claude-sonnet-5-5, 1 attempt(s); generation anthropic/claude-sonnet-5-5, 1 attempt(s); support check anthropic/claude-sonnet-5-5, 1 attempt(s)",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "In quali casi un'azienda, in qualità di titolare o responsabile del trattamento, è tenuta a designare un responsabile della protezione dei dati (DPO)?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v3",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8QunqzvizfTfoE5nrbJ"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Quando un'azienda deve designare un responsabile della protezione dei dati (DPO)?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda i casi in cui va designato il responsabile della protezione dei dati ai sensi del GDPR, materia di protezione dei dati personali.",
+   "search_queries_it": [
+    "designazione del responsabile della protezione dei dati",
+    "responsabile della protezione dei dati obbligo di designazione",
+    "titolare del trattamento e responsabile del trattamento designano responsabile della protezione dei dati",
+    "attività principali trattamento su larga scala monitoraggio regolare e sistematico degli interessati",
+    "categorie particolari di dati personali o dati relativi a condanne penali su larga scala",
+    "designazione di un unico responsabile della protezione dei dati per un gruppo imprenditoriale"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "37",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "condizioni di designazione obbligatoria del DPO"
+    },
+    {
+     "article": "38",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "posizione del DPO, utile come contesto"
+    },
+    {
+     "article": "39",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "compiti del DPO, utile come contesto"
+    }
+   ],
+   "uncertainty": "La domanda non indica se si tratti di un'azienda in Italia né le sue attività di trattamento (larga scala, categorie particolari di dati, monitoraggio); la designazione può inoltre essere prevista da altre norme di diritto dell'Unione o nazionale non incluse nel corpus."
+  },
+  "as_of": "2026-11-17",
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 37",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "37",
+    "legal_validity": "not_established",
+    "page_end": 55,
+    "page_start": 55,
+    "path": "CAPO IV > Sezione 4 > Articolo 37",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:37",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Designazione del responsabile della protezione dei dati",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "il trattamento è effettuato da un'autorità pubblica o da un organismo pubblico, eccettuate le autorità giurisdizionali quando esercitano le loro funzioni giurisdizionali;"
+     }
+    ],
+    "text": "Titolare e responsabile del trattamento designano sistematicamente un DPO quando il trattamento è effettuato da un'autorità pubblica o da un organismo pubblico, eccettuate le autorità giurisdizionali nell'esercizio delle loro funzioni giurisdizionali.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "richiedono il monitoraggio regolare e sistematico degli interessati su larga scala"
+     }
+    ],
+    "text": "La designazione è obbligatoria quando le attività principali del titolare o del responsabile consistono in trattamenti che richiedono il monitoraggio regolare e sistematico degli interessati su larga scala.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "consistono nel trattamento, su larga scala, di categorie particolari di dati personali di cui all'articolo 9 o di dati relativi a condanne penali e a reati di cui all'articolo 10."
+     }
+    ],
+    "text": "La designazione è obbligatoria anche quando le attività principali consistono nel trattamento, su larga scala, di categorie particolari di dati personali o di dati relativi a condanne penali e reati.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "possono o, se previsto dal diritto dell'Unione o degli Stati membri, devono designare un responsabile della protezione dei dati."
+     }
+    ],
+    "text": "Nei casi diversi da quelli obbligatori, la designazione è facoltativa, ma diventa obbligatoria se lo prevede il diritto dell'Unione o degli Stati membri.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Un gruppo imprenditoriale può nominare un unico responsabile della protezione dei dati, a condizione che un responsabile della protezione dei dati sia facilmente raggiungibile da ciascuno stabilimento."
+     }
+    ],
+    "text": "Un gruppo imprenditoriale può nominare un unico DPO, purché sia facilmente raggiungibile da ciascuno stabilimento.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "le attività principali del titolare del trattamento o del responsabile del trattamento consistono in trattamenti che, per loro natura, ambito di applicazione e/o finalità, richiedono il monitoraggio regolare e sistematico degli interessati su larga scala"
+     },
+     {
+      "evidence_id": "E1",
+      "text": "Nei casi diversi da quelli di cui al paragrafo 1, il titolare e del trattamento, il responsabile del trattamento"
+     }
+    ],
+    "text": "Per un'azienda privata, quindi, l'obbligo sorge in particolare se le sue attività principali comportano monitoraggio regolare e sistematico su larga scala oppure trattamento su larga scala di categorie particolari di dati o di dati su condanne e reati; altrimenti la designazione è facoltativa, salvo diversa previsione del diritto dell'Unione o nazionale.",
+    "verification": "PARTIALLY_SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "2-octies",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167-bis"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-octies",
+     "reason": "max_items",
+     "tokens": 1219
+    },
+    {
+     "label": "167",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167-bis"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167",
+     "reason": "max_items",
+     "tokens": 679
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 267467,
+       "char_start": 264806,
+       "page": 55,
+       "page_end": 55
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0311-c3d6bb63",
+      "doc-8f7504d289853f57-0313-82004c7c",
+      "doc-8f7504d289853f57-0312-ec361c29"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 37",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "37",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:2",
+      "query:3",
+      "query:6",
+      "query:4",
+      "query:5"
+     ],
+     "page_end": 55,
+     "page_start": 55,
+     "path": "CAPO IV > Sezione 4 > Articolo 37",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:37",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 37\n\nDesignazione del responsabile della protezione dei dati\n\n1.\nIl titolare del trattamento e il responsabile del trattamento designano sistematicamente un responsabile della \nprotezione dei dati ogniqualvolta:\n\na)  il trattamento è effettuato da un'autorità pubblica o da un organismo pubblico, eccettuate le autorità giurisdizionali\n\nquando esercitano le loro funzioni giurisdizionali;\n\nb)  le attività principali del titolare del trattamento o del responsabile del trattamento consistono in trattamenti che, per\n\nloro natura, ambito di applicazione e/o finalità, richiedono il monitoraggio regolare e sistematico degli interessati su \nlarga scala; oppure\n\nc)  le attività principali del titolare del trattamento o del responsabile del trattamento consistono nel trattamento, su\n\nlarga scala, di categorie particolari di dati personali di cui all'articolo 9 o di dati relativi a condanne penali e a reati di \ncui all'articolo 10.\n\n2.\nUn gruppo imprenditoriale può nominare un unico responsabile della protezione dei dati, a condizione che un \nresponsabile della protezione dei dati sia facilmente raggiungibile da ciascuno stabilimento.\n\n3.\nQualora il titolare del trattamento o il responsabile del trattamento sia un'autorità pubblica o un organismo \npubblico, un unico responsabile della protezione dei dati può essere designato per più autorità pubbliche o organismi \npubblici, tenuto conto della loro struttura organizzativa e dimensione.\n\n4.\nNei casi diversi da quelli di cui al paragrafo 1, il titolare e del trattamento, il responsabile del trattamento o le \nassociazioni e gli altri organismi rappresentanti le categorie di titolari del trattamento o di responsabili del trattamento \npossono o, se previsto dal diritto dell'Unione o degli Stati membri, devono designare un responsabile della protezione \ndei dati. Il responsabile della protezione dei dati può agire per dette associazioni e altri organismi rappresentanti i titolari \ndel trattamento o i responsabili del trattamento.\n\n5.\nIl responsabile della protezione dei dati è designato in funzione delle qualità professionali, in particolare della \nconoscenza specialistica della normativa e delle prassi in materia di protezione dei dati, e della capacità di assolvere i \ncompiti di cui all'articolo 39.\n\n6.\nIl responsabile della protezione dei dati può essere un dipendente del titolare del trattamento o del responsabile del \ntrattamento oppure assolvere i suoi compiti in base a un contratto di servizi.\n\n7.\nIl titolare del trattamento o il responsabile del trattamento pubblica i dati di contatto del responsabile della \nprotezione dei dati e li comunica all'autorità di controllo.",
+     "tier": "internal_only",
+     "title": "Designazione del responsabile della protezione dei dati",
+     "tokens": 887,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 267777,
+       "char_start": 267469,
+       "page": 55,
+       "page_end": 55
+      },
+      {
+       "char_end": 269353,
+       "char_start": 267841,
+       "page": 56,
+       "page_end": 56
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0315-1cdd3055",
+      "doc-8f7504d289853f57-0314-e851f3ce"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 38",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "38",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:2",
+      "query:3"
+     ],
+     "page_end": 56,
+     "page_start": 55,
+     "path": "CAPO IV > Sezione 4 > Articolo 38",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:38",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 38\n\nPosizione del responsabile della protezione dei dati\n\n1.\nIl titolare del trattamento e il responsabile del trattamento si assicurano che il responsabile della protezione dei dati \nsia tempestivamente e adeguatamente coinvolto in tutte le questioni riguardanti la protezione dei dati personali.\n\n2.\nIl titolare e del trattamento e il responsabile del trattamento sostengono il responsabile della protezione dei dati \nnell'esecuzione dei compiti di cui all'articolo 39 fornendogli le risorse necessarie per assolvere tali compiti e accedere ai \ndati personali e ai trattamenti e per mantenere la propria conoscenza specialistica.\n\n3.\nIl titolare del trattamento e il responsabile del trattamento si assicurano che il responsabile della protezione dei dati \nnon riceva alcuna istruzione per quanto riguarda l'esecuzione di tali compiti. Il responsabile della protezione dei dati \nnon è rimosso o penalizzato dal titolare del trattamento o dal responsabile del trattamento per l'adempimento dei propri \ncompiti. Il responsabile della protezione dei dati riferisce direttamente al vertice gerarchico del titolare del trattamento o \ndel responsabile del trattamento.\n\n4\nGli interessati possono contattare il responsabile della protezione dei dati per tutte le questioni relative al \ntrattamento dei loro dati personali e all'esercizio dei loro diritti derivanti dal presente regolamento.\n\n5.\nIl responsabile della protezione dei dati è tenuto al segreto o alla riservatezza in merito all'adempimento dei propri \ncompiti, in conformità del diritto dell'Unione o degli Stati membri.\n\n6.\nIl responsabile della protezione dei dati può svolgere altri compiti e funzioni. Il titolare del trattamento o il \nresponsabile del trattamento si assicura che tali compiti e funzioni non diano adito a un conflitto di interessi.",
+     "tier": "internal_only",
+     "title": "Posizione del responsabile della protezione dei dati",
+     "tokens": 607,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 270942,
+       "char_start": 269355,
+       "page": 56,
+       "page_end": 56
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 39",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "39",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:37",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:38"
+     ],
+     "page_end": 56,
+     "page_start": 56,
+     "path": "CAPO IV > Sezione 4 > Articolo 39",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:39",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 39\n\nCompiti del responsabile della protezione dei dati\n\n1.\nIl responsabile della protezione dei dati è incaricato almeno dei seguenti compiti:\n\na)  informare e fornire consulenza al titolare del trattamento o al responsabile del trattamento nonché ai dipendenti che\n\neseguono il trattamento in merito agli obblighi derivanti dal presente regolamento nonché da altre disposizioni \ndell'Unione o degli Stati membri relative alla protezione dei dati;\n\nb)  sorvegliare l'osservanza del presente regolamento, di altre disposizioni dell'Unione o degli Stati membri relative alla\n\nprotezione dei dati nonché delle politiche del titolare del trattamento o del responsabile del trattamento in materia di \nprotezione dei dati personali, compresi l'attribuzione delle responsabilità, la sensibilizzazione e la formazione del \npersonale che partecipa ai trattamenti e alle connesse attività di controllo;\n\nc)  fornire, se richiesto, un parere in merito alla valutazione d'impatto sulla protezione dei dati e sorvegliarne lo\n\nsvolgimento ai sensi dell'articolo 35;\n\nd)  cooperare con l'autorità di controllo; e\n\ne)  fungere da punto di contatto per l'autorità di controllo per questioni connesse al trattamento, tra cui la consultazione\n\npreventiva di cui all'articolo 36, ed effettuare, se del caso, consultazioni relativamente a qualunque altra questione.\n\n2.\nNell'eseguire i propri compiti il responsabile della protezione dei dati considera debitamente i rischi inerenti al \ntrattamento, tenuto conto della natura, dell'ambito di applicazione, del contesto e delle finalità del medesimo.",
+     "tier": "internal_only",
+     "title": "Compiti del responsabile della protezione dei dati",
+     "tokens": 529,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 259117,
+       "char_start": 258140,
+       "page": 53,
+       "page_end": 53
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0302-a02ae5e1"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 35",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "35",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:39"
+     ],
+     "page_end": 53,
+     "page_start": 53,
+     "path": "CAPO IV > Sezione 3 > Articolo 35",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:35",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "tizzato, compresa la profilazione, e sulla quale si fondano decisioni che hanno effetti giuridici o incidono in modo \nanalogo significativamente su dette persone fisiche;\n\nb)  il trattamento, su larga scala, di categorie particolari di dati personali di cui all'articolo 9, paragrafo 1, o di dati\n\nrelativi a condanne penali e a reati di cui all'articolo 10; o\n\nc)  la sorveglianza sistematica su larga scala di una zona accessibile al pubblico.\n\n4.\nL'autorità di controllo redige e rende pubblico un elenco delle tipologie di trattamenti soggetti al requisito di una \nvalutazione d'impatto sulla protezione dei dati ai sensi del paragrafo 1. L'autorità di controllo comunica tali elenchi al \ncomitato di cui all'articolo 68.\n\n5.\nL'autorità di controllo può inoltre redigere e rendere pubblico un elenco delle tipologie di trattamenti per le quali \nnon è richiesta una valutazione d'impatto sulla protezione dei dati. L'autorità di controllo comunica tali elenchi al \ncomitato.",
+     "tier": "internal_only",
+     "title": "Valutazione d'impatto sulla protezione dei dati",
+     "tokens": 326,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 301668,
+       "char_start": 300516,
+       "page": 63,
+       "page_end": 63
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0351-f5480b1a"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 47",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "47",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:6"
+     ],
+     "page_end": 63,
+     "page_start": 63,
+     "path": "CAPO V > Articolo 47",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:47",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "j)  i meccanismi all'interno del gruppo imprenditoriale o del gruppo di imprese che svolgono un'attività economica\n\ncomune per garantire la verifica della conformità alle norme vincolanti d'impresa. Tali meccanismi comprendono \nverifiche sulla protezione dei dati e metodi per assicurare provvedimenti correttivi intesi a proteggere i diritti dell'in­\nteressato. I risultati di tale verifica dovrebbero essere comunicati alla persona o entità di cui alla lettera h) e \nall'organo amministrativo dell'impresa controllante del gruppo imprenditoriale o del gruppo di imprese che \nsvolgono un'attività economica comune e dovrebbero essere disponibili su richiesta all'autorità di controllo \ncompetente;\n\nk)  i meccanismi per riferire e registrare le modifiche delle norme e comunicarle all'autorità di controllo;\n\nl)  il meccanismo di cooperazione con l'autorità di controllo per garantire la conformità da parte di ogni membro del\n\ngruppo imprenditoriale o del gruppo di imprese che svolgono un'attività economica comune, in particolare la messa \na disposizione dell'autorità di controllo dei risultati delle verifiche delle misure di cui alla lettera j);",
+     "tier": "internal_only",
+     "title": "Norme vincolanti d'impresa",
+     "tokens": 384,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 184280,
+       "char_start": 183254,
+       "page": 50,
+       "page_end": 50
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0382-fe1e5cef"
+     ],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Art. 167-bis",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "167-bis",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4"
+     ],
+     "page_end": 50,
+     "page_start": 50,
+     "path": "PARTE III > TITOLO III > CAPO II > Art. 167-bis",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167-bis",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 167-bis\n\n(( (Comunicazione e diffusione illecita di dati personali oggetto di trattamento su larga scala). ))\n\n((\n\n1. Salvo che il fatto costituisca più grave reato, chiunque comunica o diffonde al fine di trarre profitto per sé o\naltri ovvero al fine di arrecare danno, un archivio automatizzato o una parte sostanziale di esso contenente dati\npersonali oggetto di trattamento su larga scala, in violazione degli articoli 2-ter, 2-sexies e 2-octies, è punito\ncon la reclusione da uno a sei anni.\n\n2. Salvo che il fatto costituisca più grave reato, chiunque, al fine trarne profitto per sé o altri ovvero di arrecare\ndanno, comunica o diffonde, senza consenso, un archivio automatizzato o una parte sostanziale di esso\ncontenente dati personali oggetto di trattamento su larga scala, è punito con la reclusione da uno a sei anni,\nquando il consenso dell'interessato è richiesto per le operazioni di comunicazione e di diffusione.\n\n3. Per i reati di cui ai commi 1 e 2, si applicano i commi 4, 5 e 6 dell'articolo 167.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Comunicazione e diffusione illecita di dati personali oggetto di trattamento su larga scala). ))",
+     "tokens": 342,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 204640,
+       "char_start": 201034,
+       "page": 38,
+       "page_end": 38
+      },
+      {
+       "char_end": 205868,
+       "char_start": 204704,
+       "page": 39,
+       "page_end": 39
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Articolo 9",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "9",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:37",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "page_end": 39,
+     "page_start": 38,
+     "path": "CAPO II > Articolo 9",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 9\n\nTrattamento di categorie particolari di dati personali\n\n1.\nÈ vietato trattare dati personali che rivelino l'origine razziale o etnica, le opinioni politiche, le convinzioni religiose \no filosofiche, o l'appartenenza sindacale, nonché trattare dati genetici, dati biometrici intesi a identificare in modo \nunivoco una persona fisica, dati relativi alla salute o alla vita sessuale o all'orientamento sessuale della persona.\n\n2.\nIl paragrafo 1 non si applica se si verifica uno dei seguenti casi:\n\na)  l'interessato ha prestato il proprio consenso esplicito al trattamento di tali dati personali per una o più finalità\n\nspecifiche, salvo nei casi in cui il diritto dell'Unione o degli Stati membri dispone che l'interessato non possa revocare \nil divieto di cui al paragrafo 1;\n\nb) il trattamento è necessario per assolvere gli obblighi ed esercitare i diritti specifici del titolare del trattamento o dell'in­\n\nteressato in materia di diritto del lavoro e della sicurezza sociale e protezione sociale, nella misura in cui sia \nautorizzato dal diritto dell'Unione o degli Stati membri o da un contratto collettivo ai sensi del diritto degli Stati \nmembri, in presenza di garanzie appropriate per i diritti fondamentali e gli interessi dell'interessato;\n\nc) il trattamento è necessario per tutelare un interesse vitale dell'interessato o di un'altra persona fisica qualora l'inte­\n\nressato si trovi nell'incapacità fisica o giuridica di prestare il proprio consenso;\n\nd)  il trattamento è effettuato, nell'ambito delle sue legittime attività e con adeguate garanzie, da una fondazione,\n\nassociazione o altro organismo senza scopo di lucro che persegua finalità politiche, filosofiche, religiose o sindacali, a \ncondizione che il trattamento riguardi unicamente i membri, gli ex membri o le persone che hanno regolari contatti \ncon la fondazione, l'associazione o l'organismo a motivo delle sue finalità e che i dati personali non siano comunicati \nall'esterno senza il consenso dell'interessato;\n\ne)  il trattamento riguarda dati personali resi manifestamente pubblici dall'interessato;\n\nf)  il trattamento è necessario per accertare, esercitare o difendere un diritto in sede giudiziaria o ogniqualvolta le\n\nautorità giurisdizionali esercitino le loro funzioni giurisdizionali;\n\ng)  il trattamento è necessario per motivi di interesse pubblico rilevante sulla base del diritto dell'Unione o degli Stati\n\nmembri, che deve essere proporzionato alla finalità perseguita, rispettare l'essenza del diritto alla protezione dei dati e \nprevedere misure appropriate e specifiche per tutelare i diritti fondamentali e gli interessi dell'interessato;\n\nh)  il trattamento è necessario per finalità di medicina preventiva o di medicina del lavoro, valutazione della capacità\n\nlavorativa del dipendente, diagnosi, assistenza o terapia sanitaria o sociale ovvero gestione dei sistemi e servizi \nsanitari o sociali sulla base del diritto dell'Unione o degli Stati membri o conformemente al contratto con un profes­\nsionista della sanità, fatte salve le condizioni e le garanzie di cui al paragrafo 3;\n\ni)  il trattamento è necessario per motivi di interesse pubblico nel settore della sanità pubblica, quali la protezione da\n\ngravi minacce per la salute a carattere transfrontaliero o la garanzia di parametri elevati di qualità e sicurezza dell'assi­\nstenza sanitaria e dei medicinali e dei dispositivi medici, sulla base del diritto dell'Unione o degli Stati membri che \nprevede misure appropriate e specifiche per tutelare i diritti e le libertà dell'interessato, in particolare il segreto profes­\nsionale;\n\nj)  il trattamento è necessario a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini\n\nstatistici in conformità dell'articolo 89, paragrafo 1, sulla base del diritto dell'Unione o nazionale, che è proporzionato \nalla finalità perseguita, rispetta l'essenza del diritto alla protezione dei dati e prevede misure appropriate e specifiche \nper tutelare i diritti fondamentali e gli interessi dell'interessato.\n\n3.\nI dati personali di cui al paragrafo 1 possono essere trattati per le finalità di cui al paragrafo 2, lettera h), se tali \ndati sono trattati da o sotto la responsabilità di un professionista soggetto al segreto professionale conformemente al \ndiritto dell'Unione o degli Stati membri o alle norme stabilite dagli organismi nazionali competenti o da altra persona \nanch'essa soggetta all'obbligo di segretezza conformemente al diritto dell'Unione o degli Stati membri o alle norme \nstabilite dagli organismi nazionali competenti.\n\n4.\nGli Stati membri possono mantenere o introdurre ulteriori condizioni, comprese limitazioni, con riguardo al \ntrattamento di dati genetici, dati biometrici o dati relativi alla salute.",
+     "tier": "internal_only",
+     "title": "Trattamento di categorie particolari di dati personali",
+     "tokens": 1590,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 206449,
+       "char_start": 205870,
+       "page": 39,
+       "page_end": 39
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Articolo 10",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "10",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:37",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "page_end": 39,
+     "page_start": 39,
+     "path": "CAPO II > Articolo 10",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:10",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 10\n\nTrattamento dei dati personali relativi a condanne penali e reati\n\nIl trattamento dei dati personali relativi alle condanne penali e ai reati o a connesse misure di sicurezza sulla base dell'ar­\nticolo 6, paragrafo 1, deve avvenire soltanto sotto il controllo dell'autorità pubblica o se il trattamento è autorizzato dal \ndiritto dell'Unione o degli Stati membri che preveda garanzie appropriate per i diritti e le libertà degli interessati. Un \neventuale registro completo delle condanne penali deve essere tenuto soltanto sotto il controllo dell'autorità pubblica.",
+     "tier": "internal_only",
+     "title": "Trattamento dei dati personali relativi a condanne penali e reati",
+     "tokens": 193,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 263869,
+       "char_start": 261871,
+       "page": 54,
+       "page_end": 54
+      },
+      {
+       "char_end": 264753,
+       "char_start": 263933,
+       "page": 55,
+       "page_end": 55
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Articolo 36",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "36",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:39"
+     ],
+     "page_end": 55,
+     "page_start": 54,
+     "path": "CAPO IV > Sezione 3 > Articolo 36",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:36",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 36\n\nConsultazione preventiva\n\n1.\nIl titolare del trattamento, prima di procedere al trattamento, consulta l'autorità di controllo qualora la valutazione \nd'impatto sulla protezione dei dati a norma dell'articolo 35 indichi che il trattamento presenterebbe un rischio elevato in \nassenza di misure adottate dal titolare del trattamento per attenuare il rischio.\n\n2.\nSe ritiene che il trattamento previsto di cui al paragrafo 1 violi il presente regolamento, in particolare qualora il \ntitolare del trattamento non abbia identificato o attenuato sufficientemente il rischio, l'autorità di controllo fornisce, \nentro un termine di otto settimane dal ricevimento della richiesta di consultazione, un parere scritto al titolare del \ntrattamento e, ove applicabile, al responsabile del trattamento e può avvalersi dei poteri di cui all'articolo 58. Tale \nperiodo può essere prorogato di sei settimane, tenendo conto della complessità del trattamento previsto. L'autorità di \ncontrollo informa il titolare del trattamento e, ove applicabile, il responsabile del trattamento di tale proroga, unitamente \nai motivi del ritardo, entro un mese dal ricevimento della richiesta di consultazione. La decorrenza dei termini può \nessere sospesa fino all'ottenimento da parte dell'autorità di controllo delle informazioni richieste ai fini della consul­\ntazione.\n\n3.\nAl momento di consultare l'autorità di controllo ai sensi del paragrafo 1, il titolare del trattamento comunica \nall'autorità di controllo:\n\na)  ove applicabile, le rispettive responsabilità del titolare del trattamento, dei contitolari del trattamento e dei\n\nresponsabili del trattamento, in particolare relativamente al trattamento nell'ambito di un gruppo imprenditoriale;\n\nb)  le finalità e i mezzi del trattamento previsto;\n\nc)  le misure e le garanzie previste per proteggere i diritti e le libertà degli interessati a norma del presente regolamento;\n\nd)  ove applicabile, i dati di contatto del titolare della protezione dei dati;\n\ne)  la valutazione d'impatto sulla protezione dei dati di cui all'articolo 35;\n\nf)  ogni altra informazione richiesta dall'autorità di controllo.\n\n4.\nGli Stati membri consultano l'autorità di controllo durante l'elaborazione di una proposta di atto legislativo che \ndeve essere adottato dai parlamenti nazionali o di misura regolamentare basata su detto atto legislativo relativamente al \ntrattamento.\n\n5.\nNonostante il paragrafo 1, il diritto degli Stati membri può prescrivere che i titolari del trattamento consultino \nl'autorità di controllo, e ne ottengano l'autorizzazione preliminare, in relazione al trattamento da parte di un titolare del \ntrattamento per l'esecuzione, da parte di questi, di un compito di interesse pubblico, tra cui il trattamento con riguardo \nalla protezione sociale e alla sanità pubblica.",
+     "tier": "internal_only",
+     "title": "Consultazione preventiva",
+     "tokens": 940,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 350771,
+       "char_start": 349572,
+       "page": 76,
+       "page_end": 76
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Articolo 68",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "68",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "page_end": 76,
+     "page_start": 76,
+     "path": "CAPO VII > Sezione 3 > Articolo 68",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:68",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 68\n\nComitato europeo per la protezione dei dati\n\n1.\nIl comitato europeo per la protezione dei dati («comitato») è istituito quale organismo dell'Unione ed è dotato di \npersonalità giuridica.\n\n2.\nIl comitato è rappresentato dal suo presidente.\n\n3.\nIl comitato è composto dalla figura di vertice di un'autorità di controllo per ciascuno Stato membro e dal garante \neuropeo della protezione dei dati, o dai rispettivi rappresentanti.\n\n4.\nQualora, in uno Stato membro, più autorità di controllo siano incaricate di sorvegliare l'applicazione delle \ndisposizioni del presente regolamento, è designato un rappresentante comune conformemente al diritto di tale Stato \nmembro.\n\n5.\nLa Commissione ha il diritto di partecipare alle attività e alle riunioni del comitato senza diritto di voto. La \nCommissione designa un rappresentante. Il presidente del comitato comunica alla Commissione le attività del comitato.\n\n6.\nNei casi di cui all'articolo 65, il garante europeo della protezione dei dati ha diritto di voto solo per decisioni che \nriguardano principi e norme applicabili a istituzioni, organi, uffici e agenzie dell'Unione che corrispondono nella \nsostanza a quelli del presente regolamento.",
+     "tier": "internal_only",
+     "title": "Comitato europeo per la protezione dei dati",
+     "tokens": 400,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 7337,
+       "char_start": 4205,
+       "page": 2,
+       "page_end": 2
+      },
+      {
+       "char_end": 7557,
+       "char_start": 7396,
+       "page": 3,
+       "page_end": 3
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Art. 2-ter",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-ter",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167-bis"
+     ],
+     "page_end": 3,
+     "page_start": 2,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-ter",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-ter",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-ter\n\n(Base giuridica per il trattamento di dati personali effettuato per l'esecuzione di un compito di interesse\npubblico o connesso all'esercizio di pubblici poteri)\n\n1. La base giuridica prevista dall'articolo 6, paragrafo 3, lettera b), del regolamento è costituita ((...)) da una\nnorma di legge o ((...)) di regolamento ((o da atti amministrativi generali)). ((49))\n\n((1-bis. Fermo restando ogni altro obbligo previsto dal Regolamento e dal presente codice, il trattamento dei\ndati personali da parte di un'amministrazione pubblica di cui all'articolo 1, comma 2, del decreto legislativo 30\nmarzo 2001, n. 165, ivi comprese le autorità indipendenti e le amministrazioni inserite nell'elenco di cui\nall'articolo 1, comma 3, della legge 31 dicembre 2009, n. 196, nonché da parte di una società a controllo\npubblico statale o, limitatamente ai gestori di servizi pubblici, locale, di cui all'articolo 16 del testo unico in\nmateria di società a partecipazione pubblica, di cui al decreto legislativo 19 agosto 2016, n. 175, con\nesclusione, per le società a controllo pubblico, dei trattamenti correlati ad attività svolte in regime di libero\nmercato, è anche consentito se necessario per l'adempimento di un compito svolto nel pubblico interesse o per\nl'esercizio di pubblici poteri ad esse attribuiti. In modo da assicurare che tale esercizio non possa arrecare un\npregiudizio effettivo e concreto alla tutela dei diritti e delle libertà degli interessati, le disposizioni di cui al\npresente comma sono esercitate nel rispetto dell'articolo 6 del Regolamento))\n\n2. La comunicazione fra titolari che effettuano trattamenti di dati personali, diversi da quelli ricompresi nelle\nparticolari categorie di cui all'articolo 9 del Regolamento e di quelli relativi a condanne penali e reati di cui\nall'articolo 10 del Regolamento, per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di\npubblici poteri è ammessa se prevista ai sensi del comma 1 ((o se necessaria ai sensi del comma 1-bis)).\n((PERIODO SOPPRESSO DAL D.L. 8 OTTOBRE 2021, N. 139, CONVERTITO CON MODIFICAZIONI DALLA L. 3\nDICEMBRE 2021, N. 205)).\n\n3. La diffusione e la comunicazione di dati personali, trattati per l'esecuzione di un compito di interesse\npubblico o connesso all'esercizio di pubblici poteri, a soggetti che intendono trattarli per altre finalità sono\nammesse unicamente se previste ai sensi del comma 1 ((o se necessarie ai sensi del comma 1-bis. In tale\nultimo caso, ne viene data notizia al Garante almeno dieci giorni prima dell'inizio della comunicazione o\ndiffusione)).\n\n4. Si intende per:\n\na) \"comunicazione\", il dare conoscenza dei dati personali a uno o più soggetti determinati diversi\ndall'interessato, dal rappresentante del titolare nel territorio dell'Unione europea, dal responsabile o dal suo\nrappresentante nel territorio dell'Unione europea, dalle persone autorizzate, ai sensi dell'articolo\n2-quaterdecies, al trattamento dei dati personali sotto l'autorità diretta del titolare o del responsabile, in\nqualunque forma, anche mediante la loro messa a disposizione, consultazione o mediante interconnessione;\n\nb) \"diffusione\", il dare conoscenza dei dati personali a soggetti indeterminati, in qualunque forma, anche\nmediante la loro messa a disposizione o consultazione.",
+     "tier": "internal_only",
+     "title": "(Base giuridica per il trattamento di dati personali effettuato per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri)",
+     "tokens": 1098,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 11840,
+       "char_start": 10485,
+       "page": 3,
+       "page_end": 3
+      },
+      {
+       "char_end": 16625,
+       "char_start": 11899,
+       "page": 4,
+       "page_end": 4
+      },
+      {
+       "char_end": 18520,
+       "char_start": 16684,
+       "page": 5,
+       "page_end": 5
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Art. 2-sexies",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-sexies",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167-bis"
+     ],
+     "page_end": 5,
+     "page_start": 3,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-sexies",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-sexies",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-sexies\n\n(Trattamento di categorie particolari di dati personali necessario per motivi di interesse pubblico rilevante)\n\n1. I trattamenti delle categorie particolari di dati personali di cui all'articolo 9, paragrafo 1, del Regolamento,\nnecessari per motivi di interesse pubblico rilevante ai sensi del paragrafo 2, lettera g), del medesimo articolo,\nsono ammessi qualora siano previsti dal diritto dell'Unione europea ovvero, nell'ordinamento interno, da\ndisposizioni di legge o di regolamento o da atti amministrativi generali che specifichino i tipi di dati che\npossono essere trattati, le operazioni eseguibili e il motivo di interesse pubblico rilevante, nonché le misure\nappropriate e specifiche per tutelare i diritti fondamentali e gli interessi dell'interessato. (49)\n\n1-bis. I dati personali relativi alla salute, ((pseudonimizzati)) , sono trattati, anche mediante interconnessione,\ndal Ministero della salute, dall'Istituto superiore di sanità (ISS), dall'Agenzia nazionale per i servizi sanitari\nregionali (AGENAS), dall'Agenzia italiana del farmaco (AIFA), dall'Istituto nazionale per la promozione della\nsalute delle popolazioni migranti e per il contrasto delle malattie della povertà (INMP), nonché, relativamente ai\npropri assistiti, dalle regioni e dalle province autonome, nel rispetto delle finalità istituzionali di ciascuno,\n\nsecondo le modalità individuate con decreto del Ministro della salute, adottato ai sensi del comma 1 previo\nparere del Garante per la protezione dei dati personali.\n\n1-ter. Il Ministero della salute disciplina, con uno o più decreti adottati ai sensi del comma 1, l'interconnessione\na livello nazionale dei sistemi informativi su base individuale, ((pseudonomizzati)) , ivi incluso il fascicolo\nsanitario elettronico (FSE), compresi quelli gestiti dai soggetti di cui al comma 1-bis o da altre pubbliche\namministrazioni che a tal fine adeguano i propri sistemi informativi.\n\nI decreti di cui al primo periodo adottati, previo parere del Garante per la protezione dei dati personali, nel\nrispetto del Regolamento, del presente codice, ((del codice)) dell'amministrazione digitale di cui al decreto\nlegislativo 7 marzo 2005, n. 82, e delle linee guida emanate dall'Agenzia per l'Italia digitale in materia di\ninteroperabilità, definiscono le caratteristiche e disciplinano un ambiente di trattamento sicuro all'interno del\nquale vengono messi a disposizione dati anonimi o pseudonimizzati, per le finalità istituzionali di ciascuno,\nsecondo le modalità individuate al comma 1.\n\n2. Fermo quanto previsto dal comma 1, si considera rilevante l'interesse pubblico relativo a trattamenti\neffettuati da soggetti che svolgono compiti di interesse pubblico o connessi all'esercizio di pubblici poteri nelle\nseguenti materie:\n\na) accesso a documenti amministrativi e accesso civico;\n\nb) tenuta degli atti e dei registri dello stato civile, delle anagrafi della popolazione residente in Italia e dei\ncittadini italiani residenti all'estero, e delle liste elettorali, nonché rilascio di documenti di riconoscimento o di\nviaggio o cambiamento delle generalità;\n\nc) tenuta di registri pubblici relativi a beni immobili o mobili;\n\nd) tenuta dell'anagrafe nazionale degli abilitati alla guida e dell'archivio nazionale dei veicoli;\n\ne) cittadinanza, immigrazione, asilo, condizione dello straniero e del profugo, stato di rifugiato;\n\nf) elettorato attivo e passivo ed esercizio di altri diritti politici, protezione diplomatica e consolare, nonché\ndocumentazione delle attività istituzionali di organi pubblici, con particolare riguardo alla redazione di verbali e\nresoconti dell'attività di assemblee rappresentative, commissioni e di altri organi collegiali o assembleari;\n\ng) esercizio del mandato degli organi rappresentativi, ivi compresa la loro sospensione o il loro scioglimento,\nnonché l'accertamento delle cause di ineleggibilità, incompatibilità o di decadenza, ovvero di rimozione o\nsospensione da cariche pubbliche;\n\nh) svolgimento delle funzioni di controllo, indirizzo politico, inchiesta parlamentare o sindacato ispettivo e\nl'accesso a documenti riconosciuto dalla legge e dai regolamenti degli organi interessati per esclusive finalità\ndirettamente connesse all'espletamento di un mandato elettivo;\n\ni) attività dei soggetti pubblici dirette all'applicazione, anche tramite i loro concessionari, delle disposizioni in\nmateria tributaria e doganale, comprese quelle di prevenzione e contrasto all'evasione fiscale;\n\nl) attività di controllo e ispettive;\n\nm) concessione, liquidazione, modifica e revoca di benefici economici, agevolazioni, elargizioni, altri\nemolumenti e abilitazioni;\n\nn) conferimento di onorificenze e ricompense, riconoscimento della personalità giuridica di associazioni,\nfondazioni ed enti, anche di culto, accertamento dei requisiti di onorabilità e di professionalità per le nomine,\nper i profili di competenza del soggetto pubblico, ad uffici anche di culto e a cariche direttive di persone\ngiuridiche, imprese e di istituzioni scolastiche non statali, nonché rilascio e revoca di autorizzazioni o\nabilitazioni, concessione di patrocini, patronati e premi di rappresentanza, adesione a comitati d'onore e\nammissione a cerimonie ed incontri istituzionali;\n\no) rapporti tra i soggetti pubblici e gli enti del terzo settore;\n\np) obiezione di coscienza;\n\nq) attività sanzionatorie e di tutela in sede amministrativa o giudiziaria;\n\nr) rapporti istituzionali con enti di culto, confessioni religiose e comunità religiose;\n\ns) attività socio-assistenziali a tutela dei minori e soggetti bisognosi, non autosufficienti e incapaci;\n\nt) attività amministrative e certificatorie correlate a quelle di diagnosi, assistenza o terapia sanitaria o sociale,\nivi incluse quelle correlate ai trapianti d'organo e di tessuti nonché alle trasfusioni di sangue umano;\n\nu) compiti del servizio sanitario nazionale e dei soggetti operanti in ambito sanitario, nonché compiti di igiene e\nsicurezza sui luoghi di lavoro e sicurezza e salute della popolazione, protezione civile, salvaguardia della vita e\nincolumità fisica;\n\nv) programmazione, gestione, controllo e valutazione dell'assistenza sanitaria, ivi incluse l'instaurazione, la\ngestione, la pianificazione e il controllo dei rapporti tra l'amministrazione ed i soggetti accreditati o\nconvenzionati con il servizio sanitario nazionale;\n\nz) vigilanza sulle sperimentazioni, farmacovigilanza, autorizzazione all'immissione in commercio e\nall'importazione di medicinali e di altri prodotti di rilevanza sanitaria;\n\naa) tutela sociale della maternità ed interruzione volontaria della gravidanza, dipendenze, assistenza,\nintegrazione sociale e diritti dei disabili;\n\nbb) istruzione e formazione in ambito scolastico, professionale, superiore o universitario;\n\ncc) trattamenti effettuati a fini di archiviazione nel pubblico interesse o di ricerca storica, concernenti la\nconservazione, l'ordinamento e la comunicazione dei documenti detenuti negli archivi di Stato negli archivi\nstorici degli enti pubblici, o in archivi privati dichiarati di interesse storico particolarmente importante, per fini\ndi ricerca scientifica, nonché per fini statistici da parte di soggetti che fanno parte del sistema statistico\nnazionale (Sistan);\n\ndd) instaurazione, gestione ed estinzione, di rapporti di lavoro di qualunque tipo, anche non retribuito o\nonorario, e di altre forme di impiego, materia sindacale, occupazione e collocamento obbligatorio, previdenza e\nassistenza, tutela delle minoranze e pari opportunità nell'ambito dei rapporti di lavoro, adempimento degli\nobblighi retributivi, fiscali e contabili, igiene e sicurezza del lavoro o di sicurezza o salute della popolazione,\naccertamento della responsabilità civile, disciplinare e contabile, attività ispettiva.\n\n3. Per i dati genetici, biometrici e relativi alla salute il trattamento avviene comunque nel rispetto di quanto\nprevisto dall'articolo 2-septies.",
+     "tier": "internal_only",
+     "title": "(Trattamento di categorie particolari di dati personali necessario per motivi di interesse pubblico rilevante)",
+     "tokens": 2639,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "37",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "38",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "39",
+      "point": null
+     }
+    ],
+    "queries": [
+     "designazione del responsabile della protezione dei dati",
+     "responsabile della protezione dei dati obbligo di designazione",
+     "titolare del trattamento e responsabile del trattamento designano responsabile della protezione dei dati",
+     "attività principali trattamento su larga scala monitoraggio regolare e sistematico degli interessati",
+     "categorie particolari di dati personali o dati relativi a condanne penali su larga scala",
+     "designazione di un unico responsabile della protezione dei dati per un gruppo imprenditoriale"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 9935,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v5",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8mH3K4LygLvyYSUtSTe"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "Le prove non contengono le norme di diritto dell'Unione o nazionale che possano imporre la designazione in altri casi, cui l'art. 37, par. 4 rinvia.",
+   "Gli articoli 9 e 10 sono richiamati dall'art. 37 per definire le categorie di dati; la loro portata non è sviluppata qui oltre i testi forniti."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "2 further candidate provisions were left out by the evidence limits (max_items).",
+   "As-of date 2026-11-17: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later."
+  ],
+  "question": "Quando un'azienda deve designare un responsabile della protezione dei dati (DPO)?",
+  "question_references": [],
+  "rejected_claims": [],
+  "summary": null,
+  "summary_claim_ids": [],
+  "unanswered_issues": [
+   {
+    "issue_id": "I1",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   }
+  ],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8mHpqFjR1zsXVj4o94C"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode",
+   "model_note_removed: unsupported reference articolo 35 (it-dlgs-2003-196), articolo 47 (it-dlgs-2003-196)",
+   "summary_not_shown: it cites [6], which is not a supported claim of the answer"
+  ]
+ },
+ "split": "test",
+ "usage": {
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": 0.053016,
+  "input_tokens": 17178,
+  "output_tokens": 1866
+ }
+}

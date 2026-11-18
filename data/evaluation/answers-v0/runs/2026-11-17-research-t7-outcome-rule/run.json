@@ -1,0 +1,63 @@
+{
+ "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+ "code": {
+  "changed_paths": [
+   " M README.md",
+   " M src/answer_benchmark_run.py",
+   " M src/answer_generation.py",
+   " M tests/test_answer_generation.py",
+   " M tests/test_research_mode.py",
+   " M tests/test_support_verification.py",
+   "?? docs/PROJECT_OVERVIEW.md",
+   "?? docs/evaluation/answers-v0-review-sheet.md",
+   "?? docs/reviews/m1-review-record-2026-11-09.md"
+  ],
+  "commit": "f0283e899eabf62c122f5f49747919963ed1c279",
+  "fingerprint": "258f447f43abab687ec56edf6a74fb3b40aa2aeecd92ef7635f02d1721ad0936",
+  "state": "dirty"
+ },
+ "invocations": [
+  {
+   "at": "2026-11-17T12:32:59+01:00",
+   "code": {
+    "changed_paths": [
+     " M README.md",
+     " M src/answer_benchmark_run.py",
+     " M src/answer_generation.py",
+     " M tests/test_answer_generation.py",
+     " M tests/test_research_mode.py",
+     " M tests/test_support_verification.py",
+     "?? docs/PROJECT_OVERVIEW.md",
+     "?? docs/evaluation/answers-v0-review-sheet.md",
+     "?? docs/reviews/m1-review-record-2026-11-09.md"
+    ],
+    "commit": "f0283e899eabf62c122f5f49747919963ed1c279",
+    "fingerprint": "258f447f43abab687ec56edf6a74fb3b40aa2aeecd92ef7635f02d1721ad0936",
+    "state": "dirty"
+   },
+   "splits": [
+    "dev",
+    "test"
+   ]
+  }
+ ],
+ "kind": "answers-v0-run",
+ "mode": "research",
+ "model": "claude-sonnet-5-5",
+ "offline": true,
+ "prompt_versions": {
+  "answer_generation": "answer-generation-v3",
+  "claim_verification": "claim-verification-v2",
+  "query_analysis": "query-analysis-v3"
+ },
+ "provider": "anthropic",
+ "replay_of": "2026-11-17-research-t7-prompt",
+ "run_id": "2026-11-17-research-t7-outcome-rule",
+ "schema": 1,
+ "settings": {
+  "context_token_budget": 12000,
+  "final_evidence_count": 12,
+  "max_generation_retries": 1,
+  "semantic_verification": true
+ }
+}

@@ -147,6 +147,7 @@ def test_verification_statuses_match_spec():
         "PARTIALLY_SUPPORTED",
         "UNSUPPORTED",
         "CONTRADICTED",
+        "UNCERTAIN",  # M2 support verification: insufficient or contradictory evidence
     }
 
 

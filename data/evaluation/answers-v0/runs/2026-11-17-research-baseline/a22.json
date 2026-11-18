@@ -1,0 +1,1349 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Chi può proporre un reclamo al Garante per la protezione dei dati personali e in quali casi (diritto di proporre reclamo a un'autorità di controllo)?"
+     },
+     {
+      "question": "Quali sono la forma e il contenuto richiesti per presentare un reclamo al Garante e quali modalità di presentazione sono previste?"
+     },
+     {
+      "question": "Quali disposizioni del Codice privacy disciplinano il reclamo al Garante e la relativa procedura (istruttoria, esame, decisione)?"
+     },
+     {
+      "question": "Quali sono i termini e le tempistiche del procedimento di reclamo e le informazioni da fornire al reclamante sull'esito?"
+     },
+     {
+      "question": "Quali sono le differenze tra il reclamo, la segnalazione e il ricorso all'autorità giudiziaria, e quali tutele giurisdizionali sono previste contro le decisioni del Garante?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda la procedura di reclamo al Garante per la protezione dei dati personali e le relative previsioni del Codice privacy, materia di protezione dei dati personali.",
+    "search_queries_it": [
+     "reclamo al Garante per la protezione dei dati personali",
+     "proposizione del reclamo contenuto e forma",
+     "diritto di proporre reclamo a un'autorità di controllo",
+     "procedimento per l'esame dei reclami",
+     "segnalazione al Garante",
+     "ricorso giurisdizionale contro il Garante",
+     "decisione del reclamo termine interessato"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "77",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "diritto di proporre reclamo a un'autorità di controllo"
+     },
+     {
+      "article": "78",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "ricorso giurisdizionale contro l'autorità di controllo"
+     },
+     {
+      "article": "140-bis",
+      "instrument": "it-dlgs-2003-196",
+      "point": null,
+      "reason": "forme di tutela, reclamo e ricorso"
+     },
+     {
+      "article": "141",
+      "instrument": "it-dlgs-2003-196",
+      "point": null,
+      "reason": "reclamo al Garante"
+     },
+     {
+      "article": "142",
+      "instrument": "it-dlgs-2003-196",
+      "point": null,
+      "reason": "proposizione del reclamo"
+     },
+     {
+      "article": "143",
+      "instrument": "it-dlgs-2003-196",
+      "point": null,
+      "reason": "procedimento relativo al reclamo"
+     },
+     {
+      "article": "144",
+      "instrument": "it-dlgs-2003-196",
+      "point": null,
+      "reason": "segnalazioni"
+     }
+    ],
+    "uncertainty": "Non è chiaro se l'utente voglia solo la procedura pratica di presentazione o anche un quadro generale delle norme del Codice; non è specificato il tipo di violazione lamentata. Le modalità operative (moduli, canali telematici) possono dipendere da provvedimenti del Garante non presenti nel corpus. La trascrizione del Codice non è verificata su un testo ufficiale."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8McKUtnVEY5Cf3iAWT6"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "17219fe03011e7159b2a472f9d86f7a9948642681a4bd4e5df7eb66d5e13aa2d",
+   "task": "query_analysis",
+   "user_sha256": "4fa6b83cfe3a83ef9d64bbb82ec62a7a53fae5b8b103fd69a94809582800eec0"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "l'interessato che ritenga che il trattamento che lo riguarda violi il presente regolamento ha il diritto di proporre reclamo a un'autorità di controllo"
+       }
+      ],
+      "text": "L'interessato che ritenga che il trattamento che lo riguarda violi il GDPR ha il diritto di proporre reclamo a un'autorità di controllo, in particolare nello Stato membro in cui risiede abitualmente, lavora o dove si è verificata la presunta violazione."
+     },
+     {
+      "issue_ids": [
+       "I1",
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E4",
+        "quote": "L'interessato può rivolgersi al Garante mediante reclamo ai sensi dell'articolo 77 del Regolamento."
+       }
+      ],
+      "text": "Il Codice privacy prevede che l'interessato possa rivolgersi al Garante mediante reclamo ai sensi dell'articolo 77 del Regolamento."
+     },
+     {
+      "issue_ids": [
+       "I1",
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "l'interessato può proporre reclamo al Garante o ricorso dinanzi all'autorità giudiziaria."
+       }
+      ],
+      "text": "Se ritiene violati i propri diritti in materia di protezione dei dati personali, l'interessato può proporre reclamo al Garante oppure ricorso dinanzi all'autorità giudiziaria."
+     },
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E5",
+        "quote": "Il reclamo contiene un'indicazione per quanto possibile dettagliata dei fatti e delle circostanze su cui si fonda, delle disposizioni che si presumono violate e delle misure richieste"
+       }
+      ],
+      "text": "Il reclamo deve contenere un'indicazione, per quanto possibile dettagliata, dei fatti e delle circostanze, delle disposizioni che si presumono violate e delle misure richieste, nonché gli estremi identificativi del titolare o del responsabile, se conosciuto."
+     },
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E5",
+        "quote": "Il reclamo è sottoscritto dall'interessato o, su mandato di questo, da un ente del terzo settore"
+       }
+      ],
+      "text": "Il reclamo è sottoscritto dall'interessato o, su suo mandato, da un ente del terzo settore attivo nella tutela dei diritti e delle libertà degli interessati in materia di protezione dei dati personali."
+     },
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E5",
+        "quote": "Il reclamo reca in allegato la documentazione utile ai fini della sua valutazione e l'eventuale mandato"
+       }
+      ],
+      "text": "Al reclamo si allegano la documentazione utile e l'eventuale mandato, e si indica un recapito per le comunicazioni, anche tramite posta elettronica, telefax o telefono."
+     },
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E5",
+        "quote": "Il Garante predispone un modello per il reclamo, da pubblicare nel proprio sito istituzionale"
+       }
+      ],
+      "text": "Il Garante predispone un modello per il reclamo, pubblicato nel proprio sito istituzionale, di cui favorisce la disponibilità con strumenti elettronici."
+     },
+     {
+      "issue_ids": [
+       "I3",
+       "I4"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E5",
+        "quote": "Il Garante disciplina con proprio regolamento il procedimento relativo all'esame dei reclami"
+       }
+      ],
+      "text": "Il Garante disciplina con proprio regolamento il procedimento di esame dei reclami, nonché modalità semplificate e termini abbreviati per i reclami relativi alla violazione degli articoli da 15 a 22 del Regolamento."
+     },
+     {
+      "issue_ids": [
+       "I4"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "informa il reclamante dello stato o dell'esito del reclamo, compresa la possibilità di un ricorso giurisdizionale ai sensi dell'articolo 78"
+       }
+      ],
+      "text": "L'autorità di controllo informa il reclamante dello stato o dell'esito del reclamo, compresa la possibilità di un ricorso giurisdizionale."
+     },
+     {
+      "issue_ids": [
+       "I4",
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "non tratti un reclamo o non lo informi entro tre mesi dello stato o dell'esito del reclamo proposto ai sensi dell'articolo 77"
+       }
+      ],
+      "text": "L'interessato ha diritto a un ricorso giurisdizionale effettivo se l'autorità competente non tratta il reclamo o non lo informa entro tre mesi dello stato o dell'esito."
+     },
+     {
+      "issue_ids": [
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "Il reclamo al Garante non può essere proposto se, per il medesimo oggetto e tra le stesse parti, è stata già adita l'autorità giudiziaria."
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "La presentazione del reclamo al Garante rende improponibile un'ulteriore domanda dinanzi all'autorità giudiziaria"
+       }
+      ],
+      "text": "Il reclamo al Garante non può essere proposto se per lo stesso oggetto e tra le stesse parti è già stata adita l'autorità giudiziaria; la presentazione del reclamo rende improponibile una successiva domanda giudiziaria, salvo quanto previsto dall'articolo 10, comma 4, del d.lgs. 150/2011."
+     },
+     {
+      "issue_ids": [
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "ogni persona fisica o giuridica ha il diritto di proporre un ricorso giurisdizionale effettivo avverso una decisione giuridicamente vincolante dell'autorità di controllo che la riguarda"
+       },
+       {
+        "evidence_id": "E2",
+        "quote": "Le azioni nei confronti dell'autorità di controllo sono promosse dinanzi alle autorità giurisdizionali dello Stato membro in cui l'autorità di controllo è stabilita."
+       }
+      ],
+      "text": "Ogni persona fisica o giuridica ha diritto a un ricorso giurisdizionale effettivo contro una decisione giuridicamente vincolante dell'autorità di controllo che la riguarda, dinanzi ai giudici dello Stato membro in cui l'autorità è stabilita."
+     }
+    ],
+    "limitations": [
+     "Il testo del Codice privacy è una trascrizione non ufficiale, non verificata, di validità giuridica non accertata.",
+     "L'art. 141 appare incompleto (segno «...» dopo il comma 1).",
+     "Il regolamento del Garante e il modello di reclamo non sono nel corpus."
+    ],
+    "outcome": "answer_limited",
+    "unanswered_issues": [
+     {
+      "issue_id": "I2",
+      "reason": "Le prove non indicano i canali di presentazione concreti (es. posta, PEC, procedura telematica), ma solo il modello pubblicato sul sito."
+     },
+     {
+      "issue_id": "I3",
+      "reason": "Le prove non contengono le norme sull'istruttoria e sulla decisione; l'art. 141 è riportato con omissioni e il procedimento è rinviato al regolamento del Garante."
+     },
+     {
+      "issue_id": "I4",
+      "reason": "Non sono indicati i termini del procedimento davanti al Garante, rimessi al suo regolamento; è presente solo il termine di tre mesi per il ricorso giurisdizionale."
+     },
+     {
+      "issue_id": "I5",
+      "reason": "Non è presente la disciplina di segnalazione e le prove non descrivono il rito del ricorso contro le decisioni del Garante nel Codice; l'art. 10 d.lgs. 150/2011 è solo richiamato."
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8McpwhAUq21jazXtpKk"
+   ],
+   "schema_sha256": "958b2be51ffa530f9267f985c758125ecff38d8bcb558d93f182bc5ea60defee",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "a4316fff0471471b36fb2ed20f090ba325500d3fcfb1723ee2160e9ab5a95f80",
+   "task": "answer_generation",
+   "user_sha256": "7a0d7cd528b5229a3f01ea8d94b030cfc51acb0eb36d8fc2c6063b0d0e11a76d"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C8",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C9",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C10",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C11",
+      "support": "partially_supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8MdtCB4CZxMY67TXZmS"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "e125d66867796bf590fbc60aea974405ca557abd3b818c1c8243652db157f309",
+   "task": "claim_verification",
+   "user_sha256": "7db2ed2f0ef6f6ca55b917f8322bfd8a43da0f2c13ecbbee22745273579cc8ff"
+  }
+ ],
+ "query_id": "a22",
+ "question": "Come si presenta un reclamo al Garante e cosa prevede il Codice privacy?",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Chi può proporre un reclamo al Garante per la protezione dei dati personali e in quali casi (diritto di proporre reclamo a un'autorità di controllo)?"
+    },
+    {
+     "id": "I2",
+     "question": "Quali sono la forma e il contenuto richiesti per presentare un reclamo al Garante e quali modalità di presentazione sono previste?"
+    },
+    {
+     "id": "I3",
+     "question": "Quali disposizioni del Codice privacy disciplinano il reclamo al Garante e la relativa procedura (istruttoria, esame, decisione)?"
+    },
+    {
+     "id": "I4",
+     "question": "Quali sono i termini e le tempistiche del procedimento di reclamo e le informazioni da fornire al reclamante sull'esito?"
+    },
+    {
+     "id": "I5",
+     "question": "Quali sono le differenze tra il reclamo, la segnalazione e il ricorso all'autorità giudiziaria, e quali tutele giurisdizionali sono previste contro le decisioni del Garante?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v2",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8McKUtnVEY5Cf3iAWT6"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Come si presenta un reclamo al Garante e cosa prevede il Codice privacy?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda la procedura di reclamo al Garante per la protezione dei dati personali e le relative previsioni del Codice privacy, materia di protezione dei dati personali.",
+   "search_queries_it": [
+    "reclamo al Garante per la protezione dei dati personali",
+    "proposizione del reclamo contenuto e forma",
+    "diritto di proporre reclamo a un'autorità di controllo",
+    "procedimento per l'esame dei reclami",
+    "segnalazione al Garante",
+    "ricorso giurisdizionale contro il Garante",
+    "decisione del reclamo termine interessato"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "77",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "diritto di proporre reclamo a un'autorità di controllo"
+    },
+    {
+     "article": "78",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "ricorso giurisdizionale contro l'autorità di controllo"
+    },
+    {
+     "article": "140-bis",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "forme di tutela, reclamo e ricorso"
+    },
+    {
+     "article": "141",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "reclamo al Garante"
+    },
+    {
+     "article": "142",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "proposizione del reclamo"
+    },
+    {
+     "article": "143",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "procedimento relativo al reclamo"
+    },
+    {
+     "article": "144",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "segnalazioni"
+    }
+   ],
+   "uncertainty": "Non è chiaro se l'utente voglia solo la procedura pratica di presentazione o anche un quadro generale delle norme del Codice; non è specificato il tipo di violazione lamentata. Le modalità operative (moduli, canali telematici) possono dipendere da provvedimenti del Garante non presenti nel corpus. La trascrizione del Codice non è verificata su un testo ufficiale."
+  },
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 77",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "77",
+    "legal_validity": "not_established",
+    "page_end": 80,
+    "page_start": 80,
+    "path": "CAPO VIII > Articolo 77",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:77",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Diritto di proporre reclamo all'autorità di controllo",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 78",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "78",
+    "legal_validity": "not_established",
+    "page_end": 80,
+    "page_start": 80,
+    "path": "CAPO VIII > Articolo 78",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:78",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Diritto a un ricorso giurisdizionale effettivo nei confronti dell'autorità di controllo",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Art. 140-bis",
+    "instrument_id": "it-dlgs-2003-196",
+    "label": "140-bis",
+    "legal_validity": "not_established",
+    "page_end": 38,
+    "page_start": 38,
+    "path": "PARTE III > TITOLO I > CAPO 0.I > Art. 140-bis",
+    "point": null,
+    "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:140-bis",
+    "qualifications": [
+     "unofficial_transcription",
+     "reference_date_unverified",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "(( (Forme alternative di tutela) ))",
+    "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E4",
+    "heading": "Art. 141",
+    "instrument_id": "it-dlgs-2003-196",
+    "label": "141",
+    "legal_validity": "not_established",
+    "page_end": 38,
+    "page_start": 38,
+    "path": "PARTE III > TITOLO I > CAPO I > Art. 141",
+    "point": null,
+    "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:141",
+    "qualifications": [
+     "unofficial_transcription",
+     "reference_date_unverified",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "(( (Reclamo al Garante) ))",
+    "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E5",
+    "heading": "Art. 142",
+    "instrument_id": "it-dlgs-2003-196",
+    "label": "142",
+    "legal_validity": "not_established",
+    "page_end": 39,
+    "page_start": 38,
+    "path": "PARTE III > TITOLO I > CAPO I > Art. 142",
+    "point": null,
+    "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:142",
+    "qualifications": [
+     "unofficial_transcription",
+     "reference_date_unverified",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "(( (Proposizione del reclamo) ))",
+    "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "l'interessato che ritenga che il trattamento che lo riguarda violi il presente regolamento ha il diritto di proporre reclamo a un'autorità di controllo"
+     }
+    ],
+    "text": "L'interessato che ritenga che il trattamento che lo riguarda violi il GDPR ha il diritto di proporre reclamo a un'autorità di controllo, in particolare nello Stato membro in cui risiede abitualmente, lavora o dove si è verificata la presunta violazione.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E4"
+    ],
+    "issue_ids": [
+     "I1",
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E4",
+      "text": "L'interessato può rivolgersi al Garante mediante reclamo ai sensi dell'articolo 77 del Regolamento."
+     }
+    ],
+    "text": "Il Codice privacy prevede che l'interessato possa rivolgersi al Garante mediante reclamo ai sensi dell'articolo 77 del Regolamento.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I1",
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "l'interessato può proporre reclamo al Garante o ricorso dinanzi all'autorità giudiziaria."
+     }
+    ],
+    "text": "Se ritiene violati i propri diritti in materia di protezione dei dati personali, l'interessato può proporre reclamo al Garante oppure ricorso dinanzi all'autorità giudiziaria.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E5"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E5",
+      "text": "Il reclamo contiene un'indicazione per quanto possibile dettagliata dei fatti e delle circostanze su cui si fonda, delle disposizioni che si presumono violate e delle misure richieste"
+     }
+    ],
+    "text": "Il reclamo deve contenere un'indicazione, per quanto possibile dettagliata, dei fatti e delle circostanze, delle disposizioni che si presumono violate e delle misure richieste, nonché gli estremi identificativi del titolare o del responsabile, se conosciuto.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E5"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E5",
+      "text": "Il reclamo è sottoscritto dall'interessato o, su mandato di questo, da un ente del terzo settore"
+     }
+    ],
+    "text": "Il reclamo è sottoscritto dall'interessato o, su suo mandato, da un ente del terzo settore attivo nella tutela dei diritti e delle libertà degli interessati in materia di protezione dei dati personali.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E5"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E5",
+      "text": "Il reclamo reca in allegato la documentazione utile ai fini della sua valutazione e l'eventuale mandato"
+     }
+    ],
+    "text": "Al reclamo si allegano la documentazione utile e l'eventuale mandato, e si indica un recapito per le comunicazioni, anche tramite posta elettronica, telefax o telefono.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C7",
+    "evidence_ids": [
+     "E5"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E5",
+      "text": "Il Garante predispone un modello per il reclamo, da pubblicare nel proprio sito istituzionale"
+     }
+    ],
+    "text": "Il Garante predispone un modello per il reclamo, pubblicato nel proprio sito istituzionale, di cui favorisce la disponibilità con strumenti elettronici.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C8",
+    "evidence_ids": [
+     "E5"
+    ],
+    "issue_ids": [
+     "I3",
+     "I4"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E5",
+      "text": "Il Garante disciplina con proprio regolamento il procedimento relativo all'esame dei reclami"
+     }
+    ],
+    "text": "Il Garante disciplina con proprio regolamento il procedimento di esame dei reclami, nonché modalità semplificate e termini abbreviati per i reclami relativi alla violazione degli articoli da 15 a 22 del Regolamento.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C9",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I4"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "informa il reclamante dello stato o dell'esito del reclamo, compresa la possibilità di un ricorso giurisdizionale ai sensi dell'articolo 78"
+     }
+    ],
+    "text": "L'autorità di controllo informa il reclamante dello stato o dell'esito del reclamo, compresa la possibilità di un ricorso giurisdizionale.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C10",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I4",
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "non tratti un reclamo o non lo informi entro tre mesi dello stato o dell'esito del reclamo proposto ai sensi dell'articolo 77"
+     }
+    ],
+    "text": "L'interessato ha diritto a un ricorso giurisdizionale effettivo se l'autorità competente non tratta il reclamo o non lo informa entro tre mesi dello stato o dell'esito.",
+    "verification": "PARTIALLY_SUPPORTED"
+   },
+   {
+    "claim_id": "C11",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "ogni persona fisica o giuridica ha il diritto di proporre un ricorso giurisdizionale effettivo avverso una decisione giuridicamente vincolante dell'autorità di controllo che la riguarda"
+     },
+     {
+      "evidence_id": "E2",
+      "text": "Le azioni nei confronti dell'autorità di controllo sono promosse dinanzi alle autorità giurisdizionali dello Stato membro in cui l'autorità di controllo è stabilita."
+     }
+    ],
+    "text": "Ogni persona fisica o giuridica ha diritto a un ricorso giurisdizionale effettivo contro una decisione giuridicamente vincolante dell'autorità di controllo che la riguarda, dinanzi ai giudici dello Stato membro in cui l'autorità è stabilita.",
+    "verification": "PARTIALLY_SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "143",
+     "origins": [
+      "lookup",
+      "query:7",
+      "query:4"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:143",
+     "reason": "max_items",
+     "tokens": 389
+    },
+    {
+     "label": "144",
+     "origins": [
+      "lookup",
+      "query:5"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:144",
+     "reason": "max_items",
+     "tokens": 105
+    },
+    {
+     "label": "144-bis",
+     "origins": [
+      "query:5"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:144-bis",
+     "reason": "max_items",
+     "tokens": 303
+    },
+    {
+     "label": "65",
+     "origins": [
+      "query:7"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:65",
+     "reason": "max_items",
+     "tokens": 356
+    },
+    {
+     "label": "52",
+     "origins": [
+      "query:2"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:52",
+     "reason": "max_items",
+     "tokens": 259
+    },
+    {
+     "label": "154",
+     "origins": [
+      "query:4"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:154",
+     "reason": "max_items",
+     "tokens": 192
+    },
+    {
+     "label": "60",
+     "origins": [
+      "query:7"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:60",
+     "reason": "max_items",
+     "tokens": 233
+    },
+    {
+     "label": "57",
+     "origins": [
+      "query:2"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:57",
+     "reason": "max_items",
+     "tokens": 340
+    },
+    {
+     "label": "80",
+     "origins": [
+      "query:3"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:80",
+     "reason": "max_items",
+     "tokens": 385
+    },
+    {
+     "label": "166",
+     "origins": [
+      "query:4"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166",
+     "reason": "max_items",
+     "tokens": 362
+    },
+    {
+     "label": "75",
+     "origins": [
+      "query:1"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:75",
+     "reason": "max_items",
+     "tokens": 551
+    },
+    {
+     "label": "79",
+     "origins": [
+      "query:3"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:79",
+     "reason": "max_items",
+     "tokens": 361
+    },
+    {
+     "label": "2-undecies",
+     "origins": [
+      "query:6"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-undecies",
+     "reason": "max_items",
+     "tokens": 153
+    },
+    {
+     "label": "55",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:78"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:55",
+     "reason": "max_items",
+     "tokens": 219
+    },
+    {
+     "label": "56",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:78"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:56",
+     "reason": "max_items",
+     "tokens": 729
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 362696,
+       "char_start": 362073,
+       "page": 80,
+       "page_end": 80
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0430-13ea4bb0"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 77",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "77",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:3",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:78",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:141"
+     ],
+     "page_end": 80,
+     "page_start": 80,
+     "path": "CAPO VIII > Articolo 77",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:77",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 77\n\nDiritto di proporre reclamo all'autorità di controllo\n\n1.\nFatto salvo ogni altro ricorso amministrativo o giurisdizionale, l'interessato che ritenga che il trattamento che lo \nriguarda violi il presente regolamento ha il diritto di proporre reclamo a un'autorità di controllo, segnatamente nello \nStato membro in cui risiede abitualmente, lavora oppure del luogo ove si è verificata la presunta violazione.\n\n2.\nL'autorità di controllo a cui è stato proposto il reclamo informa il reclamante dello stato o dell'esito del reclamo, \ncompresa la possibilità di un ricorso giurisdizionale ai sensi dell'articolo 78.",
+     "tier": "internal_only",
+     "title": "Diritto di proporre reclamo all'autorità di controllo",
+     "tokens": 208,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 363874,
+       "char_start": 362698,
+       "page": 80,
+       "page_end": 80
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0431-7382470d"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 78",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "78",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:3",
+      "query:6",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:77"
+     ],
+     "page_end": 80,
+     "page_start": 80,
+     "path": "CAPO VIII > Articolo 78",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:78",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 78\n\nDiritto a un ricorso giurisdizionale effettivo nei confronti dell'autorità di controllo\n\n1.\nFatto salvo ogni altro ricorso amministrativo o extragiudiziale, ogni persona fisica o giuridica ha il diritto di \nproporre un ricorso giurisdizionale effettivo avverso una decisione giuridicamente vincolante dell'autorità di controllo \nche la riguarda.\n\n2.\nFatto salvo ogni altro ricorso amministrativo o extragiudiziale, ciascun interessato ha il diritto di proporre un \nricorso giurisdizionale effettivo qualora l'autorità di controllo che sia competente ai sensi degli articoli 55 e 56 non tratti \nun reclamo o non lo informi entro tre mesi dello stato o dell'esito del reclamo proposto ai sensi dell'articolo 77.\n\n3.\nLe azioni nei confronti dell'autorità di controllo sono promosse dinanzi alle autorità giurisdizionali dello Stato \nmembro in cui l'autorità di controllo è stabilita.\n\n4.\nQualora siano promosse azioni avverso una decisione di un'autorità di controllo che era stata preceduta da un \nparere o da una decisione del comitato nell'ambito del meccanismo di coerenza, l'autorità di controllo trasmette tale \nparere o decisione all'autorità giurisdizionale.",
+     "tier": "internal_only",
+     "title": "Diritto a un ricorso giurisdizionale effettivo nei confronti dell'autorità di controllo",
+     "tokens": 392,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 136248,
+       "char_start": 135552,
+       "page": 38,
+       "page_end": 38
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0301-0167091c"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Art. 140-bis",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "140-bis",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1"
+     ],
+     "page_end": 38,
+     "page_start": 38,
+     "path": "PARTE III > TITOLO I > CAPO 0.I > Art. 140-bis",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:140-bis",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 140-bis\n\n(( (Forme alternative di tutela) ))\n\n((\n\n.\n\n1. Qualora ritenga che i diritti di cui gode sulla base della normativa in materia di protezione dei dati personali\nsiano stati violati, l'interessato può proporre reclamo al Garante o ricorso dinanzi all'autorità giudiziaria.\n\n2. Il reclamo al Garante non può essere proposto se, per il medesimo oggetto e tra le stesse parti, è stata già\nadita l'autorità giudiziaria.\n\n3. La presentazione del reclamo al Garante rende improponibile un'ulteriore domanda dinanzi all'autorità\ngiudiziaria tra le stesse parti e per il medesimo oggetto, salvo quanto previsto dall'articolo 10, comma 4, del\ndecreto legislativo 1° settembre 2011, n. 150.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Forme alternative di tutela) ))",
+     "tokens": 232,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 136454,
+       "char_start": 136294,
+       "page": 38,
+       "page_end": 38
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0303-0450676c"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Art. 141",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "141",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:5"
+     ],
+     "page_end": 38,
+     "page_start": 38,
+     "path": "PARTE III > TITOLO I > CAPO I > Art. 141",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:141",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 141\n\n(( (Reclamo al Garante) ))\n\n((\n\n.\n\n1. L'interessato può rivolgersi al Garante mediante reclamo ai sensi dell'articolo 77 del Regolamento.\n\n))\n\n((...))",
+     "tier": "internal_only",
+     "title": "(( (Reclamo al Garante) ))",
+     "tokens": 54,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 137476,
+       "char_start": 136456,
+       "page": 38,
+       "page_end": 38
+      },
+      {
+       "char_end": 137796,
+       "char_start": 137536,
+       "page": 39,
+       "page_end": 39
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0305-78858580",
+      "doc-0d264a29f564b4ba-0304-8871ced3"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Art. 142",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "142",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:4",
+      "query:1",
+      "query:2"
+     ],
+     "page_end": 39,
+     "page_start": 38,
+     "path": "PARTE III > TITOLO I > CAPO I > Art. 142",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:142",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 142\n\n(( (Proposizione del reclamo) ))\n\n((\n\n.\n\n1. Il reclamo contiene un'indicazione per quanto possibile dettagliata dei fatti e delle circostanze su cui si\nfonda, delle disposizioni che si presumono violate e delle misure richieste, nonché gli estremi identificativi del\ntitolare o del responsabile del trattamento, ove conosciuto.\n\n2. Il reclamo è sottoscritto dall'interessato o, su mandato di questo, da un ente del terzo settore soggetto alla\ndisciplina del decreto legislativo 3 luglio 2017, n. 117, che sia attivo nel settore della tutela dei diritti e delle\nlibertà degli interessati, con riguardo alla protezione dei dati personali.\n\n3. Il reclamo reca in allegato la documentazione utile ai fini della sua valutazione e l'eventuale mandato, e\nindica un recapito per l'invio di comunicazioni anche tramite posta elettronica, telefax o telefono.\n\n4. Il Garante predispone un modello per il reclamo, da pubblicare nel proprio sito istituzionale, di cui favorisce\nla disponibilità con strumenti elettronici.\n\n5. Il Garante disciplina con proprio regolamento il procedimento relativo all'esame dei reclami, nonché\nmodalità semplificate e termini abbreviati per la trattazione di reclami che abbiano ad oggetto la violazione\ndegli articoli da 15 a 22 del Regolamento.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Proposizione del reclamo) ))",
+     "tokens": 427,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 5,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "77",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "78",
+      "point": null
+     },
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "140-bis",
+      "point": null
+     },
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "141",
+      "point": null
+     },
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "142",
+      "point": null
+     },
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "143",
+      "point": null
+     },
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "144",
+      "point": null
+     }
+    ],
+    "queries": [
+     "reclamo al Garante per la protezione dei dati personali",
+     "proposizione del reclamo contenuto e forma",
+     "diritto di proporre reclamo a un'autorità di controllo",
+     "procedimento per l'esame dei reclami",
+     "segnalazione al Garante",
+     "ricorso giurisdizionale contro il Garante",
+     "decisione del reclamo termine interessato"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 3000,
+   "total_tokens": 1313,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8McpwhAUq21jazXtpKk"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "Il testo del Codice privacy è una trascrizione non ufficiale, non verificata, di validità giuridica non accertata.",
+   "L'art. 141 appare incompleto (segno «...» dopo il comma 1).",
+   "Il regolamento del Garante e il modello di reclamo non sono nel corpus."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "15 further candidate provisions were left out by the evidence limits (max_items)."
+  ],
+  "question": "Come si presenta un reclamo al Garante e cosa prevede il Codice privacy?",
+  "question_references": [],
+  "rejected_claims": [
+   {
+    "issue_ids": [
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "Il reclamo al Garante non può essere proposto se, per il medesimo oggetto e tra le stesse parti, è stata già adita l'autorità giudiziaria."
+     },
+     {
+      "evidence_id": "E3",
+      "text": "La presentazione del reclamo al Garante rende improponibile un'ulteriore domanda dinanzi all'autorità giudiziaria"
+     }
+    ],
+    "reasons": [
+     "unsupported_reference:articolo 10 (d.lgs. 150/2011)",
+     "unsupported_reference:150/2011"
+    ],
+    "text": "Il reclamo al Garante non può essere proposto se per lo stesso oggetto e tra le stesse parti è già stata adita l'autorità giudiziaria; la presentazione del reclamo rende improponibile una successiva domanda giudiziaria, salvo quanto previsto dall'articolo 10, comma 4, del d.lgs. 150/2011."
+   }
+  ],
+  "unanswered_issues": [
+   {
+    "issue_id": "I2",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I3",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I4",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I5",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   }
+  ],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8MdtCB4CZxMY67TXZmS"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "test"
+}

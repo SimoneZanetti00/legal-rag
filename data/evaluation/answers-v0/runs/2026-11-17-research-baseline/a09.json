@@ -1,0 +1,86 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": false,
+    "issues": [],
+    "language": "en",
+    "scope_reason": "The question concerns German company law and the formation of a business, not the protection of personal data under the GDPR or the Italian Privacy Code.",
+    "search_queries_it": [],
+    "suggested_provisions": [],
+    "uncertainty": null
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8MDEPv1iSxpfaHXvsZ8"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "17219fe03011e7159b2a472f9d86f7a9948642681a4bd4e5df7eb66d5e13aa2d",
+   "task": "query_analysis",
+   "user_sha256": "28dd683e292048b85093a5b538cf93bf120331f9f323d4062695dd99c64e3a79"
+  }
+ ],
+ "query_id": "a09",
+ "question": "What are the legal requirements for establishing a company in Germany?",
+ "result": {
+  "abstention_detail": "The query analysis assessed the question as outside the corpus, which covers the GDPR and the Italian Privacy Code.",
+  "abstention_reason": "out_of_scope",
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": false,
+   "issues": [],
+   "language": "en",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v2",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8MDEPv1iSxpfaHXvsZ8"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "What are the legal requirements for establishing a company in Germany?",
+   "rejected_suggestions": [],
+   "scope_reason": "The question concerns German company law and the formation of a business, not the protection of personal data under the GDPR or the Italian Privacy Code.",
+   "search_queries_it": [],
+   "suggested_provisions": [],
+   "uncertainty": null
+  },
+  "citations": [],
+  "claims": [],
+  "evidence": null,
+  "generation": null,
+  "mode": "research",
+  "model_notes": [],
+  "non_authoritative": [],
+  "outcome": "abstain",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date."
+  ],
+  "question": "What are the legal requirements for establishing a company in Germany?",
+  "question_references": [],
+  "rejected_claims": [],
+  "unanswered_issues": [],
+  "verification": null,
+  "warnings": []
+ },
+ "split": "dev"
+}

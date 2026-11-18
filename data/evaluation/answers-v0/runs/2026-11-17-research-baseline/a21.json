@@ -1,0 +1,1005 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Quale obbligo di notifica di una violazione dei dati personali è previsto e a carico di quali soggetti (titolare del trattamento, responsabile del trattamento)?"
+     },
+     {
+      "question": "Quale sanzione amministrativa pecuniaria massima è prevista per la violazione degli obblighi di notifica della violazione dei dati personali e con quale criterio di calcolo (importo fisso o percentuale del fatturato)?"
+     },
+     {
+      "question": "L'obbligo di notificare all'autorità di controllo va tenuto distinto dall'obbligo di comunicare la violazione all'interessato, e le relative sanzioni sono le stesse?"
+     },
+     {
+      "question": "Quali criteri deve considerare l'autorità di controllo nel decidere se applicare la sanzione e nel determinarne l'importo?"
+     },
+     {
+      "question": "Quali disposizioni del Codice in materia di protezione dei dati personali disciplinano l'applicazione delle sanzioni amministrative per queste violazioni?"
+     },
+     {
+      "question": "Oltre alla sanzione pecuniaria, quali altri poteri correttivi può esercitare l'autorità di controllo?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda le sanzioni per la violazione dell'obbligo di notifica di una violazione dei dati personali, materia disciplinata dal GDPR e dal Codice privacy.",
+    "search_queries_it": [
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "comunicazione di una violazione dei dati personali all'interessato",
+     "sanzioni amministrative pecuniarie violazione obblighi del titolare del trattamento e del responsabile del trattamento",
+     "condizioni generali per infliggere sanzioni amministrative pecuniarie",
+     "sanzioni amministrative Garante per la protezione dei dati personali violazione",
+     "poteri correttivi dell'autorità di controllo"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "33",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "obbligo di notifica all'autorità di controllo"
+     },
+     {
+      "article": "34",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "comunicazione all'interessato, da distinguere dalla notifica"
+     },
+     {
+      "article": "83",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "importo massimo e criteri delle sanzioni pecuniarie"
+     },
+     {
+      "article": "84",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "altre sanzioni previste dagli Stati membri"
+     },
+     {
+      "article": "58",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "poteri correttivi dell'autorità di controllo"
+     },
+     {
+      "article": "166",
+      "instrument": "it-dlgs-2003-196",
+      "point": null,
+      "reason": "sanzioni amministrative e procedimento nel Codice"
+     }
+    ],
+    "uncertainty": "La domanda non specifica se si riferisca alla notifica all'autorità di controllo, alla comunicazione all'interessato o alla notifica del responsabile al titolare; sono considerate tutte. Il massimo applicabile può dipendere dalla natura del soggetto (impresa o no) e dal fatturato."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8MZrNB6ivRLtRBuhp4A"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "17219fe03011e7159b2a472f9d86f7a9948642681a4bd4e5df7eb66d5e13aa2d",
+   "task": "query_analysis",
+   "user_sha256": "f22535986fe89732346598a4fecaa838deae7ed5ebbeae58fd1993933511cdef"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza"
+       }
+      ],
+      "text": "L'art. 33, par. 1, GDPR impone al titolare del trattamento di notificare la violazione all'autorità di controllo competente senza ingiustificato ritardo e, ove possibile, entro 72 ore dalla conoscenza."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione."
+       }
+      ],
+      "text": "Il responsabile del trattamento deve informare il titolare, senza ingiustificato ritardo, dopo essere venuto a conoscenza della violazione."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo."
+       }
+      ],
+      "text": "L'art. 34 prevede un obbligo distinto a carico del titolare: comunicare la violazione all'interessato quando essa è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Notifica di una violazione dei dati personali all'autorità di controllo"
+       },
+       {
+        "evidence_id": "E2",
+        "quote": "Comunicazione di una violazione dei dati personali all'interessato"
+       }
+      ],
+      "text": "Gli artt. 33 e 34 disciplinano due obblighi distinti: la notifica all'autorità di controllo e la comunicazione all'interessato, che hanno destinatari e presupposti diversi."
+     },
+     {
+      "issue_ids": [
+       "I4"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "Al momento di decidere se infliggere una sanzione amministrativa pecuniaria e di fissare l'ammontare della stessa in ogni singolo caso si tiene debito conto dei seguenti elementi:"
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "il carattere doloso o colposo della violazione;"
+       }
+      ],
+      "text": "Nel decidere se infliggere la sanzione pecuniaria e nel fissarne l'importo si tiene conto, tra l'altro, della natura, gravità e durata della violazione, del carattere doloso o colposo e delle misure adottate per attenuare il danno (elenco riportato solo in parte nell'estratto)."
+     },
+     {
+      "issue_ids": [
+       "I6"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "Le sanzioni amministrative pecuniarie sono inflitte, in funzione delle circostanze di ogni singolo caso, in aggiunta alle misure di cui all'articolo 58, paragrafo 2, lettere da a) a h) e j), o in luogo di tali misure."
+       }
+      ],
+      "text": "Le sanzioni pecuniarie possono essere inflitte in aggiunta alle misure correttive dell'art. 58, par. 2, lettere da a) a h) e j), oppure in luogo di esse."
+     }
+    ],
+    "limitations": [
+     "L'art. 83 è fornito solo come estratto: mancano i paragrafi sugli importi massimi, quindi la sanzione massima richiesta non risulta dalle prove.",
+     "L'art. 58 è un estratto: sono riportati solo i poteri di indagine e l'intestazione dei poteri correttivi.",
+     "L'art. 84 rinvia agli Stati membri per le altre sanzioni, ma le prove non contengono la normativa nazionale applicabile."
+    ],
+    "outcome": "answer_limited",
+    "unanswered_issues": [
+     {
+      "issue_id": "I2",
+      "reason": "Le prove non contengono i paragrafi dell'art. 83 che fissano gli importi massimi (fissi o in percentuale del fatturato) né indicano a quale violazione si applichino."
+     },
+     {
+      "issue_id": "I3",
+      "reason": "Non è possibile stabilire se le sanzioni per gli artt. 33 e 34 siano le stesse, perché le disposizioni sugli importi non sono nelle prove."
+     },
+     {
+      "issue_id": "I4",
+      "reason": "L'estratto dell'art. 83, par. 2, riporta solo le lettere a)-c); mancano gli altri criteri."
+     },
+     {
+      "issue_id": "I5",
+      "reason": "Nessuna disposizione del Codice in materia di protezione dei dati personali è tra le prove fornite."
+     },
+     {
+      "issue_id": "I6",
+      "reason": "L'elenco dei poteri correttivi dell'art. 58, par. 2, non è riportato nell'estratto (il testo si interrompe all'intestazione del paragrafo)."
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8MahxSA31S445Bp8ZzM"
+   ],
+   "schema_sha256": "958b2be51ffa530f9267f985c758125ecff38d8bcb558d93f182bc5ea60defee",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "a4316fff0471471b36fb2ed20f090ba325500d3fcfb1723ee2160e9ab5a95f80",
+   "task": "answer_generation",
+   "user_sha256": "b4f1ead21ebd0b776ffd7c319ca0a78ce73c6b2cebf89fdb816a13499c673834"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8Mc2aewSfQnyCyN1vRQ"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "e125d66867796bf590fbc60aea974405ca557abd3b818c1c8243652db157f309",
+   "task": "claim_verification",
+   "user_sha256": "12057a0ac877db27bf4ed353d2c36566c85549bd94c7d32369ac21ae103d648a"
+  }
+ ],
+ "query_id": "a21",
+ "question": "Qual è la sanzione massima per la violazione dell'obbligo di notificare una violazione dei dati personali?",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Quale obbligo di notifica di una violazione dei dati personali è previsto e a carico di quali soggetti (titolare del trattamento, responsabile del trattamento)?"
+    },
+    {
+     "id": "I2",
+     "question": "Quale sanzione amministrativa pecuniaria massima è prevista per la violazione degli obblighi di notifica della violazione dei dati personali e con quale criterio di calcolo (importo fisso o percentuale del fatturato)?"
+    },
+    {
+     "id": "I3",
+     "question": "L'obbligo di notificare all'autorità di controllo va tenuto distinto dall'obbligo di comunicare la violazione all'interessato, e le relative sanzioni sono le stesse?"
+    },
+    {
+     "id": "I4",
+     "question": "Quali criteri deve considerare l'autorità di controllo nel decidere se applicare la sanzione e nel determinarne l'importo?"
+    },
+    {
+     "id": "I5",
+     "question": "Quali disposizioni del Codice in materia di protezione dei dati personali disciplinano l'applicazione delle sanzioni amministrative per queste violazioni?"
+    },
+    {
+     "id": "I6",
+     "question": "Oltre alla sanzione pecuniaria, quali altri poteri correttivi può esercitare l'autorità di controllo?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v2",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8MZrNB6ivRLtRBuhp4A"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Qual è la sanzione massima per la violazione dell'obbligo di notificare una violazione dei dati personali?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda le sanzioni per la violazione dell'obbligo di notifica di una violazione dei dati personali, materia disciplinata dal GDPR e dal Codice privacy.",
+   "search_queries_it": [
+    "notifica di una violazione dei dati personali all'autorità di controllo",
+    "comunicazione di una violazione dei dati personali all'interessato",
+    "sanzioni amministrative pecuniarie violazione obblighi del titolare del trattamento e del responsabile del trattamento",
+    "condizioni generali per infliggere sanzioni amministrative pecuniarie",
+    "sanzioni amministrative Garante per la protezione dei dati personali violazione",
+    "poteri correttivi dell'autorità di controllo"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "33",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "obbligo di notifica all'autorità di controllo"
+    },
+    {
+     "article": "34",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "comunicazione all'interessato, da distinguere dalla notifica"
+    },
+    {
+     "article": "83",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "importo massimo e criteri delle sanzioni pecuniarie"
+    },
+    {
+     "article": "84",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "altre sanzioni previste dagli Stati membri"
+    },
+    {
+     "article": "58",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "poteri correttivi dell'autorità di controllo"
+    },
+    {
+     "article": "166",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "sanzioni amministrative e procedimento nel Codice"
+    }
+   ],
+   "uncertainty": "La domanda non specifica se si riferisca alla notifica all'autorità di controllo, alla comunicazione all'interessato o alla notifica del responsabile al titolare; sono considerate tutte. Il massimo applicabile può dipendere dalla natura del soggetto (impresa o no) e dal fatturato."
+  },
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 33",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "33",
+    "legal_validity": "not_established",
+    "page_end": 52,
+    "page_start": 52,
+    "path": "CAPO IV > Sezione 2 > Articolo 33",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 34",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "34",
+    "legal_validity": "not_established",
+    "page_end": 53,
+    "page_start": 52,
+    "path": "CAPO IV > Sezione 2 > Articolo 34",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Comunicazione di una violazione dei dati personali all'interessato",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 83",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "83",
+    "legal_validity": "not_established",
+    "page_end": 82,
+    "page_start": 82,
+    "path": "CAPO VIII > Articolo 83",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:83",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Condizioni generali per infliggere sanzioni amministrative pecuniarie",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": false
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza"
+     }
+    ],
+    "text": "L'art. 33, par. 1, GDPR impone al titolare del trattamento di notificare la violazione all'autorità di controllo competente senza ingiustificato ritardo e, ove possibile, entro 72 ore dalla conoscenza.",
+    "verification": "PARTIALLY_SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione."
+     }
+    ],
+    "text": "Il responsabile del trattamento deve informare il titolare, senza ingiustificato ritardo, dopo essere venuto a conoscenza della violazione.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo."
+     }
+    ],
+    "text": "L'art. 34 prevede un obbligo distinto a carico del titolare: comunicare la violazione all'interessato quando essa è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E1",
+     "E2"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Notifica di una violazione dei dati personali all'autorità di controllo"
+     },
+     {
+      "evidence_id": "E2",
+      "text": "Comunicazione di una violazione dei dati personali all'interessato"
+     }
+    ],
+    "text": "Gli artt. 33 e 34 disciplinano due obblighi distinti: la notifica all'autorità di controllo e la comunicazione all'interessato, che hanno destinatari e presupposti diversi.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I4"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "Al momento di decidere se infliggere una sanzione amministrativa pecuniaria e di fissare l'ammontare della stessa in ogni singolo caso si tiene debito conto dei seguenti elementi:"
+     },
+     {
+      "evidence_id": "E3",
+      "text": "il carattere doloso o colposo della violazione;"
+     }
+    ],
+    "text": "Nel decidere se infliggere la sanzione pecuniaria e nel fissarne l'importo si tiene conto, tra l'altro, della natura, gravità e durata della violazione, del carattere doloso o colposo e delle misure adottate per attenuare il danno (elenco riportato solo in parte nell'estratto).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I6"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "Le sanzioni amministrative pecuniarie sono inflitte, in funzione delle circostanze di ogni singolo caso, in aggiunta alle misure di cui all'articolo 58, paragrafo 2, lettere da a) a h) e j), o in luogo di tali misure."
+     }
+    ],
+    "text": "Le sanzioni pecuniarie possono essere inflitte in aggiunta alle misure correttive dell'art. 58, par. 2, lettere da a) a h) e j), oppure in luogo di esse.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "166",
+     "origins": [
+      "lookup",
+      "query:5"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166",
+     "reason": "max_items",
+     "tokens": 286
+    },
+    {
+     "label": "40",
+     "origins": [
+      "query:1",
+      "query:2"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:40",
+     "reason": "max_items",
+     "tokens": 216
+    },
+    {
+     "label": "70",
+     "origins": [
+      "query:5"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:70",
+     "reason": "max_items",
+     "tokens": 380
+    },
+    {
+     "label": "14",
+     "origins": [
+      "query:2"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+     "reason": "max_items",
+     "tokens": 241
+    },
+    {
+     "label": "62",
+     "origins": [
+      "query:6"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:62",
+     "reason": "max_items",
+     "tokens": 289
+    },
+    {
+     "label": "55",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:33"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:55",
+     "reason": "max_items",
+     "tokens": 219
+    },
+    {
+     "label": "42",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:42",
+     "reason": "max_items",
+     "tokens": 1100
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 255123,
+       "char_start": 253118,
+       "page": 52,
+       "page_end": 52
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0296-c5e96e79"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 33",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "33",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:34"
+     ],
+     "page_end": 52,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 33",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 33\n\nNotifica di una violazione dei dati personali all'autorità di controllo\n\n1.\nIn caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo \ncompetente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è \nvenuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le \nlibertà delle persone fisiche. Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei \nmotivi del ritardo.\n\n2.\nIl responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a \nconoscenza della violazione.\n\n3.\nLa notifica di cui al paragrafo 1 deve almeno:\n\na) descrivere la natura della violazione dei dati personali compresi, ove possibile, le categorie e il numero approssi­\n\nmativo di interessati in questione nonché le categorie e il numero approssimativo di registrazioni dei dati personali in \nquestione;\n\nb)  comunicare il nome e i dati di contatto del responsabile della protezione dei dati o di altro punto di contatto presso\n\ncui ottenere più informazioni;\n\nc)  descrivere le probabili conseguenze della violazione dei dati personali;\n\nd)  descrivere le misure adottate o di cui si propone l'adozione da parte del titolare del trattamento per porre rimedio\n\nalla violazione dei dati personali e anche, se del caso, per attenuarne i possibili effetti negativi.\n\n4.\nQualora e nella misura in cui non sia possibile fornire le informazioni contestualmente, le informazioni possono \nessere fornite in fasi successive senza ulteriore ingiustificato ritardo.\n\n5.\nIl titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, \nle sue conseguenze e i provvedimenti adottati per porvi rimedio. Tale documentazione consente all'autorità di controllo \ndi verificare il rispetto del presente articolo.",
+     "tier": "internal_only",
+     "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+     "tokens": 669,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 255446,
+       "char_start": 255125,
+       "page": 52,
+       "page_end": 52
+      },
+      {
+       "char_end": 257013,
+       "char_start": 255510,
+       "page": 53,
+       "page_end": 53
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0298-036e8f92",
+      "doc-8f7504d289853f57-0299-eb81eca8"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 34",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "34",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:2"
+     ],
+     "page_end": 53,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 34",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 34\n\nComunicazione di una violazione dei dati personali all'interessato\n\n1.\nQuando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle \npersone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.\n\n2.\nLa comunicazione all'interessato di cui al paragrafo 1 del presente articolo descrive con un linguaggio semplice e \nchiaro la natura della violazione dei dati personali e contiene almeno le informazioni e le misure di cui all'articolo 33, \nparagrafo 3, lettere b), c) e d).\n\n3.\nNon è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:\n\na)  il titolare del trattamento ha messo in atto le misure tecniche e organizzative adeguate di protezione e tali misure\n\nerano state applicate ai dati personali oggetto della violazione, in particolare quelle destinate a rendere i dati personali \nincomprensibili a chiunque non sia autorizzato ad accedervi, quali la cifratura;\n\nb)  il titolare del trattamento ha successivamente adottato misure atte a scongiurare il sopraggiungere di un rischio\n\nelevato per i diritti e le libertà degli interessati di cui al paragrafo 1;\n\nc)  detta comunicazione richiederebbe sforzi sproporzionati. In tal caso, si procede invece a una comunicazione pubblica\n\no a una misura simile, tramite la quale gli interessati sono informati con analoga efficacia.\n\n4.\nNel caso in cui il titolare del trattamento non abbia ancora comunicato all'interessato la violazione dei dati \npersonali, l'autorità di controllo può richiedere, dopo aver valutato la probabilità che la violazione dei dati personali \npresenti un rischio elevato, che vi provveda o può decidere che una delle condizioni di cui al paragrafo 3 è soddisfatta.",
+     "tier": "internal_only",
+     "title": "Comunicazione di una violazione dei dati personali all'interessato",
+     "tokens": 608,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 370931,
+       "char_start": 369743,
+       "page": 82,
+       "page_end": 82
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0439-b25a4a04",
+      "doc-8f7504d289853f57-0441-ad921eed",
+      "doc-8f7504d289853f57-0443-91e80806",
+      "doc-8f7504d289853f57-0444-c9fd22a0"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 83",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "83",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:3",
+      "query:4",
+      "query:5",
+      "query:6",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:84"
+     ],
+     "page_end": 82,
+     "page_start": 82,
+     "path": "CAPO VIII > Articolo 83",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:83",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 83\n\nCondizioni generali per infliggere sanzioni amministrative pecuniarie\n\n1.\nOgni autorità di controllo provvede affinché le sanzioni amministrative pecuniarie inflitte ai sensi del presente \narticolo in relazione alle violazioni del presente regolamento di cui ai paragrafi 4, 5 e 6 siano in ogni singolo caso \neffettive, proporzionate e dissuasive.\n\n2.\nLe sanzioni amministrative pecuniarie sono inflitte, in funzione delle circostanze di ogni singolo caso, in aggiunta \nalle misure di cui all'articolo 58, paragrafo 2, lettere da a) a h) e j), o in luogo di tali misure. Al momento di decidere se \ninfliggere una sanzione amministrativa pecuniaria e di fissare l'ammontare della stessa in ogni singolo caso si tiene \ndebito conto dei seguenti elementi:\n\na)  la natura, la gravità e la durata della violazione tenendo in considerazione la natura, l'oggetto o a finalità del\n\ntrattamento in questione nonché il numero di interessati lesi dal danno e il livello del danno da essi subito;\n\nb)  il carattere doloso o colposo della violazione;\n\nc)  le misure adottate dal titolare del trattamento o dal responsabile del trattamento per attenuare il danno subito dagli\n\ninteressati;",
+     "tier": "internal_only",
+     "title": "Condizioni generali per infliggere sanzioni amministrative pecuniarie",
+     "tokens": 396,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 376530,
+       "char_start": 375947,
+       "page": 83,
+       "page_end": 83
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 84",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "84",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 83,
+     "page_start": 83,
+     "path": "CAPO VIII > Articolo 84",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:84",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 84\n\nSanzioni\n\n1.\nGli Stati membri stabiliscono le norme relative alle altre sanzioni per le violazioni del presente regolamento in \nparticolare per le violazioni non soggette a sanzioni amministrative pecuniarie a norma dell'articolo 83, e adottano tutti \ni provvedimenti necessari per assicurarne l'applicazione. Tali sanzioni devono essere effettive, proporzionate e dissuasive.\n\n2.\nOgni Stato membro notifica alla Commissione le disposizioni di legge adottate ai sensi del paragrafo 1 al più tardi \nentro 25 maggio 2018, e comunica senza ritardo ogni successiva modifica.",
+     "tier": "internal_only",
+     "title": "Sanzioni",
+     "tokens": 195,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 323098,
+       "char_start": 321911,
+       "page": 69,
+       "page_end": 69
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0379-4870534c"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 58",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "58",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:6",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:83"
+     ],
+     "page_end": 69,
+     "page_start": 69,
+     "path": "CAPO VI > Sezione 2 > Articolo 58",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:58",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 58\n\nPoteri\n\n1.\nOgni autorità di controllo ha tutti i poteri di indagine seguenti:\n\na)  ingiungere al titolare del trattamento e al responsabile del trattamento e, ove applicabile, al rappresentante del titolare\n\ndel trattamento o del responsabile del trattamento, di fornirle ogni informazione di cui necessiti per l'esecuzione dei \nsuoi compiti;\n\nb)  condurre indagini sotto forma di attività di revisione sulla protezione dei dati;\n\nc)  effettuare un riesame delle certificazioni rilasciate in conformità dell'articolo 42, paragrafo 7;\n\nd)  notificare al titolare del trattamento o al responsabile del trattamento le presunte violazioni del presente regolamento;\n\ne)  ottenere, dal titolare del trattamento o dal responsabile del trattamento, l'accesso a tutti i dati personali e a tutte le\n\ninformazioni necessarie per l'esecuzione dei suoi compiti; e\n\nf)  ottenere accesso a tutti i locali del titolare del trattamento e del responsabile del trattamento, compresi tutti gli\n\nstrumenti e mezzi di trattamento dei dati, in conformità con il diritto dell'Unione o il diritto processuale degli Stati \nmembri.\n\n2.\nOgni autorità di controllo ha tutti i poteri correttivi seguenti:",
+     "tier": "internal_only",
+     "title": "Poteri",
+     "tokens": 396,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    }
+   ],
+   "max_items": 5,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "33",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "34",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "83",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "84",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "58",
+      "point": null
+     },
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "166",
+      "point": null
+     }
+    ],
+    "queries": [
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "comunicazione di una violazione dei dati personali all'interessato",
+     "sanzioni amministrative pecuniarie violazione obblighi del titolare del trattamento e del responsabile del trattamento",
+     "condizioni generali per infliggere sanzioni amministrative pecuniarie",
+     "sanzioni amministrative Garante per la protezione dei dati personali violazione",
+     "poteri correttivi dell'autorità di controllo"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 3000,
+   "total_tokens": 2264,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8MahxSA31S445Bp8ZzM"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "L'art. 83 è fornito solo come estratto: mancano i paragrafi sugli importi massimi, quindi la sanzione massima richiesta non risulta dalle prove.",
+   "L'art. 58 è un estratto: sono riportati solo i poteri di indagine e l'intestazione dei poteri correttivi.",
+   "L'art. 84 rinvia agli Stati membri per le altre sanzioni, ma le prove non contengono la normativa nazionale applicabile."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "7 further candidate provisions were left out by the evidence limits (max_items)."
+  ],
+  "question": "Qual è la sanzione massima per la violazione dell'obbligo di notificare una violazione dei dati personali?",
+  "question_references": [],
+  "rejected_claims": [],
+  "unanswered_issues": [
+   {
+    "issue_id": "I2",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I3",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I4",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I5",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I6",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   }
+  ],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8Mc2aewSfQnyCyN1vRQ"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "test"
+}
