@@ -22,6 +22,7 @@ from src.answer_generation import (
     SUPPORT_QUALIFICATION,
     TASK,
     AnswerClaim,
+    Quote,
     Outcome,
     generate_answer,
     answer_sources,
@@ -42,6 +43,7 @@ from src.support_verification import (
     build_user_message,
 )
 from src.support_verification import TASK as VERIFY_TASK
+from src.claim_repair import TASK as REPAIR_TASK
 from tests.test_answer_generation import (
     ART1,
     ART2,
@@ -67,10 +69,32 @@ def verdicts(**levels):
     return {"verdicts": [{"claim_id": cid, "support": level} for cid, level in levels.items()]}
 
 
-def run(*verification_replies, verify=True, generation=None, summary=False):
+def declined(*verification_replies):
+    """A repair reply that rewrites none of the claims the first support check held apart."""
+    first = verification_replies[0] if verification_replies else None
+    if not isinstance(first, dict):
+        return None
+    held = [v["claim_id"] for v in first["verdicts"]
+            if v["support"] in ("partially_supported", "uncertain")]
+    return {"repairs": [{"claim_id": cid, "rewrites": []} for cid in held]} if held else None
+
+
+def rewrites(**claims):
+    """A repair reply: claim ID -> [(text, quotation numbers), ...]."""
+    return {"repairs": [{"claim_id": cid, "rewrites": [{"text": t, "quotes": list(q)}
+                                                       for t, q in parts]}
+                        for cid, parts in claims.items()]}
+
+
+def run(*verification_replies, verify=True, generation=None, summary=False, repair=None):
+    """generate_answer on scripted replies. Unless `repair` is given, the repair pass declines
+    to rewrite, so the claims the support check held apart stay held apart."""
     script = {TASK: [generation or reply(NOTIFY, INFORM)]}
     if verification_replies:
         script[VERIFY_TASK] = list(verification_replies)
+    repair = declined(*verification_replies) if repair is None else repair
+    if repair is not None:
+        script[REPAIR_TASK] = [repair] if isinstance(repair, dict) else list(repair)
     llm = MockLLM(script)
     return generate_answer(QUESTION, analysis(), EVIDENCE, llm, verify_support=verify,
                            show_summary=summary), llm
@@ -378,6 +402,86 @@ def test_the_summary_is_asked_for_in_the_language_of_the_question():
     _, llm = run(verdicts(C1="supported", C2="supported"))
     assert "Write the summary in Italian too." in llm.calls[0].user
     assert "summary: two or three sentences" in SYSTEM_PROMPT_GENERATION
+
+
+# --- The repair pass: one rewrite of the claims held apart, checked again ----------------------
+
+INFORM_REPAIRED = "Il titolare comunica la violazione all'interessato senza ingiustificato ritardo."
+
+
+def test_a_claim_confirmed_after_repair_enters_the_answer_marked_repaired():
+    result, llm = run(verdicts(C1="supported", C2="partially_supported"), verdicts(C2="supported"),
+                      repair=rewrites(C2=[(INFORM_REPAIRED, [1])]))
+    assert [call.task for call in llm.calls] == [TASK, VERIFY_TASK, REPAIR_TASK, VERIFY_TASK]
+    repaired = result.claims[1]
+    assert (repaired.claim_id, repaired.text, repaired.verification) == (
+        "C2", INFORM_REPAIRED, S.SUPPORTED)
+    assert repaired.repaired_from == INFORM["text"] and repaired.quotes == (Quote("E2", Q3),)
+    assert result.outcome == Outcome.ANSWER  # the unchanged outcome rule, on the repaired claims
+    assert result.repair.prompt_version == "claim-repair-v1"
+    assert result.repair_verification.prompt_version == PROMPT_VERSION
+    repair_call, second_check = llm.calls[2], llm.calls[3]
+    assert '<claim id="C2" rating="partially_supported">' in repair_call.user
+    assert f'<quote n="1" evidence="E2">{Q3}</quote>' in repair_call.user
+    assert '<claim id="C1"' not in repair_call.user  # only the claims held apart
+    assert "Write every rewrite in Italian." in repair_call.user  # the answer's language
+    assert '<claim id="C1"' not in second_check.user  # only the rewrites are checked again
+    assert "rewritten from: " + INFORM["text"] in render_answer(result)
+
+
+def test_a_rewrite_not_confirmed_leaves_the_claim_held_apart():
+    result, _ = run(verdicts(C1="supported", C2="partially_supported"), verdicts(C2="uncertain"),
+                    repair=rewrites(C2=[(INFORM_REPAIRED, [1])]))
+    assert [(c.claim_id, c.verification, c.repaired_from) for c in result.claims] == [
+        ("C1", S.SUPPORTED, None), ("C2", S.PARTIALLY_SUPPORTED, None)]
+    assert "repair_not_confirmed: C2 (uncertain)" in result.warnings
+    assert result.outcome == Outcome.ANSWER_LIMITED
+
+
+def test_a_split_claim_keeps_its_confirmed_parts_and_its_original_held_apart():
+    result, _ = run(
+        verdicts(C1="partially_supported", C2="supported"),
+        verdicts(**{"C1.1": "supported", "C1.2": "partially_supported"}),
+        repair=rewrites(C1=[("Il titolare notifica la violazione al Garante senza ingiustificato "
+                             "ritardo.", [1]),
+                            ("Ove possibile, la notifica avviene entro settantadue ore.", [2])]))
+    assert [(c.claim_id, c.verification) for c in result.claims] == [
+        ("C1.1", S.SUPPORTED), ("C1", S.PARTIALLY_SUPPORTED), ("C2", S.SUPPORTED)]
+    assert result.claims[0].repaired_from == NOTIFY["text"]
+    assert result.claims[0].quotes == (Quote("E1", Q1),)
+    assert "repair_not_confirmed: C1.2 (partially_supported)" in result.warnings
+    assert result.outcome == Outcome.ANSWER
+
+
+def test_a_rewrite_failing_the_deterministic_checks_is_dropped():
+    result, llm = run(verdicts(C1="supported", C2="partially_supported"),
+                      repair=rewrites(C2=[("Lo prevede l'articolo 99.", [1])]))
+    assert [call.task for call in llm.calls] == [TASK, VERIFY_TASK, REPAIR_TASK]
+    assert result.claims[1].verification == S.PARTIALLY_SUPPORTED
+    assert any(w.startswith("repair_rejected: C2 (") for w in result.warnings)
+    assert result.repair is not None and result.repair_verification is None
+
+
+def test_a_repair_that_cannot_be_obtained_changes_nothing():
+    result, _ = run(verdicts(C1="supported", C2="partially_supported"),
+                    repair=["not json", "still not json"])
+    assert result.claims[1].verification == S.PARTIALLY_SUPPORTED and result.repair is None
+    assert "claim_repair_unavailable: LLMMalformedOutputError" in result.warnings
+
+
+def test_the_repair_prompt_and_the_check_of_its_reply():
+    from src.claim_repair import SCHEMA as REPAIR_SCHEMA
+    from src.claim_repair import SYSTEM_PROMPT as REPAIR_PROMPT
+    from src.claim_repair import ClaimToRepair, repair_claims
+    check_schema(REPAIR_SCHEMA)
+    assert "states only what its own quotations state" in REPAIR_PROMPT
+    assert "keep the same quotations" in REPAIR_PROMPT and "You cannot add a quotation" in REPAIR_PROMPT
+    assert 'do not add words such as "only", "always", "never"' in REPAIR_PROMPT
+    llm = MockLLM({REPAIR_TASK: [rewrites(C2=[("Testo.", [2])]),  # C2 has one quotation
+                                 rewrites(C2=[("Testo.", [1, 1])])]})
+    out = repair_claims([ClaimToRepair("C2", "Testo", "uncertain", (("E2", Q3),))], llm)
+    assert out.rewrites["C2"][0].quotes == (1,) and out.result.attempts == 2
+    assert "must name its quotations by number" in llm.calls[1].user
 
 
 # --- The as-of date and the Digital Omnibus caveat (application, not the model) ----------------

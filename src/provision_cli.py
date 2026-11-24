@@ -312,9 +312,14 @@ def _claim_lines(claim) -> list[str]:
     kind = claim.kind.replace("_", " ")
     support = ("" if claim.verification == VerificationStatus.NOT_VERIFIED
                else f"; support: {claim.verification.value.lower().replace('_', ' ')}")
-    return [f"  {claim.claim_id} [{', '.join(claim.issue_ids)}] ({kind}{support}) {claim.text}",
-            *(f"      {quote.evidence_id}: «{' '.join(quote.text.split())}»"
-              for quote in claim.quotes)]
+    repaired = "; repaired" if claim.repaired_from else ""
+    lines = [f"  {claim.claim_id} [{', '.join(claim.issue_ids)}] ({kind}{support}{repaired}) "
+             f"{claim.text}",
+             *(f"      {quote.evidence_id}: «{' '.join(quote.text.split())}»"
+               for quote in claim.quotes)]
+    if claim.repaired_from:
+        lines.append(f"      rewritten from: {claim.repaired_from}")
+    return lines
 
 
 def _citation_lines(ref: SourceReference) -> list[str]:

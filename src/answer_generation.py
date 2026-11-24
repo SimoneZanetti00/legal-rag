@@ -99,6 +99,8 @@ from src.query_analysis import (
     check_question,
     store_checker,
 )
+from src.claim_repair import PROMPT_VERSION as REPAIR_PROMPT_VERSION
+from src.claim_repair import ClaimToRepair, repair_claims
 from src.support_verification import PROMPT_VERSION as SUPPORT_PROMPT_VERSION
 from src.support_verification import ClaimToVerify, verify_support
 from src.text_normalization import PROFILE as QUOTE_PROFILE
@@ -259,6 +261,9 @@ class AnswerClaim:
     text: str
     quotes: tuple[Quote, ...]
     verification: VerificationStatus = VerificationStatus.NOT_VERIFIED
+    # Set on a claim the repair pass rewrote (_repair()): the wording the support check did not
+    # confirm. The rewrite keeps quotations of that claim and was itself rated SUPPORTED.
+    repaired_from: str | None = None
 
     @property
     def evidence_ids(self) -> tuple[str, ...]:
@@ -372,6 +377,8 @@ class AnswerResult:
     # claim markers rewritten to [C1], [C2].
     summary: str | None = None
     summary_claim_ids: tuple[str, ...] = ()
+    repair: GenerationProvenance | None = None  # the repair call, when it ran (_repair())
+    repair_verification: GenerationProvenance | None = None  # the support check of the rewrites
 
     def to_dict(self) -> dict[str, Any]:
         """Plain JSON-compatible data."""
@@ -740,10 +747,14 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
     claims, rejected = validate_claims(data["claims"], issue_ids=issue_ids, evidence=evidence,
                                        mode=mode)
     positions = _kept_positions(data["claims"], claims)  # the model's [n] -> claim ID
-    verification = None
+    verification = repair = repair_verification = None
     if claims and verifier is not None:
         claims, rejected, verification = _verify_support(claims, rejected, evidence, verifier,
                                                          warnings)
+    if claims and verifier is not None and verification is not None:
+        claims, repair, repair_verification = _repair(
+            claims, evidence, verifier, warnings, issue_ids=issue_ids, mode=mode,
+            language=_LANGUAGE_NAMES.get(analysis.language, "the language of the question"))
     if not claims:
         codes = sorted({reason.split(":")[0] for r in rejected for reason in r.reasons})
         return _abstain(question, NO_SUPPORTED_CLAIMS,
@@ -776,6 +787,7 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
         warnings=tuple(evidence.warnings) + tuple(warnings),
         analysis=analysis, evidence=evidence, generation=provenance,
         verification=verification, summary=summary, summary_claim_ids=summary_ids,
+        repair=repair, repair_verification=repair_verification,
     )
 
 
@@ -933,6 +945,87 @@ def _verify_support(claims: list[AnswerClaim], rejected: list[RejectedClaim],
         else:
             kept.append(dataclasses.replace(claim, verification=status))
     return kept, removed, provenance
+
+
+REPAIRABLE = (VerificationStatus.PARTIALLY_SUPPORTED, VerificationStatus.UNCERTAIN)
+
+
+def _repair(claims: list[AnswerClaim], evidence: EvidenceSet, llm: LLMClient,
+            warnings: list[str], *, issue_ids: set[str], mode: Mode,
+            language: str = "the language of the question",
+            ) -> tuple[list[AnswerClaim], GenerationProvenance | None,
+                       GenerationProvenance | None]:
+    """One repair round (src/claim_repair.py) for the claims the support check rated partially
+    supported or uncertain.
+
+    The model rewrites each so that it states only what its own quotations state (it may
+    shorten or split it, keeping some of its quotations). Each rewrite then goes through the
+    usual deterministic checks (validate_claims) and the support check, once. A rewrite rated
+    SUPPORTED enters the answer in place of the claim, with the claim's wording kept in
+    repaired_from; when not every rewrite of a claim is SUPPORTED, the original claim also stays,
+    held apart, with its rating. Rewrites that fail are reported in the warnings and dropped.
+    The outcome rule is then applied, unchanged, to the claims as they stand.
+    """
+    held = [claim for claim in claims if claim.verification in REPAIRABLE]
+    if not held:
+        return claims, None, None
+    try:
+        out = repair_claims([ClaimToRepair(c.claim_id, c.text, c.verification.value.lower(),
+                                           tuple((q.evidence_id, q.text) for q in c.quotes))
+                             for c in held], llm, language=language)
+    except (LLMRefusalError, LLMOutputError) as exc:
+        warnings.append(f"claim_repair_unavailable: {type(exc).__name__}")
+        return claims, None, None
+    repair = _provenance(out.result, REPAIR_PROMPT_VERSION,
+                         tuple(dict.fromkeys(e for c in held for e in c.evidence_ids)))
+    candidates: dict[str, list[AnswerClaim]] = {}
+    for claim in held:
+        rewrites = out.rewrites.get(claim.claim_id, ())
+        for k, rewrite in enumerate(rewrites, 1):
+            claim_id = claim.claim_id if len(rewrites) == 1 else f"{claim.claim_id}.{k}"
+            raw = {"issue_ids": list(claim.issue_ids), "kind": claim.kind, "text": rewrite.text,
+                   "support": [{"evidence_id": claim.quotes[n - 1].evidence_id,
+                                "quote": claim.quotes[n - 1].text} for n in rewrite.quotes]}
+            kept, failed = validate_claims([raw], issue_ids=issue_ids, evidence=evidence,
+                                           mode=mode)
+            if kept:
+                candidates.setdefault(claim.claim_id, []).append(dataclasses.replace(
+                    kept[0], claim_id=claim_id, repaired_from=claim.text))
+            else:
+                warnings.append(f"repair_rejected: {claim_id} ({', '.join(failed[0].reasons)})")
+    rewritten = [r for parts in candidates.values() for r in parts]
+    if not rewritten:
+        return claims, repair, None
+    try:
+        check = verify_support([ClaimToVerify(r.claim_id, r.text, r.evidence_ids,
+                                              tuple((q.evidence_id, q.text) for q in r.quotes))
+                                for r in rewritten], evidence, llm)
+    except (LLMRefusalError, LLMOutputError) as exc:
+        warnings.append(f"repair_support_check_unavailable: {type(exc).__name__}")
+        return claims, repair, None
+    repair_verification = _provenance(check.result, SUPPORT_PROMPT_VERSION, check.evidence_ids)
+    result: list[AnswerClaim] = []
+    for claim in claims:
+        confirmed = []
+        for part in candidates.get(claim.claim_id, ()):
+            status = check.statuses[part.claim_id]
+            if status == VerificationStatus.SUPPORTED:
+                confirmed.append(dataclasses.replace(part, verification=status))
+            else:
+                warnings.append(f"repair_not_confirmed: {part.claim_id} ({status.value.lower()})")
+        result += confirmed
+        if not confirmed or len(confirmed) < len(out.rewrites.get(claim.claim_id, ())):
+            result.append(claim)  # not every part of it confirmed: it stays, held apart
+    return result, repair, repair_verification
+
+
+def _provenance(result: JSONResult, prompt_version: str,
+                evidence_ids: tuple[str, ...]) -> GenerationProvenance:
+    return GenerationProvenance(
+        task=result.task, prompt_version=prompt_version, provider=result.provider,
+        model=result.model, served_by=result.served_by, attempts=result.attempts,
+        fallback_used=result.fallback_used, request_ids=result.request_ids,
+        quote_normalisation=QUOTE_PROFILE, supplied_evidence_ids=evidence_ids)
 
 
 def _abstain(question: str, reason: str, detail: str, *,

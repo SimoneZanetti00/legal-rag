@@ -51,6 +51,7 @@ from typing import Any
 from src import answer_benchmark as ab
 from src.answer_generation import PROMPT_VERSION as GENERATION_PROMPT_VERSION
 from src.answer_generation import REPORTED_UNANSWERED, Mode, answer_question, decide_coverage
+from src.claim_repair import PROMPT_VERSION as REPAIR_PROMPT_VERSION
 from src.config import PROJECT_ROOT, ConfigError, Settings, load_settings
 from src.corpus_identity import CodeVersionError, canonical_json, detect_code_version
 from src.llm import (
@@ -311,7 +312,8 @@ def run_record(run_id: str, *, mode: Mode, settings: Settings, build_id: str,
         "provider": settings.llm_provider, "model": settings.llm_model,
         "prompt_versions": {"query_analysis": ANALYSIS_PROMPT_VERSION,
                             "answer_generation": GENERATION_PROMPT_VERSION,
-                            "claim_verification": SUPPORT_PROMPT_VERSION},
+                            "claim_verification": SUPPORT_PROMPT_VERSION,
+                            "claim_repair": REPAIR_PROMPT_VERSION},
         "settings": {"final_evidence_count": settings.final_evidence_count,
                      "context_token_budget": settings.context_token_budget,
                      "semantic_verification": settings.semantic_verification,
