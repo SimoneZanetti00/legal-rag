@@ -1,9 +1,22 @@
 # Live demo on Hugging Face: deployment
 
-The live demo is a separate Space, **legal-rag-live**, built with the **Docker** SDK. Visitors type
-their own questions, and the questions go to Anthropic's API. The replay Space
-(`legal-rag-demo`) stays as it is and is the fallback: whenever a limit is reached, the live page
-links to it.
+The live demo is a separate Space, **legal-rag-live**, on the **Gradio** SDK and the free CPU
+tier. Visitors type their own questions, and the questions go to Anthropic's API. The replay
+Space (`legal-rag-demo`) stays as it is and is the fallback: whenever a limit is reached, the live
+page links to it.
+
+**Why Gradio, without Gradio.** Docker Spaces are not available on the owner's Hugging Face
+account.
+- The Space therefore uses the Gradio SDK. Its card names `app.py` as the app file, with Python
+  3.13 and Gradio 6.32.0.
+- `app.py` starts the project's own server, the same as `python -m src.web_demo --public`, on
+  0.0.0.0:7860 (or `GRADIO_SERVER_PORT` if the Space sets it).
+- The page is the project's own, unchanged. Gradio is installed by the SDK but not imported.
+- The Hugging Face documentation describes Gradio apps in this SDK and does not describe this use.
+  It was checked locally: the requirements install together with gradio 6.32.0 on Python 3.13,
+  and `python app.py` from the Space folder serves the page.
+
+`deploy/live-space/Dockerfile` is kept for reference only and is not uploaded.
 
 ## What the live demo enforces (in code)
 
@@ -58,8 +71,8 @@ In the Space, open **Settings → Variables and secrets**:
 | `LLM_PROVIDER` | **New variable** | `anthropic` |
 | `LLM_MODEL` | **New variable** | `claude-sonnet-5-5` |
 
-Docker Spaces receive secrets and variables as environment variables when the container runs. A
-change restarts the Space. Nothing else needs setting: every other setting has a default (see
+The Space receives secrets and variables as environment variables when it runs. A change
+restarts the Space. Nothing else needs setting: every other setting has a default (see
 `.env.example`).
 
 ## Deploy
@@ -71,8 +84,8 @@ change restarts the Space. Nothing else needs setting: every other setting has a
    ```
 
    It writes `dist\live-space\`: 59 files, 4.2 MB.
-   - `Dockerfile`, `README.md` (the Space card), `NOTICE.md` (sources, attribution and
-     licences) and `requirements.txt`.
+   - `app.py` (the entry point), `README.md` (the Space card), `NOTICE.md` (sources, attribution
+     and licences) and `requirements.txt`.
    - `src\`: 43 files of code and the page.
    - `data\`: exactly the 12 files the live path reads. These are the recorded build with its
      anchors, the instrument registry, the two inventories and the review ledger. There are no
@@ -80,7 +93,7 @@ change restarts the Space. Nothing else needs setting: every other setting has a
 
 2. **Create the Space.** On huggingface.co, choose **New Space**, then:
    - name: `legal-rag-live`;
-   - SDK: **Docker**, template **Blank**;
+   - SDK: **Gradio**, template **Blank** (the card's front matter sets the versions);
    - hardware: the free **CPU basic**;
    - visibility: **Public**, or Private until you have tried it.
 
@@ -102,7 +115,8 @@ change restarts the Space. Nothing else needs setting: every other setting has a
      Git asks for a Hugging Face access token with write permission. No file is over 10 MB, so Git
      LFS is not needed.
 
-5. **Watch the build.** The Space builds the image, then shows its logs. The last lines should read
+5. **Watch the build.** The Space installs the requirements and Gradio, runs `app.py`, then shows
+   its logs. The last lines should read
    `Legal RAG live demo (public): listening on 0.0.0.0:7860` followed by the limits.
 
 6. **Try one question.** The log then shows
@@ -110,6 +124,12 @@ change restarts the Space. Nothing else needs setting: every other setting has a
    (local smoke test, 2026-11-24: $0.047).
 
 **To update**, run step 1 again and upload the files that changed; the Space rebuilds.
+
+**Moving an existing Space from Docker to Gradio**, as with the first upload of
+`legal-rag-live`:
+- upload `README.md` (the new front matter) and `app.py`;
+- delete `Dockerfile` from the Space;
+- leave the other files as they are, since they have not changed.
 
 **To stop spending at once**, delete the `ANTHROPIC_API_KEY` secret, or pause the Space. Every
 question then fails, with no cost.

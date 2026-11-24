@@ -1,5 +1,6 @@
-"""The live demo's Hugging Face Space folder (deploy/live-space/): the Dockerfile, the Space card,
-the notice, the slim requirements and prepare.py, which assembles the upload folder. Offline."""
+"""The live demo's Hugging Face Space folder (deploy/live-space/): app.py (the Gradio SDK's entry
+point), the Space card, the notice, the slim requirements, the Dockerfile kept for reference, and
+prepare.py, which assembles the upload folder. Offline."""
 
 import importlib.util
 from pathlib import Path
@@ -19,11 +20,21 @@ def load_prepare():
 
 def test_the_space_files():
     here = HERE
-    docker = (here / "Dockerfile").read_text(encoding="utf-8")
-    assert 'CMD ["python", "-m", "src.web_demo", "--public", "--port", "7860"]' in docker
-    assert "COPY --chown=user src/ src/" in docker and "COPY --chown=user data/ data/" in docker
+    # The Gradio SDK runs app.py, which starts the project's own public server on port 7860.
     card = (here / "README.md").read_text(encoding="utf-8")
-    assert "sdk: docker" in card and "app_port: 7860" in card
+    front = card.split("---")[1]
+    for line in ("sdk: gradio", 'sdk_version: "6.32.0"', 'python_version: "3.13"',
+                 "app_file: app.py"):
+        assert line in front.splitlines()
+    assert "docker" not in front and "app_port" not in front
+    app = (here / "app.py").read_text(encoding="utf-8")
+    assert ('sys.exit(main(["--public", "--port", os.environ.get("GRADIO_SERVER_PORT", '
+            '"7860")]))') in app
+    assert "import gradio" not in app  # the page is the project's own
+    # The Dockerfile stays for reference only (it is not uploaded).
+    docker = (here / "Dockerfile").read_text(encoding="utf-8")
+    assert docker.startswith("# Kept for reference; not uploaded.")
+    assert 'CMD ["python", "-m", "src.web_demo", "--public", "--port", "7860"]' in docker
     requirements = [line.split("==")[0].lower() for line in
                     (here / "requirements.txt").read_text(encoding="utf-8").splitlines()
                     if line and not line.startswith("#")]
@@ -47,6 +58,7 @@ def test_prepare_writes_the_space_files_the_code_and_exactly_the_live_data(tmp_p
     assert on_disk == sorted(written)
     assert sorted(r for r in written if r.startswith("data/")) == sorted(prepare.DATA_FILES)
     assert not any(r.endswith(".pdf") or r == ".env" or r.startswith("tests/") for r in written)
+    assert "app.py" in written and "Dockerfile" not in written  # the Gradio SDK, not Docker
     assert len(prepare.DATA_FILES) == 12
     prepare.prepare(out, root, here)  # a previous output is replaced
     (root / prepare.DATA_FILES[0]).unlink()

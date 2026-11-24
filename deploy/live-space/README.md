@@ -3,8 +3,10 @@ title: Legal RAG (live)
 emoji: ⚖️
 colorFrom: blue
 colorTo: gray
-sdk: docker
-app_port: 7860
+sdk: gradio
+sdk_version: "6.32.0"
+python_version: "3.13"
+app_file: app.py
 pinned: false
 ---
 

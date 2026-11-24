@@ -1,7 +1,7 @@
-# Hugging Face Docker Space "legal-rag-live": the live demo, python -m src.web_demo --public,
-# on port 7860. Build context: the folder that deploy/live-space/prepare.py writes
-# (dist/live-space/): this file, README.md, NOTICE.md, requirements.txt, src/ and the live path's
-# data files.
+# Kept for reference; not uploaded. The Space "legal-rag-live" uses the Gradio SDK (app.py), as
+# Docker Spaces are not available on the owner's Hugging Face account. With Docker, this file would
+# serve the live demo, python -m src.web_demo --public, on port 7860, built from the folder that
+# deploy/live-space/prepare.py writes (dist/live-space/) with this file added to it.
 # Configuration comes from the Space settings (docs/deploy-live.md): the secret ANTHROPIC_API_KEY
 # and the variables LLM_PROVIDER and LLM_MODEL.
 FROM python:3.13-slim

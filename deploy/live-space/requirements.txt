@@ -1,6 +1,8 @@
-# The live demo's dependencies only (python -m src.web_demo --public). The repository's
-# requirements.txt has the full set; dense retrieval (torch, sentence-transformers) and the test
-# runner are not used by the live path. Versions as in development.
+# The live demo's dependencies only (python -m src.web_demo --public, started by app.py). The
+# Gradio SDK installs gradio itself (sdk_version in README.md); the live demo does not import it.
+# The repository's requirements.txt has the full set; dense retrieval (torch,
+# sentence-transformers) and the test runner are not used by the live path. Versions as in
+# development; checked to install together with gradio 6.32.0 on Python 3.13.
 
 # Settings loader (src/config.py imports it whenever it reads the environment; the Space has no
 # .env file, so it loads nothing).

@@ -1,8 +1,9 @@
 """Assemble the Hugging Face Docker Space of the live demo: python deploy/live-space/prepare.py
 
 Writes dist/live-space/ (git-ignored, replaced on each run), the folder to upload to the Space:
-- Dockerfile, README.md (the Space card), NOTICE.md (sources, attribution, licences) and
-  requirements.txt, from this folder;
+- app.py (the entry point the Gradio SDK runs), README.md (the Space card), NOTICE.md
+  (sources, attribution, licences) and requirements.txt, from this folder. The Dockerfile stays
+  here for reference: the Space uses the Gradio SDK, not Docker;
 - src/: the application code (every module and the page), without caches;
 - exactly the data files the live path reads (DATA_FILES): the recorded corpus build with its
   anchors (segment maps and passage links), the instrument registry, the two reference
@@ -23,7 +24,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
 DEFAULT_OUT = ROOT / "dist" / "live-space"
-SPACE_FILES = ("Dockerfile", "README.md", "NOTICE.md", "requirements.txt")
+SPACE_FILES = ("app.py", "README.md", "NOTICE.md", "requirements.txt")
 BUILD = "data/processed/builds/build-f76ff6031f2fc82c4852f0a2bde27807"
 VARIANTS = ("var-30da24d25055784cba1e38b5475791c1", "var-73eec6712eff509c69f66380241cc2b7")
 # What ProvisionExplorer.open, corpus_preflight and the evidence status read; nothing else is
@@ -57,7 +58,7 @@ def prepare(out: Path, root: Path = ROOT, here: Path = HERE) -> list[str]:
                          + "\nThe corpus build is created as described in docs/REFERENCE.md "
                            "(\"Provision store and corpus explorer\").")
     if out.exists():
-        if not (out / "Dockerfile").is_file() or not (out / "src").is_dir():
+        if not (out / "README.md").is_file() or not (out / "src").is_dir():
             raise SystemExit(f"error: {out} exists and is not a previous output of this script")
         shutil.rmtree(out)
     for src, rel in files:
