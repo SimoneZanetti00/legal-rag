@@ -198,7 +198,7 @@ def test_the_committed_replay_matches_the_page_and_the_final_run():
         STATIC_DIR / "app.css").read_text(encoding="utf-8")
     assert (site / "index.html").read_text(encoding="utf-8") == replay.replay_page(INDEX)
     data = json.loads((site / replay.REPLAY_FILE).read_text(encoding="utf-8"))
-    assert data["replay"]["run_id"] == "2026-11-17-final-nosummary"
+    assert data["replay"]["run_id"] == "2026-11-24-research-repair-caveat"
     assert [q["id"] for q in data["questions"]] == replay.dev_questions()
     run_dir = replay.RUNS_DIR / data["replay"]["run_id"]
     for qid, answer in data["answers"].items():

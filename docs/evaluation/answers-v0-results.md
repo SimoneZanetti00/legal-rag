@@ -16,6 +16,8 @@ build `build-f76ff6031f2fc82c4852f0a2bde27807`.*
 | `2026-11-17-research-t7-prompt` | query-analysis prompt v3: only the issues asked, at most 4; at most 8 lookups | 12 items / 12,000 tokens | live | live |
 | `2026-11-17-research-t7-outcome-rule` | outcome rule, first version (rejected, below) | 12 items / 12,000 tokens | replayed from t7-prompt | replayed (offline: no model call) |
 | `2026-11-17-research-t7-outcome-rule-2` | outcome rule, adopted version (below) | 12 items / 12,000 tokens | re-scored from t7-prompt's saved results (`rescore`: outcome only, no model call) | same |
+| `2026-11-24-research-repair` | repair pass, dev questions only (last section) | 12 items / 12,000 tokens | replayed from `2026-11-17-final` | generation and first support check replayed; repair calls and the support check of the rewrites live |
+| `2026-11-24-research-repair-caveat` | new Art. 33 caveat (application text only) | 12 items / 12,000 tokens | replayed | replayed (offline: no model call) |
 
 ## Stage metrics (22 questions, means over questions with core rows)
 
@@ -201,3 +203,64 @@ report was regenerated; their all-rows figures are unchanged.
    - results and report otherwise identical.
 
    The replay in `demo/replay/` comes from this re-render.
+
+## Repair pass: `2026-11-24-research-repair`
+
+**This is a single run on the 12 dev questions. Model variance is not measured.**
+
+**What changed.** After the support check, each claim rated partially supported or uncertain goes
+to one repair call (`claim-repair-v1`):
+- the model rewrites the claim to state only what its own quotations state, keeping some of
+  them, possibly shortened or split;
+- each rewrite is re-validated by the deterministic checks and support-checked once more;
+- a confirmed rewrite enters the answer, marked as repaired. Otherwise the original stays held
+  apart.
+
+The outcome rule is unchanged.
+
+**How it ran.**
+- **Replayed:** analysis, generation and the first support check, from `2026-11-17-final`. Their
+  prompts and messages are unchanged, so the comparison isolates the repair pass.
+- **Live:** only the repair calls and the support check of the rewrites. They cost $0.094 under
+  a $1.40 budget guard.
+- **A discarded first attempt** ($0.097) returned the rewrites of English answers in Italian. The
+  repair message now names the answer's language.
+- **Re-render:** `2026-11-24-research-repair-caveat` re-renders the run offline with the new Art.
+  33 caveat. Only the qualifications of the five answers citing Art. 33 changed, and the report is
+  identical. The replay in `demo/replay/` comes from this re-render.
+
+| Question | Expected | Outcome (before → after) | Claims in answer / held apart (before → after) | Core in citations (before → after) | Repaired / not confirmed |
+|---|---|---|---|---|---|
+| a01 | answer | answer → answer | 7/2 → 9/0 | 100% → 100% | 2 / 0 |
+| a02 | answer | answer → answer | 1/1 → 2/0 | 100% → 100% | 1 / 0 |
+| a03 | answer | answer → answer | 5/0 → 5/0 | 100% → 100% | 0 / 0 |
+| a04 | answer | answer → answer | 7/1 → 7/1 | 100% → 100% | 0 / 1 |
+| a05 | answer | answer → answer | 5/2 → 6/1 | 100% → 100% | 1 / 1 |
+| a06 | answer | answer_limited → answer_limited | 8/1 → 9/1 | 71% → 86% | 1 / 1 |
+| a07 | answer | answer_limited → answer_limited | 6/4 → 8/3 | 56% → 78% | 2 / 3 |
+| a08 | answer | answer → answer | 10/2 → 12/0 | 100% → 100% | 2 / 0 |
+| a09 | abstain | abstain → abstain | 0/0 → 0/0 | — | 0 / 0 |
+| a10 | answer | answer → answer | 5/1 → 6/0 | 100% → 100% | 1 / 0 |
+| a11 | answer | answer → answer | 3/1 → 3/1 | 100% → 100% | 0 / 1 |
+| a12 | answer | answer → answer | 3/1 → 3/1 | 100% → 100% | 0 / 1 |
+| **Total** | | **10/12 → 10/12** | **60/16 → 70/8** | **93% → 97%** | **10 / 8** |
+
+**Reading.**
+
+1. **Ten rewrites were confirmed and entered the answer.** Eight were not confirmed, and their
+   original claims stay held apart. No rewrite failed the deterministic checks.
+
+   Example, a01: the claim said "The only exception is where the breach is unlikely to present a
+   risk"; the quotation does not say "only". The rewrite, "…unless the breach is unlikely to
+   present a risk…", was confirmed.
+2. **Outcomes are unchanged.** In a06 and a07 the model reported the question as only partly
+   answered, and the rule keeps that report.
+3. **Citation recall rose from 93% to 97%** on these questions (a06, a07), as repaired claims
+   now cite core provisions in the main answer.
+4. **Accepted imperfections** (owner's decision): two rewrites read awkwardly.
+   - a02 begins with "Secondo la citazione, …".
+   - a06's confirmed part of a split claim is a fragment.
+5. **Claims of absence cannot be quoted** (TECHNICAL_DEBT.md TD-068). a12's claim that the GDPR
+   sets no 96-hour deadline stays held apart, also after repair. The main answer states the
+   72-hour rule. The Art. 33 caveat now names the proposal: it "would limit notification to
+   high-risk breaches and extend the deadline to 96 hours".

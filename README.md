@@ -113,6 +113,9 @@ flowchart TD
   with no human review recorded, a question abstains before any model call.
 - **Claims held apart.** A claim the support check did not rate SUPPORTED is shown separately
   and is not part of the answer.
+- **One repair round.** The model rewrites each held-apart claim once, to state only what its own
+  quotations state. The rewrite is re-validated by the same checks and re-checked for support;
+  only a confirmed rewrite enters the answer, marked as repaired.
 - **An outcome rule.** The outcome is `answer` only if every issue has a SUPPORTED claim and the
   model reported none as only partly answered. Otherwise it is `answer_limited`.
 - **Source status.** Each source states separately: official or unofficial transcription;
@@ -182,6 +185,11 @@ stricter support check:
 
 In a legal answer, a statement that says more than its source is the failure that matters most.
 
+**A repair pass recovers held-apart claims.** On the 12 dev questions (2026-11-24), one repair
+round put 10 rewritten claims into the answer, and held-apart claims fell from 16 to 8. Citation
+recall rose from 93% to 97%; outcomes were unchanged (10/12). The run cost $0.09, because only the
+repair calls and their support checks were new.
+
 The four remaining mismatches (a06, a07, a15, a22) are `answer_limited` where `answer` was
 expected. In each, the model reported its question as only partly answered; a06 and a07 are
 broad overview questions.
@@ -242,6 +250,9 @@ template are ready in [docs/reviews/](docs/reviews/).
    comparing hybrid retrieval and reranking.
 7. **A per-sentence support check for summaries,** so that the summary can be shown again
    (TD-067).
+8. **A deterministic absence check.** A claim that something is absent (no 96-hour deadline)
+   cannot be quoted, so the support check cannot confirm it. Accept it only if the term does not
+   occur in the cited provision's text (TD-068).
 
 ## Documentation
 

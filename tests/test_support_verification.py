@@ -500,7 +500,8 @@ def test_every_answer_gets_its_as_of_date_and_art_33_answers_the_omnibus_caveat(
     assert "as of: 2026-11-17" in render_answer(plain)
     assert DIGITAL_OMNIBUS_CAVEAT == (
         "A pending proposal (Digital Omnibus, COM(2025) 837, not adopted as of 2026-11-08) would "
-        "change the Art. 33 threshold and deadline; this answer reflects the text in the corpus.")
+        "limit notification to high-risk breaches and extend the deadline to 96 hours; this "
+        "answer reflects the text in force in the corpus (72 hours).")
 
 
 def test_an_italian_question_shows_the_fixed_qualifications_in_italian():
@@ -525,8 +526,8 @@ def test_an_italian_question_shows_the_fixed_qualifications_in_italian():
         "Data di riferimento 2026-11-17: questa risposta riflette i testi presenti nel corpus a "
         "tale data. Non stabilisce il diritto vigente a quella data o successivamente.",
         "Una proposta in corso (Digital Omnibus, COM(2025) 837, non adottata al 2026-11-08) "
-        "modificherebbe la soglia e il termine dell'art. 33; questa risposta riflette il testo "
-        "presente nel corpus.")
+        "limiterebbe la notifica alle violazioni ad alto rischio ed estenderebbe il termine a 96 "
+        "ore; questa risposta riflette il testo in vigore presente nel corpus (72 ore).")
     assert shown[4] == other  # anything else is shown as it is
     assert italian_question.qualifications == english  # the result keeps the English text
     assert "Data di riferimento 2026-11-17" in render_answer(italian_question)

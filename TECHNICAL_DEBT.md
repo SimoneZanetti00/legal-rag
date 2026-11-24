@@ -109,6 +109,7 @@ the phase reports and are not asserted by the test suite.
 | TD-063 | Segmentation rules rest on the sources' formatting | Provision anchors | Confirmed | Medium | Open |
 | TD-066 | A web demo test fails intermittently | Testing | Observed | Low | Open |
 | TD-067 | Summary sentences are checked for citations, not content | Answer quality | Observed | Medium | Open |
+| TD-068 | Claims of absence cannot be quoted | Answer quality | Observed | Medium | Open |
 
 ## Ingestion and chunking (Phase 2)
 
@@ -548,6 +549,14 @@ the phase reports and are not asserted by the test suite.
   - in a05, a06 and a07 the remaining sentence began with "…adds", "They" or "It", pointing back to a sentence that was left out.
 - **Mitigation:** the summary display is off by default (`SHOW_SUMMARY=false`, owner's decision, 2026-11-17).
 - **Follow-up:** a per-sentence support check for summaries, judging each sentence against the claims it cites (as the claim support check does), or a summary built from the supported claims themselves. Then turn the display back on.
+
+### TD-068 · Claims of absence cannot be quoted
+- **Kind:** Observed · **Priority:** Medium · **Status:** Open
+- **Evidence:** a12 asks whether the GDPR sets a 96-hour deadline.
+  - The claim that it does not ("il termine … è di 72 ore e non di 96 ore: nelle disposizioni fornite non compare alcun termine di 96 ore") rests on no quotation of the absence.
+  - The support check therefore rates it partially supported, and it stays held apart. The repair pass could not confirm it either (`2026-11-24-research-repair`).
+- **Impact:** the main answer states the 72-hour rule but does not say that 96 hours is absent from the text. The Art. 33 caveat now names the 96-hour proposal (owner's decision, 2026-11-24).
+- **Follow-up:** a deterministic absence check. Accept a claim that a term does not appear only if the term does not occur in the text of the cited provision (normalised comparison), and mark the claim as an absence check rather than a quotation.
 
 ## Risks and questions for later phases
 

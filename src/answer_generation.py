@@ -183,8 +183,9 @@ NO_SUPPORTED_CLAIMS = "no_supported_claims"
 AS_OF_QUALIFICATION = ("As-of date {as_of}: this answer reflects the texts in the corpus on that "
                        "date. It does not establish the law in force then or later.")
 DIGITAL_OMNIBUS_CAVEAT = ("A pending proposal (Digital Omnibus, COM(2025) 837, not adopted as of "
-                          "2026-11-08) would change the Art. 33 threshold and deadline; this "
-                          "answer reflects the text in the corpus.")
+                          "2026-11-08) would limit notification to high-risk breaches and extend "
+                          "the deadline to 96 hours; this answer reflects the text in force in the "
+                          "corpus (72 hours).")
 VALIDITY_QUALIFICATION = ("This system does not establish whether any provision is legally valid, "
                           "in force or applicable at any date.")
 NOT_VERIFIED_QUALIFICATION = ("Quotations were checked against the evidence text; whether each "
@@ -1092,8 +1093,9 @@ QUALIFICATIONS_IT = {
         "di revisione; una fonte in attesa di revisione non è citabile in modalità verificata e "
         "non va considerata verificata."),
     DIGITAL_OMNIBUS_CAVEAT: ("Una proposta in corso (Digital Omnibus, COM(2025) 837, non adottata "
-                             "al 2026-11-08) modificherebbe la soglia e il termine dell'art. 33; "
-                             "questa risposta riflette il testo presente nel corpus."),
+                             "al 2026-11-08) limiterebbe la notifica alle violazioni ad alto "
+                             "rischio ed estenderebbe il termine a 96 ore; questa risposta "
+                             "riflette il testo in vigore presente nel corpus (72 ore)."),
 }
 
 

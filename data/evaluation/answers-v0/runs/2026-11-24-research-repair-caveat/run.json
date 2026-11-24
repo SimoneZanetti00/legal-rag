@@ -1,0 +1,81 @@
+{
+ "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+ "code": {
+  "changed_paths": [
+   " M src/answer_generation.py",
+   " M tests/test_support_verification.py",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a01.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a02.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a03.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a04.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a05.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a06.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a07.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a08.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a09.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a10.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a11.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a12.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/report.json",
+   "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/run.json",
+   "?? docs/PROJECT_OVERVIEW.md",
+   "?? docs/reviews/m1-review-record-2026-11-09.md"
+  ],
+  "commit": "e51377b73a0fc1e65e545c5de9d023c7f6e292db",
+  "fingerprint": "c2159dcaf826cc897a36919f70f13df3265fd88c228f5bb352cb0ced9d0cad39",
+  "state": "dirty"
+ },
+ "invocations": [
+  {
+   "at": "2026-11-24T11:38:52+01:00",
+   "code": {
+    "changed_paths": [
+     " M src/answer_generation.py",
+     " M tests/test_support_verification.py",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a01.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a02.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a03.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a04.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a05.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a06.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a07.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a08.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a09.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a10.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a11.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/a12.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/report.json",
+     "?? data/evaluation/answers-v0/runs/2026-11-24-research-repair/run.json",
+     "?? docs/PROJECT_OVERVIEW.md",
+     "?? docs/reviews/m1-review-record-2026-11-09.md"
+    ],
+    "commit": "e51377b73a0fc1e65e545c5de9d023c7f6e292db",
+    "fingerprint": "c2159dcaf826cc897a36919f70f13df3265fd88c228f5bb352cb0ced9d0cad39",
+    "state": "dirty"
+   },
+   "splits": [
+    "dev"
+   ]
+  }
+ ],
+ "kind": "answers-v0-run",
+ "mode": "research",
+ "model": "claude-sonnet-5-5",
+ "offline": true,
+ "prompt_versions": {
+  "answer_generation": "answer-generation-v5",
+  "claim_repair": "claim-repair-v1",
+  "claim_verification": "claim-verification-v3",
+  "query_analysis": "query-analysis-v3"
+ },
+ "provider": "anthropic",
+ "replay_of": "2026-11-24-research-repair",
+ "run_id": "2026-11-24-research-repair-caveat",
+ "schema": 1,
+ "settings": {
+  "context_token_budget": 12000,
+  "final_evidence_count": 12,
+  "max_generation_retries": 1,
+  "semantic_verification": true
+ }
+}
