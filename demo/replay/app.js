@@ -112,10 +112,29 @@ async function loadHealth() {
     return;
   }
   $("#question").maxLength = info.max_question_chars;
+  if (info.public) applyPublicMode();
   updateCounter();
   updateStatus();
   const names = Object.values(info.instruments);
   $("#corpus").textContent = names.length ? `Corpus: ${names.join(" · ")}.` : "";
+}
+
+// The public live demo (web_demo --public, a Hugging Face Space): research mode only, short
+// questions, limits per visitor and per day; the page says where questions go.
+function applyPublicMode() {
+  const limits = info.limits;
+  $(".modes").hidden = true;
+  document.querySelector('input[name="mode"][value="verified"]').disabled = true;
+  document.querySelector('input[name="mode"][value="research"]').checked = true;
+  $("#public-notice").hidden = false;
+  $("#public-limits").textContent = `Each visitor may ask ${limits.per_visitor_hour} questions per hour and ` +
+    `${limits.per_visitor_day} per day, in at most ${limits.max_question_chars} characters; the demo answers ` +
+    `${limits.global_day} questions per day in total. When a limit is reached, the saved answers remain available:`;
+  $("#public-replay").href = info.replay_url;
+  $("#footer-note").textContent = "Prototype for research and demonstration. Not legal advice. Live demo: " +
+    "questions and the provisions retrieved for them are sent to Anthropic's API for analysis, generation " +
+    "and verification. Do not include personal data.";
+  onModeChange();
 }
 
 function updateStatus() {
@@ -190,7 +209,8 @@ async function ask(event) {
     try { payload = await response.json(); } catch { payload = null; }
     if (!response.ok || !payload) {
       const message = payload && payload.error ? payload.error.message : `The server answered with HTTP ${response.status}.`;
-      showError(message);
+      // A limit of the public demo (HTTP 429) points to the replay of saved answers.
+      showError(message, payload && payload.error ? payload.error.replay_url : null);
       return;
     }
     $("#state").replaceChildren();
@@ -210,9 +230,11 @@ function setBusy(value) {
   updateAskButton();
 }
 
-function showError(message) {
+function showError(message, replayUrl) {
   $("#state").replaceChildren(el("div", { class: "banner stop", role: "alert" },
-    el("h2", {}, "Something went wrong"), el("p", { class: "detail" }, message)));
+    el("h2", {}, replayUrl ? "Limit reached" : "Something went wrong"), el("p", { class: "detail" }, message),
+    replayUrl ? el("p", {}, el("a", { href: replayUrl, target: "_blank", rel: "noopener" },
+      "Open the replay of saved answers")) : null));
 }
 
 function reset() {

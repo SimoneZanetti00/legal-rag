@@ -469,7 +469,7 @@ def test_the_page_reads_only_fields_the_server_provides(synthetic_result):
         "issue": set(data["analysis"]["issues"][0]),
         "evidence": set(data["evidence"]),
         "resolution": names(Resolution),
-        "info": set(INFO),
+        "info": set(INFO) | {"public", "limits", "replay_url"},  # + web_demo.public_info()
     }
     for variable, provided in contract.items():
         assert used(variable), f"{variable} is not used in app.js"
