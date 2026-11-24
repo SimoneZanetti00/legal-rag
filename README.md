@@ -1,5 +1,7 @@
 # Legal Research RAG
 
+**Live demo:** `<REPLAY_URL>`. It replays saved answers, with no live model calls.
+
 A retrieval-augmented question-answering prototype for Italian data-protection law: the GDPR and
 the Italian Privacy Code.
 - Every statement in an answer quotes the provision it rests on, and the quotation is checked
@@ -201,10 +203,11 @@ Both modes run the same pipeline and differ only in the provisions an answer may
 - **Research demo mode** also uses the 319 articles pending review. Each is marked «human review
   pending», and a research notice comes first.
 
-> **PLACEHOLDER: research vs verified example** (pending T8, the human review of GDPR Arts. 4,
-> 33, 34, 55 and Privacy Code Art. 2-bis). After T8, add one question (a01 or a10) answered in
-> both modes: the verified answer citing only reviewed provisions, the research answer, and the
-> difference.
+**Verified mode is implemented and tested.** It cites only provisions whose human review is
+recorded in the review ledger. No provision has been reviewed yet, so in verified mode the
+system abstains on every question, before any model call. That is by design. The review package
+for the first provisions (GDPR Arts. 4, 33, 34, 55 and Privacy Code Art. 2-bis) and the record
+template are ready in [docs/reviews/](docs/reviews/).
 
 ## Limits
 
@@ -224,8 +227,9 @@ Both modes run the same pipeline and differ only in the provisions an answer may
 
 ## Next steps
 
-1. **More reviewed articles.** First T8: GDPR Arts. 4, 33, 34, 55 and Code Art. 2-bis. Then
-   more, so that verified mode can answer.
+1. **Human review, so that verified mode can answer.** Review the first provisions (GDPR Arts.
+   4, 33, 34, 55 and Code Art. 2-bis) with the package and record template in
+   [docs/reviews/](docs/reviews/), record the review in the ledger, then review more articles.
 2. **Point-in-time versions via Normattiva.** Use the Privacy Code in force at a given date, so
    that an answer can state which text applied when.
 3. **Case law.** Add Garante decisions and court judgments as a source type with its own status
