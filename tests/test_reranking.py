@@ -1,10 +1,14 @@
 """Reranking tests. Everything is offline: scores come from a deterministic fake
 scorer, and where the cross-encoder path is exercised the `sentence_transformers`
-module is replaced by a fake. No real model is loaded."""
+module is replaced by a fake. The only real-model test is opt-in
+(RUN_REAL_MODEL_TESTS=1), is skipped when the model is not in the local cache,
+and never downloads anything."""
 
 import ast
 import copy
+import os
 import sys
+import time
 import types
 
 import numpy as np
@@ -1002,3 +1006,117 @@ def test_describe_combines_both_stages_and_the_candidate_depth():
 def test_describe_works_when_neither_stage_describes_itself():
     engine = RerankingRetriever(StubRetriever(), StubReranker(), candidate_top_k=7)
     assert engine.describe() == {"reranker_candidate_top_k": 7}
+
+
+# --- Optional: the real model, only if explicitly requested and already downloaded -------
+
+
+@pytest.mark.skipif(
+    os.environ.get("RUN_REAL_MODEL_TESTS") != "1",
+    reason="set RUN_REAL_MODEL_TESTS=1 to run; needs the model already in the Hugging Face cache",
+)
+def test_real_model_smoke():
+    """Checks that the real cross-encoder loads and scores. It is not a quality benchmark.
+
+    Nothing here expects a particular order or score value. Run with `-s` to see the
+    printed scores and timings.
+    """
+    # Imported here, not at the top of the file: huggingface_hub reads HF_HUB_OFFLINE
+    # once, when it is first imported, and by now the offline fixture has set it.
+    from huggingface_hub import try_to_load_from_cache
+
+    if not isinstance(try_to_load_from_cache(DEFAULT_MODEL, "config.json"), str):
+        pytest.skip(f"{DEFAULT_MODEL} is not in the local Hugging Face cache")
+
+    def passages(texts: list[str]) -> list[RetrievedPassage]:
+        chunks = [
+            LegalChunk(chunk_id=f"real-{i:04d}", doc_id="real", text=text, chunk_index=i)
+            for i, text in enumerate(texts)
+        ]
+        return ranked(BM25, chunks)
+
+    query = "obblighi del datore di lavoro"
+    texts = [
+        "Il datore di lavoro valuta tutti i rischi per la sicurezza dei lavoratori.",
+        "The controller shall notify a personal data breach within 72 hours.",
+        "Le sanzioni sono applicate dall'autorità competente.",
+    ]
+
+    # 1. Import, model load and inference are timed separately.
+    started = time.perf_counter()
+    from sentence_transformers import CrossEncoder, __version__ as st_version
+
+    import_seconds = time.perf_counter() - started
+    scorer = CrossEncoderScorer(DEFAULT_MODEL, local_files_only=True)  # never downloads
+    started = time.perf_counter()
+    scores = scorer.score(query, texts)  # loads the model, then scores
+    first_call_seconds = time.perf_counter() - started
+    started = time.perf_counter()
+    again = scorer.score(query, texts)  # model already loaded: inference only
+    inference_seconds = time.perf_counter() - started
+
+    # 2. One finite float per passage, stable when asked again.
+    assert len(scores) == 3
+    assert all(type(score) is float for score in scores)
+    assert np.isfinite(scores).all()
+    assert again == pytest.approx(scores, abs=1e-4)
+
+    # 3. The model distinguishes inputs: three different passages do not all get the same
+    # score. No particular order or margin is expected.
+    assert max(scores) - min(scores) > 0
+
+    # 4. Reranking with the real scorer gives valid results that keep their provenance.
+    reranker = Reranker(scorer=scorer)
+    candidates = passages(texts)
+    results = reranker.rerank(query, candidates)
+    assert [p.rank for p in results] == [1, 2, 3]
+    assert all(p.method is RERANKED for p in results)
+    reranked_scores = [p.score for p in results]
+    assert reranked_scores == sorted(reranked_scores, reverse=True)
+    assert sorted(reranked_scores) == pytest.approx(sorted(scores), abs=1e-4)
+    for candidate in candidates:
+        [result] = [p for p in results if p.chunk is candidate.chunk]  # each chunk exactly once
+        assert result.method_ranks == {BM25: candidate.rank}
+        assert result.method_scores == {BM25: candidate.score}
+
+    # 5. An input longer than the model's limit gets a finite score rather than an error.
+    # The model's own tokenizer confirms that the input exceeds the limit. That the tail
+    # is then truncated is library behaviour and is not checked here.
+    long_text = " ".join([texts[0]] * 80)
+    tokenizer_source = CrossEncoder(DEFAULT_MODEL, local_files_only=True)
+    limit = tokenizer_source.max_seq_length
+    pair_tokens = len(tokenizer_source.tokenizer(query, long_text)["input_ids"])
+    assert pair_tokens > limit
+    [long_score] = scorer.score(query, [long_text])
+    assert np.isfinite(long_score)
+
+    # 6. The default number of candidates at about the default chunk size, through the
+    # reranker's own batching. Timed only; nothing is expected of the order.
+    full_size = [(text + " ") * (1200 // (len(text) + 1)) for text in texts]
+    many = passages([full_size[i % 3] for i in range(DEFAULT_CANDIDATE_TOP_K)])
+    started = time.perf_counter()
+    batch_results = reranker.rerank(query, many)
+    batch_seconds = time.perf_counter() - started
+    assert len(batch_results) == DEFAULT_CANDIDATE_TOP_K
+    assert np.isfinite([p.score for p in batch_results]).all()
+
+    # Diagnostics, not assertions.
+    print(f"\n[real reranker] {DEFAULT_MODEL}")
+    print(f"  sentence-transformers {st_version}")
+    print(f"  import of sentence_transformers: {import_seconds:.1f}s")
+    print(f"  first score call (model load + 3 short passages): {first_call_seconds:.1f}s")
+    print(f"  second score call (inference only, 3 short passages): {inference_seconds:.2f}s")
+    load_seconds = first_call_seconds - inference_seconds
+    print(f"  model load, estimated as the difference: {load_seconds:.1f}s")
+    print(f"  query: {query!r}")
+    for p in results:
+        given = p.method_ranks[BM25]
+        print(f"  #{p.rank}  raw score {p.score:+.4f}  (given as #{given})  {p.chunk.text}")
+    print(
+        f"  passage of {len(long_text)} characters, {pair_tokens} tokens with the query, "
+        f"over the model limit of {limit}: {long_score:+.4f}"
+    )
+    print(
+        f"  {len(many)} passages of about {len(full_size[0])} characters, "
+        f"batch size {reranker.batch_size}: {batch_seconds:.1f}s"
+    )

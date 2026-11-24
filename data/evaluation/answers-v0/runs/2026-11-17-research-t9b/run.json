@@ -1,0 +1,68 @@
+{
+ "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+ "code": {
+  "changed_paths": [
+   " M src/answer_generation.py",
+   " M src/provision_cli.py",
+   " M src/support_verification.py",
+   " M src/web_demo.py",
+   " M src/web_static/app.js",
+   " M tests/test_answer_generation.py",
+   " M tests/test_cli_ask.py",
+   " M tests/test_support_verification.py",
+   " M tests/test_web_demo.py",
+   "?? docs/PROJECT_OVERVIEW.md",
+   "?? docs/evaluation/answers-v0-review-sheet.md",
+   "?? docs/reviews/m1-review-record-2026-11-09.md"
+  ],
+  "commit": "919c6a2f519cbe29d5de38a3fa86db902a80f0fc",
+  "fingerprint": "fd203f09adc74fe2a990cdc3594a39727926f9696710feca8f7143a583155cea",
+  "state": "dirty"
+ },
+ "invocations": [
+  {
+   "at": "2026-11-17T16:07:17+01:00",
+   "code": {
+    "changed_paths": [
+     " M src/answer_generation.py",
+     " M src/provision_cli.py",
+     " M src/support_verification.py",
+     " M src/web_demo.py",
+     " M src/web_static/app.js",
+     " M tests/test_answer_generation.py",
+     " M tests/test_cli_ask.py",
+     " M tests/test_support_verification.py",
+     " M tests/test_web_demo.py",
+     "?? docs/PROJECT_OVERVIEW.md",
+     "?? docs/evaluation/answers-v0-review-sheet.md",
+     "?? docs/reviews/m1-review-record-2026-11-09.md"
+    ],
+    "commit": "919c6a2f519cbe29d5de38a3fa86db902a80f0fc",
+    "fingerprint": "fd203f09adc74fe2a990cdc3594a39727926f9696710feca8f7143a583155cea",
+    "state": "dirty"
+   },
+   "splits": [
+    "dev"
+   ]
+  }
+ ],
+ "kind": "answers-v0-run",
+ "mode": "research",
+ "model": "claude-sonnet-5-5",
+ "offline": false,
+ "prompt_versions": {
+  "answer_generation": "answer-generation-v5",
+  "claim_verification": "claim-verification-v3",
+  "query_analysis": "query-analysis-v3"
+ },
+ "provider": "anthropic",
+ "replay_of": null,
+ "run_id": "2026-11-17-research-t9b",
+ "schema": 1,
+ "settings": {
+  "context_token_budget": 12000,
+  "final_evidence_count": 12,
+  "max_generation_retries": 1,
+  "semantic_verification": true
+ }
+}

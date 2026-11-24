@@ -1,0 +1,7 @@
+{
+  "schema_version": 2,
+  "benchmark_id": "legal",
+  "version": "2",
+  "kind": "real",
+  "description": "24 Italian questions on the GDPR (2016 publication) and the Privacy Code transcription, revised from legal v1 under the owner's decisions D1-D8; two query scenarios (technical, natural); all records are unreviewed candidates."
+}

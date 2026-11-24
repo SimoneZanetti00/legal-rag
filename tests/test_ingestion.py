@@ -9,7 +9,9 @@ import pytest
 
 from src.chunk_store import read_chunks
 from src.config import PROJECT_ROOT
+from src.chunking import chunk_document
 from src.ingestion import (
+    BoundaryError,
     IngestionError,
     display_path,
     find_input_files,
@@ -351,3 +353,175 @@ def test_cli_module_entry_point(tmp_path):
     )
     assert run.returncode == 1
     assert "bad.txt" in run.stderr
+
+
+# --- End boundary (--end-before) ------------------------------------------------
+
+BOUNDARY = "ALLEGATO A.1"
+# Shaped like the end of the Privacy Code transcription: the last article, the
+# signatures, then an annex whose own articles restart at "Art. 1.".
+MAIN_BODY = (
+    "Art. 185 (Allegazione dei codici)\n1. Testo dell'articolo 185.\n\n"
+    "Art. 186 (Entrata in vigore)\n1. Le disposizioni entrano in vigore il 1 gennaio 2004.\n\n"
+    "Visto, il Guardasigilli: CASTELLI"
+)
+ANNEX = (
+    "ALLEGATO A.1\nREGOLE DEONTOLOGICHE RELATIVE ALL'ATTIVITA GIORNALISTICA\n\n"
+    "Art. 1.\n((Principi generali))\n1. Testo del primo articolo dell'allegato.\n"
+)
+
+
+def test_without_a_boundary_the_document_is_unchanged(tmp_path):
+    path = write(tmp_path / "codice.txt", MAIN_BODY + "\n\n" + ANNEX)
+    whole, warnings = load_document(path)
+    assert load_document(path, end_before=None) == (whole, warnings)
+    assert BOUNDARY in whole.content and "primo articolo dell'allegato" in whole.content
+
+
+def test_whole_file_ingestion_output_is_unchanged_without_a_boundary(tmp_path):
+    path = write(tmp_path / "codice.txt", MAIN_BODY + "\n\n" + ANNEX)
+    first, second = tmp_path / "a.jsonl", tmp_path / "b.jsonl"
+    run_ingest(path, first)
+    ingest(path, second, chunk_size=1200, chunk_overlap=150, end_before=None)
+    assert first.read_bytes() == second.read_bytes()
+
+
+def test_boundary_keeps_only_the_text_before_the_line(tmp_path):
+    path = write(tmp_path / "codice.txt", MAIN_BODY + "\n\n" + ANNEX)
+    document, warnings = load_document(path, end_before=BOUNDARY)
+    assert document.content == MAIN_BODY  # an exact prefix, ending at the last kept line
+    assert document.content.endswith("Visto, il Guardasigilli: CASTELLI")
+    assert BOUNDARY not in document.content
+    assert "REGOLE DEONTOLOGICHE" not in document.content
+    assert "primo articolo dell'allegato" not in document.content
+    assert len(warnings) == 1 and "text cut before the line 'ALLEGATO A.1'" in warnings[0]
+
+
+def test_no_chunk_contains_the_boundary_or_annex_text(tmp_path):
+    path = write(tmp_path / "codice.txt", MAIN_BODY + "\n\n" + ANNEX)
+    document, _ = load_document(path, end_before=BOUNDARY)
+    chunks = chunk_document(document, 1200, 150)
+    assert not any(BOUNDARY in c.text or "allegato" in c.text.lower() for c in chunks)
+    # Art. 186 keeps its own text and does not absorb the annex heading or articles.
+    [last] = [c for c in chunks if c.location.article == "186"]
+    assert last.text.endswith("Visto, il Guardasigilli: CASTELLI")
+    assert {c.location.article for c in chunks} == {"185", "186"}
+
+
+def test_without_a_boundary_the_annex_is_absorbed_by_the_last_article(tmp_path):
+    # Documents why the boundary is needed: "ALLEGATO A.1" is not a heading, and the
+    # annex's "Art. 1." is not recognised, so the annex text ends up under Art. 186.
+    path = write(tmp_path / "codice.txt", MAIN_BODY + "\n\n" + ANNEX)
+    whole, _ = load_document(path)
+    last = chunk_document(whole, 1200, 150)[-1]
+    assert last.location.article == "186" and BOUNDARY in last.text
+
+
+def test_boundary_must_be_a_whole_line(tmp_path):
+    path = write(tmp_path / "codice.txt", MAIN_BODY + "\nVedi ALLEGATO A.1 al Codice.\n")
+    with pytest.raises(BoundaryError, match="not found as a line of its own"):
+        load_document(path, end_before=BOUNDARY)
+
+
+def test_boundary_ignores_whitespace_around_the_line_but_not_case(tmp_path):
+    path = write(tmp_path / "codice.txt", MAIN_BODY + "\n\n   ALLEGATO A.1  \nTesto.")
+    document, _ = load_document(path, end_before=BOUNDARY)
+    assert document.content == MAIN_BODY
+    lower = write(tmp_path / "lower.txt", MAIN_BODY + "\n\nallegato a.1\nTesto.")
+    with pytest.raises(BoundaryError, match="not found"):
+        load_document(lower, end_before=BOUNDARY)
+
+
+def test_missing_boundary_is_an_error(tmp_path):
+    path = write(tmp_path / "codice.txt", MAIN_BODY)
+    with pytest.raises(BoundaryError, match="'ALLEGATO A.1' not found"):
+        load_document(path, end_before=BOUNDARY)
+
+
+def test_repeated_boundary_is_an_error_naming_the_pages(tmp_path, write_pdf):
+    path = write_pdf(tmp_path / "twice.pdf", [["Art. 1", "Testo.", BOUNDARY], [BOUNDARY, "Altro."]])
+    message = r"occurs 2 times \(page 1, page 2\); it must be unique"
+    with pytest.raises(BoundaryError, match=message):
+        load_document(path, end_before=BOUNDARY)
+
+
+@pytest.mark.parametrize("boundary", ["", "   ", " ALLEGATO A.1", "ALLEGATO\nA.1"])
+def test_malformed_boundary_strings_are_rejected(tmp_path, boundary):
+    path = write(tmp_path / "codice.txt", MAIN_BODY + "\n\n" + ANNEX)
+    with pytest.raises(BoundaryError, match="must be one line"):
+        load_document(path, end_before=boundary)
+
+
+def test_nothing_before_the_boundary_is_an_error(tmp_path):
+    path = write(tmp_path / "codice.txt", ANNEX)
+    with pytest.raises(BoundaryError, match="no text before"):
+        load_document(path, end_before=BOUNDARY)
+
+
+def test_page_numbers_and_offsets_are_those_of_the_whole_file(tmp_path, write_pdf):
+    # The boundary shares page 2 with the end of the main body; page 3 is annex only.
+    pages = [
+        ["Art. 185 (Allegazione)", "1. Testo della prima pagina."],
+        [
+            "Art. 186 (Entrata in vigore)",
+            "1. Testo finale.",
+            "Visto, il Guardasigilli: CASTELLI",
+            BOUNDARY,
+            "REGOLE DEONTOLOGICHE",
+        ],
+        ["Art. 2.", "Testo del secondo articolo dell'allegato."],
+    ]
+    path = write_pdf(tmp_path / "codice.pdf", pages)
+    whole, _ = load_document(path)
+    cut, _ = load_document(path, end_before=BOUNDARY)
+
+    assert whole.content.startswith(cut.content)  # same characters, same offsets
+    assert cut.page_starts == whole.page_starts[:2]  # page 3 dropped, pages 1-2 unchanged
+    assert cut.doc_id == whole.doc_id  # still the hash of the unchanged file
+    chunks = chunk_document(cut, 1200, 150)
+    assert chunks[-1].location.article == "186"
+    assert (chunks[-1].location.page, chunks[-1].location.page_end) == (2, 2)
+    assert chunks[-1].text.endswith("Visto, il Guardasigilli: CASTELLI")
+    assert not any("REGOLE" in c.text or "allegato" in c.text for c in chunks)
+    # Chunks entirely before the cut are identical to whole-file ingestion.
+    whole_chunks = chunk_document(whole, 1200, 150)
+    assert chunks[:-1] == whole_chunks[: len(chunks) - 1]
+
+
+def test_failed_boundary_writes_nothing_and_keeps_the_existing_output(tmp_path):
+    path = write(tmp_path / "codice.txt", MAIN_BODY)  # no boundary line
+    output = write(tmp_path / "out" / "chunks.jsonl", "previous output\n")
+    with pytest.raises(BoundaryError):
+        ingest(path, output, chunk_size=1200, chunk_overlap=150, end_before=BOUNDARY)
+    assert output.read_text(encoding="utf-8") == "previous output\n"
+    assert sorted(p.name for p in output.parent.iterdir()) == ["chunks.jsonl"]  # no .tmp left
+    fresh = tmp_path / "new" / "chunks.jsonl"
+    with pytest.raises(BoundaryError):
+        ingest(path, fresh, chunk_size=1200, chunk_overlap=150, end_before=BOUNDARY)
+    assert not fresh.exists()
+
+
+def test_boundary_requires_a_single_input_file(tmp_path):
+    raw = tmp_path / "raw"
+    write(raw / "codice.txt", MAIN_BODY + "\n\n" + ANNEX)
+    with pytest.raises(ValueError, match="single input file"):
+        ingest(raw, tmp_path / "c.jsonl", chunk_size=1200, chunk_overlap=150, end_before=BOUNDARY)
+
+
+def test_cli_end_before_success_reports_the_cut(tmp_path, capsys, default_chunking):
+    path = write(tmp_path / "codice.txt", MAIN_BODY + "\n\n" + ANNEX)
+    output = tmp_path / "chunks.jsonl"
+    code = main(["--input", str(path), "--output", str(output), "--end-before", BOUNDARY])
+    out = capsys.readouterr().out
+    assert code == 0
+    assert "WARNING" in out and "text cut before the line 'ALLEGATO A.1'" in out
+    assert not any(BOUNDARY in c.text for c in read_chunks(output))
+
+
+def test_cli_end_before_failure_exits_2_without_output(tmp_path, capsys, default_chunking):
+    path = write(tmp_path / "codice.txt", MAIN_BODY)
+    output = tmp_path / "chunks.jsonl"
+    code = main(["--input", str(path), "--output", str(output), "--end-before", BOUNDARY])
+    assert code == 2
+    assert "Error: end boundary 'ALLEGATO A.1' not found" in capsys.readouterr().err
+    assert not output.exists()

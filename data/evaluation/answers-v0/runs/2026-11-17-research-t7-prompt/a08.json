@@ -1,0 +1,1323 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Can a company (as controller) lawfully process personal data without the consent of the data subject, and on which legal bases other than consent?"
+     }
+    ],
+    "language": "en",
+    "scope_reason": "The question concerns the conditions for lawful processing of personal data by a company under the GDPR, in particular whether consent is required.",
+    "search_queries_it": [
+     "liceità del trattamento senza consenso dell'interessato",
+     "condizioni di liceità del trattamento basi giuridiche",
+     "trattamento necessario per l'esecuzione di un contratto",
+     "trattamento necessario per il perseguimento del legittimo interesse del titolare del trattamento",
+     "trattamento necessario per adempiere un obbligo legale al quale è soggetto il titolare del trattamento",
+     "condizioni per il consenso dell'interessato",
+     "trattamento di categorie particolari di dati personali"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "6",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "lawfulness of processing: legal bases other than consent"
+     },
+     {
+      "article": "7",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "conditions for consent, when consent is the basis"
+     },
+     {
+      "article": "9",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "special categories of data, where stricter conditions apply"
+     },
+     {
+      "article": "5",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "principles including lawfulness, fairness and transparency"
+     }
+    ],
+    "uncertainty": "The question does not specify the type of data (ordinary or special categories), the purpose of the processing, or the country; it is assumed the GDPR applies. Italian-specific rules in the Privacy Code are not considered as Italy is not mentioned."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8QoSMHeTXhwTRd9o1QG"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "227beb1de4fc6243a3938fe318d8012e0b5aca13ab853ae115b57893c3c1ffd7",
+   "task": "query_analysis",
+   "user_sha256": "f464b8cdd63dfcc64fdb8e87390f8dd2eb3c2c0dcfa4badbc18cf6c447bac103"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Il trattamento è lecito solo se e nella misura in cui ricorre almeno una delle seguenti condizioni:"
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "l'interessato ha espresso il consenso al trattamento dei propri dati personali per una o più specifiche finalità;"
+       }
+      ],
+      "text": "Under Article 6(1) GDPR, processing is lawful only if at least one of the listed conditions applies, and consent is only one of them (letter a)."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "il trattamento è necessario all'esecuzione di un contratto di cui l'interessato è parte o all'esecuzione di misure precontrattuali adottate su richiesta dello stesso;"
+       }
+      ],
+      "text": "Contract: processing is lawful where it is necessary for the performance of a contract to which the data subject is party, or for pre-contractual measures taken at the data subject's request."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "il trattamento è necessario per adempiere un obbligo legale al quale è soggetto il titolare del trattamento;"
+       }
+      ],
+      "text": "Legal obligation: processing is lawful where it is necessary to comply with a legal obligation to which the controller is subject."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "il trattamento è necessario per la salvaguardia degli interessi vitali dell'interessato o di un'altra persona fisica;"
+       }
+      ],
+      "text": "Vital interests: processing is lawful where it is necessary to protect the vital interests of the data subject or of another natural person."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "il trattamento è necessario per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri di cui è investito il titolare del trattamento;"
+       }
+      ],
+      "text": "Public interest or official authority: processing is lawful where it is necessary for a task carried out in the public interest or in the exercise of official authority vested in the controller."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi, a condizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la protezione dei dati personali, in particolare se l'interessato è un minore."
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "La lettera f) del primo comma non si applica al trattamento di dati effettuato dalle autorità pubbliche nell'esecuzione dei loro compiti."
+       }
+      ],
+      "text": "Legitimate interest: processing is lawful where it is necessary for the legitimate interests of the controller or of third parties, provided that the interests or fundamental rights and freedoms of the data subject do not override them (particularly if the data subject is a child). This basis does not apply to processing by public authorities in the performance of their tasks."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Il trattamento è lecito solo se e nella misura in cui ricorre almeno una delle seguenti condizioni:"
+       }
+      ],
+      "text": "A company can therefore lawfully process personal data without consent if another condition in Article 6(1) applies, namely contract, legal obligation, vital interests, public interest or official authority, or legitimate interest. The public-interest basis is likely to be available to a private company only if it has been entrusted with such a task, and the legitimate-interest basis is subject to the balancing test."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "La base su cui si fonda il trattamento dei dati di cui al paragrafo 1, lettere c) ed e), deve essere stabilita:"
+       }
+      ],
+      "text": "The basis for processing under legal obligation and public interest must be laid down by Union law or by the law of the Member State to which the controller is subject."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "È vietato trattare dati personali che rivelino l'origine razziale o etnica"
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "il trattamento è necessario per tutelare un interesse vitale dell'interessato o di un'altra persona fisica qualora l'interessato si trovi nell'incapacità fisica o giuridica di prestare il proprio consenso;"
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "il trattamento è necessario per accertare, esercitare o difendere un diritto in sede giudiziaria o ogniqualvolta le autorità giurisdizionali esercitino le loro funzioni giurisdizionali;"
+       }
+      ],
+      "text": "For special categories of data, processing is prohibited in principle, but the prohibition does not apply in certain cases, some of which do not rely on consent, for example processing necessary for employment and social security law obligations, vital interests where the data subject cannot consent, or establishing, exercising or defending legal claims."
+     }
+    ],
+    "limitations": [
+     "The evidence does not say whether the GDPR applies to the company in question; this is assumed, as stated in the question analysis.",
+     "Article 6 is given in full, but the cases in Article 9(2) are only summarised in part in the claims. The question does not specify the type of data or the purpose, so the applicable basis cannot be determined.",
+     "The Privacy Code items (E5, E7) are unofficial transcriptions of uncertain validity and have not been relied on."
+    ],
+    "outcome": "answer",
+    "unanswered_issues": []
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8Qokh6pw4X4YLNBH5W2"
+   ],
+   "schema_sha256": "958b2be51ffa530f9267f985c758125ecff38d8bcb558d93f182bc5ea60defee",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "a4316fff0471471b36fb2ed20f090ba325500d3fcfb1723ee2160e9ab5a95f80",
+   "task": "answer_generation",
+   "user_sha256": "4d6ba2c1ec24fbaf70630cb41d4baeb4eb235cd60a43862a644a8bc3dbd5360b"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C8",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C9",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8QpboMMMePZHR5W3Xdu"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "e125d66867796bf590fbc60aea974405ca557abd3b818c1c8243652db157f309",
+   "task": "claim_verification",
+   "user_sha256": "15e882211377c9f7b62b42ba87e69431392ed3cf1a1718cf46c8bced7b437e6a"
+  }
+ ],
+ "query_id": "a08",
+ "question": "Can a company process personal data without the consent of the data subject?",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Can a company (as controller) lawfully process personal data without the consent of the data subject, and on which legal bases other than consent?"
+    }
+   ],
+   "language": "en",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v3",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8QoSMHeTXhwTRd9o1QG"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Can a company process personal data without the consent of the data subject?",
+   "rejected_suggestions": [],
+   "scope_reason": "The question concerns the conditions for lawful processing of personal data by a company under the GDPR, in particular whether consent is required.",
+   "search_queries_it": [
+    "liceità del trattamento senza consenso dell'interessato",
+    "condizioni di liceità del trattamento basi giuridiche",
+    "trattamento necessario per l'esecuzione di un contratto",
+    "trattamento necessario per il perseguimento del legittimo interesse del titolare del trattamento",
+    "trattamento necessario per adempiere un obbligo legale al quale è soggetto il titolare del trattamento",
+    "condizioni per il consenso dell'interessato",
+    "trattamento di categorie particolari di dati personali"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "6",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "lawfulness of processing: legal bases other than consent"
+    },
+    {
+     "article": "7",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "conditions for consent, when consent is the basis"
+    },
+    {
+     "article": "9",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "special categories of data, where stricter conditions apply"
+    },
+    {
+     "article": "5",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "principles including lawfulness, fairness and transparency"
+    }
+   ],
+   "uncertainty": "The question does not specify the type of data (ordinary or special categories), the purpose of the processing, or the country; it is assumed the GDPR applies. Italian-specific rules in the Privacy Code are not considered as Italy is not mentioned."
+  },
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 6",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "6",
+    "legal_validity": "not_established",
+    "page_end": 37,
+    "page_start": 36,
+    "path": "CAPO II > Articolo 6",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Liceità del trattamento",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 9",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "9",
+    "legal_validity": "not_established",
+    "page_end": 39,
+    "page_start": 38,
+    "path": "CAPO II > Articolo 9",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Trattamento di categorie particolari di dati personali",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Il trattamento è lecito solo se e nella misura in cui ricorre almeno una delle seguenti condizioni:"
+     },
+     {
+      "evidence_id": "E1",
+      "text": "l'interessato ha espresso il consenso al trattamento dei propri dati personali per una o più specifiche finalità;"
+     }
+    ],
+    "text": "Under Article 6(1) GDPR, processing is lawful only if at least one of the listed conditions applies, and consent is only one of them (letter a).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "il trattamento è necessario all'esecuzione di un contratto di cui l'interessato è parte o all'esecuzione di misure precontrattuali adottate su richiesta dello stesso;"
+     }
+    ],
+    "text": "Contract: processing is lawful where it is necessary for the performance of a contract to which the data subject is party, or for pre-contractual measures taken at the data subject's request.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "il trattamento è necessario per adempiere un obbligo legale al quale è soggetto il titolare del trattamento;"
+     }
+    ],
+    "text": "Legal obligation: processing is lawful where it is necessary to comply with a legal obligation to which the controller is subject.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "il trattamento è necessario per la salvaguardia degli interessi vitali dell'interessato o di un'altra persona fisica;"
+     }
+    ],
+    "text": "Vital interests: processing is lawful where it is necessary to protect the vital interests of the data subject or of another natural person.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "il trattamento è necessario per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri di cui è investito il titolare del trattamento;"
+     }
+    ],
+    "text": "Public interest or official authority: processing is lawful where it is necessary for a task carried out in the public interest or in the exercise of official authority vested in the controller.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi, a condizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la protezione dei dati personali, in particolare se l'interessato è un minore."
+     },
+     {
+      "evidence_id": "E1",
+      "text": "La lettera f) del primo comma non si applica al trattamento di dati effettuato dalle autorità pubbliche nell'esecuzione dei loro compiti."
+     }
+    ],
+    "text": "Legitimate interest: processing is lawful where it is necessary for the legitimate interests of the controller or of third parties, provided that the interests or fundamental rights and freedoms of the data subject do not override them (particularly if the data subject is a child). This basis does not apply to processing by public authorities in the performance of their tasks.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C7",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Il trattamento è lecito solo se e nella misura in cui ricorre almeno una delle seguenti condizioni:"
+     }
+    ],
+    "text": "A company can therefore lawfully process personal data without consent if another condition in Article 6(1) applies, namely contract, legal obligation, vital interests, public interest or official authority, or legitimate interest. The public-interest basis is likely to be available to a private company only if it has been entrusted with such a task, and the legitimate-interest basis is subject to the balancing test.",
+    "verification": "PARTIALLY_SUPPORTED"
+   },
+   {
+    "claim_id": "C8",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "La base su cui si fonda il trattamento dei dati di cui al paragrafo 1, lettere c) ed e), deve essere stabilita:"
+     }
+    ],
+    "text": "The basis for processing under legal obligation and public interest must be laid down by Union law or by the law of the Member State to which the controller is subject.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C9",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "È vietato trattare dati personali che rivelino l'origine razziale o etnica"
+     },
+     {
+      "evidence_id": "E3",
+      "text": "il trattamento è necessario per tutelare un interesse vitale dell'interessato o di un'altra persona fisica qualora l'interessato si trovi nell'incapacità fisica o giuridica di prestare il proprio consenso;"
+     },
+     {
+      "evidence_id": "E3",
+      "text": "il trattamento è necessario per accertare, esercitare o difendere un diritto in sede giudiziaria o ogniqualvolta le autorità giurisdizionali esercitino le loro funzioni giurisdizionali;"
+     }
+    ],
+    "text": "For special categories of data, processing is prohibited in principle, but the prohibition does not apply in certain cases, some of which do not rely on consent, for example processing necessary for employment and social security law obligations, vital interests where the data subject cannot consent, or establishing, exercising or defending legal claims.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "23",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:6"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:23",
+     "reason": "max_items",
+     "tokens": 832
+    },
+    {
+     "label": "10",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:6"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:10",
+     "reason": "max_items",
+     "tokens": 193
+    },
+    {
+     "label": "89",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:5"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:89",
+     "reason": "max_items",
+     "tokens": 698
+    },
+    {
+     "label": "106",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:107"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:106",
+     "reason": "max_items",
+     "tokens": 1205
+    },
+    {
+     "label": "2-septies",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:107"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-septies",
+     "reason": "max_items",
+     "tokens": 1095
+    },
+    {
+     "label": "45",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:49"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:45",
+     "reason": "max_items",
+     "tokens": 1808
+    },
+    {
+     "label": "46",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:49"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:46",
+     "reason": "max_items",
+     "tokens": 984
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 196796,
+       "char_start": 194068,
+       "page": 36,
+       "page_end": 36
+      },
+      {
+       "char_end": 198509,
+       "char_start": 196860,
+       "page": 37,
+       "page_end": 37
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0221-8f546e68",
+      "doc-8f7504d289853f57-0223-3074f5c6"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 6",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "6",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:4",
+      "query:5",
+      "query:3",
+      "query:6",
+      "query:2",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:8"
+     ],
+     "page_end": 37,
+     "page_start": 36,
+     "path": "CAPO II > Articolo 6",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 6\n\nLiceità del trattamento\n\n1.\nIl trattamento è lecito solo se e nella misura in cui ricorre almeno una delle seguenti condizioni:\n\na)  l'interessato ha espresso il consenso al trattamento dei propri dati personali per una o più specifiche finalità;\n\nb) il trattamento è necessario all'esecuzione di un contratto di cui l'interessato è parte o all'esecuzione di misure precon­\n\ntrattuali adottate su richiesta dello stesso;\n\nc)  il trattamento è necessario per adempiere un obbligo legale al quale è soggetto il titolare del trattamento;\n\nd)  il trattamento è necessario per la salvaguardia degli interessi vitali dell'interessato o di un'altra persona fisica;\n\ne)  il trattamento è necessario per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici\n\npoteri di cui è investito il titolare del trattamento;\n\nf)  il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi, a\n\ncondizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la \nprotezione dei dati personali, in particolare se l'interessato è un minore.\n\nLa lettera f) del primo comma non si applica al trattamento di dati effettuato dalle autorità pubbliche nell'esecuzione dei \nloro compiti.\n\n2.\nGli Stati membri possono mantenere o introdurre disposizioni più specifiche per adeguare l'applicazione delle \nnorme del presente regolamento con riguardo al trattamento, in conformità del paragrafo 1, lettere c) ed e), \ndeterminando con maggiore precisione requisiti specifici per il trattamento e altre misure atte a garantire un trattamento \nlecito e corretto anche per le altre specifiche situazioni di trattamento di cui al capo IX.\n\n3.\nLa base su cui si fonda il trattamento dei dati di cui al paragrafo 1, lettere c) ed e), deve essere stabilita:\n\na)  dal diritto dell'Unione; o\n\nb)  dal diritto dello Stato membro cui è soggetto il titolare del trattamento.\n\nLa finalità del trattamento è determinata in tale base giuridica o, per quanto riguarda il trattamento di cui al paragrafo 1, \nlettera e), è necessaria per l'esecuzione di un compito svolto nel pubblico interesse o connesso all'esercizio di pubblici \npoteri di cui è investito il titolare del trattamento. Tale base giuridica potrebbe contenere disposizioni specifiche per \nadeguare l'applicazione delle norme del presente regolamento, tra cui: le condizioni generali relative alla liceità del \ntrattamento da parte del titolare del trattamento; le tipologie di dati oggetto del trattamento; gli interessati; i soggetti cui \npossono essere comunicati i dati personali e le finalità per cui sono comunicati; le limitazioni della finalità, i periodi di\n\nconservazione e le operazioni e procedure di trattamento, comprese le misure atte a garantire un trattamento lecito e \ncorretto, quali quelle per altre specifiche situazioni di trattamento di cui al capo IX. Il diritto dell'Unione o degli Stati \nmembri persegue un obiettivo di interesse pubblico ed è proporzionato all'obiettivo legittimo perseguito.\n\n4.\nLaddove il trattamento per una finalità diversa da quella per la quale i dati personali sono stati raccolti non sia \nbasato sul consenso dell'interessato o su un atto legislativo dell'Unione o degli Stati membri che costituisca una misura \nnecessaria e proporzionata in una società democratica per la salvaguardia degli obiettivi di cui all'articolo 23, \nparagrafo 1, al fine di verificare se il trattamento per un'altra finalità sia compatibile con la finalità per la quale i dati \npersonali sono stati inizialmente raccolti, il titolare del trattamento tiene conto, tra l'altro:\n\na)  di ogni nesso tra le finalità per cui i dati personali sono stati raccolti e le finalità dell'ulteriore trattamento previsto;\n\nb)  del contesto in cui i dati personali sono stati raccolti, in particolare relativamente alla relazione tra l'interessato e il\n\ntitolare del trattamento;\n\nc) della natura dei dati personali, specialmente se siano trattate categorie particolari di dati personali ai sensi dell'ar­\n\nticolo 9, oppure se siano trattati dati relativi a condanne penali e a reati ai sensi dell'articolo 10;\n\nd)  delle possibili conseguenze dell'ulteriore trattamento previsto per gli interessati;\n\ne)  dell'esistenza di garanzie adeguate, che possono comprendere la cifratura o la pseudonimizzazione.",
+     "tier": "internal_only",
+     "title": "Liceità del trattamento",
+     "tokens": 1459,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 199853,
+       "char_start": 198511,
+       "page": 37,
+       "page_end": 37
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0226-6cd70101",
+      "doc-8f7504d289853f57-0227-3054d26f"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 7",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "7",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:3",
+      "query:6",
+      "query:2"
+     ],
+     "page_end": 37,
+     "page_start": 37,
+     "path": "CAPO II > Articolo 7",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:7",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 7\n\nCondizioni per il consenso\n\n1.\nQualora il trattamento sia basato sul consenso, il titolare del trattamento deve essere in grado di dimostrare che \nl'interessato ha prestato il proprio consenso al trattamento dei propri dati personali.\n\n2.\nSe il consenso dell'interessato è prestato nel contesto di una dichiarazione scritta che riguarda anche altre \nquestioni, la richiesta di consenso è presentata in modo chiaramente distinguibile dalle altre materie, in forma compren­\nsibile e facilmente accessibile, utilizzando un linguaggio semplice e chiaro. Nessuna parte di una tale dichiarazione che \ncostituisca una violazione del presente regolamento è vincolante.\n\n3.\nL'interessato ha il diritto di revocare il proprio consenso in qualsiasi momento. La revoca del consenso non \npregiudica la liceità del trattamento basata sul consenso prima della revoca. Prima di esprimere il proprio consenso, \nl'interessato è informato di ciò. Il consenso è revocato con la stessa facilità con cui è accordato.\n\n4.\nNel valutare se il consenso sia stato liberamente prestato, si tiene nella massima considerazione l'eventualità, tra le \naltre, che l'esecuzione di un contratto, compresa la prestazione di un servizio, sia condizionata alla prestazione del \nconsenso al trattamento di dati personali non necessario all'esecuzione di tale contratto.",
+     "tier": "internal_only",
+     "title": "Condizioni per il consenso",
+     "tokens": 448,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 204640,
+       "char_start": 201034,
+       "page": 38,
+       "page_end": 38
+      },
+      {
+       "char_end": 205868,
+       "char_start": 204704,
+       "page": 39,
+       "page_end": 39
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0230-925143cc"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 9",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "9",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-sexies",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:107",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:22"
+     ],
+     "page_end": 39,
+     "page_start": 38,
+     "path": "CAPO II > Articolo 9",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 9\n\nTrattamento di categorie particolari di dati personali\n\n1.\nÈ vietato trattare dati personali che rivelino l'origine razziale o etnica, le opinioni politiche, le convinzioni religiose \no filosofiche, o l'appartenenza sindacale, nonché trattare dati genetici, dati biometrici intesi a identificare in modo \nunivoco una persona fisica, dati relativi alla salute o alla vita sessuale o all'orientamento sessuale della persona.\n\n2.\nIl paragrafo 1 non si applica se si verifica uno dei seguenti casi:\n\na)  l'interessato ha prestato il proprio consenso esplicito al trattamento di tali dati personali per una o più finalità\n\nspecifiche, salvo nei casi in cui il diritto dell'Unione o degli Stati membri dispone che l'interessato non possa revocare \nil divieto di cui al paragrafo 1;\n\nb) il trattamento è necessario per assolvere gli obblighi ed esercitare i diritti specifici del titolare del trattamento o dell'in­\n\nteressato in materia di diritto del lavoro e della sicurezza sociale e protezione sociale, nella misura in cui sia \nautorizzato dal diritto dell'Unione o degli Stati membri o da un contratto collettivo ai sensi del diritto degli Stati \nmembri, in presenza di garanzie appropriate per i diritti fondamentali e gli interessi dell'interessato;\n\nc) il trattamento è necessario per tutelare un interesse vitale dell'interessato o di un'altra persona fisica qualora l'inte­\n\nressato si trovi nell'incapacità fisica o giuridica di prestare il proprio consenso;\n\nd)  il trattamento è effettuato, nell'ambito delle sue legittime attività e con adeguate garanzie, da una fondazione,\n\nassociazione o altro organismo senza scopo di lucro che persegua finalità politiche, filosofiche, religiose o sindacali, a \ncondizione che il trattamento riguardi unicamente i membri, gli ex membri o le persone che hanno regolari contatti \ncon la fondazione, l'associazione o l'organismo a motivo delle sue finalità e che i dati personali non siano comunicati \nall'esterno senza il consenso dell'interessato;\n\ne)  il trattamento riguarda dati personali resi manifestamente pubblici dall'interessato;\n\nf)  il trattamento è necessario per accertare, esercitare o difendere un diritto in sede giudiziaria o ogniqualvolta le\n\nautorità giurisdizionali esercitino le loro funzioni giurisdizionali;\n\ng)  il trattamento è necessario per motivi di interesse pubblico rilevante sulla base del diritto dell'Unione o degli Stati\n\nmembri, che deve essere proporzionato alla finalità perseguita, rispettare l'essenza del diritto alla protezione dei dati e \nprevedere misure appropriate e specifiche per tutelare i diritti fondamentali e gli interessi dell'interessato;\n\nh)  il trattamento è necessario per finalità di medicina preventiva o di medicina del lavoro, valutazione della capacità\n\nlavorativa del dipendente, diagnosi, assistenza o terapia sanitaria o sociale ovvero gestione dei sistemi e servizi \nsanitari o sociali sulla base del diritto dell'Unione o degli Stati membri o conformemente al contratto con un profes­\nsionista della sanità, fatte salve le condizioni e le garanzie di cui al paragrafo 3;\n\ni)  il trattamento è necessario per motivi di interesse pubblico nel settore della sanità pubblica, quali la protezione da\n\ngravi minacce per la salute a carattere transfrontaliero o la garanzia di parametri elevati di qualità e sicurezza dell'assi­\nstenza sanitaria e dei medicinali e dei dispositivi medici, sulla base del diritto dell'Unione o degli Stati membri che \nprevede misure appropriate e specifiche per tutelare i diritti e le libertà dell'interessato, in particolare il segreto profes­\nsionale;\n\nj)  il trattamento è necessario a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini\n\nstatistici in conformità dell'articolo 89, paragrafo 1, sulla base del diritto dell'Unione o nazionale, che è proporzionato \nalla finalità perseguita, rispetta l'essenza del diritto alla protezione dei dati e prevede misure appropriate e specifiche \nper tutelare i diritti fondamentali e gli interessi dell'interessato.\n\n3.\nI dati personali di cui al paragrafo 1 possono essere trattati per le finalità di cui al paragrafo 2, lettera h), se tali \ndati sono trattati da o sotto la responsabilità di un professionista soggetto al segreto professionale conformemente al \ndiritto dell'Unione o degli Stati membri o alle norme stabilite dagli organismi nazionali competenti o da altra persona \nanch'essa soggetta all'obbligo di segretezza conformemente al diritto dell'Unione o degli Stati membri o alle norme \nstabilite dagli organismi nazionali competenti.\n\n4.\nGli Stati membri possono mantenere o introdurre ulteriori condizioni, comprese limitazioni, con riguardo al \ntrattamento di dati genetici, dati biometrici o dati relativi alla salute.",
+     "tier": "internal_only",
+     "title": "Trattamento di categorie particolari di dati personali",
+     "tokens": 1590,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 192676,
+       "char_start": 191676,
+       "page": 35,
+       "page_end": 35
+      },
+      {
+       "char_end": 194066,
+       "char_start": 193017,
+       "page": 36,
+       "page_end": 36
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 5",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "5",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 36,
+     "page_start": 35,
+     "path": "CAPO II > Articolo 5",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:5",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 5\n\nPrincipi applicabili al trattamento di dati personali\n\n1.\nI dati personali sono:\n\na)  trattati in modo lecito, corretto e trasparente nei confronti dell'interessato («liceità, correttezza e trasparenza»);\n\nb)  raccolti per finalità determinate, esplicite e legittime, e successivamente trattati in modo che non sia incompatibile\n\ncon tali finalità; un ulteriore trattamento dei dati personali a fini di archiviazione nel pubblico interesse, di ricerca \nscientifica o storica o a fini statistici non è, conformemente all'articolo 89, paragrafo 1, considerato incompatibile \ncon le finalità iniziali («limitazione della finalità»);\n\nc)  adeguati, pertinenti e limitati a quanto necessario rispetto alle finalità per le quali sono trattati («minimizzazione dei\n\ndati»);\n\nd)  esatti e, se necessario, aggiornati; devono essere adottate tutte le misure ragionevoli per cancellare o rettificare\n\ntempestivamente i dati inesatti rispetto alle finalità per le quali sono trattati («esattezza»);\n\ne)  conservati in una forma che consenta l'identificazione degli interessati per un arco di tempo non superiore al\n\nconseguimento delle finalità per le quali sono trattati; i dati personali possono essere conservati per periodi più \nlunghi a condizione che siano trattati esclusivamente a fini di archiviazione nel pubblico interesse, di ricerca \nscientifica o storica o a fini statistici, conformemente all'articolo 89, paragrafo 1, fatta salva l'attuazione di misure \ntecniche e organizzative adeguate richieste dal presente regolamento a tutela dei diritti e delle libertà dell'interessato \n(«limitazione della conservazione»);\n\nf)  trattati in maniera da garantire un'adeguata sicurezza dei dati personali, compresa la protezione, mediante misure\n\ntecniche e organizzative adeguate, da trattamenti non autorizzati o illeciti e dalla perdita, dalla distruzione o dal \ndanno accidentali («integrità e riservatezza»).\n\n2.\nIl titolare del trattamento è competente per il rispetto del paragrafo 1 e in grado di comprovarlo («responsabiliz­\nzazione»).",
+     "tier": "internal_only",
+     "title": "Principi applicabili al trattamento di dati personali",
+     "tokens": 683,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 11267,
+       "char_start": 10485,
+       "page": 3,
+       "page_end": 3
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0016-34b157e5"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Art. 2-sexies",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-sexies",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:7",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:107"
+     ],
+     "page_end": 3,
+     "page_start": 3,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-sexies",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-sexies",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-sexies\n\n(Trattamento di categorie particolari di dati personali necessario per motivi di interesse pubblico rilevante)\n\n1. I trattamenti delle categorie particolari di dati personali di cui all'articolo 9, paragrafo 1, del Regolamento,\nnecessari per motivi di interesse pubblico rilevante ai sensi del paragrafo 2, lettera g), del medesimo articolo,\nsono ammessi qualora siano previsti dal diritto dell'Unione europea ovvero, nell'ordinamento interno, da\ndisposizioni di legge o di regolamento o da atti amministrativi generali che specifichino i tipi di dati che\npossono essere trattati, le operazioni eseguibili e il motivo di interesse pubblico rilevante, nonché le misure\nappropriate e specifiche per tutelare i diritti fondamentali e gli interessi dell'interessato. (49)",
+     "tier": "internal_only",
+     "title": "(Trattamento di categorie particolari di dati personali necessario per motivi di interesse pubblico rilevante)",
+     "tokens": 261,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 214583,
+       "char_start": 213455,
+       "page": 41,
+       "page_end": 41
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0245-dc3b36ba"
+     ],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Articolo 13",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "13",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1"
+     ],
+     "page_end": 41,
+     "page_start": 41,
+     "path": "CAPO III > Sezione 2 > Articolo 13",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "l'esistenza del diritto di revocare il consenso in qualsiasi momento senza pregiudicare la liceità del trattamento basata \nsul consenso prestato prima della revoca;\n\nd)  il diritto di proporre reclamo a un'autorità di controllo;\n\ne)  se la comunicazione di dati personali è un obbligo legale o contrattuale oppure un requisito necessario per la\n\nconclusione di un contratto, e se l'interessato ha l'obbligo di fornire i dati personali nonché le possibili conseguenze \ndella mancata comunicazione di tali dati;\n\nf)  l'esistenza di un processo decisionale automatizzato, compresa la profilazione di cui all'articolo 22, paragrafi 1 e 4, e,\n\nalmeno in tali casi, informazioni significative sulla logica utilizzata, nonché l'importanza e le conseguenze previste di \ntale trattamento per l'interessato.\n\n3.\nQualora il titolare del trattamento intenda trattare ulteriormente i dati personali per una finalità diversa da quella \nper cui essi sono stati raccolti, prima di tale ulteriore trattamento fornisce all'interessato informazioni in merito a tale \ndiversa finalità e ogni ulteriore informazione pertinente di cui al paragrafo 2.",
+     "tier": "internal_only",
+     "title": "Informazioni da fornire qualora i dati personali siano raccolti presso l'interessato",
+     "tokens": 376,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 80714,
+       "char_start": 80204,
+       "page": 24,
+       "page_end": 24
+      },
+      {
+       "char_end": 80776,
+       "char_start": 80774,
+       "page": 25,
+       "page_end": 25
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0207-d99ee423"
+     ],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Art. 107",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "107",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:7"
+     ],
+     "page_end": 25,
+     "page_start": 24,
+     "path": "PARTE II > TITOLO VII > CAPO III > Art. 107",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:107",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 107\n\n(( (Trattamento di categorie particolari di dati personali). ))\n\n((\n\n1. Fermo restando quanto previsto dall'articolo 2-sexies e fuori dei casi di particolari indagini a fini statistici o di\nricerca scientifica previste dalla legge, il consenso dell'interessato al trattamento di dati di cui all'articolo 9 del\nRegolamento, quando è richiesto, può essere prestato con modalità semplificate, individuate dalle regole\ndeontologiche di cui all'articolo 106 o dalle misure di cui all'articolo 2-septies.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Trattamento di categorie particolari di dati personali). ))",
+     "tokens": 171,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 304387,
+       "char_start": 303231,
+       "page": 64,
+       "page_end": 64
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0354-b062e184"
+     ],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Articolo 49",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "49",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:3"
+     ],
+     "page_end": 64,
+     "page_start": 64,
+     "path": "CAPO V > Articolo 49",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:49",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 49\n\nDeroghe in specifiche situazioni\n\n1.\nIn mancanza di una decisione di adeguatezza ai sensi dell'articolo 45, paragrafo 3, o di garanzie adeguate ai sensi \ndell'articolo 46, comprese le norme vincolanti d'impresa, è ammesso il trasferimento o un complesso di trasferimenti di \ndati personali verso un paese terzo o un'organizzazione internazionale soltanto se si verifica una delle seguenti \ncondizioni:\n\na)  l'interessato abbia esplicitamente acconsentito al trasferimento proposto, dopo essere stato informato dei possibili\n\nrischi di siffatti trasferimenti per l'interessato, dovuti alla mancanza di una decisione di adeguatezza e di garanzie \nadeguate;\n\nb)  il trasferimento sia necessario all'esecuzione di un contratto concluso tra l'interessato e il titolare del trattamento\n\novvero all'esecuzione di misure precontrattuali adottate su istanza dell'interessato;\n\nc)  il trasferimento sia necessario per la conclusione o l'esecuzione di un contratto stipulato tra il titolare del trattamento\n\ne un'altra persona fisica o giuridica a favore dell'interessato;\n\nd)  il trasferimento sia necessario per importanti motivi di interesse pubblico;",
+     "tier": "internal_only",
+     "title": "Deroghe in specifiche situazioni",
+     "tokens": 386,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 217935,
+       "char_start": 216764,
+       "page": 42,
+       "page_end": 42
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0249-265001ce"
+     ],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Articolo 14",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "14",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1"
+     ],
+     "page_end": 42,
+     "page_start": 42,
+     "path": "CAPO III > Sezione 2 > Articolo 14",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "d)  qualora il trattamento sia basato sull'articolo 6, paragrafo 1, lettera a), oppure sull'articolo 9, paragrafo 2, lettera a),\n\nl'esistenza del diritto di revocare il consenso in qualsiasi momento senza pregiudicare la liceità del trattamento basata \nsul consenso prima della revoca;\n\ne)  il diritto di proporre reclamo a un'autorità di controllo;\n\nf)  la fonte da cui hanno origine i dati personali e, se del caso, l'eventualità che i dati provengano da fonti accessibili al\n\npubblico;\n\ng)  l'esistenza di un processo decisionale automatizzato, compresa la profilazione di cui all'articolo 22, paragrafi 1 e 4, e,\n\nalmeno in tali casi, informazioni significative sulla logica utilizzata, nonché l'importanza e le conseguenze previste di \ntale trattamento per l'interessato.\n\n3.\nIl titolare del trattamento fornisce le informazioni di cui ai paragrafi 1 e 2:\n\na)  entro un termine ragionevole dall'ottenimento dei dati personali, ma al più tardi entro un mese, in considerazione\n\ndelle specifiche circostanze in cui i dati personali sono trattati;\n\nb)  nel caso in cui i dati personali siano destinati alla comunicazione con l'interessato, al più tardi al momento della",
+     "tier": "internal_only",
+     "title": "Informazioni da fornire qualora i dati personali non siano stati ottenuti presso l'interessato",
+     "tokens": 391,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 224726,
+       "char_start": 223604,
+       "page": 44,
+       "page_end": 44
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0257-6bad48ba"
+     ],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Articolo 17",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "17",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5"
+     ],
+     "page_end": 44,
+     "page_start": 44,
+     "path": "CAPO III > Sezione 3 > Articolo 17",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:17",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "membro cui è soggetto il titolare del trattamento;\n\nf)  i dati personali sono stati raccolti relativamente all'offerta di servizi della società dell'informazione di cui all'articolo 8,\n\nparagrafo 1.\n\n2.\nIl titolare del trattamento, se ha reso pubblici dati personali ed è obbligato, ai sensi del paragrafo 1, a cancellarli, \ntenendo conto della tecnologia disponibile e dei costi di attuazione adotta le misure ragionevoli, anche tecniche, per \ninformare i titolari del trattamento che stanno trattando i dati personali della richiesta dell'interessato di cancellare \nqualsiasi link, copia o riproduzione dei suoi dati personali.\n\n3.\nI paragrafi 1 e 2 non si applicano nella misura in cui il trattamento sia necessario:\n\na)  per l'esercizio del diritto alla libertà di espressione e di informazione;\n\nb)  per l'adempimento di un obbligo legale che richieda il trattamento previsto dal diritto dell'Unione o dello Stato\n\nmembro cui è soggetto il titolare del trattamento o per l'esecuzione di un compito svolto nel pubblico interesse \noppure nell'esercizio di pubblici poteri di cui è investito il titolare del trattamento;",
+     "tier": "internal_only",
+     "title": "Diritto alla cancellazione («diritto all'oblio»)",
+     "tokens": 374,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 200520,
+       "char_start": 199855,
+       "page": 37,
+       "page_end": 37
+      },
+      {
+       "char_end": 201032,
+       "char_start": 200584,
+       "page": 38,
+       "page_end": 38
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0228-1160365e"
+     ],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Articolo 8",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "8",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:6",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:17"
+     ],
+     "page_end": 38,
+     "page_start": 37,
+     "path": "CAPO II > Articolo 8",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:8",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 8\n\nCondizioni applicabili al consenso dei minori in relazione ai servizi della società dell'informazione\n\n1.\nQualora si applichi l'articolo 6, paragrafo 1, lettera a), per quanto riguarda l'offerta diretta di servizi della società \ndell'informazione ai minori, il trattamento di dati personali del minore è lecito ove il minore abbia almeno 16 anni. Ove \nil minore abbia un'età inferiore ai 16 anni, tale trattamento è lecito soltanto se e nella misura in cui tale consenso è \nprestato o autorizzato dal titolare della responsabilità genitoriale.\n\nGli Stati membri possono stabilire per legge un'età inferiore a tali fini purché non inferiore ai 13 anni.\n\n2.\nIl titolare del trattamento si adopera in ogni modo ragionevole per verificare in tali casi che il consenso sia \nprestato o autorizzato dal titolare della responsabilità genitoriale sul minore, in considerazione delle tecnologie \ndisponibili.\n\n3.\nIl paragrafo 1 non pregiudica le disposizioni generali del diritto dei contratti degli Stati membri, quali le norme \nsulla validità, la formazione o l'efficacia di un contratto rispetto a un minore.",
+     "tier": "internal_only",
+     "title": "Condizioni applicabili al consenso dei minori in relazione ai servizi della società dell'informazione",
+     "tokens": 371,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 232449,
+       "char_start": 230946,
+       "page": 46,
+       "page_end": 46
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0268-efa67a30"
+     ],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Articolo 22",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "22",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:7",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14"
+     ],
+     "page_end": 46,
+     "page_start": 46,
+     "path": "CAPO III > Sezione 4 > Articolo 22",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:22",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 22\n\nProcesso decisionale automatizzato relativo alle persone fisiche, compresa la profilazione\n\n1.\nL'interessato ha il diritto di non essere sottoposto a una decisione basata unicamente sul trattamento automa­\ntizzato, compresa la profilazione, che produca effetti giuridici che lo riguardano o che incida in modo analogo significa­\ntivamente sulla sua persona.\n\n2.\nIl paragrafo 1 non si applica nel caso in cui la decisione:\n\na)  sia necessaria per la conclusione o l'esecuzione di un contratto tra l'interessato e un titolare del trattamento;\n\nb)  sia autorizzata dal diritto dell'Unione o dello Stato membro cui è soggetto il titolare del trattamento, che precisa\n\naltresì misure adeguate a tutela dei diritti, delle libertà e dei legittimi interessi dell'interessato;\n\nc)  si basi sul consenso esplicito dell'interessato.\n\n3.\nNei casi di cui al paragrafo 2, lettere a) e c), il titolare del trattamento attua misure appropriate per tutelare i diritti, \nle libertà e i legittimi interessi dell'interessato, almeno il diritto di ottenere l'intervento umano da parte del titolare del \ntrattamento, di esprimere la propria opinione e di contestare la decisione.\n\n4.\nLe decisioni di cui al paragrafo 2 non si basano sulle categorie particolari di dati personali di cui all'articolo 9, \nparagrafo 1, a meno che non sia d'applicazione l'articolo 9, paragrafo 2, lettere a) o g), e non siano in vigore misure \nadeguate a tutela dei diritti, delle libertà e dei legittimi interessi dell'interessato.",
+     "tier": "internal_only",
+     "title": "Processo decisionale automatizzato relativo alle persone fisiche, compresa la profilazione",
+     "tokens": 501,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "6",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "7",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "9",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "5",
+      "point": null
+     }
+    ],
+    "queries": [
+     "liceità del trattamento senza consenso dell'interessato",
+     "condizioni di liceità del trattamento basi giuridiche",
+     "trattamento necessario per l'esecuzione di un contratto",
+     "trattamento necessario per il perseguimento del legittimo interesse del titolare del trattamento",
+     "trattamento necessario per adempiere un obbligo legale al quale è soggetto il titolare del trattamento",
+     "condizioni per il consenso dell'interessato",
+     "trattamento di categorie particolari di dati personali"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 7011,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8Qokh6pw4X4YLNBH5W2"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "The evidence does not say whether the GDPR applies to the company in question; this is assumed, as stated in the question analysis.",
+   "Article 6 is given in full, but the cases in Article 9(2) are only summarised in part in the claims. The question does not specify the type of data or the purpose, so the applicable basis cannot be determined.",
+   "The Privacy Code items (E5, E7) are unofficial transcriptions of uncertain validity and have not been relied on."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "7 further candidate provisions were left out by the evidence limits (max_items)."
+  ],
+  "question": "Can a company process personal data without the consent of the data subject?",
+  "question_references": [],
+  "rejected_claims": [],
+  "unanswered_issues": [],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8QpboMMMePZHR5W3Xdu"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E3"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "dev"
+}

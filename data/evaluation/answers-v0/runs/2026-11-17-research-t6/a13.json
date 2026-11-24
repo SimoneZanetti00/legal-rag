@@ -1,0 +1,1348 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Qual è la definizione di «dato personale» nel GDPR?"
+     },
+     {
+      "question": "Quando una persona fisica è considerata «identificata o identificabile» e quali identificativi sono indicati?"
+     },
+     {
+      "question": "Quali sono le categorie particolari di dati personali che vanno distinte dalla nozione generale di dato personale?"
+     },
+     {
+      "question": "Quali dati sono esclusi dalla nozione, come i dati anonimi, e come si distingue la pseudonimizzazione?"
+     },
+     {
+      "question": "Come si collega la nozione di dato personale all'ambito di applicazione materiale del GDPR e alla nozione di trattamento?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda la nozione di dato personale ai sensi del GDPR, materia di protezione dei dati personali.",
+    "search_queries_it": [
+     "definizione di dato personale",
+     "persona fisica identificata o identificabile",
+     "identificativo come nome, numero di identificazione, dati relativi all'ubicazione",
+     "categorie particolari di dati personali",
+     "pseudonimizzazione",
+     "informazioni anonime non riferite a persona identificabile",
+     "ambito di applicazione materiale trattamento di dati personali"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "4",
+      "instrument": "eu-reg-2016-679",
+      "point": "1",
+      "reason": "definizione di dato personale e interessato"
+     },
+     {
+      "article": "4",
+      "instrument": "eu-reg-2016-679",
+      "point": "5",
+      "reason": "definizione di pseudonimizzazione"
+     },
+     {
+      "article": "2",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "ambito di applicazione materiale"
+     },
+     {
+      "article": "9",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "categorie particolari di dati personali"
+     },
+     {
+      "article": "2-ter",
+      "instrument": "it-dlgs-2003-196",
+      "point": null,
+      "reason": "possibile richiamo alla nozione nel Codice italiano"
+     }
+    ],
+    "uncertainty": "I considerando del GDPR (ad es. sui dati anonimi) potrebbero non essere compresi nel corpus; la giurisprudenza della Corte di giustizia sulla nozione non è inclusa. Il Codice italiano rinvia in larga parte alle definizioni del GDPR."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8MKqQVikLSLHCEmg4kE"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "17219fe03011e7159b2a472f9d86f7a9948642681a4bd4e5df7eb66d5e13aa2d",
+   "task": "query_analysis",
+   "user_sha256": "4ff3d06532728b97a9ef5980d31aa36af2bd52e7732781ea9e47986cc36f43a5"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "qualsiasi informazione riguardante una persona fisica identificata o identificabile («interessato»)"
+       }
+      ],
+      "text": "Secondo l'art. 4, punto 1, del GDPR, «dato personale» è qualsiasi informazione riguardante una persona fisica identificata o identificabile («interessato»)."
+     },
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "si considera identificabile la persona fisica che può essere identificata, direttamente o indirettamente, con particolare riferimento a un identificativo come il nome, un numero di identificazione, dati relativi all'ubicazione, un identificativo online"
+       }
+      ],
+      "text": "È identificabile la persona fisica che può essere identificata, direttamente o indirettamente, con particolare riferimento a un identificativo come il nome, un numero di identificazione, dati relativi all'ubicazione, un identificativo online o a uno o più elementi caratteristici della sua identità fisica, fisiologica, genetica, psichica, economica, culturale o sociale."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "È vietato trattare dati personali che rivelino l'origine razziale o etnica, le opinioni politiche, le convinzioni religiose o filosofiche, o l'appartenenza sindacale, nonché trattare dati genetici, dati biometrici intesi a identificare in modo univoco una persona fisica, dati relativi alla salute o alla vita sessuale o all'orientamento sessuale della persona."
+       }
+      ],
+      "text": "L'art. 9, par. 1, GDPR vieta di trattare dati personali che rivelino origine razziale o etnica, opinioni politiche, convinzioni religiose o filosofiche, appartenenza sindacale, nonché dati genetici, dati biometrici intesi a identificare in modo univoco una persona fisica, dati relativi alla salute o alla vita sessuale o all'orientamento sessuale."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "Trattamento di categorie particolari di dati personali"
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "Il paragrafo 1 non si applica se si verifica uno dei seguenti casi:"
+       }
+      ],
+      "text": "L'art. 9 GDPR tratta tali categorie come «categorie particolari di dati personali», distinte dalla nozione generale di dato personale, con un divieto di trattamento a cui si applicano le eccezioni del paragrafo 2."
+     },
+     {
+      "issue_ids": [
+       "I4"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E6",
+        "quote": "dell'esistenza di garanzie adeguate, che possono comprendere la cifratura o la pseudonimizzazione."
+       }
+      ],
+      "text": "Il GDPR menziona la pseudonimizzazione tra le garanzie adeguate, che possono comprendere la cifratura o la pseudonimizzazione (estratto dell'art. 6)."
+     },
+     {
+      "issue_ids": [
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "Il presente regolamento si applica al trattamento interamente o parzialmente automatizzato di dati personali e al trattamento non automatizzato di dati personali contenuti in un archivio o destinati a figurarvi."
+       }
+      ],
+      "text": "Il GDPR si applica al trattamento interamente o parzialmente automatizzato di dati personali e al trattamento non automatizzato di dati personali contenuti in un archivio o destinati a figurarvi."
+     },
+     {
+      "issue_ids": [
+       "I5"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "effettuati da una persona fisica per l'esercizio di attività a carattere esclusivamente personale o domestico;"
+       }
+      ],
+      "text": "Il GDPR non si applica ai trattamenti di dati personali effettuati da una persona fisica per attività a carattere esclusivamente personale o domestico."
+     }
+    ],
+    "limitations": [],
+    "outcome": "answer_limited",
+    "unanswered_issues": [
+     {
+      "issue_id": "I4",
+      "reason": "Le prove non contengono la definizione di pseudonimizzazione (art. 4, punto 5) né una disposizione sui dati anonimi o sulla loro esclusione; è presente solo un richiamo alla pseudonimizzazione come garanzia."
+     },
+     {
+      "issue_id": "I5",
+      "reason": "Manca la definizione di «trattamento» (art. 4, punto 2); è disponibile solo l'art. 2 sull'ambito di applicazione."
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8NTDT7KBxWVfjrHaRjp"
+   ],
+   "schema_sha256": "958b2be51ffa530f9267f985c758125ecff38d8bcb558d93f182bc5ea60defee",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "a4316fff0471471b36fb2ed20f090ba325500d3fcfb1723ee2160e9ab5a95f80",
+   "task": "answer_generation",
+   "user_sha256": "0e7d0e1e21e20652c856951c2df7b5e52b49a91a08761bc70962c8fd30434cc4"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8NTwB6VVWSrRWerRoDQ"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "e125d66867796bf590fbc60aea974405ca557abd3b818c1c8243652db157f309",
+   "task": "claim_verification",
+   "user_sha256": "9081fd5040d95bdef41d2e2bb229da7b218613b1f47c4ba3c18a1297a9449cbe"
+  }
+ ],
+ "query_id": "a13",
+ "question": "Che cos'è un dato personale secondo il GDPR?",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Qual è la definizione di «dato personale» nel GDPR?"
+    },
+    {
+     "id": "I2",
+     "question": "Quando una persona fisica è considerata «identificata o identificabile» e quali identificativi sono indicati?"
+    },
+    {
+     "id": "I3",
+     "question": "Quali sono le categorie particolari di dati personali che vanno distinte dalla nozione generale di dato personale?"
+    },
+    {
+     "id": "I4",
+     "question": "Quali dati sono esclusi dalla nozione, come i dati anonimi, e come si distingue la pseudonimizzazione?"
+    },
+    {
+     "id": "I5",
+     "question": "Come si collega la nozione di dato personale all'ambito di applicazione materiale del GDPR e alla nozione di trattamento?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v2",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8MKqQVikLSLHCEmg4kE"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Che cos'è un dato personale secondo il GDPR?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda la nozione di dato personale ai sensi del GDPR, materia di protezione dei dati personali.",
+   "search_queries_it": [
+    "definizione di dato personale",
+    "persona fisica identificata o identificabile",
+    "identificativo come nome, numero di identificazione, dati relativi all'ubicazione",
+    "categorie particolari di dati personali",
+    "pseudonimizzazione",
+    "informazioni anonime non riferite a persona identificabile",
+    "ambito di applicazione materiale trattamento di dati personali"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "4",
+     "instrument": "eu-reg-2016-679",
+     "point": "1",
+     "reason": "definizione di dato personale e interessato"
+    },
+    {
+     "article": "4",
+     "instrument": "eu-reg-2016-679",
+     "point": "5",
+     "reason": "definizione di pseudonimizzazione"
+    },
+    {
+     "article": "2",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "ambito di applicazione materiale"
+    },
+    {
+     "article": "9",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "categorie particolari di dati personali"
+    },
+    {
+     "article": "2-ter",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "possibile richiamo alla nozione nel Codice italiano"
+    }
+   ],
+   "uncertainty": "I considerando del GDPR (ad es. sui dati anonimi) potrebbero non essere compresi nel corpus; la giurisprudenza della Corte di giustizia sulla nozione non è inclusa. Il Codice italiano rinvia in larga parte alle definizioni del GDPR."
+  },
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 4",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "4",
+    "legal_validity": "not_established",
+    "page_end": 33,
+    "page_start": 33,
+    "path": "CAPO I > Articolo 4",
+    "point": "1",
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:4",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Definizioni",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": false
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 2",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "2",
+    "legal_validity": "not_established",
+    "page_end": 32,
+    "page_start": 32,
+    "path": "CAPO I > Articolo 2",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:2",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Ambito di applicazione materiale",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 9",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "9",
+    "legal_validity": "not_established",
+    "page_end": 39,
+    "page_start": 38,
+    "path": "CAPO II > Articolo 9",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Trattamento di categorie particolari di dati personali",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E6",
+    "heading": "Articolo 6",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "6",
+    "legal_validity": "not_established",
+    "page_end": 37,
+    "page_start": 37,
+    "path": "CAPO II > Articolo 6",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Liceità del trattamento",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": false
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "qualsiasi informazione riguardante una persona fisica identificata o identificabile («interessato»)"
+     }
+    ],
+    "text": "Secondo l'art. 4, punto 1, del GDPR, «dato personale» è qualsiasi informazione riguardante una persona fisica identificata o identificabile («interessato»).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "si considera identificabile la persona fisica che può essere identificata, direttamente o indirettamente, con particolare riferimento a un identificativo come il nome, un numero di identificazione, dati relativi all'ubicazione, un identificativo online"
+     }
+    ],
+    "text": "È identificabile la persona fisica che può essere identificata, direttamente o indirettamente, con particolare riferimento a un identificativo come il nome, un numero di identificazione, dati relativi all'ubicazione, un identificativo online o a uno o più elementi caratteristici della sua identità fisica, fisiologica, genetica, psichica, economica, culturale o sociale.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "È vietato trattare dati personali che rivelino l'origine razziale o etnica, le opinioni politiche, le convinzioni religiose o filosofiche, o l'appartenenza sindacale, nonché trattare dati genetici, dati biometrici intesi a identificare in modo univoco una persona fisica, dati relativi alla salute o alla vita sessuale o all'orientamento sessuale della persona."
+     }
+    ],
+    "text": "L'art. 9, par. 1, GDPR vieta di trattare dati personali che rivelino origine razziale o etnica, opinioni politiche, convinzioni religiose o filosofiche, appartenenza sindacale, nonché dati genetici, dati biometrici intesi a identificare in modo univoco una persona fisica, dati relativi alla salute o alla vita sessuale o all'orientamento sessuale.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "Trattamento di categorie particolari di dati personali"
+     },
+     {
+      "evidence_id": "E3",
+      "text": "Il paragrafo 1 non si applica se si verifica uno dei seguenti casi:"
+     }
+    ],
+    "text": "L'art. 9 GDPR tratta tali categorie come «categorie particolari di dati personali», distinte dalla nozione generale di dato personale, con un divieto di trattamento a cui si applicano le eccezioni del paragrafo 2.",
+    "verification": "PARTIALLY_SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E6"
+    ],
+    "issue_ids": [
+     "I4"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E6",
+      "text": "dell'esistenza di garanzie adeguate, che possono comprendere la cifratura o la pseudonimizzazione."
+     }
+    ],
+    "text": "Il GDPR menziona la pseudonimizzazione tra le garanzie adeguate, che possono comprendere la cifratura o la pseudonimizzazione (estratto dell'art. 6).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "Il presente regolamento si applica al trattamento interamente o parzialmente automatizzato di dati personali e al trattamento non automatizzato di dati personali contenuti in un archivio o destinati a figurarvi."
+     }
+    ],
+    "text": "Il GDPR si applica al trattamento interamente o parzialmente automatizzato di dati personali e al trattamento non automatizzato di dati personali contenuti in un archivio o destinati a figurarvi.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C7",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I5"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "effettuati da una persona fisica per l'esercizio di attività a carattere esclusivamente personale o domestico;"
+     }
+    ],
+    "text": "Il GDPR non si applica ai trattamenti di dati personali effettuati da una persona fisica per attività a carattere esclusivamente personale o domestico.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "156",
+     "origins": [
+      "query:1"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:156",
+     "reason": "max_items",
+     "tokens": 304
+    },
+    {
+     "label": "87",
+     "origins": [
+      "query:3"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:87",
+     "reason": "max_items",
+     "tokens": 172
+    },
+    {
+     "label": "98",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:2"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:98",
+     "reason": "max_items",
+     "tokens": 195
+    },
+    {
+     "label": "89",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:9"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:89",
+     "reason": "max_items",
+     "tokens": 698
+    },
+    {
+     "label": "10",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-ter"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:10",
+     "reason": "max_items",
+     "tokens": 193
+    },
+    {
+     "label": "2-quaterdecies",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-ter",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:159",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:126"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-quaterdecies",
+     "reason": "max_items",
+     "tokens": 204
+    },
+    {
+     "label": "106",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:107"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:106",
+     "reason": "max_items",
+     "tokens": 1205
+    },
+    {
+     "label": "2-septies",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:107"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-septies",
+     "reason": "max_items",
+     "tokens": 1095
+    },
+    {
+     "label": "157",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:159"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:157",
+     "reason": "max_items",
+     "tokens": 143
+    },
+    {
+     "label": "158",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:159"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:158",
+     "reason": "max_items",
+     "tokens": 551
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 182321,
+       "char_start": 181812,
+       "page": 33,
+       "page_end": 33
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0208-336ba52d",
+      "doc-8f7504d289853f57-0209-7efc9279",
+      "doc-8f7504d289853f57-0212-16381185"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 4",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "4",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:3",
+      "query:1",
+      "query:2",
+      "query:6"
+     ],
+     "page_end": 33,
+     "page_start": 33,
+     "path": "CAPO I > Articolo 4",
+     "point": "1",
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:4",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "1) «dato personale»: qualsiasi informazione riguardante una persona fisica identificata o identificabile («interessato»); si \nconsidera identificabile la persona fisica che può essere identificata, direttamente o indirettamente, con particolare \nriferimento a un identificativo come il nome, un numero di identificazione, dati relativi all'ubicazione, un identifi­\ncativo online o a uno o più elementi caratteristici della sua identità fisica, fisiologica, genetica, psichica, economica, \nculturale o sociale;",
+     "tier": "internal_only",
+     "title": "Definizioni",
+     "tokens": 170,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 180506,
+       "char_start": 178958,
+       "page": 32,
+       "page_end": 32
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0204-b51fb694"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 2",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "2",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:7"
+     ],
+     "page_end": 32,
+     "page_start": 32,
+     "path": "CAPO I > Articolo 2",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:2",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 2\n\nAmbito di applicazione materiale\n\n1.\nIl presente regolamento si applica al trattamento interamente o parzialmente automatizzato di dati personali e al \ntrattamento non automatizzato di dati personali contenuti in un archivio o destinati a figurarvi.\n\n2.\nIl presente regolamento non si applica ai trattamenti di dati personali:\n\na)  effettuati per attività che non rientrano nell'ambito di applicazione del diritto dell'Unione;\n\nb)  effettuati dagli Stati membri nell'esercizio di attività che rientrano nell'ambito di applicazione del titolo V, capo 2,\n\nTUE;\n\nc)  effettuati da una persona fisica per l'esercizio di attività a carattere esclusivamente personale o domestico;\n\nd)  effettuati dalle autorità competenti a fini di prevenzione, indagine, accertamento o perseguimento di reati o\n\nesecuzione di sanzioni penali, incluse la salvaguardia contro minacce alla sicurezza pubblica e la prevenzione delle \nstesse.\n\n3.\nPer il trattamento dei dati personali da parte di istituzioni, organi, uffici e agenzie dell'Unione, si applica il \nregolamento (CE) n. 45/2001. Il regolamento (CE) n. 45/2001 e gli altri atti giuridici dell'Unione applicabili a tale \ntrattamento di dati personali devono essere adeguati ai principi e alle norme del presente regolamento conformemente \nall'articolo 98.\n\n4.\nIl presente regolamento non pregiudica pertanto l'applicazione della direttiva 2000/31/CE, in particolare le norme \nrelative alla responsabilità dei prestatori intermediari di servizi di cui agli articoli da 12 a 15 della medesima direttiva.",
+     "tier": "internal_only",
+     "title": "Ambito di applicazione materiale",
+     "tokens": 516,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 204640,
+       "char_start": 201034,
+       "page": 38,
+       "page_end": 38
+      },
+      {
+       "char_end": 205868,
+       "char_start": 204704,
+       "page": 39,
+       "page_end": 39
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 9",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "9",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-ter",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-sexies",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:107",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:22"
+     ],
+     "page_end": 39,
+     "page_start": 38,
+     "path": "CAPO II > Articolo 9",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 9\n\nTrattamento di categorie particolari di dati personali\n\n1.\nÈ vietato trattare dati personali che rivelino l'origine razziale o etnica, le opinioni politiche, le convinzioni religiose \no filosofiche, o l'appartenenza sindacale, nonché trattare dati genetici, dati biometrici intesi a identificare in modo \nunivoco una persona fisica, dati relativi alla salute o alla vita sessuale o all'orientamento sessuale della persona.\n\n2.\nIl paragrafo 1 non si applica se si verifica uno dei seguenti casi:\n\na)  l'interessato ha prestato il proprio consenso esplicito al trattamento di tali dati personali per una o più finalità\n\nspecifiche, salvo nei casi in cui il diritto dell'Unione o degli Stati membri dispone che l'interessato non possa revocare \nil divieto di cui al paragrafo 1;\n\nb) il trattamento è necessario per assolvere gli obblighi ed esercitare i diritti specifici del titolare del trattamento o dell'in­\n\nteressato in materia di diritto del lavoro e della sicurezza sociale e protezione sociale, nella misura in cui sia \nautorizzato dal diritto dell'Unione o degli Stati membri o da un contratto collettivo ai sensi del diritto degli Stati \nmembri, in presenza di garanzie appropriate per i diritti fondamentali e gli interessi dell'interessato;\n\nc) il trattamento è necessario per tutelare un interesse vitale dell'interessato o di un'altra persona fisica qualora l'inte­\n\nressato si trovi nell'incapacità fisica o giuridica di prestare il proprio consenso;\n\nd)  il trattamento è effettuato, nell'ambito delle sue legittime attività e con adeguate garanzie, da una fondazione,\n\nassociazione o altro organismo senza scopo di lucro che persegua finalità politiche, filosofiche, religiose o sindacali, a \ncondizione che il trattamento riguardi unicamente i membri, gli ex membri o le persone che hanno regolari contatti \ncon la fondazione, l'associazione o l'organismo a motivo delle sue finalità e che i dati personali non siano comunicati \nall'esterno senza il consenso dell'interessato;\n\ne)  il trattamento riguarda dati personali resi manifestamente pubblici dall'interessato;\n\nf)  il trattamento è necessario per accertare, esercitare o difendere un diritto in sede giudiziaria o ogniqualvolta le\n\nautorità giurisdizionali esercitino le loro funzioni giurisdizionali;\n\ng)  il trattamento è necessario per motivi di interesse pubblico rilevante sulla base del diritto dell'Unione o degli Stati\n\nmembri, che deve essere proporzionato alla finalità perseguita, rispettare l'essenza del diritto alla protezione dei dati e \nprevedere misure appropriate e specifiche per tutelare i diritti fondamentali e gli interessi dell'interessato;\n\nh)  il trattamento è necessario per finalità di medicina preventiva o di medicina del lavoro, valutazione della capacità\n\nlavorativa del dipendente, diagnosi, assistenza o terapia sanitaria o sociale ovvero gestione dei sistemi e servizi \nsanitari o sociali sulla base del diritto dell'Unione o degli Stati membri o conformemente al contratto con un profes­\nsionista della sanità, fatte salve le condizioni e le garanzie di cui al paragrafo 3;\n\ni)  il trattamento è necessario per motivi di interesse pubblico nel settore della sanità pubblica, quali la protezione da\n\ngravi minacce per la salute a carattere transfrontaliero o la garanzia di parametri elevati di qualità e sicurezza dell'assi­\nstenza sanitaria e dei medicinali e dei dispositivi medici, sulla base del diritto dell'Unione o degli Stati membri che \nprevede misure appropriate e specifiche per tutelare i diritti e le libertà dell'interessato, in particolare il segreto profes­\nsionale;\n\nj)  il trattamento è necessario a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini\n\nstatistici in conformità dell'articolo 89, paragrafo 1, sulla base del diritto dell'Unione o nazionale, che è proporzionato \nalla finalità perseguita, rispetta l'essenza del diritto alla protezione dei dati e prevede misure appropriate e specifiche \nper tutelare i diritti fondamentali e gli interessi dell'interessato.\n\n3.\nI dati personali di cui al paragrafo 1 possono essere trattati per le finalità di cui al paragrafo 2, lettera h), se tali \ndati sono trattati da o sotto la responsabilità di un professionista soggetto al segreto professionale conformemente al \ndiritto dell'Unione o degli Stati membri o alle norme stabilite dagli organismi nazionali competenti o da altra persona \nanch'essa soggetta all'obbligo di segretezza conformemente al diritto dell'Unione o degli Stati membri o alle norme \nstabilite dagli organismi nazionali competenti.\n\n4.\nGli Stati membri possono mantenere o introdurre ulteriori condizioni, comprese limitazioni, con riguardo al \ntrattamento di dati genetici, dati biometrici o dati relativi alla salute.",
+     "tier": "internal_only",
+     "title": "Trattamento di categorie particolari di dati personali",
+     "tokens": 1590,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 7337,
+       "char_start": 4205,
+       "page": 2,
+       "page_end": 2
+      },
+      {
+       "char_end": 7557,
+       "char_start": 7396,
+       "page": 3,
+       "page_end": 3
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Art. 2-ter",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-ter",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 3,
+     "page_start": 2,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-ter",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-ter",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-ter\n\n(Base giuridica per il trattamento di dati personali effettuato per l'esecuzione di un compito di interesse\npubblico o connesso all'esercizio di pubblici poteri)\n\n1. La base giuridica prevista dall'articolo 6, paragrafo 3, lettera b), del regolamento è costituita ((...)) da una\nnorma di legge o ((...)) di regolamento ((o da atti amministrativi generali)). ((49))\n\n((1-bis. Fermo restando ogni altro obbligo previsto dal Regolamento e dal presente codice, il trattamento dei\ndati personali da parte di un'amministrazione pubblica di cui all'articolo 1, comma 2, del decreto legislativo 30\nmarzo 2001, n. 165, ivi comprese le autorità indipendenti e le amministrazioni inserite nell'elenco di cui\nall'articolo 1, comma 3, della legge 31 dicembre 2009, n. 196, nonché da parte di una società a controllo\npubblico statale o, limitatamente ai gestori di servizi pubblici, locale, di cui all'articolo 16 del testo unico in\nmateria di società a partecipazione pubblica, di cui al decreto legislativo 19 agosto 2016, n. 175, con\nesclusione, per le società a controllo pubblico, dei trattamenti correlati ad attività svolte in regime di libero\nmercato, è anche consentito se necessario per l'adempimento di un compito svolto nel pubblico interesse o per\nl'esercizio di pubblici poteri ad esse attribuiti. In modo da assicurare che tale esercizio non possa arrecare un\npregiudizio effettivo e concreto alla tutela dei diritti e delle libertà degli interessati, le disposizioni di cui al\npresente comma sono esercitate nel rispetto dell'articolo 6 del Regolamento))\n\n2. La comunicazione fra titolari che effettuano trattamenti di dati personali, diversi da quelli ricompresi nelle\nparticolari categorie di cui all'articolo 9 del Regolamento e di quelli relativi a condanne penali e reati di cui\nall'articolo 10 del Regolamento, per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di\npubblici poteri è ammessa se prevista ai sensi del comma 1 ((o se necessaria ai sensi del comma 1-bis)).\n((PERIODO SOPPRESSO DAL D.L. 8 OTTOBRE 2021, N. 139, CONVERTITO CON MODIFICAZIONI DALLA L. 3\nDICEMBRE 2021, N. 205)).\n\n3. La diffusione e la comunicazione di dati personali, trattati per l'esecuzione di un compito di interesse\npubblico o connesso all'esercizio di pubblici poteri, a soggetti che intendono trattarli per altre finalità sono\nammesse unicamente se previste ai sensi del comma 1 ((o se necessarie ai sensi del comma 1-bis. In tale\nultimo caso, ne viene data notizia al Garante almeno dieci giorni prima dell'inizio della comunicazione o\ndiffusione)).\n\n4. Si intende per:\n\na) \"comunicazione\", il dare conoscenza dei dati personali a uno o più soggetti determinati diversi\ndall'interessato, dal rappresentante del titolare nel territorio dell'Unione europea, dal responsabile o dal suo\nrappresentante nel territorio dell'Unione europea, dalle persone autorizzate, ai sensi dell'articolo\n2-quaterdecies, al trattamento dei dati personali sotto l'autorità diretta del titolare o del responsabile, in\nqualunque forma, anche mediante la loro messa a disposizione, consultazione o mediante interconnessione;\n\nb) \"diffusione\", il dare conoscenza dei dati personali a soggetti indeterminati, in qualunque forma, anche\nmediante la loro messa a disposizione o consultazione.",
+     "tier": "internal_only",
+     "title": "(Base giuridica per il trattamento di dati personali effettuato per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici poteri)",
+     "tokens": 1098,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 11267,
+       "char_start": 10485,
+       "page": 3,
+       "page_end": 3
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0016-34b157e5"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Art. 2-sexies",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-sexies",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:107"
+     ],
+     "page_end": 3,
+     "page_start": 3,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-sexies",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-sexies",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-sexies\n\n(Trattamento di categorie particolari di dati personali necessario per motivi di interesse pubblico rilevante)\n\n1. I trattamenti delle categorie particolari di dati personali di cui all'articolo 9, paragrafo 1, del Regolamento,\nnecessari per motivi di interesse pubblico rilevante ai sensi del paragrafo 2, lettera g), del medesimo articolo,\nsono ammessi qualora siano previsti dal diritto dell'Unione europea ovvero, nell'ordinamento interno, da\ndisposizioni di legge o di regolamento o da atti amministrativi generali che specifichino i tipi di dati che\npossono essere trattati, le operazioni eseguibili e il motivo di interesse pubblico rilevante, nonché le misure\nappropriate e specifiche per tutelare i diritti fondamentali e gli interessi dell'interessato. (49)",
+     "tier": "internal_only",
+     "title": "(Trattamento di categorie particolari di dati personali necessario per motivi di interesse pubblico rilevante)",
+     "tokens": 261,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 198509,
+       "char_start": 198407,
+       "page": 37,
+       "page_end": 37
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0225-c9623c6f"
+     ],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Articolo 6",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "6",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-ter"
+     ],
+     "page_end": 37,
+     "page_start": 37,
+     "path": "CAPO II > Articolo 6",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "e)  dell'esistenza di garanzie adeguate, che possono comprendere la cifratura o la pseudonimizzazione.",
+     "tier": "internal_only",
+     "title": "Liceità del trattamento",
+     "tokens": 34,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 119492,
+       "char_start": 118702,
+       "page": 33,
+       "page_end": 33
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0268-529e8c5e"
+     ],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Art. 132",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "132",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:3"
+     ],
+     "page_end": 33,
+     "page_start": 33,
+     "path": "PARTE II > TITOLO X > CAPO I > Art. 132",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:132",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Il provvedimento, prorogabile, per motivate esigenze, per una durata complessiva non superiore a sei mesi,\npuò prevedere particolari modalità di custodia dei dati e l'eventuale indisponibilità dei dati stessi da parte dei\nfornitori e degli operatori di servizi telefonici, informatici o telematici ovvero di terzi.))\n\n3-bis.2. ((Le disposizioni di cui ai commi 3 e 3-bis non si applicano all'acquisizione dei dati relativi agli abbonati.\nPer dati relativi agli abbonati si intendono i dati detenuti da un prestatore di servizi relativi all'abbonamento ai\nsuoi servizi, riguardanti:))\n\na) ((l'identità di un abbonato o di un cliente, come il nome, la data di nascita, l'indirizzo postale o geografico, i\ndati di fatturazione e pagamento, il numero di telefono o l'indirizzo e-mail forniti;))",
+     "tier": "internal_only",
+     "title": "(Conservazione di dati di traffico per altre finalità).",
+     "tokens": 264,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 80714,
+       "char_start": 80204,
+       "page": 24,
+       "page_end": 24
+      },
+      {
+       "char_end": 80776,
+       "char_start": 80774,
+       "page": 25,
+       "page_end": 25
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0207-d99ee423"
+     ],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Art. 107",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "107",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4"
+     ],
+     "page_end": 25,
+     "page_start": 24,
+     "path": "PARTE II > TITOLO VII > CAPO III > Art. 107",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:107",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 107\n\n(( (Trattamento di categorie particolari di dati personali). ))\n\n((\n\n1. Fermo restando quanto previsto dall'articolo 2-sexies e fuori dei casi di particolari indagini a fini statistici o di\nricerca scientifica previste dalla legge, il consenso dell'interessato al trattamento di dati di cui all'articolo 9 del\nRegolamento, quando è richiesto, può essere prestato con modalità semplificate, individuate dalle regole\ndeontologiche di cui all'articolo 106 o dalle misure di cui all'articolo 2-septies.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Trattamento di categorie particolari di dati personali). ))",
+     "tokens": 171,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 169976,
+       "char_start": 169397,
+       "page": 46,
+       "page_end": 46
+      },
+      {
+       "char_end": 171712,
+       "char_start": 170036,
+       "page": 47,
+       "page_end": 47
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0355-25297dc7"
+     ],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Art. 159",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "159",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1"
+     ],
+     "page_end": 47,
+     "page_start": 46,
+     "path": "PARTE III > TITOLO II > CAPO III > Art. 159",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:159",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 159\n\n(Modalita)\n\n1. Il personale operante, munito di documento di riconoscimento, può essere assistito ove necessario da\nconsulenti tenuti al segreto ((su ciò di cui sono venuti a conoscenza, nell'esercizio delle proprie funzioni, in\nordine a notizie che devono rimanere segrete)).\n\nNel procedere a rilievi e ad operazioni tecniche può altresì estrarre copia di ogni atto, dato e documento, anche\na campione e su supporto informatico o per via telematica. Degli accertamenti è redatto sommario verbale nel\nquale sono annotate anche le eventuali dichiarazioni dei presenti.\n\n2. Ai soggetti presso i quali sono eseguiti gli accertamenti è consegnata copia dell'autorizzazione del\npresidente del tribunale, ove rilasciata. I medesimi soggetti sono tenuti a farli eseguire e a prestare la\ncollaborazione a tal fine necessaria. In caso di rifiuto gli accertamenti sono comunque eseguiti e le spese in tal\ncaso occorrenti sono poste a carico del titolare con il provvedimento che definisce il procedimento, che per\nquesta parte costituisce titolo esecutivo ai sensi degli articoli 474 e 475 del codice di procedura civile.\n\n3. Gli accertamenti, se effettuati presso il titolare o il responsabile ((o il rappresentante del titolare o del\nresponsabile)), sono eseguiti dandone informazione a quest'ultimo o, se questo è assente o non è designato,\n((alle persone autorizzate al trattamento dei dati personali sotto l'autorità diretta del titolare o del responsabile\nai sensi dell'articolo 2-quaterdecies)). Agli accertamenti possono assistere persone indicate dal titolare o dal\nresponsabile.\n\n4. Se non è disposto diversamente nel decreto di autorizzazione del presidente del tribunale, l'accertamento\nnon può essere iniziato prima delle ore sette e dopo le ore venti, e può essere eseguito anche con preavviso\nquando ciò può facilitarne l'esecuzione.\n\n5. Le informative, le richieste e i provvedimenti di cui al presente articolo e agli articoli 157 e 158 possono\nessere trasmessi anche mediante posta elettronica ((...)).\n\n6. Quando emergono indizi di reato si osserva la disposizione di cui all'articolo 220 delle norme di attuazione, di\ncoordinamento e transitorie del codice di procedura penale, approvate con decreto legislativo 28 luglio 1989,\nn. 271.",
+     "tier": "internal_only",
+     "title": "(Modalita)",
+     "tokens": 752,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 104681,
+       "char_start": 102702,
+       "page": 30,
+       "page_end": 30
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0251-9b41d649",
+      "doc-0d264a29f564b4ba-0250-f719b3f8"
+     ],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Art. 126",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "126",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:3"
+     ],
+     "page_end": 30,
+     "page_start": 30,
+     "path": "PARTE II > TITOLO X > CAPO I > Art. 126",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:126",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 126\n\n(Dati relativi all'ubicazione)\n\n1. I dati relativi all'ubicazione diversi dai dati relativi al traffico, riferiti agli utenti o agli abbonati di reti\npubbliche di comunicazione o di servizi di comunicazione elettronica accessibili al pubblico, possono essere\ntrattati solo se anonimi o se l'utente o l'contraente ha manifestato previamente il proprio consenso, revocabile\nin ogni momento, e nella misura e per la durata necessari per la fornitura del servizio a valore aggiunto\nrichiesto.\n\n2. Il fornitore del servizio, prima di richiedere il consenso, informa gli utenti e gli abbonati sulla natura dei dati\nrelativi all'ubicazione diversi dai dati relativi al traffico che saranno sottoposti al trattamento, sugli scopi e sulla\ndurata di quest'ultimo, nonché sull'eventualità che i dati siano trasmessi ad un terzo per la prestazione del\nservizio a valore aggiunto.\n\n3. L'utente e l'contraente che manifestano il proprio consenso al trattamento dei dati relativi all'ubicazione,\ndiversi dai dati relativi al traffico, conservano il diritto di richiedere, gratuitamente e mediante una funzione\nsemplice, l'interruzione temporanea del trattamento di tali dati per ciascun collegamento alla rete o per\nciascuna trasmissione di comunicazioni.\n\n4. Il trattamento dei dati relativi all'ubicazione diversi dai dati relativi al traffico, ai sensi dei commi 1 , 2 e 3, è\nconsentito unicamente ((a persone autorizzate al trattamento, ai sensi dell'articolo 2-quaterdecies, che\noperano)) sono la diretta autorità del fornitore del servizio di comunicazione elettronica accessibile al pubblico\no, a seconda dei casi, del fornitore della rete pubblica di comunicazioni o del terzo che fornisce il servizio a\nvalore aggiunto. Il trattamento è limitato a quanto è strettamente necessario per la fornitura del servizio a\nvalore aggiunto e deve assicurare l'identificazione ((della persona autorizzata)) che accede ai dati anche\nmediante un'operazione di interrogazione automatizzata.",
+     "tier": "internal_only",
+     "title": "(Dati relativi all'ubicazione)",
+     "tokens": 660,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 232449,
+       "char_start": 230946,
+       "page": 46,
+       "page_end": 46
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0268-efa67a30"
+     ],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Articolo 22",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "22",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4"
+     ],
+     "page_end": 46,
+     "page_start": 46,
+     "path": "CAPO III > Sezione 4 > Articolo 22",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:22",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 22\n\nProcesso decisionale automatizzato relativo alle persone fisiche, compresa la profilazione\n\n1.\nL'interessato ha il diritto di non essere sottoposto a una decisione basata unicamente sul trattamento automa­\ntizzato, compresa la profilazione, che produca effetti giuridici che lo riguardano o che incida in modo analogo significa­\ntivamente sulla sua persona.\n\n2.\nIl paragrafo 1 non si applica nel caso in cui la decisione:\n\na)  sia necessaria per la conclusione o l'esecuzione di un contratto tra l'interessato e un titolare del trattamento;\n\nb)  sia autorizzata dal diritto dell'Unione o dello Stato membro cui è soggetto il titolare del trattamento, che precisa\n\naltresì misure adeguate a tutela dei diritti, delle libertà e dei legittimi interessi dell'interessato;\n\nc)  si basi sul consenso esplicito dell'interessato.\n\n3.\nNei casi di cui al paragrafo 2, lettere a) e c), il titolare del trattamento attua misure appropriate per tutelare i diritti, \nle libertà e i legittimi interessi dell'interessato, almeno il diritto di ottenere l'intervento umano da parte del titolare del \ntrattamento, di esprimere la propria opinione e di contestare la decisione.\n\n4.\nLe decisioni di cui al paragrafo 2 non si basano sulle categorie particolari di dati personali di cui all'articolo 9, \nparagrafo 1, a meno che non sia d'applicazione l'articolo 9, paragrafo 2, lettere a) o g), e non siano in vigore misure \nadeguate a tutela dei diritti, delle libertà e dei legittimi interessi dell'interessato.",
+     "tier": "internal_only",
+     "title": "Processo decisionale automatizzato relativo alle persone fisiche, compresa la profilazione",
+     "tokens": 501,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 337931,
+       "char_start": 337066,
+       "page": 73,
+       "page_end": 73
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0396-b19d5160"
+     ],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Articolo 62",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "62",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1"
+     ],
+     "page_end": 73,
+     "page_start": 73,
+     "path": "CAPO VII > Sezione 1 > Articolo 62",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:62",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "3.\nUn'autorità di controllo può, in conformità del diritto degli Stati membri e con l'autorizzazione dell'autorità di \ncontrollo ospitata, conferire poteri, anche d'indagine, ai membri o al personale dell'autorità di controllo ospitata che \npartecipano alle operazioni congiunte o consentire ai membri o al personale dell'autorità di controllo ospitata, nella \nmisura in cui il diritto dello Stato membro dell'autorità di controllo ospite lo permette, di esercitare i loro poteri \nd'indagine in conformità del diritto dello Stato membro dell'autorità di controllo ospitata. Tali poteri d'indagine possono \nessere esercitati unicamente sotto il controllo e in presenza di membri o personale dell'autorità di controllo ospite. I \nmembri o il personale dell'autorità di controllo ospitata sono soggetti al diritto dello Stato membro dell'autorità di \ncontrollo ospite.",
+     "tier": "internal_only",
+     "title": "Operazioni congiunte delle autorità di controllo",
+     "tokens": 289,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "4",
+      "point": "1"
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "4",
+      "point": "5"
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "2",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "9",
+      "point": null
+     },
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "2-ter",
+      "point": null
+     }
+    ],
+    "queries": [
+     "definizione di dato personale",
+     "persona fisica identificata o identificabile",
+     "identificativo come nome, numero di identificazione, dati relativi all'ubicazione",
+     "categorie particolari di dati personali",
+     "pseudonimizzazione",
+     "informazioni anonime non riferite a persona identificabile",
+     "ambito di applicazione materiale trattamento di dati personali"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 6306,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8NTDT7KBxWVfjrHaRjp"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "10 further candidate provisions were left out by the evidence limits (max_items)."
+  ],
+  "question": "Che cos'è un dato personale secondo il GDPR?",
+  "question_references": [],
+  "rejected_claims": [],
+  "unanswered_issues": [
+   {
+    "issue_id": "I4",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   },
+   {
+    "issue_id": "I5",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   }
+  ],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8NTwB6VVWSrRWerRoDQ"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E6"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "test"
+}

@@ -1,0 +1,58 @@
+{
+ "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+ "code": {
+  "changed_paths": [
+   " M src/query_analysis.py",
+   " M tests/test_cli_ask.py",
+   " M tests/test_query_analysis.py",
+   "?? docs/PROJECT_OVERVIEW.md",
+   "?? docs/evaluation/answers-v0-results.md",
+   "?? docs/evaluation/answers-v0-review-sheet.md",
+   "?? docs/reviews/m1-review-record-2026-11-09.md"
+  ],
+  "commit": "60b4d44e8969c79a1d8c6f9e0ff86a82f4224be5",
+  "fingerprint": "0247d9d92e9200fd0b270fb3c0b4325d1cd983ed915dea6ca011d77b4ced5cf6",
+  "state": "dirty"
+ },
+ "invocations": [
+  {
+   "at": "2026-11-17T12:24:36+01:00",
+   "code": {
+    "changed_paths": [
+     " M src/query_analysis.py",
+     " M tests/test_cli_ask.py",
+     " M tests/test_query_analysis.py",
+     "?? docs/PROJECT_OVERVIEW.md",
+     "?? docs/evaluation/answers-v0-results.md",
+     "?? docs/evaluation/answers-v0-review-sheet.md",
+     "?? docs/reviews/m1-review-record-2026-11-09.md"
+    ],
+    "commit": "60b4d44e8969c79a1d8c6f9e0ff86a82f4224be5",
+    "fingerprint": "0247d9d92e9200fd0b270fb3c0b4325d1cd983ed915dea6ca011d77b4ced5cf6",
+    "state": "dirty"
+   },
+   "splits": [
+    "dev",
+    "test"
+   ]
+  }
+ ],
+ "kind": "answers-v0-run",
+ "mode": "research",
+ "model": "claude-sonnet-5-5",
+ "prompt_versions": {
+  "answer_generation": "answer-generation-v3",
+  "claim_verification": "claim-verification-v2",
+  "query_analysis": "query-analysis-v3"
+ },
+ "provider": "anthropic",
+ "replay_of": null,
+ "run_id": "2026-11-17-research-t7-prompt",
+ "schema": 1,
+ "settings": {
+  "context_token_budget": 12000,
+  "final_evidence_count": 12,
+  "max_generation_retries": 1,
+  "semantic_verification": true
+ }
+}

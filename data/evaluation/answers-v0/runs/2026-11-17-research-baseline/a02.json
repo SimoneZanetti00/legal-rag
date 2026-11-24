@@ -1,0 +1,946 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Quale definizione di «violazione dei dati personali» è data dalla normativa?"
+     },
+     {
+      "question": "Quali eventi (distruzione, perdita, modifica, divulgazione non autorizzata, accesso) rientrano nella nozione e a quali condizioni, ad esempio se accidentali o illeciti?"
+     },
+     {
+      "question": "Quali obblighi del titolare e del responsabile del trattamento derivano da una violazione, in particolare la notifica all'autorità di controllo e la comunicazione all'interessato, da tenere distinti dalla definizione?"
+     },
+     {
+      "question": "Il Codice in materia di protezione dei dati personali contiene disposizioni specifiche o rinvii sulla violazione dei dati personali?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda la nozione di violazione dei dati personali, disciplinata dal GDPR e dal Codice in materia di protezione dei dati personali.",
+    "search_queries_it": [
+     "violazione dei dati personali definizione",
+     "violazione di sicurezza che comporta distruzione perdita modifica divulgazione non autorizzata dei dati personali",
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "comunicazione di una violazione dei dati personali all'interessato",
+     "violazione dei dati personali Garante per la protezione dei dati personali"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "4",
+      "instrument": "eu-reg-2016-679",
+      "point": "12",
+      "reason": "definizione di violazione dei dati personali"
+     },
+     {
+      "article": "33",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "notifica della violazione all'autorità di controllo"
+     },
+     {
+      "article": "34",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "comunicazione della violazione all'interessato"
+     }
+    ],
+    "uncertainty": "Non è chiaro se l'utente cerchi solo la definizione o anche gli obblighi collegati; sono stati inclusi entrambi i profili. Il Codice potrebbe rinviare ad altri atti non presenti nel corpus."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8Lxr75NqT7v88dn3Q2k"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "17219fe03011e7159b2a472f9d86f7a9948642681a4bd4e5df7eb66d5e13aa2d",
+   "task": "query_analysis",
+   "user_sha256": "0c37049e53135a003c16a1cdf66b28f77ceea44387b91bee25d63dc5511d76cb"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1",
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "la violazione di sicurezza che comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati o comunque trattati"
+       }
+      ],
+      "text": "L'art. 4, punto 12, del GDPR definisce la «violazione dei dati personali» come una violazione di sicurezza che comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati o comunque trattati."
+     },
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "la violazione di sicurezza che comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati o comunque trattati"
+       }
+      ],
+      "text": "Dalla definizione risulta che gli eventi rilevanti (distruzione, perdita, modifica, divulgazione non autorizzata, accesso) rientrano nella nozione sia se avvengono accidentalmente sia se avvengono in modo illecito, purché derivino da una violazione di sicurezza."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche."
+       }
+      ],
+      "text": "In caso di violazione, il titolare del trattamento notifica la violazione all'autorità di controllo senza ingiustificato ritardo e, ove possibile, entro 72 ore dalla conoscenza, salvo sia improbabile che presenti un rischio per i diritti e le libertà delle persone fisiche."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione."
+       }
+      ],
+      "text": "Il responsabile del trattamento deve informare il titolare senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, le sue conseguenze e i provvedimenti adottati per porvi rimedio."
+       }
+      ],
+      "text": "Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese circostanze, conseguenze e provvedimenti adottati per porvi rimedio."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo."
+       }
+      ],
+      "text": "Quando la violazione è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare comunica la violazione all'interessato senza ingiustificato ritardo."
+     },
+     {
+      "issue_ids": [
+       "I3"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "Non è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:"
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "quelle destinate a rendere i dati personali incomprensibili a chiunque non sia autorizzato ad accedervi, quali la cifratura;"
+       }
+      ],
+      "text": "La comunicazione all'interessato non è richiesta al ricorrere di una delle condizioni previste dall'art. 34, par. 3, ad esempio misure di protezione come la cifratura applicate ai dati oggetto della violazione."
+     }
+    ],
+    "limitations": [
+     "L'item del Codice (E4) è un estratto di una trascrizione non ufficiale, non verificata, di validità giuridica non accertata.",
+     "Non è escluso che altre disposizioni del Codice non fornite trattino la materia; il corpus non permette di dirlo.",
+     "L'art. 33 rinvia all'art. 55 del GDPR, che non è tra gli elementi forniti."
+    ],
+    "outcome": "answer_limited",
+    "unanswered_issues": [
+     {
+      "issue_id": "I4",
+      "reason": "L'unico estratto del Codice fornito (art. 166, comma 7) riguarda i provvedimenti sanzionatori e usa «violazione» in senso generico; non contiene disposizioni o rinvii specifici sulla violazione dei dati personali."
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8LyHjvzLU3xb2SQ8Yez"
+   ],
+   "schema_sha256": "958b2be51ffa530f9267f985c758125ecff38d8bcb558d93f182bc5ea60defee",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "a4316fff0471471b36fb2ed20f090ba325500d3fcfb1723ee2160e9ab5a95f80",
+   "task": "answer_generation",
+   "user_sha256": "4c339293140f748b69c9af3ad3d01bcbf51224e5bb467d8b82852b37ff71f46a"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011Ch8Lz7KuJLxZ7tNUsthpC"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "e125d66867796bf590fbc60aea974405ca557abd3b818c1c8243652db157f309",
+   "task": "claim_verification",
+   "user_sha256": "7a09adf9c8bd727678d11da8da71c44c5e0a84f0a33ab3dd861fb6c8fb652231"
+  }
+ ],
+ "query_id": "a02",
+ "question": "Che cos'è una violazione dei dati personali?",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Quale definizione di «violazione dei dati personali» è data dalla normativa?"
+    },
+    {
+     "id": "I2",
+     "question": "Quali eventi (distruzione, perdita, modifica, divulgazione non autorizzata, accesso) rientrano nella nozione e a quali condizioni, ad esempio se accidentali o illeciti?"
+    },
+    {
+     "id": "I3",
+     "question": "Quali obblighi del titolare e del responsabile del trattamento derivano da una violazione, in particolare la notifica all'autorità di controllo e la comunicazione all'interessato, da tenere distinti dalla definizione?"
+    },
+    {
+     "id": "I4",
+     "question": "Il Codice in materia di protezione dei dati personali contiene disposizioni specifiche o rinvii sulla violazione dei dati personali?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v2",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8Lxr75NqT7v88dn3Q2k"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Che cos'è una violazione dei dati personali?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda la nozione di violazione dei dati personali, disciplinata dal GDPR e dal Codice in materia di protezione dei dati personali.",
+   "search_queries_it": [
+    "violazione dei dati personali definizione",
+    "violazione di sicurezza che comporta distruzione perdita modifica divulgazione non autorizzata dei dati personali",
+    "notifica di una violazione dei dati personali all'autorità di controllo",
+    "comunicazione di una violazione dei dati personali all'interessato",
+    "violazione dei dati personali Garante per la protezione dei dati personali"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "4",
+     "instrument": "eu-reg-2016-679",
+     "point": "12",
+     "reason": "definizione di violazione dei dati personali"
+    },
+    {
+     "article": "33",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "notifica della violazione all'autorità di controllo"
+    },
+    {
+     "article": "34",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "comunicazione della violazione all'interessato"
+    }
+   ],
+   "uncertainty": "Non è chiaro se l'utente cerchi solo la definizione o anche gli obblighi collegati; sono stati inclusi entrambi i profili. Il Codice potrebbe rinviare ad altri atti non presenti nel corpus."
+  },
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 4",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "4",
+    "legal_validity": "not_established",
+    "page_end": 34,
+    "page_start": 34,
+    "path": "CAPO I > Articolo 4",
+    "point": "12",
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:4",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Definizioni",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": false
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 33",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "33",
+    "legal_validity": "not_established",
+    "page_end": 52,
+    "page_start": 52,
+    "path": "CAPO IV > Sezione 2 > Articolo 33",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 34",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "34",
+    "legal_validity": "not_established",
+    "page_end": 53,
+    "page_start": 52,
+    "path": "CAPO IV > Sezione 2 > Articolo 34",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Comunicazione di una violazione dei dati personali all'interessato",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1",
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "la violazione di sicurezza che comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati o comunque trattati"
+     }
+    ],
+    "text": "L'art. 4, punto 12, del GDPR definisce la «violazione dei dati personali» come una violazione di sicurezza che comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati o comunque trattati.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "la violazione di sicurezza che comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati o comunque trattati"
+     }
+    ],
+    "text": "Dalla definizione risulta che gli eventi rilevanti (distruzione, perdita, modifica, divulgazione non autorizzata, accesso) rientrano nella nozione sia se avvengono accidentalmente sia se avvengono in modo illecito, purché derivino da una violazione di sicurezza.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche."
+     }
+    ],
+    "text": "In caso di violazione, il titolare del trattamento notifica la violazione all'autorità di controllo senza ingiustificato ritardo e, ove possibile, entro 72 ore dalla conoscenza, salvo sia improbabile che presenti un rischio per i diritti e le libertà delle persone fisiche.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "Il responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione."
+     }
+    ],
+    "text": "Il responsabile del trattamento deve informare il titolare senza ingiustificato ritardo dopo essere venuto a conoscenza della violazione.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, le sue conseguenze e i provvedimenti adottati per porvi rimedio."
+     }
+    ],
+    "text": "Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese circostanze, conseguenze e provvedimenti adottati per porvi rimedio.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo."
+     }
+    ],
+    "text": "Quando la violazione è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare comunica la violazione all'interessato senza ingiustificato ritardo.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C7",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I3"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "Non è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:"
+     },
+     {
+      "evidence_id": "E3",
+      "text": "quelle destinate a rendere i dati personali incomprensibili a chiunque non sia autorizzato ad accedervi, quali la cifratura;"
+     }
+    ],
+    "text": "La comunicazione all'interessato non è richiesta al ricorrere di una delle condizioni previste dall'art. 34, par. 3, ad esempio misure di protezione come la cifratura applicate ai dati oggetto della violazione.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "40",
+     "origins": [
+      "query:3",
+      "query:4",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:32"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:40",
+     "reason": "max_items",
+     "tokens": 216
+    },
+    {
+     "label": "132-ter",
+     "origins": [
+      "query:2"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:132-ter",
+     "reason": "max_items",
+     "tokens": 529
+    },
+    {
+     "label": "14",
+     "origins": [
+      "query:4"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+     "reason": "max_items",
+     "tokens": 241
+    },
+    {
+     "label": "2-bis",
+     "origins": [
+      "query:5"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis",
+     "reason": "max_items",
+     "tokens": 76
+    },
+    {
+     "label": "55",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:33"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:55",
+     "reason": "max_items",
+     "tokens": 219
+    },
+    {
+     "label": "83",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:83",
+     "reason": "max_items",
+     "tokens": 2046
+    },
+    {
+     "label": "156",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:156",
+     "reason": "max_items",
+     "tokens": 1711
+    },
+    {
+     "label": "42",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:32"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:42",
+     "reason": "max_items",
+     "tokens": 1100
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 186316,
+       "char_start": 186057,
+       "page": 34,
+       "page_end": 34
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0212-16381185"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 4",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "4",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:2"
+     ],
+     "page_end": 34,
+     "page_start": 34,
+     "path": "CAPO I > Articolo 4",
+     "point": "12",
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:4",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "12) «violazione dei dati personali»: la violazione di sicurezza che comporta accidentalmente o in modo illecito la \ndistruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati \no comunque trattati;",
+     "tier": "internal_only",
+     "title": "Definizioni",
+     "tokens": 87,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 255123,
+       "char_start": 253118,
+       "page": 52,
+       "page_end": 52
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0296-c5e96e79",
+      "doc-8f7504d289853f57-0297-0683bb04"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 33",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "33",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:3",
+      "query:5",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:34"
+     ],
+     "page_end": 52,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 33",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 33\n\nNotifica di una violazione dei dati personali all'autorità di controllo\n\n1.\nIn caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo \ncompetente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è \nvenuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le \nlibertà delle persone fisiche. Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei \nmotivi del ritardo.\n\n2.\nIl responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a \nconoscenza della violazione.\n\n3.\nLa notifica di cui al paragrafo 1 deve almeno:\n\na) descrivere la natura della violazione dei dati personali compresi, ove possibile, le categorie e il numero approssi­\n\nmativo di interessati in questione nonché le categorie e il numero approssimativo di registrazioni dei dati personali in \nquestione;\n\nb)  comunicare il nome e i dati di contatto del responsabile della protezione dei dati o di altro punto di contatto presso\n\ncui ottenere più informazioni;\n\nc)  descrivere le probabili conseguenze della violazione dei dati personali;\n\nd)  descrivere le misure adottate o di cui si propone l'adozione da parte del titolare del trattamento per porre rimedio\n\nalla violazione dei dati personali e anche, se del caso, per attenuarne i possibili effetti negativi.\n\n4.\nQualora e nella misura in cui non sia possibile fornire le informazioni contestualmente, le informazioni possono \nessere fornite in fasi successive senza ulteriore ingiustificato ritardo.\n\n5.\nIl titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, \nle sue conseguenze e i provvedimenti adottati per porvi rimedio. Tale documentazione consente all'autorità di controllo \ndi verificare il rispetto del presente articolo.",
+     "tier": "internal_only",
+     "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+     "tokens": 669,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 255446,
+       "char_start": 255125,
+       "page": 52,
+       "page_end": 52
+      },
+      {
+       "char_end": 257013,
+       "char_start": 255510,
+       "page": 53,
+       "page_end": 53
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0298-036e8f92",
+      "doc-8f7504d289853f57-0299-eb81eca8"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 34",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "34",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:4",
+      "query:1",
+      "query:5"
+     ],
+     "page_end": 53,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 34",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 34\n\nComunicazione di una violazione dei dati personali all'interessato\n\n1.\nQuando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle \npersone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.\n\n2.\nLa comunicazione all'interessato di cui al paragrafo 1 del presente articolo descrive con un linguaggio semplice e \nchiaro la natura della violazione dei dati personali e contiene almeno le informazioni e le misure di cui all'articolo 33, \nparagrafo 3, lettere b), c) e d).\n\n3.\nNon è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:\n\na)  il titolare del trattamento ha messo in atto le misure tecniche e organizzative adeguate di protezione e tali misure\n\nerano state applicate ai dati personali oggetto della violazione, in particolare quelle destinate a rendere i dati personali \nincomprensibili a chiunque non sia autorizzato ad accedervi, quali la cifratura;\n\nb)  il titolare del trattamento ha successivamente adottato misure atte a scongiurare il sopraggiungere di un rischio\n\nelevato per i diritti e le libertà degli interessati di cui al paragrafo 1;\n\nc)  detta comunicazione richiederebbe sforzi sproporzionati. In tal caso, si procede invece a una comunicazione pubblica\n\no a una misura simile, tramite la quale gli interessati sono informati con analoga efficacia.\n\n4.\nNel caso in cui il titolare del trattamento non abbia ancora comunicato all'interessato la violazione dei dati \npersonali, l'autorità di controllo può richiedere, dopo aver valutato la probabilità che la violazione dei dati personali \npresenti un rischio elevato, che vi provveda o può decidere che una delle condizioni di cui al paragrafo 3 è soddisfatta.",
+     "tier": "internal_only",
+     "title": "Comunicazione di una violazione dei dati personali all'interessato",
+     "tokens": 608,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 180066,
+       "char_start": 178788,
+       "page": 49,
+       "page_end": 49
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0375-8ff7e8a5"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Art. 166",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "166",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5"
+     ],
+     "page_end": 49,
+     "page_start": 49,
+     "path": "PARTE III > TITOLO III > CAPO I > Art. 166",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "7. Nell'adozione dei provvedimenti sanzionatori nei casi di cui al comma 3 si osservano, in quanto applicabili,\ngli articoli da 1 a 9, da 18 a 22 e da 24 a 28 della legge 24 novembre 1981, n. 689; nei medesimi casi può\nessere applicata la sanzione amministrativa accessoria della pubblicazione dell'ordinanza-ingiunzione, per\nintero o per estratto, sul sito internet del Garante ((o dell'ingiunzione a realizzare campagne di comunicazione\nistituzionale volte alla promozione della consapevolezza del diritto alla protezione dei dati personali, sulla base\ndi progetti previamente approvati dal Garante e che tengano conto della gravità della violazione. Nella\ndeterminazione della sanzione ai sensi dell'articolo 83, paragrafo 2, del Regolamento, il Garante tiene conto\nanche di eventuali campagne di comunicazione istituzionale volte alla promozione della consapevolezza del\ndiritto alla protezione dei dati personali, realizzate dal trasgressore anteriormente alla commissione della\nviolazione)). I proventi delle sanzioni, nella misura del cinquanta per cento del totale annuo, sono riassegnati al\nfondo di cui all'articolo 156, comma 8, per essere destinati alle specifiche attività di sensibilizzazione e di\nispezione nonché di attuazione del Regolamento svolte dal Garante.",
+     "tier": "internal_only",
+     "title": "(Criteri di applicazione delle sanzioni amministrative pecuniarie e procedimento per l'adozione dei provvedimenti correttivi e sanzionatori)",
+     "tokens": 426,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 251682,
+       "char_start": 251102,
+       "page": 51,
+       "page_end": 51
+      },
+      {
+       "char_end": 253116,
+       "char_start": 251746,
+       "page": 52,
+       "page_end": 52
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0295-d801cf3c"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 32",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "32",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:2"
+     ],
+     "page_end": 52,
+     "page_start": 51,
+     "path": "CAPO IV > Sezione 2 > Articolo 32",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:32",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 32\n\nSicurezza del trattamento\n\n1.\nTenendo conto dello stato dell'arte e dei costi di attuazione, nonché della natura, dell'oggetto, del contesto e delle \nfinalità del trattamento, come anche del rischio di varia probabilità e gravità per i diritti e le libertà delle persone fisiche, \nil titolare del trattamento e il responsabile del trattamento mettono in atto misure tecniche e organizzative adeguate per \ngarantire un livello di sicurezza adeguato al rischio, che comprendono, tra le altre, se del caso:\n\na)  la pseudonimizzazione e la cifratura dei dati personali;\n\nb)  la capacità di assicurare su base permanente la riservatezza, l'integrità, la disponibilità e la resilienza dei sistemi e dei\n\nservizi di trattamento;\n\nc)  la capacità di ripristinare tempestivamente la disponibilità e l'accesso dei dati personali in caso di incidente fisico o\n\ntecnico;\n\nd)  una procedura per testare, verificare e valutare regolarmente l'efficacia delle misure tecniche e organizzative al fine di\n\ngarantire la sicurezza del trattamento.\n\n2.\nNel valutare l'adeguato livello di sicurezza, si tiene conto in special modo dei rischi presentati dal trattamento che \nderivano in particolare dalla distruzione, dalla perdita, dalla modifica, dalla divulgazione non autorizzata o dall'accesso, \nin modo accidentale o illegale, a dati personali trasmessi, conservati o comunque trattati.\n\n3.\nL'adesione a un codice di condotta approvato di cui all'articolo 40 o a un meccanismo di certificazione approvato \ndi cui all'articolo 42 può essere utilizzata come elemento per dimostrare la conformità ai requisiti di cui al paragrafo 1 \ndel presente articolo.\n\n4.\nIl titolare del trattamento e il responsabile del trattamento fanno sì che chiunque agisca sotto la loro autorità e \nabbia accesso a dati personali non tratti tali dati se non è istruito in tal senso dal titolare del trattamento, salvo che lo \nrichieda il diritto dell'Unione o degli Stati membri.",
+     "tier": "internal_only",
+     "title": "Sicurezza del trattamento",
+     "tokens": 650,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 5,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "4",
+      "point": "12"
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "33",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "34",
+      "point": null
+     }
+    ],
+    "queries": [
+     "violazione dei dati personali definizione",
+     "violazione di sicurezza che comporta distruzione perdita modifica divulgazione non autorizzata dei dati personali",
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "comunicazione di una violazione dei dati personali all'interessato",
+     "violazione dei dati personali Garante per la protezione dei dati personali"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 3000,
+   "total_tokens": 2440,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8LyHjvzLU3xb2SQ8Yez"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "L'item del Codice (E4) è un estratto di una trascrizione non ufficiale, non verificata, di validità giuridica non accertata.",
+   "Non è escluso che altre disposizioni del Codice non fornite trattino la materia; il corpus non permette di dirlo.",
+   "L'art. 33 rinvia all'art. 55 del GDPR, che non è tra gli elementi forniti."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v2). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "8 further candidate provisions were left out by the evidence limits (max_items)."
+  ],
+  "question": "Che cos'è una violazione dei dati personali?",
+  "question_references": [],
+  "rejected_claims": [],
+  "unanswered_issues": [
+   {
+    "issue_id": "I4",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   }
+  ],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8Lz7KuJLxZ7tNUsthpC"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "dev"
+}
