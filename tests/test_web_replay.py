@@ -103,6 +103,16 @@ def test_a_rescored_run_is_dated_by_the_run_whose_answers_it_reuses(tmp_path, sy
         assert data["replay"]["generated_on"] == "2026-11-16"
 
 
+def test_a_partly_replayed_run_is_dated_by_both_runs(tmp_path, synthetic_result):
+    save_run(tmp_path, "live", {"a01": synthetic_result}, at="2026-11-16T09:00:00+01:00")
+    rerun = save_run(tmp_path, "rerun", {"a01": synthetic_result},
+                     at="2026-11-24T09:00:00+01:00", replay_of="live", offline=False)
+    data = replay.replay_data(rerun, ["a01"], describe=lambda r: {}, info=INFO)
+    assert data["replay"]["generated_on"] == "2026-11-16 and 2026-11-24"
+    assert data["replay"]["label"].startswith(
+        "Replay of saved answers generated on 2026-11-16 and 2026-11-24 with test-model.")
+
+
 def test_the_site_is_the_page_its_assets_the_replay_and_a_space_card(tmp_path, synthetic_result):
     data = replay.replay_data(save_run(tmp_path, "run-a", {"a01": synthetic_result}),
                               ["a01"], describe=lambda r: {}, info=INFO)
@@ -133,6 +143,20 @@ def test_the_page_reads_only_fields_the_replay_provides(tmp_path, synthetic_resu
     assert used("saved") <= set(data)
     assert used("replay") <= set(data["replay"])
     assert used("question") <= set(data["questions"][0])
+    assert used("pick") <= {"id", "note"}
+
+
+def test_the_landing_page_features_four_questions(tmp_path, synthetic_result):
+    ids = ["a01", "a06", "a09", "a10", "a12"]
+    data = replay.replay_data(save_run(tmp_path, "run-a", {q: synthetic_result for q in ids}),
+                              ids, describe=lambda r: {}, info=INFO)
+    assert data["featured"] == [
+        {"id": "a12", "note": "Answers a false premise with the text in force (72 hours) and flags the 96-hour proposal"},
+        {"id": "a10", "note": "Links the GDPR to the Italian Code (Garante)"},
+        {"id": "a09", "note": "Abstains outside its scope"},
+        {"id": "a06", "note": "Says honestly what it could not establish"}]
+    assert 'el("summary", {}, `More questions (${others.length})`)' in APP_JS
+    assert "select" not in APP_JS[APP_JS.index("const REPLAY_FILE"):]  # no dropdown
 
 
 def test_in_replay_mode_the_page_asks_nothing():
