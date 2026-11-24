@@ -102,10 +102,11 @@ def test_a_new_utc_day_starts_every_counter_again():
 # --- The web server in public mode -------------------------------------------------------------
 
 
-def public_app(outcome, *, limits=Limits(), spent=None):
+def public_app(outcome, *, limits=Limits(), spent=None, client_ip_header="X-Forwarded-For"):
     gate = LiveGate(limits, clock=Clock())
     meter = spent or (lambda: 0.0)
-    return web.DemoApp(Pipeline(outcome), INFO, public=web.Public(gate, meter)), gate
+    public = web.Public(gate, meter, client_ip_header=client_ip_header)
+    return web.DemoApp(Pipeline(outcome), INFO, public=public), gate
 
 
 def ask(app, question=QUESTION, visitor="v1", **fields):
@@ -188,15 +189,38 @@ def test_only_the_public_mode_listens_beyond_127_0_0_1(synthetic_result):
         web.create_server(web.DemoApp(Pipeline(synthetic_result), INFO), 0, "0.0.0.0")
 
 
+def serve(app):
+    server = web.create_server(app, port=0)  # 127.0.0.1 in tests
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    return server
+
+
 @pytest.fixture
 def public_server(synthetic_result):
     app, gate = public_app(synthetic_result, limits=Limits(per_visitor_hour=1))
-    server = web.create_server(app, port=0)  # 127.0.0.1 in tests
-    thread = threading.Thread(target=server.serve_forever, daemon=True)
-    thread.start()
+    server = serve(app)
     yield server.server_address[1], app
     server.shutdown()
     server.server_close()
+
+
+@pytest.fixture
+def true_client_ip_server(synthetic_result):
+    app, _ = public_app(synthetic_result, limits=Limits(per_visitor_hour=1),
+                        client_ip_header="True-Client-IP")
+    server = serve(app)
+    yield server.server_address[1], app
+    server.shutdown()
+    server.server_close()
+
+
+def get(port, path, headers):
+    conn = http.client.HTTPConnection("127.0.0.1", port, timeout=10)
+    conn.request("GET", path, headers=headers)
+    reply = conn.getresponse()
+    result = reply.status, reply.read()
+    conn.close()
+    return result
 
 
 def post(port, headers):
@@ -220,6 +244,52 @@ def test_the_visitor_is_the_last_forwarded_address(public_server):
     assert (status, payload["error"]["code"]) == (429, "visitor_hourly_limit")
     status, _, _ = post(port, {**host, "X-Forwarded-For": "203.0.113.8"})
     assert status == 200  # another visitor
+
+
+def test_the_visitor_report_shows_how_a_request_is_counted_without_an_address(public_server):
+    port, app = public_server
+    status, raw = get(port, "/api/visitor", {"Host": "legal-rag-live.onrender.com",
+                                             "X-Forwarded-For": "198.51.100.1, 203.0.113.7"})
+    report = json.loads(raw)
+    assert status == 200 and report == {
+        "visitor": app.visitor("203.0.113.7"), "client_ip_header": "X-Forwarded-For",
+        "header_present": True, "x_forwarded_for_entries": 2,
+        "forwarding_headers": ["X-Forwarded-For"]}
+    assert b"203.0.113" not in raw and b"198.51.100" not in raw
+
+
+def test_another_header_can_name_the_visitor(true_client_ip_server):
+    port, app = true_client_ip_server
+    host = {"Host": "legal-rag-live.onrender.com"}
+    # The visitor is the whole True-Client-IP value; X-Forwarded-For no longer matters.
+    status, _, _ = post(port, {**host, "True-Client-IP": "203.0.113.9",
+                               "X-Forwarded-For": "10.0.0.1"})
+    assert status == 200
+    status, _, payload = post(port, {**host, "True-Client-IP": "203.0.113.9",
+                                     "X-Forwarded-For": "10.0.0.2"})
+    assert (status, payload["error"]["code"]) == (429, "visitor_hourly_limit")
+    _, raw = get(port, "/api/visitor", {**host, "True-Client-IP": "203.0.113.9"})
+    assert json.loads(raw)["visitor"] == app.visitor("203.0.113.9")
+
+
+def test_the_visitor_report_exists_in_public_mode_only(synthetic_result):
+    server = serve(web.DemoApp(Pipeline(synthetic_result), INFO))
+    port = server.server_address[1]
+    try:
+        status, _ = get(port, "/api/visitor", {"Host": f"127.0.0.1:{port}"})
+        assert status == 404
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
+def test_the_client_ip_header_setting():
+    assert load_settings({}).live_client_ip_header == "X-Forwarded-For"
+    assert load_settings({"LIVE_CLIENT_IP_HEADER": "True-Client-IP"}).live_client_ip_header == (
+        "True-Client-IP")
+    from src.config import ConfigError
+    with pytest.raises(ConfigError, match="LIVE_CLIENT_IP_HEADER must be a header name"):
+        load_settings({"LIVE_CLIENT_IP_HEADER": "X Forwarded For"})
 
 
 def test_public_mode_refuses_requests_from_other_sites(public_server):

@@ -22,6 +22,10 @@ data/raw/trial-2026-10-10/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+# The recorded build the live demo serves (render.yaml) is tracked; no other build is.
+!data/processed/builds/
+data/processed/builds/*
+!data/processed/builds/build-f76ff6031f2fc82c4852f0a2bde27807/
 data/indexes/
 *.db
 *.sqlite3

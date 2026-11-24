@@ -63,7 +63,7 @@ The model writes the claims. The code decides the rest:
 | What | Command | Needs |
 |---|---|---|
 | **Replay of saved answers** (12 dev questions, final run, no model call) | `.\.venv\Scripts\python.exe -m http.server --bind 127.0.0.1 --directory demo\replay 8001`, then open http://127.0.0.1:8001/ | Python only |
-| Live web demo | `.\.venv\Scripts\python.exe -m src.web_demo` | The local corpus build and an Anthropic API key |
+| Live web demo | `.\.venv\Scripts\python.exe -m src.web_demo` | An Anthropic API key (the corpus build is in the repository) |
 | Offline pipeline demo | `.\.venv\Scripts\python.exe -m src.demo` | Nothing (synthetic act, scripted model replies) |
 | Tests | `.\.venv\Scripts\python.exe -m pytest` | Nothing (offline; tests needing the local build are skipped without it) |
 
@@ -224,8 +224,9 @@ template are ready in [docs/reviews/](docs/reviews/).
 - **No human review recorded yet.** Verified mode abstains on every question, and every answer
   shown here rests on provisions pending review.
 - **The sources.** The Privacy Code text is an **unofficial transcription** supplied by the
-  user, not verified against an official text. Its PDF is not in the repository; the saved runs
-  and the replay contain excerpts of it, labelled as such. The GDPR text is the 2016 original.
+  user, not verified against an official text. Its PDF is not in the repository. The corpus
+  build tracked for the live demo contains its full text, and the saved runs and the replay
+  contain excerpts, all labelled as such. The GDPR text is the 2016 original.
 - **Scope.** Two acts, current text only: no case law and no point-in-time versions.
 - **Retrieval.** The pipeline uses BM25 with exact lookups and one hop of references. The dense
   and hybrid retrievers in the repository are not used by the pipeline.
@@ -262,13 +263,14 @@ template are ready in [docs/reviews/](docs/reviews/).
 - [docs/evaluation/answers-v0-results.md](docs/evaluation/answers-v0-results.md): every run,
   with per-question tables and findings.
 - [docs/deploy-replay.md](docs/deploy-replay.md): hosting the replay.
-- [docs/deploy-live.md](docs/deploy-live.md): the live demo's Hugging Face Space, where visitors ask their own questions within fixed limits.
+- [docs/deploy-live.md](docs/deploy-live.md): the live demo on Render, where visitors ask their own questions within fixed limits.
 - [docs/ROADMAP.md](docs/ROADMAP.md), [TECHNICAL_DEBT.md](TECHNICAL_DEBT.md) and
   [PROJECT_SPEC.md](PROJECT_SPEC.md).
 
 ## Licence
 
 The code is released under the [MIT licence](LICENSE). Third-party texts in the repository keep
-their own terms: see [official-sources/NOTICE.md](data/raw/trial-2026-10-10/official-sources/NOTICE.md).
+their own terms: see [official-sources/NOTICE.md](data/raw/trial-2026-10-10/official-sources/NOTICE.md)
+and, for the text in the tracked corpus build, [deploy/live-space/NOTICE.md](deploy/live-space/NOTICE.md).
 PDF extraction uses PyMuPDF, which is licensed under the AGPL (or a commercial licence from
 Artifex).

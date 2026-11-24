@@ -1,0 +1,115 @@
+{
+  "build": {
+    "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+    "identity": {
+      "assembly_format": "concatenated-jsonl/1",
+      "kind": "corpus-build",
+      "schema": 1,
+      "variant_ids": [
+        "var-30da24d25055784cba1e38b5475791c1",
+        "var-73eec6712eff509c69f66380241cc2b7"
+      ]
+    },
+    "output": {
+      "chunk_count": 880,
+      "path": "data/processed/builds/build-f76ff6031f2fc82c4852f0a2bde27807/corpus.jsonl",
+      "sha256": "f9d1ac881cd5bfe75c6f83a5f697f085078788f9eb9a90b9c481534b5eb0997f",
+      "size_bytes": 1018904
+    },
+    "variants": [
+      {
+        "doc_id": "doc-8f7504d289853f57",
+        "identity": {
+          "code": {
+            "commit": "e29a1b43033204338b0bdb4c013e67b88c3b4254",
+            "fingerprint": null,
+            "state": "clean"
+          },
+          "dependencies": {
+            "pymupdf": "1.28.2",
+            "python": "CPython 3.13.2"
+          },
+          "kind": "ingestion-variant",
+          "metadata_sha256": null,
+          "options": {
+            "chunk_overlap": 150,
+            "chunk_size": 1200,
+            "end_before": null
+          },
+          "reader": "pdf",
+          "schema": 1,
+          "source_sha256": "8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b"
+        },
+        "output": {
+          "chunk_count": 468,
+          "path": "data/processed/builds/build-f76ff6031f2fc82c4852f0a2bde27807/var-30da24d25055784cba1e38b5475791c1.jsonl",
+          "sha256": "6b470f40f267f337e323cb204cb5910597724e8cb4293511284be73dd7be129c",
+          "size_bytes": 622815
+        },
+        "source_path": "data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf",
+        "variant_id": "var-30da24d25055784cba1e38b5475791c1"
+      },
+      {
+        "doc_id": "doc-0d264a29f564b4ba",
+        "identity": {
+          "code": {
+            "commit": "e29a1b43033204338b0bdb4c013e67b88c3b4254",
+            "fingerprint": null,
+            "state": "clean"
+          },
+          "dependencies": {
+            "pymupdf": "1.28.2",
+            "python": "CPython 3.13.2"
+          },
+          "kind": "ingestion-variant",
+          "metadata_sha256": null,
+          "options": {
+            "chunk_overlap": 150,
+            "chunk_size": 1200,
+            "end_before": "ALLEGATO A.1"
+          },
+          "reader": "pdf",
+          "schema": 1,
+          "source_sha256": "0d264a29f564b4baec978b1786898c09329e1d4de0d57cfad9673bda9116ffe5"
+        },
+        "output": {
+          "chunk_count": 412,
+          "path": "data/processed/builds/build-f76ff6031f2fc82c4852f0a2bde27807/var-73eec6712eff509c69f66380241cc2b7.jsonl",
+          "sha256": "e2c443d550e6dbf99225ec09ff7d5f35aaf90bb880c976bca0dd91513202689f",
+          "size_bytes": 396089
+        },
+        "source_path": "data/raw/trial-2026-10-10/documents/codice_privacy_dlgs_196_2003.pdf",
+        "variant_id": "var-73eec6712eff509c69f66380241cc2b7"
+      }
+    ]
+  },
+  "build_kind": "recorded",
+  "code": {
+    "commit": "e29a1b43033204338b0bdb4c013e67b88c3b4254",
+    "fingerprint": null,
+    "state": "clean"
+  },
+  "kind": "corpus-build-record",
+  "schema_version": 1,
+  "sources": [
+    {
+      "end_before": null,
+      "source_path": "data/raw/trial-2026-10-10/documents/gdpr_2016_679_it.pdf",
+      "source_sha256": "8f7504d289853f57647bd94d8926f4661e7b41a1204f4d74eca9d8685069427b",
+      "variant_id": "var-30da24d25055784cba1e38b5475791c1",
+      "version_id": "eu-reg-2016-679@oj-l119-2016-it"
+    },
+    {
+      "end_before": "ALLEGATO A.1",
+      "source_path": "data/raw/trial-2026-10-10/documents/codice_privacy_dlgs_196_2003.pdf",
+      "source_sha256": "0d264a29f564b4baec978b1786898c09329e1d4de0d57cfad9673bda9116ffe5",
+      "variant_id": "var-73eec6712eff509c69f66380241cc2b7",
+      "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05"
+    }
+  ],
+  "spec": {
+    "name": "first-prototype",
+    "path": "data/corpus_specs/first_prototype.json",
+    "sha256": "fb8bc313a58ee8db0c2352ca27eea753393e1c26f6d8efb573a5539e954cc1df"
+  }
+}

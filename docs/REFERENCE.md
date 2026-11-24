@@ -23,9 +23,10 @@ only if the demonstration itself fails.
    inventory hashes, eligibility tier, and the reasons it may not be cited. Then
    the real `ask` pipeline runs on the question. It abstains at the corpus
    preflight: no provision has passed human review yet, so nothing may be cited
-   and no model is called. Part 1 needs the recorded build, which is not in the
-   repository: without it, Part 1 is skipped with a warning and Part 2 still
-   runs (see "Part 1 from a fresh clone" below).
+   and no model is called. Part 1 needs the recorded build, which is in the
+   repository (`data/processed/builds/build-f76ff6031f2fc82c4852f0a2bde27807/`);
+   without it, Part 1 is skipped with a warning and Part 2 still runs (see "Part 1
+   from a fresh clone" below).
 2. **Synthetic, end to end.** A fictional act, the *Legge dimostrativa di
    Valdoria*, is built in a temporary directory by the project's own build,
    anchor and link steps. A synthetic review makes two of its articles citable.
@@ -47,9 +48,10 @@ how reliably a real model judges whether evidence supports a claim.
 
 ### Part 1 from a fresh clone
 
-The recorded build and its two source PDFs are git-ignored, so a fresh clone has
-neither, and Part 1 is skipped. The build needs both files, byte for byte, at
-the paths in
+The recorded build is tracked in the repository (for the live demo,
+[deploy-live.md](deploy-live.md)), byte for byte, so Part 1 runs from a fresh
+clone. Its two source PDFs are git-ignored. They are needed only to make a new
+build, which needs both files, byte for byte, at the paths in
 [data/corpus_specs/first_prototype.json](../data/corpus_specs/first_prototype.json):
 
 | Path | What it is | SHA-256 |
@@ -72,8 +74,9 @@ records the code commit, so it differs from the one in older output.
 **Limitation:** the repository does not record where either PDF was obtained.
 The GDPR file is identified only by its publication and its hash. The Privacy
 Code file is a user-provided transcription that is not distributed with the
-repository. Until both files are available, Part 1 cannot be reproduced from a
-fresh clone.
+repository. Until both files are available, the build cannot be remade from a
+fresh clone. The tracked build still contains the full extracted text of both
+acts.
 
 ## Repository layout
 
@@ -122,7 +125,8 @@ data/
                  # source PDFs, pending human review; instrument registry and review
                  # ledger (version-controlled; see its README.md)
   corpus_specs/  # corpus build specifications (version-controlled)
-  processed/builds/<build_id>/ # corpus builds with their anchors and links (git-ignored)
+  processed/builds/<build_id>/ # corpus builds with their anchors and links (git-ignored,
+                 # except the recorded build build-f76ff6031f2fc82c4852f0a2bde27807/)
 ```
 
 ## Setup (Windows, PowerShell)
@@ -1049,9 +1053,9 @@ or invalid arguments. Errors say which command to run.
 - Segmentation rules rest on the sources' formatting, with expected counts that
   make any deviation fail (TD-063). The chunker's section field is wrong for
   division headings printed with `((` (TD-060); the explorer does not use it.
-- The recorded build is not in the repository (`data/processed/` is
-  git-ignored): a fresh clone has none until it is built from the source PDFs
-  (see "Part 1 from a fresh clone").
+- The recorded build is the only build in the repository (`data/processed/` is
+  otherwise git-ignored). Another build needs the source PDFs (see "Part 1 from
+  a fresh clone").
 
 ## Asking a question (`ask`)
 
@@ -1241,6 +1245,7 @@ defaults are listed in [.env.example](../.env.example).
 | `UNDATED_SOURCE_POLICY` | `warn` | **Inactive (reserved):** parsed and validated (`warn` or `exclude`), but no code reads it. It does not currently control how sources without effective dates are handled, in "as of" questions or elsewhere |
 | `MAX_GENERATION_RETRIES` | `1` | Retries for malformed LLM output (0 or 1) |
 | `SHOW_SUMMARY` | `false` | Show the model's summary, keeping only the sentences whose cited claims are all rated supported. Off by default: that check confirms citations, not content (TECHNICAL_DEBT.md TD-067) |
+| `LIVE_CLIENT_IP_HEADER` | `X-Forwarded-For` | Web demo, public mode only: the request header that identifies a visitor for the per-visitor limits. `X-Forwarded-For` counts its last entry; another header (e.g. `True-Client-IP`) counts its whole value. Check it with `GET /api/visitor` ([deploy-live.md](deploy-live.md)) |
 
 Invalid settings stop the program with a message that lists every problem.
 
@@ -1280,7 +1285,8 @@ This is an engineering prototype, not a validated legal advice system.
   2016 original publication, without later corrigenda. Saved benchmark runs
   (`data/evaluation/answers-v0/runs/`) contain excerpts of both texts as evidence;
   the Privacy Code excerpts come from this unverified user transcription, whose PDF
-  is not in the repository.
+  is not in the repository. The recorded build, tracked for the live demo, contains
+  the full extracted text of both.
 - **The synthetic demo's model replies are scripted.** It shows how the pipeline
   handles model output, not how reliably a real model verifies support.
 - **Retrieval quality is measured only narrowly.** The answers-v0 benchmark (22
@@ -1310,7 +1316,8 @@ More: [docs/ROADMAP.md](ROADMAP.md).
 
 ## Privacy
 
-- `.env`, `.venv/`, `data/raw/`, `data/processed/`, and `data/indexes/` are git-ignored.
+- `.env`, `.venv/`, `data/raw/`, `data/processed/` (except the recorded build), and
+  `data/indexes/` are git-ignored.
 - Use only synthetic or public-domain documents in this public repository.
 - The default `mock` provider sends nothing to an external service. Only
   select a real provider if you are permitted to send your documents to it.

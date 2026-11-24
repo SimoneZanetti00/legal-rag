@@ -1,0 +1,25 @@
+# Render Blueprint: the live demo, python -m src.web_demo --public, as a free web service built from
+# this repository. Every file it reads at run time is tracked: src/, data/reference/ and the
+# recorded build in data/processed/builds/. Python: .python-version (3.13). Instructions,
+# limits and what the free plan implies: docs/deploy-live.md.
+services:
+  - type: web
+    name: legal-rag-live
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: pip install -r deploy/live-space/requirements.txt
+    startCommand: python -m src.web_demo --public --port $PORT
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: LLM_PROVIDER
+        value: anthropic
+      - key: LLM_MODEL
+        value: claude-sonnet-5-5
+      # Set in the Render dashboard when the Blueprint is created; never in this file.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      # The header that identifies a visitor (per-visitor limits); check it with GET /api/visitor.
+      - key: LIVE_CLIENT_IP_HEADER
+        value: X-Forwarded-For

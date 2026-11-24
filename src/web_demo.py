@@ -9,6 +9,8 @@ endpoints, and adds no retrieval, generation or checking of its own:
     GET  /api/health   status: the build, how many articles may be cited (and used in research
                        mode), the modes, the provider and model (never a key), and the
                        project's own explanations of the codes the page displays
+    GET  /api/visitor  public mode only: how this request is counted (the visitor key, the
+                       header used, which forwarding headers arrived); never an address
     POST /api/ask      {"question": "...", "mode": "verified" | "research"} ->
                        answer_question(...).to_dict(), unchanged, plus "source_status": the
                        status of every evidence item's source (src/source_status.py), and
@@ -38,8 +40,8 @@ listens on 0.0.0.0, answers in research mode only (with its notice), refuses que
 Limits.max_question_chars, and applies src/live_limits.py before each question: per-visitor and
 global question limits and a daily spend cap computed from the API's reported token usage. A
 refused question gets 429 with a message and the URL of the replay. A visitor is the keyed hash of
-the address the proxy reports last in X-Forwarded-For (else the socket's address); neither the
-address nor the question is logged or kept. The page may be framed by huggingface.co (the Space
+the address in LIVE_CLIENT_IP_HEADER: by default the last X-Forwarded-For entry, the one the proxy
+appends (else the socket's address); neither the address nor the question is logged or kept. The page may be framed by huggingface.co (the Space
 page). Counters reset when the server restarts.
 """
 
@@ -101,6 +103,9 @@ DEFAULT_PORT = 8000
 PUBLIC_HOST = "0.0.0.0"  # the public live mode: inside the Space's container
 PUBLIC_PORT = 7860  # the port a Hugging Face Docker Space serves (app_port)
 REPLAY_URL = "https://huggingface.co/spaces/SimoneZanetti00/legal-rag-demo"
+# Headers a proxy may use to pass the client's address; /api/visitor reports which arrived.
+FORWARDING_HEADERS = ("X-Forwarded-For", "Forwarded", "X-Real-IP", "True-Client-IP",
+                      "CF-Connecting-IP")
 MAX_BODY_BYTES = 16 * 1024
 STATIC_DIR = Path(__file__).resolve().parent / "web_static"
 STATIC_FILES = {  # request path -> (file in STATIC_DIR, content type); nothing else is served
@@ -161,6 +166,7 @@ class Public:
     gate: LiveGate
     spent: Callable[[], float]
     replay_url: str = REPLAY_URL
+    client_ip_header: str = "X-Forwarded-For"  # LIVE_CLIENT_IP_HEADER
 
     @property
     def limits(self) -> Limits:
@@ -295,6 +301,8 @@ class _Handler(BaseHTTPRequestHandler):
             return
         if path == "/api/health":
             self._send_json(self.app.health())
+        elif path == "/api/visitor" and self.app.public is not None:
+            self._send_json(Reply(200, self._visitor_report()))
         elif path in STATIC_FILES:
             name, content_type = STATIC_FILES[path]
             self._send(200, (STATIC_DIR / name).read_bytes(), content_type)
@@ -332,14 +340,32 @@ class _Handler(BaseHTTPRequestHandler):
         self._send_json(self.app.ask(body, self.app.visitor(self._client_address())))
 
     def _client_address(self) -> str:
-        """In public mode, the address the proxy in front of the server reports last in
-        X-Forwarded-For (a client can prepend entries, not append them); otherwise, and when
-        there is none, the socket's peer address."""
-        if self.app.public is not None:
-            forwarded = [a.strip() for a in self.headers.get("X-Forwarded-For", "").split(",")]
-            if forwarded and forwarded[-1]:
-                return forwarded[-1]
+        """In public mode, the address in the header LIVE_CLIENT_IP_HEADER names: for
+        X-Forwarded-For its last entry, the one the proxy in front of the server appends (a
+        client can prepend entries, not append them); for another header its whole value.
+        Otherwise, and when the header is missing, the socket's peer address."""
+        public = self.app.public
+        if public is not None:
+            value = self.headers.get(public.client_ip_header, "")
+            if public.client_ip_header.lower() == "x-forwarded-for":
+                value = value.split(",")[-1]
+            if value.strip():
+                return value.strip()
         return str(self.client_address[0])
+
+    def _visitor_report(self) -> dict[str, Any]:
+        """How this request is counted, for checking a deployment: the visitor key, the header
+        used and whether it was present, the number of X-Forwarded-For entries, and which
+        forwarding headers arrived. No address is returned."""
+        public = self.app.public
+        assert public is not None
+        forwarded = self.headers.get("X-Forwarded-For")
+        return {"visitor": self.app.visitor(self._client_address()),
+                "client_ip_header": public.client_ip_header,
+                "header_present": bool(self.headers.get(public.client_ip_header, "").strip()),
+                "x_forwarded_for_entries": len(forwarded.split(",")) if forwarded else 0,
+                "forwarding_headers": [name for name in FORWARDING_HEADERS
+                                       if self.headers.get(name) is not None]}
 
     def _from_this_server(self) -> bool:
         if self.app.public is not None:  # any host name; a browser request must come from it
@@ -458,7 +484,8 @@ def build_app(*, build_dir: Path | None = None, settings: Settings | None = None
 
     live = None
     if public:
-        live = Public(LiveGate(limits), lambda: usage_cost(llm.usage_spent, llm.model))
+        live = Public(LiveGate(limits), lambda: usage_cost(llm.usage_spent, llm.model),
+                      client_ip_header=settings.live_client_ip_header)
     return DemoApp(answer, info, describe, public=live)
 
 
@@ -498,7 +525,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  limits: {limits.per_visitor_hour} per visitor per hour, {limits.per_visitor_day} "
               f"per visitor per day, {limits.global_day} per day in total, "
               f"${limits.spend_usd_day:.2f} of API spend per day (UTC); counters reset on "
-              "restart", flush=True)
+              f"restart; visitors counted by {app.public.client_ip_header}", flush=True)
         try:
             server.serve_forever()
         except KeyboardInterrupt:
