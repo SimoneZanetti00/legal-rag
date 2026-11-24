@@ -20,3 +20,6 @@ data/evaluation/legal-v1/benchmark.json text eol=crlf
 data/evaluation/legal-v1/judgments.jsonl text eol=crlf
 data/evaluation/legal-v1/pool.jsonl text eol=crlf
 data/evaluation/legal-v1/questions.jsonl text eol=crlf
+# The live Space's Dockerfile keeps LF line endings on every checkout: a CR after a line
+# continuation would break the build.
+deploy/live-space/Dockerfile text eol=lf

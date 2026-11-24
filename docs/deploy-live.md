@@ -126,7 +126,7 @@ as unofficial and unverified.
 
 `NOTICE.md`, linked from the Space card, gives:
 - the EUR-Lex attribution (CC BY 4.0);
-- the Normattiva formula («testo non autentico e gratuito»);
-- the statement that the Privacy Code text is an unverified user transcription;
+- the statement that the Privacy Code text is from an unofficial user transcription, not
+  verified against Normattiva or the Gazzetta Ufficiale;
 - the software licences. PyMuPDF is AGPL-3.0 and is imported by the corpus code at run time, so
   the card links the public source repository.
