@@ -262,6 +262,7 @@ template are ready in [docs/reviews/](docs/reviews/).
 - [docs/evaluation/answers-v0-results.md](docs/evaluation/answers-v0-results.md): every run,
   with per-question tables and findings.
 - [docs/deploy-replay.md](docs/deploy-replay.md): hosting the replay.
+- [docs/deploy-live.md](docs/deploy-live.md): the live demo's Hugging Face Space, where visitors ask their own questions within fixed limits.
 - [docs/ROADMAP.md](docs/ROADMAP.md), [TECHNICAL_DEBT.md](TECHNICAL_DEBT.md) and
   [PROJECT_SPEC.md](PROJECT_SPEC.md).
 
