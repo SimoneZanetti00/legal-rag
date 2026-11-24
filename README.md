@@ -1,6 +1,6 @@
 # Legal Research RAG
 
-**Live demo:** `<REPLAY_URL>`. It replays saved answers, with no live model calls.
+**Live demo:** [huggingface.co/spaces/SimoneZanetti00/legal-rag-demo](https://huggingface.co/spaces/SimoneZanetti00/legal-rag-demo). It replays saved answers, with no live model calls.
 
 A retrieval-augmented question-answering prototype for Italian data-protection law: the GDPR and
 the Italian Privacy Code.
