@@ -1,0 +1,22 @@
+# The live demo's dependencies only (python -m src.web_demo --public). Render installs them
+# (render.yaml: buildCommand); the Hugging Face folder deploy/live-space/ ships them too.
+# The repository's requirements.txt has the full set; dense retrieval (torch,
+# sentence-transformers) and the test runner are not used by the live path. Versions as in
+# development, on Python 3.13 (.python-version).
+
+# Settings loader (src/config.py imports it whenever it reads the environment; the service has no
+# .env file, so it loads nothing).
+python-dotenv==1.2.3
+
+# Anthropic API client (src/llm.py). Pulls in httpx2, pydantic, anyio and others.
+anthropic==2.7.0
+
+# BM25 lexical retrieval (src/retrieval.py), and numpy, which it pulls in.
+rank-bm25==0.2.2
+numpy==2.5.3
+
+# Imported at module level by src/ingestion.py, which the live path loads (web_demo ->
+# answer_generation -> evidence -> provision_explorer -> corpus_build -> corpus_identity ->
+# ingestion); no PDF is read at run time. License: AGPL-3.0 (or commercial): the Space card and
+# NOTICE.md link the public source.
+PyMuPDF==1.28.2

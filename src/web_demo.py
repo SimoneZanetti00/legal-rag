@@ -9,6 +9,8 @@ endpoints, and adds no retrieval, generation or checking of its own:
     GET  /api/health   status: the build, how many articles may be cited (and used in research
                        mode), the modes, the provider and model (never a key), and the
                        project's own explanations of the codes the page displays
+    GET  /api/visitor  public mode only: how this request is counted (the visitor key, the
+                       header used, which forwarding headers arrived); never an address
     POST /api/ask      {"question": "...", "mode": "verified" | "research"} ->
                        answer_question(...).to_dict(), unchanged, plus "source_status": the
                        status of every evidence item's source (src/source_status.py), and
@@ -29,15 +31,27 @@ body; 502/503/504 a provider failure, by category only; 500 anything else. A res
 contains an exception's message (apart from the question checks' own), a traceback, a setting's
 value or a key; the console logs the error type only, and never the question.
 
-Local use only. Requests must name this server in Host (DNS rebinding) and, when they carry an
-Origin, come from it; /api/ask accepts only application/json, so another site open in the
+Local use by default. Requests must name this server in Host (DNS rebinding) and, when they carry
+an Origin, come from it; /api/ask accepts only application/json, so another site open in the
 browser cannot make this server spend API credit. Questions are answered one at a time.
+
+Public live mode (--public, the Hugging Face Docker Space in deploy/live-space/): the server
+listens on 0.0.0.0, answers in research mode only (with its notice), refuses questions longer than
+Limits.max_question_chars, and applies src/live_limits.py before each question: per-visitor and
+global question limits and a daily spend cap computed from the API's reported token usage. A
+refused question gets 429 with a message and the URL of the replay. A visitor is the keyed hash of
+the address in LIVE_CLIENT_IP_HEADER: by default the last X-Forwarded-For entry, the one the proxy
+appends (else the socket's address); neither the address nor the question is logged or kept. The page may be framed by huggingface.co (the Space
+page). Counters reset when the server restarts.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
+import hmac
 import json
+import secrets
 import sys
 import threading
 from collections.abc import Callable, Mapping
@@ -68,8 +82,11 @@ from src.llm import (
     LLMRequestError,
     LLMTimeoutError,
     LLMTransportError,
+    PRICES_USD_PER_MTOK,
     make_llm,
+    usage_cost,
 )
+from src.live_limits import LIMITS, Limits, LiveGate
 from src.provision_cli import MOCK_PROVIDER_MESSAGE
 from src.provision_explorer import ExplorerError, ProvisionExplorer, find_recorded_build
 from src.provisions import QUALIFICATIONS, REASONS, ProvisionError
@@ -83,6 +100,12 @@ from src.source_status import CATEGORIES, evidence_status
 
 HOST = "127.0.0.1"
 DEFAULT_PORT = 8000
+PUBLIC_HOST = "0.0.0.0"  # the public live mode: inside the Space's container
+PUBLIC_PORT = 7860  # the port a Hugging Face Docker Space serves (app_port)
+REPLAY_URL = "https://huggingface.co/spaces/SimoneZanetti00/legal-rag-demo"
+# Headers a proxy may use to pass the client's address; /api/visitor reports which arrived.
+FORWARDING_HEADERS = ("X-Forwarded-For", "Forwarded", "X-Real-IP", "True-Client-IP",
+                      "CF-Connecting-IP")
 MAX_BODY_BYTES = 16 * 1024
 STATIC_DIR = Path(__file__).resolve().parent / "web_static"
 STATIC_FILES = {  # request path -> (file in STATIC_DIR, content type); nothing else is served
@@ -96,6 +119,13 @@ SECURITY_HEADERS = {
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "no-referrer",
     "Cache-Control": "no-store",
+}
+# Public mode: as above, except that huggingface.co may frame the page (the Space page shows the app
+# in a frame); no other site may.
+PUBLIC_SECURITY_HEADERS = {
+    **SECURITY_HEADERS,
+    "Content-Security-Policy": ("default-src 'self'; base-uri 'none'; form-action 'none'; "
+                                "frame-ancestors 'self' https://huggingface.co"),
 }
 # Provider failures, by category: (error class, HTTP status, code, message). The first match wins,
 # so subclasses come first. The provider's own message is never passed on.
@@ -128,6 +158,21 @@ class Reply:
     payload: dict[str, Any]
 
 
+@dataclass(frozen=True)
+class Public:
+    """The public live mode: research only, short questions, the limits of `gate`. `spent` is
+    what the model client has spent so far, in US dollars (all its replies, priced)."""
+
+    gate: LiveGate
+    spent: Callable[[], float]
+    replay_url: str = REPLAY_URL
+    client_ip_header: str = "X-Forwarded-For"  # LIVE_CLIENT_IP_HEADER
+
+    @property
+    def limits(self) -> Limits:
+        return self.gate.limits
+
+
 def error(status: int, code: str, message: str, **extra: Any) -> Reply:
     return Reply(status, {"error": {"code": code, "message": message, **extra}})
 
@@ -138,16 +183,27 @@ class DemoApp:
     result's evidence; `info` is what /api/health reports."""
 
     def __init__(self, answer: Answer, info: Mapping[str, Any],
-                 describe: Describe | None = None) -> None:
+                 describe: Describe | None = None, *, public: Public | None = None) -> None:
         self._answer = answer
         self._describe = describe or (lambda result: {})
         self.info = dict(info)
+        self.public = public
+        if public is not None:
+            self.info.update(public_info(public))
+        self._modes = ("research",) if public else MODES
+        self._default_mode = "research" if public else DEFAULT_MODE
         self._lock = threading.Lock()  # one question at a time
+        self._salt = secrets.token_bytes(16)  # visitor keys are not comparable across restarts
+
+    def visitor(self, address: str) -> str:
+        """The key a client address is counted under: a keyed hash, never the address itself."""
+        return hmac.new(self._salt, address.encode("utf-8"), hashlib.sha256).hexdigest()[:16]
 
     def health(self) -> Reply:
         return Reply(200, {"status": "ok", **self.info})
 
-    def ask(self, body: bytes) -> Reply:
+    def ask(self, body: bytes, visitor: str = "local") -> Reply:
+        """Answer one question. `visitor` (see visitor()) is what the public limits count."""
         try:
             data = json.loads(body.decode("utf-8"))
         except (UnicodeDecodeError, ValueError):
@@ -155,31 +211,52 @@ class DemoApp:
         if not isinstance(data, dict) or not isinstance(data.get("question"), str):
             return error(400, "invalid_request",
                          'Send a JSON object with the question as text: {"question": "..."}.')
-        mode = data.get("mode", DEFAULT_MODE)
-        if not isinstance(mode, str) or mode not in MODES:
+        mode = data.get("mode", self._default_mode)
+        if not isinstance(mode, str) or mode not in self._modes:
             return error(400, "invalid_mode",
-                         f'"mode" must be one of: {", ".join(MODES)} (default {DEFAULT_MODE}).')
+                         f'"mode" must be one of: {", ".join(self._modes)} '
+                         f"(default {self._default_mode}).")
+        if self.public and len(data["question"].strip()) > self.public.limits.max_question_chars:
+            return error(400, "question_too_long",
+                         f"Ask in at most {self.public.limits.max_question_chars} characters.")
         try:
             question = check_question(data["question"])
         except QueryAnalysisError as exc:  # its messages describe the question only
             return error(400, "invalid_question", _sentence(str(exc)))
         with self._lock:
+            if self.public is None:
+                return self._answer_one(question, mode)
+            refusal = self.public.gate.admit(visitor)
+            if refusal is not None:
+                return error(429, refusal.code, f"{refusal.message} The saved answers remain "
+                             "available in the replay.", replay_url=self.public.replay_url)
+            before = self.public.spent()
             try:
-                result = self._answer(question, mode)
-            except QueryAnalysisError as exc:
-                return error(400, "invalid_question", _sentence(str(exc)))
-            except LLMError as exc:
-                return _provider_error(exc)
-            except Exception as exc:  # noqa: BLE001 - never let an internal error reach the page
-                _log(f"internal error answering a question: {type(exc).__name__}")
-                return error(500, "internal_error",
-                             "The server could not answer this question. See its console.")
-            try:
-                status = self._describe(result)
-            except Exception as exc:  # noqa: BLE001
-                _log(f"internal error describing the sources: {type(exc).__name__}")
-                return error(500, "internal_error",
-                             "The server could not describe the sources. See its console.")
+                return self._answer_one(question, mode)
+            finally:
+                self.public.gate.spend(self.public.spent() - before)
+                today = self.public.gate.today()
+                _log(f"live: {today['questions']} question(s) today, ${today['spent_usd']:.4f} "
+                     f"of ${self.public.limits.spend_usd_day:.2f} spent")
+
+    def _answer_one(self, question: str, mode: str) -> Reply:
+        """The answer to a checked question, or the error reply. Called holding the lock."""
+        try:
+            result = self._answer(question, mode)
+        except QueryAnalysisError as exc:
+            return error(400, "invalid_question", _sentence(str(exc)))
+        except LLMError as exc:
+            return _provider_error(exc)
+        except Exception as exc:  # noqa: BLE001 - never let an internal error reach the page
+            _log(f"internal error answering a question: {type(exc).__name__}")
+            return error(500, "internal_error",
+                         "The server could not answer this question. See its console.")
+        try:
+            status = self._describe(result)
+        except Exception as exc:  # noqa: BLE001
+            _log(f"internal error describing the sources: {type(exc).__name__}")
+            return error(500, "internal_error",
+                         "The server could not describe the sources. See its console.")
         return Reply(200, {**result.to_dict(), "source_status": status,
                            "display_qualifications": list(display_qualifications(result))})
 
@@ -224,6 +301,8 @@ class _Handler(BaseHTTPRequestHandler):
             return
         if path == "/api/health":
             self._send_json(self.app.health())
+        elif path == "/api/visitor" and self.app.public is not None:
+            self._send_json(Reply(200, self._visitor_report()))
         elif path in STATIC_FILES:
             name, content_type = STATIC_FILES[path]
             self._send(200, (STATIC_DIR / name).read_bytes(), content_type)
@@ -257,9 +336,47 @@ class _Handler(BaseHTTPRequestHandler):
             self._send_json(error(413, "body_too_large",
                                   f"The request body is larger than {MAX_BODY_BYTES} bytes."))
             return
-        self._send_json(self.app.ask(self.rfile.read(int(length))))
+        body = self.rfile.read(int(length))
+        self._send_json(self.app.ask(body, self.app.visitor(self._client_address())))
+
+    def _client_address(self) -> str:
+        """In public mode, the address in the header LIVE_CLIENT_IP_HEADER names: for
+        X-Forwarded-For its last entry, the one the proxy in front of the server appends (a
+        client can prepend entries, not append them); for another header its whole value.
+        Otherwise, and when the header is missing, the socket's peer address."""
+        public = self.app.public
+        if public is not None:
+            value = self.headers.get(public.client_ip_header, "")
+            if public.client_ip_header.lower() == "x-forwarded-for":
+                value = value.split(",")[-1]
+            if value.strip():
+                return value.strip()
+        return str(self.client_address[0])
+
+    def _visitor_report(self) -> dict[str, Any]:
+        """How this request is counted, for checking a deployment: the visitor key, the header
+        used and whether it was present, the number of X-Forwarded-For entries, and which
+        forwarding headers arrived. No address is returned."""
+        public = self.app.public
+        assert public is not None
+        forwarded = self.headers.get("X-Forwarded-For")
+        return {"visitor": self.app.visitor(self._client_address()),
+                "client_ip_header": public.client_ip_header,
+                "header_present": bool(self.headers.get(public.client_ip_header, "").strip()),
+                "x_forwarded_for_entries": len(forwarded.split(",")) if forwarded else 0,
+                "forwarding_headers": [name for name in FORWARDING_HEADERS
+                                       if self.headers.get(name) is not None]}
 
     def _from_this_server(self) -> bool:
+        if self.app.public is not None:  # any host name; a browser request must come from it
+            host = self.headers.get("Host", "")
+            origin = self.headers.get("Origin")
+            if not host or (origin is not None
+                            and origin not in {f"https://{host}", f"http://{host}"}):
+                self._send_json(error(403, "forbidden_origin",
+                                      "Requests from other sites are refused."))
+                return False
+            return True
         port = self.server.server_address[1]
         hosts = {f"{HOST}:{port}", f"localhost:{port}"}
         if self.headers.get("Host", "") not in hosts:
@@ -282,7 +399,8 @@ class _Handler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(body)))
-        for name, value in {**SECURITY_HEADERS, **(headers or {})}.items():
+        security = PUBLIC_SECURITY_HEADERS if self.app.public is not None else SECURITY_HEADERS
+        for name, value in {**security, **(headers or {})}.items():
             self.send_header(name, value)
         self.end_headers()
         self.wfile.write(body)
@@ -292,9 +410,12 @@ class _Handler(BaseHTTPRequestHandler):
         _log(format % args)
 
 
-def create_server(app: DemoApp, port: int = DEFAULT_PORT) -> ThreadingHTTPServer:
-    """A server for `app` on 127.0.0.1:`port` (0 picks a free port), not yet serving."""
-    server = ThreadingHTTPServer((HOST, port), _Handler)
+def create_server(app: DemoApp, port: int = DEFAULT_PORT, host: str = HOST) -> ThreadingHTTPServer:
+    """A server for `app` on `host`:`port` (0 picks a free port), not yet serving. Only the
+    public live mode listens on another address than 127.0.0.1."""
+    if host != HOST and app.public is None:
+        raise ValueError("only the public live mode listens on another address than 127.0.0.1")
+    server = ThreadingHTTPServer((host, port), _Handler)
     server.daemon_threads = True
     server.app = app  # type: ignore[attr-defined]
     return server
@@ -330,12 +451,25 @@ def page_info(preflight: CorpusPreflight, *, provider: str, model: str,
     }
 
 
-def build_app(*, build_dir: Path | None = None, settings: Settings | None = None) -> DemoApp:
+def public_info(public: Public) -> dict[str, Any]:
+    """What /api/health adds in the public live mode: research only, the limits, the replay."""
+    return {"public": True, "modes": ["research"], "default_mode": "research",
+            "max_question_chars": public.limits.max_question_chars,
+            "limits": public.limits.to_dict(), "replay_url": public.replay_url}
+
+
+def build_app(*, build_dir: Path | None = None, settings: Settings | None = None,
+              public: bool = False, limits: Limits = LIMITS) -> DemoApp:
     """answer_question() on the recorded build, with the configured LLM, as `ask` runs it.
-    Building the client sends nothing; no request is made until a question needs one."""
+    Building the client sends nothing; no request is made until a question needs one. With
+    `public`, the public live mode, with a LiveGate on `limits` and the client's spend priced
+    at PRICES_USD_PER_MTOK."""
     settings = settings or load_settings()
     if settings.llm_provider == "mock":
         raise LLMConfigError(MOCK_PROVIDER_MESSAGE)
+    if public and settings.llm_model not in PRICES_USD_PER_MTOK:
+        raise LLMConfigError(f"no price is recorded for LLM_MODEL {settings.llm_model!r} "
+                             "(llm.PRICES_USD_PER_MTOK); the public mode's spend cap needs one")
     llm = make_llm(settings)
     explorer = ProvisionExplorer.open(build_dir or find_recorded_build())
     info = page_info(corpus_preflight(explorer), provider=getattr(llm, "provider", ""),
@@ -348,31 +482,57 @@ def build_app(*, build_dir: Path | None = None, settings: Settings | None = None
     def describe(result: AnswerResult) -> dict[str, Any]:
         return evidence_status(result.evidence, explorer.store)
 
-    return DemoApp(answer, info, describe)
+    live = None
+    if public:
+        live = Public(LiveGate(limits), lambda: usage_cost(llm.usage_spent, llm.model),
+                      client_ip_header=settings.live_client_ip_header)
+    return DemoApp(answer, info, describe, public=live)
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="python -m src.web_demo",
         description="Serve the Legal RAG `ask` pipeline as a local web page on 127.0.0.1.")
-    parser.add_argument("--port", type=int, default=DEFAULT_PORT,
-                        help=f"port on 127.0.0.1 (default: {DEFAULT_PORT}; 0 picks a free one)")
+    parser.add_argument("--port", type=int,
+                        help=f"port (default: {DEFAULT_PORT}, or {PUBLIC_PORT} with --public; "
+                             "0 picks a free one)")
     parser.add_argument("--build-dir", type=Path,
                         help="corpus build (default: the recorded build in data/processed/builds/)")
+    parser.add_argument("--public", action="store_true",
+                        help=f"the public live mode (a Hugging Face Space): listen on {PUBLIC_HOST}, "
+                             "research mode only, with the limits of src/live_limits.py")
     args = parser.parse_args(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(errors="replace")
+    host = PUBLIC_HOST if args.public else HOST
+    port = args.port if args.port is not None else PUBLIC_PORT if args.public else DEFAULT_PORT
     try:
-        app = build_app(build_dir=args.build_dir)
-        server = create_server(app, args.port)
+        app = build_app(build_dir=args.build_dir, public=args.public)
+        server = create_server(app, port, host)
     except (ConfigError, LLMConfigError, ExplorerError, ProvisionError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
     except OSError as exc:
-        print(f"error: cannot listen on {HOST}:{args.port}: {exc.strerror or exc}",
-              file=sys.stderr)
+        print(f"error: cannot listen on {host}:{port}: {exc.strerror or exc}", file=sys.stderr)
         return 2
     info = app.info
+    if app.public is not None:
+        limits = app.public.limits
+        print(f"Legal RAG live demo (public): listening on {host}:{server.server_address[1]}",
+              flush=True)
+        print(f"  build {info['build_id']}; model {info['provider']}/{info['model']}; research "
+              f"mode only; questions of at most {limits.max_question_chars} characters")
+        print(f"  limits: {limits.per_visitor_hour} per visitor per hour, {limits.per_visitor_day} "
+              f"per visitor per day, {limits.global_day} per day in total, "
+              f"${limits.spend_usd_day:.2f} of API spend per day (UTC); counters reset on "
+              f"restart; visitors counted by {app.public.client_ip_header}", flush=True)
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            server.server_close()
+        return 0
     print(f"Legal RAG web demo: http://{HOST}:{server.server_address[1]}/", flush=True)
     print(f"  build {info['build_id']}; model {info['provider']}/{info['model']}")
     print(f"  verified mode (default): {info['citable_articles']} citable articles"

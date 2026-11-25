@@ -469,7 +469,7 @@ def test_the_page_reads_only_fields_the_server_provides(synthetic_result):
         "issue": set(data["analysis"]["issues"][0]),
         "evidence": set(data["evidence"]),
         "resolution": names(Resolution),
-        "info": set(INFO),
+        "info": set(INFO) | {"public", "limits", "replay_url"},  # + web_demo.public_info()
     }
     for variable, provided in contract.items():
         assert used(variable), f"{variable} is not used in app.js"
@@ -488,8 +488,12 @@ def test_the_page_shows_claims_not_rated_supported_apart_from_the_answer():
     assert f'const HELD_CLAIMS_TITLE = "{HELD_CLAIMS_TITLE}"' in APP_JS
     assert ('const inAnswer = (claim) => claim.verification === "SUPPORTED" || '
             'claim.verification === "NOT_VERIFIED";') in APP_JS
-    assert 'card("Supporting quotations", shown.map(' in APP_JS
-    assert "card(HELD_CLAIMS_TITLE," in APP_JS and "held.map((claim) => renderClaim(" in APP_JS
+    # Held apart: collapsed under "Statements not confirmed"; the answer's own statements are
+    # listed with their checks under "How this answer was produced".
+    assert "fold(`Statements not confirmed (${held.length})`," in APP_JS
+    assert "`${HELD_CLAIMS_TITLE}. The support check did not confirm" in APP_JS
+    assert "held.map((claim) => renderClaim(" in APP_JS
+    assert "shown.map((claim) => renderClaim(claim, statusById, itemById))" in APP_JS
 
 
 def test_the_page_lists_only_the_answer_sources_and_notes_an_unrated_answer():
@@ -502,10 +506,44 @@ def test_the_page_lists_only_the_answer_sources_and_notes_an_unrated_answer():
     assert "mainSources.map(source)" in APP_JS
     assert "result.citations.map((ref) => renderSource(" not in APP_JS
     assert "heldSources.length ? [el(\"p\", { class: \"subhead\" }, HELD_SOURCES_TITLE)" in APP_JS
-    assert ('card("Answer", result.summary ? el("p", { class: "summary" }, result.summary) : null,'
+    assert ('card("What the provisions say", result.summary ? el("p", { class: "summary" }, result.summary) : null,'
             '\n      supportNotice(result),') in APP_JS
 
 
 def test_the_page_shows_the_kept_summary_and_the_as_of_date():
     assert 'result.summary ? el("p", { class: "summary" }, result.summary) : null' in APP_JS
-    assert "result.as_of ? el(\"p\", { class: \"detail\" }, `As of ${result.as_of}`) : null" in APP_JS
+    assert ("`As of ${result.as_of}: the answer reflects the texts in the corpus on that date, "
+            "not the law in force then or later.`") in APP_JS
+
+
+def test_the_simple_view():
+    page = (web.STATIC_DIR / "index.html").read_text(encoding="utf-8")
+    # On top: the question and a plain-language outcome, with the abstention reason in words.
+    assert 'el("p", { class: "question" }, result.question)' in APP_JS
+    for title in ('title: "Answer"', 'title: "Partial answer"', 'title: "No answer"'):
+        assert title in APP_JS
+    assert "reason ? `${outcome.title}: ${reason}` : outcome.title" in APP_JS
+    assert 'out_of_scope: "the question is outside the GDPR and the Italian Privacy Code"' in APP_JS
+    # The statements, each with a chip per provision that opens its exact quotation and page.
+    assert 'const SHORT_NAMES = { "eu-reg-2016-679": "GDPR", "it-dlgs-2003-196": "Codice privacy" };' in APP_JS
+    assert "`${name} art. ${ref.label}" in APP_JS
+    assert '"aria-expanded": "false", "aria-controls": panelId' in APP_JS
+    assert 'el("span", { class: "pending-mark" }, "pending review")' in APP_JS
+    assert "· unreviewed" not in APP_JS  # the old evidence-ID links are gone
+    # One line each, always visible: research mode, not legal advice, as-of date, Omnibus.
+    assert 'el("ul", { class: "notices" }, lines)' in APP_JS
+    assert '"Not legal advice: a research prototype.' in APP_JS
+    assert ("(result.display_qualifications || result.qualifications).find((text) => "
+            "text.includes(OMNIBUS_MARK))") in APP_JS
+    # Collapsed by default: everything else.
+    for title in ("`Sources and their status (${mainSources.length})`",
+                  'fold("How this answer was produced", blocks)',
+                  "`Model notes (${result.model_notes.length})`",
+                  'fold("All caveats and limitations",'):
+        assert title in APP_JS
+    assert 'el("details", {}, el("summary", {}, title)' in APP_JS  # never open by default
+    # Repaired statements are marked in the detailed view.
+    assert 'claim.repaired_from ? badge("ok", "Repaired") : null' in APP_JS
+    # The reading guide, three lines, on both pages.
+    guide = page[page.index('<aside class="howto"'):page.index("</aside>", page.index('<aside class="howto"'))]
+    assert "How to read an answer" in guide and guide.count("<li>") == 3

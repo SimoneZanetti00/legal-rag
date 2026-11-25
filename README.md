@@ -63,7 +63,7 @@ The model writes the claims. The code decides the rest:
 | What | Command | Needs |
 |---|---|---|
 | **Replay of saved answers** (12 dev questions, final run, no model call) | `.\.venv\Scripts\python.exe -m http.server --bind 127.0.0.1 --directory demo\replay 8001`, then open http://127.0.0.1:8001/ | Python only |
-| Live web demo | `.\.venv\Scripts\python.exe -m src.web_demo` | The local corpus build and an Anthropic API key |
+| Live web demo | `.\.venv\Scripts\python.exe -m src.web_demo` | An Anthropic API key (the corpus build is in the repository) |
 | Offline pipeline demo | `.\.venv\Scripts\python.exe -m src.demo` | Nothing (synthetic act, scripted model replies) |
 | Tests | `.\.venv\Scripts\python.exe -m pytest` | Nothing (offline; tests needing the local build are skipped without it) |
 
@@ -113,6 +113,9 @@ flowchart TD
   with no human review recorded, a question abstains before any model call.
 - **Claims held apart.** A claim the support check did not rate SUPPORTED is shown separately
   and is not part of the answer.
+- **One repair round.** The model rewrites each held-apart claim once, to state only what its own
+  quotations state. The rewrite is re-validated by the same checks and re-checked for support;
+  only a confirmed rewrite enters the answer, marked as repaired.
 - **An outcome rule.** The outcome is `answer` only if every issue has a SUPPORTED claim and the
   model reported none as only partly answered. Otherwise it is `answer_limited`.
 - **Source status.** Each source states separately: official or unofficial transcription;
@@ -182,6 +185,11 @@ stricter support check:
 
 In a legal answer, a statement that says more than its source is the failure that matters most.
 
+**A repair pass recovers held-apart claims.** On the 12 dev questions (2026-11-24), one repair
+round put 10 rewritten claims into the answer, and held-apart claims fell from 16 to 8. Citation
+recall rose from 93% to 97%; outcomes were unchanged (10/12). The run cost $0.09, because only the
+repair calls and their support checks were new.
+
 The four remaining mismatches (a06, a07, a15, a22) are `answer_limited` where `answer` was
 expected. In each, the model reported its question as only partly answered; a06 and a07 are
 broad overview questions.
@@ -216,8 +224,9 @@ template are ready in [docs/reviews/](docs/reviews/).
 - **No human review recorded yet.** Verified mode abstains on every question, and every answer
   shown here rests on provisions pending review.
 - **The sources.** The Privacy Code text is an **unofficial transcription** supplied by the
-  user, not verified against an official text. Its PDF is not in the repository; the saved runs
-  and the replay contain excerpts of it, labelled as such. The GDPR text is the 2016 original.
+  user, not verified against an official text. Its PDF is not in the repository. The corpus
+  build tracked for the live demo contains its full text, and the saved runs and the replay
+  contain excerpts, all labelled as such. The GDPR text is the 2016 original.
 - **Scope.** Two acts, current text only: no case law and no point-in-time versions.
 - **Retrieval.** The pipeline uses BM25 with exact lookups and one hop of references. The dense
   and hybrid retrievers in the repository are not used by the pipeline.
@@ -242,6 +251,9 @@ template are ready in [docs/reviews/](docs/reviews/).
    comparing hybrid retrieval and reranking.
 7. **A per-sentence support check for summaries,** so that the summary can be shown again
    (TD-067).
+8. **A deterministic absence check.** A claim that something is absent (no 96-hour deadline)
+   cannot be quoted, so the support check cannot confirm it. Accept it only if the term does not
+   occur in the cited provision's text (TD-068).
 
 ## Documentation
 
@@ -251,12 +263,14 @@ template are ready in [docs/reviews/](docs/reviews/).
 - [docs/evaluation/answers-v0-results.md](docs/evaluation/answers-v0-results.md): every run,
   with per-question tables and findings.
 - [docs/deploy-replay.md](docs/deploy-replay.md): hosting the replay.
+- [docs/deploy-live.md](docs/deploy-live.md): the live demo on Render, where visitors ask their own questions within fixed limits.
 - [docs/ROADMAP.md](docs/ROADMAP.md), [TECHNICAL_DEBT.md](TECHNICAL_DEBT.md) and
   [PROJECT_SPEC.md](PROJECT_SPEC.md).
 
 ## Licence
 
 The code is released under the [MIT licence](LICENSE). Third-party texts in the repository keep
-their own terms: see [official-sources/NOTICE.md](data/raw/trial-2026-10-10/official-sources/NOTICE.md).
+their own terms: see [official-sources/NOTICE.md](data/raw/trial-2026-10-10/official-sources/NOTICE.md)
+and, for the text in the tracked corpus build, [deploy/live-space/NOTICE.md](deploy/live-space/NOTICE.md).
 PDF extraction uses PyMuPDF, which is licensed under the AGPL (or a commercial licence from
 Artifex).

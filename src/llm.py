@@ -143,6 +143,21 @@ class TokenUsage:
         return TokenUsage(*(a - b for a, b in zip(astuple(self), astuple(other))))
 
 
+# USD per million tokens: Anthropic first-party list prices (as of 2026-11-03). Cache writes are
+# the 5-minute ones (1.25 x input); this project sets no cache, so both cache rows stay at zero.
+PRICES_USD_PER_MTOK: dict[str, dict[str, float]] = {
+    "claude-sonnet-5-5": {"input": 2.00, "output": 10.00, "cache_write": 2.50, "cache_read": 0.10},
+}
+
+
+def usage_cost(usage: TokenUsage, model: str) -> float:
+    """`usage` priced in US dollars at PRICES_USD_PER_MTOK. KeyError for a model with no price."""
+    p = PRICES_USD_PER_MTOK[model]
+    return (usage.input_tokens * p["input"] + usage.output_tokens * p["output"]
+            + usage.cache_creation_input_tokens * p["cache_write"]
+            + usage.cache_read_input_tokens * p["cache_read"]) / 1_000_000
+
+
 @dataclass(frozen=True)
 class RawCompletion:
     """One provider reply, before any parsing."""

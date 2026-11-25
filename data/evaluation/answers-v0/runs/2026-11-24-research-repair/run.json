@@ -1,0 +1,79 @@
+{
+ "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+ "code": {
+  "changed_paths": [
+   " M src/answer_benchmark_run.py",
+   " M src/answer_generation.py",
+   " M src/provision_cli.py",
+   " M src/web_static/app.js",
+   " M tests/test_support_verification.py",
+   "?? docs/PROJECT_OVERVIEW.md",
+   "?? docs/reviews/m1-review-record-2026-11-09.md",
+   "?? src/claim_repair.py"
+  ],
+  "commit": "06db9a66e5db4f2ff1e1370c1ac6a7170799cf62",
+  "fingerprint": "e52962423a1a33f085e676da631d456e77efd47a787f792a370a0d9633cc3bf6",
+  "state": "dirty"
+ },
+ "invocations": [
+  {
+   "at": "2026-11-24T11:25:20+01:00",
+   "code": {
+    "changed_paths": [
+     " M src/answer_benchmark_run.py",
+     " M src/answer_generation.py",
+     " M src/provision_cli.py",
+     " M src/web_static/app.js",
+     " M tests/test_support_verification.py",
+     "?? docs/PROJECT_OVERVIEW.md",
+     "?? docs/reviews/m1-review-record-2026-11-09.md",
+     "?? src/claim_repair.py"
+    ],
+    "commit": "06db9a66e5db4f2ff1e1370c1ac6a7170799cf62",
+    "fingerprint": "e52962423a1a33f085e676da631d456e77efd47a787f792a370a0d9633cc3bf6",
+    "state": "dirty"
+   },
+   "spend": {
+    "budget_usd": 1.4,
+    "cost_usd": 0.093712,
+    "model": "claude-sonnet-5-5",
+    "prices_usd_per_mtok": {
+     "cache_read": 0.1,
+     "cache_write": 2.5,
+     "input": 2.0,
+     "output": 10.0
+    },
+    "stopped_before": null,
+    "usage": {
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 0,
+     "input_tokens": 34481,
+     "output_tokens": 2475
+    }
+   },
+   "splits": [
+    "dev"
+   ]
+  }
+ ],
+ "kind": "answers-v0-run",
+ "mode": "research",
+ "model": "claude-sonnet-5-5",
+ "offline": false,
+ "prompt_versions": {
+  "answer_generation": "answer-generation-v5",
+  "claim_repair": "claim-repair-v1",
+  "claim_verification": "claim-verification-v3",
+  "query_analysis": "query-analysis-v3"
+ },
+ "provider": "anthropic",
+ "replay_of": "2026-11-17-final",
+ "run_id": "2026-11-24-research-repair",
+ "schema": 1,
+ "settings": {
+  "context_token_budget": 12000,
+  "final_evidence_count": 12,
+  "max_generation_retries": 1,
+  "semantic_verification": true
+ }
+}

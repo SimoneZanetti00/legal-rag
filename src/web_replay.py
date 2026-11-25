@@ -45,6 +45,12 @@ REPLAY_FILE = "replay.json"
 
 REPLAY_LABEL = ("Replay of saved answers generated on {date} with {model}. "
                 "No live model calls.")
+# The questions the landing page features, in order, with one line on what each shows; the
+# other questions are listed under "More questions".
+FEATURED = (("a12", "Answers a false premise with the text in force (72 hours) and flags the 96-hour proposal"),
+            ("a10", "Links the GDPR to the Italian Code (Garante)"),
+            ("a09", "Abstains outside its scope"),
+            ("a06", "Says honestly what it could not establish"))
 LIVE_FOOTER = ("Local server. Questions and evidence are sent to Anthropic's API for analysis, "
                "generation and verification.")
 REPLAY_FOOTER = ("Static replay: nothing you do on this page is sent to a server or a model. The "
@@ -106,13 +112,18 @@ def latest_run(runs_dir: Path, ids: Sequence[str]) -> Path:
 
 
 def generation_dates(run_dir: Path, run: Mapping[str, Any]) -> list[str]:
-    """The dates the run's answers were generated: its invocations' dates, or for a re-score or
-    an offline re-run, those of the run whose model replies it re-uses."""
-    source = run.get("rescore_of") or (run.get("replay_of") if run.get("offline") else None)
-    if source:
-        source_dir = run_dir.parent / source
-        return generation_dates(source_dir, load_run(source_dir))
-    return sorted({i["at"][:10] for i in run.get("invocations", ())})
+    """The dates the run's answers were generated: its invocations' dates; for a re-score or an
+    offline re-run, those of the run whose model replies it re-uses; for a re-run that replayed
+    some replies and asked the model for others, both."""
+    own = sorted({i["at"][:10] for i in run.get("invocations", ())})
+    source = run.get("rescore_of") or run.get("replay_of")
+    if not source:
+        return own
+    source_dir = run_dir.parent / source
+    earlier = generation_dates(source_dir, load_run(source_dir))
+    if run.get("rescore_of") or run.get("offline"):
+        return earlier
+    return sorted(set(earlier) | set(own))
 
 
 def replay_data(run_dir: Path, ids: Sequence[str], *, describe: Describe,
@@ -126,7 +137,8 @@ def replay_data(run_dir: Path, ids: Sequence[str], *, describe: Describe,
     dates = generation_dates(run_dir, run)
     if not dates:
         raise ReplayError(f"run {run_dir.name} records no date")
-    date = dates[0] if len(dates) == 1 else f"{dates[0]} to {dates[-1]}"
+    date = (dates[0] if len(dates) == 1 else f"{dates[0]} and {dates[1]}" if len(dates) == 2
+            else f"{dates[0]} to {dates[-1]}")
     questions, answers = [], {}
     for qid in ids:
         record = json.loads((run_dir / f"{qid}.json").read_text(encoding="utf-8"))
@@ -142,7 +154,9 @@ def replay_data(run_dir: Path, ids: Sequence[str], *, describe: Describe,
         "mode": run["mode"], "run_id": run["run_id"], "build_id": run["build_id"],
         "prompt_versions": run["prompt_versions"],
     }
-    return {"replay": replay, "info": dict(info), "questions": questions, "answers": answers}
+    featured = [{"id": qid, "note": note} for qid, note in FEATURED if qid in ids]
+    return {"replay": replay, "info": dict(info), "questions": questions, "featured": featured,
+            "answers": answers}
 
 
 def replay_page(index_html: str) -> str:

@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import math
 import os
+import re
 from collections.abc import Mapping
 from dataclasses import dataclass, field, fields
 from pathlib import Path
@@ -56,6 +57,10 @@ class Settings:
     # ask: show the model's summary (only its sentences whose cited claims are all SUPPORTED).
     # Off by default: that check confirms citations, not what a sentence says (TD-067).
     show_summary: bool = False
+    # Web demo, public mode only: the request header that identifies a visitor for the
+    # per-visitor limits. X-Forwarded-For counts its last address (the one the proxy in front
+    # appends); any other header (e.g. True-Client-IP) counts its whole value.
+    live_client_ip_header: str = "X-Forwarded-For"
 
     # Retrieval and evidence selection.
     bm25_top_k: int = 20
@@ -154,6 +159,10 @@ def _validate(settings: Settings) -> list[str]:
             f"(got {settings.max_generation_retries})."
         )
 
+    if not re.fullmatch(r"[A-Za-z0-9-]+", settings.live_client_ip_header):
+        errors.append("LIVE_CLIENT_IP_HEADER must be a header name, such as X-Forwarded-For "
+                      f"(got {settings.live_client_ip_header!r}).")
+
     if not settings.embedding_model.strip():
         errors.append("EMBEDDING_MODEL must not be empty.")
     if settings.reranker_enabled and not settings.reranker_model.strip():
@@ -219,6 +228,7 @@ _ENV_FIELDS = {
     "LLM_REFUSAL_FALLBACK": ("llm_refusal_fallback", _parse_bool),
     "SEMANTIC_VERIFICATION": ("semantic_verification", _parse_bool),
     "SHOW_SUMMARY": ("show_summary", _parse_bool),
+    "LIVE_CLIENT_IP_HEADER": ("live_client_ip_header", str.strip),
     "BM25_TOP_K": ("bm25_top_k", int),
     "DENSE_TOP_K": ("dense_top_k", int),
     "RERANK_TOP_K": ("rerank_top_k", int),

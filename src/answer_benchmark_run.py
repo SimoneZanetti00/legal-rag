@@ -51,6 +51,7 @@ from typing import Any
 from src import answer_benchmark as ab
 from src.answer_generation import PROMPT_VERSION as GENERATION_PROMPT_VERSION
 from src.answer_generation import REPORTED_UNANSWERED, Mode, answer_question, decide_coverage
+from src.claim_repair import PROMPT_VERSION as REPAIR_PROMPT_VERSION
 from src.config import PROJECT_ROOT, ConfigError, Settings, load_settings
 from src.corpus_identity import CodeVersionError, canonical_json, detect_code_version
 from src.llm import (
@@ -58,10 +59,12 @@ from src.llm import (
     JSONResult,
     LLMClient,
     LLMConfigError,
+    PRICES_USD_PER_MTOK,
     LLMError,
     TokenUsage,
     check_schema,
     make_llm,
+    usage_cost,
     validate_json,
 )
 from src.provision_cli import render_answer
@@ -77,11 +80,6 @@ IN_ANSWER = ("SUPPORTED", "NOT_VERIFIED")  # answer_generation.in_answer(), on s
 SCOPE_ALL = "all rows: candidate expectations, not owner-reviewed"
 SCOPE_REVIEWED = "owner-reviewed rows only"
 _RUN_ID = re.compile(r"[a-z0-9][a-z0-9.-]{0,63}")
-# USD per million tokens: Anthropic first-party list prices (as of 2026-11-03). Cache writes are
-# the 5-minute ones (1.25 x input); this project sets no cache, so both cache rows stay at zero.
-PRICES_USD_PER_MTOK: dict[str, dict[str, float]] = {
-    "claude-sonnet-5-5": {"input": 2.00, "output": 10.00, "cache_write": 2.50, "cache_read": 0.10},
-}
 
 
 class RunError(ValueError):
@@ -139,11 +137,7 @@ class CostMeter:
         return self.client.usage_spent
 
     def cost(self, usage: TokenUsage | None = None) -> float:
-        u = self.usage() if usage is None else usage
-        p = self.prices
-        return (u.input_tokens * p["input"] + u.output_tokens * p["output"]
-                + u.cache_creation_input_tokens * p["cache_write"]
-                + u.cache_read_input_tokens * p["cache_read"]) / 1_000_000
+        return usage_cost(self.usage() if usage is None else usage, self.model)
 
 
 class ReplayLLM:
@@ -311,7 +305,8 @@ def run_record(run_id: str, *, mode: Mode, settings: Settings, build_id: str,
         "provider": settings.llm_provider, "model": settings.llm_model,
         "prompt_versions": {"query_analysis": ANALYSIS_PROMPT_VERSION,
                             "answer_generation": GENERATION_PROMPT_VERSION,
-                            "claim_verification": SUPPORT_PROMPT_VERSION},
+                            "claim_verification": SUPPORT_PROMPT_VERSION,
+                            "claim_repair": REPAIR_PROMPT_VERSION},
         "settings": {"final_evidence_count": settings.final_evidence_count,
                      "context_token_budget": settings.context_token_budget,
                      "semantic_verification": settings.semantic_verification,

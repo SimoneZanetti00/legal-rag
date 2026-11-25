@@ -7,15 +7,26 @@
 // (GenerationProvenance), analysis, issue, suggestion, evidence, resolution, info (health).
 "use strict";
 
-// Labels for the backend's own codes (answer_generation, models.VerificationStatus).
+// Plain-language outcomes (answer_generation.Outcome) and abstention reasons, for the simple view.
 const OUTCOMES = {
   answer: { tone: "ok", title: "Answer",
-    text: "Every issue is addressed by statements quoted from the evidence." },
+    text: "Every part of the question is answered by statements quoted from the law." },
   answer_limited: { tone: "warn", title: "Partial answer",
-    text: "Only part of the question is addressed by the evidence. See what could not be established." },
-  abstain: { tone: "stop", title: "No answer",
-    text: "The system abstained rather than answer without sufficient evidence." },
+    text: "Part of the question is not answered by the provisions found: see what is missing below." },
+  abstain: { tone: "stop", title: "No answer", text: "" },
 };
+const PLAIN_REASONS = {
+  out_of_scope: "the question is outside the GDPR and the Italian Privacy Code",
+  needs_clarification: "the question needs to be made clearer first",
+  no_evidence: "no relevant provision was found",
+  no_citable_evidence: "no provision that may be cited in this mode was found",
+  analysis_failed: "the question could not be analysed",
+  model_refused: "the model declined the request",
+  generation_failed: "no answer could be generated",
+  model_abstained: "the provisions found do not answer the question",
+  no_supported_claims: "no statement passed the checks",
+};
+// The backend's own codes, for the detailed sections.
 const ABSTENTIONS = {
   out_of_scope: "The question is outside the corpus",
   needs_clarification: "The question needs clarification",
@@ -36,6 +47,8 @@ const VERIFICATION = {
   CONTRADICTED: ["stop", "Contradicted"],
 };
 const KINDS = { source_statement: "Provision text", inference: "Interpretation" };
+// Short names for the provision chips (the registry's full names are in info.instruments).
+const SHORT_NAMES = { "eu-reg-2016-679": "GDPR", "it-dlgs-2003-196": "Codice privacy" };
 const HELD_CLAIMS_TITLE = "Partially supported or uncertain — not part of the answer";  // as answer_generation.HELD_CLAIMS_TITLE
 const HELD_SOURCES_TITLE = "Sources of these statements only";  // as answer_generation.HELD_SOURCES_TITLE
 // As answer_generation.SUPPORT_NOT_RUN_NOTICE / SUPPORT_FAILED_NOTICE and support_check_notice().
@@ -43,6 +56,8 @@ const SUPPORT_NOT_RUN_NOTICE = "The support check did not run: no statement in t
 const SUPPORT_FAILED_NOTICE = "The support check failed: no statement in this answer has been checked against its evidence by the model check.";
 // The research-mode qualification starts with one of these (answer_generation.RESEARCH_QUALIFICATION and its Italian display text).
 const RESEARCH_PREFIXES = ["RESEARCH DEMO MODE", "MODALITÀ DIMOSTRATIVA DI RICERCA"];
+// answer_generation.DIGITAL_OMNIBUS_CAVEAT, added to answers that cite GDPR Art. 33, contains this.
+const OMNIBUS_MARK = "Digital Omnibus";
 
 function supportNotice(result) {
   if (!result.claims.length || result.verification) return null;
@@ -75,6 +90,9 @@ function el(tag, attrs, ...children) {
 const badge = (tone, text) => el("span", { class: `badge ${tone || ""}` }, text);
 const pages = (start, end) => (start === end ? `p. ${start}` : `pp. ${start}–${end}`);
 const card = (title, ...body) => el("section", { class: "card" }, el("h3", {}, title), ...body);
+// A section collapsed by default: the details below the simple view.
+const fold = (title, ...body) => el("section", { class: "card fold" },
+  el("details", {}, el("summary", {}, title), el("div", { class: "fold-body" }, ...body)));
 const list = (values, render) => el("ul", { class: "plain" }, values.map((v) => el("li", {}, render(v))));
 const explain = (table, code) => (table[code] ? `${table[code]} (${code})` : code);
 const selectedMode = () => document.querySelector('input[name="mode"]:checked').value;
@@ -94,10 +112,29 @@ async function loadHealth() {
     return;
   }
   $("#question").maxLength = info.max_question_chars;
+  if (info.public) applyPublicMode();
   updateCounter();
   updateStatus();
   const names = Object.values(info.instruments);
   $("#corpus").textContent = names.length ? `Corpus: ${names.join(" · ")}.` : "";
+}
+
+// The public live demo (web_demo --public, a Hugging Face Space): research mode only, short
+// questions, limits per visitor and per day; the page says where questions go.
+function applyPublicMode() {
+  const limits = info.limits;
+  $(".modes").hidden = true;
+  document.querySelector('input[name="mode"][value="verified"]').disabled = true;
+  document.querySelector('input[name="mode"][value="research"]').checked = true;
+  $("#public-notice").hidden = false;
+  $("#public-limits").textContent = `Each visitor may ask ${limits.per_visitor_hour} questions per hour and ` +
+    `${limits.per_visitor_day} per day, in at most ${limits.max_question_chars} characters; the demo answers ` +
+    `${limits.global_day} questions per day in total. When a limit is reached, the saved answers remain available:`;
+  $("#public-replay").href = info.replay_url;
+  $("#footer-note").textContent = "Prototype for research and demonstration. Not legal advice. Live demo: " +
+    "questions and the provisions retrieved for them are sent to Anthropic's API for analysis, generation " +
+    "and verification. Do not include personal data.";
+  onModeChange();
 }
 
 function updateStatus() {
@@ -172,7 +209,8 @@ async function ask(event) {
     try { payload = await response.json(); } catch { payload = null; }
     if (!response.ok || !payload) {
       const message = payload && payload.error ? payload.error.message : `The server answered with HTTP ${response.status}.`;
-      showError(message);
+      // A limit of the public demo (HTTP 429) points to the replay of saved answers.
+      showError(message, payload && payload.error ? payload.error.replay_url : null);
       return;
     }
     $("#state").replaceChildren();
@@ -192,9 +230,11 @@ function setBusy(value) {
   updateAskButton();
 }
 
-function showError(message) {
+function showError(message, replayUrl) {
   $("#state").replaceChildren(el("div", { class: "banner stop", role: "alert" },
-    el("h2", {}, "Something went wrong"), el("p", { class: "detail" }, message)));
+    el("h2", {}, replayUrl ? "Limit reached" : "Something went wrong"), el("p", { class: "detail" }, message),
+    replayUrl ? el("p", {}, el("a", { href: replayUrl, target: "_blank", rel: "noopener" },
+      "Open the replay of saved answers")) : null));
 }
 
 function reset() {
@@ -213,53 +253,60 @@ function updateCounter() {
   $("#counter").textContent = `${textarea.value.length} / ${textarea.maxLength}`;
 }
 
-// --- Rendering ----------------------------------------------------------------------------------
+// --- Rendering: the simple view ------------------------------------------------------------------
+// On top: the question, a plain-language outcome, one-line notices, and the answer as sentences,
+// each with a chip per provision that opens the exact quotation and page. Below, collapsed: the
+// statements not confirmed, the sources and their status, how the answer was produced, the model
+// notes and every caveat.
 
 function renderResult(result) {
   const statusById = result.source_status || {};
   const evidenceItems = result.evidence ? result.evidence.items : [];
   const itemById = Object.fromEntries(evidenceItems.map((item) => [item.evidence_id, item]));
+  const refById = Object.fromEntries(result.citations.map((ref) => [ref.evidence_id, ref]));
   const issues = result.analysis ? result.analysis.issues : [];
   const issueText = Object.fromEntries(issues.map((issue) => [issue.id, issue.question]));
-  const sections = [renderOutcome(result)];
 
   // The rule of answer_generation.in_answer(): a claim the support check rated other than
   // SUPPORTED is shown apart, below the answer, and is not part of it. Display only.
   const inAnswer = (claim) => claim.verification === "SUPPORTED" || claim.verification === "NOT_VERIFIED";
   const shown = result.claims.filter(inAnswer);
   const held = result.claims.filter((claim) => !inAnswer(claim));
-  // The rule of answer_generation.answer_sources(): the Sources card lists the sources of the
+  // The rule of answer_generation.answer_sources(): the Sources section lists the sources of the
   // claims in the answer; sources cited only by held-apart claims are listed with those claims.
   const shownIds = new Set(shown.flatMap((claim) => claim.evidence_ids));
   const heldIds = new Set(held.flatMap((claim) => claim.evidence_ids));
   const mainSources = result.citations.filter((ref) => shownIds.has(ref.evidence_id));
   const heldSources = result.citations.filter((ref) => heldIds.has(ref.evidence_id) && !shownIds.has(ref.evidence_id));
   const source = (ref) => renderSource(ref, itemById[ref.evidence_id], statusById[ref.evidence_id]);
+
+  const sections = [renderOutcome(result), renderNotices(result)];
   if (result.claims.length) {
     // The summary is shown only when the application kept it (answer_generation._summary()).
-    sections.push(card("Answer", result.summary ? el("p", { class: "summary" }, result.summary) : null,
+    sections.push(card("What the provisions say", result.summary ? el("p", { class: "summary" }, result.summary) : null,
       supportNotice(result),
       shown.length
-        ? el("div", { class: "answer" }, shown.map((claim) => renderStatement(claim, statusById)))
-        : el("p", { class: "muted" }, "No statement was rated supported by the support check.")));
-    if (shown.length) {
-      sections.push(card("Supporting quotations", shown.map((claim) => renderClaim(claim, statusById, itemById))));
-    }
-    if (held.length) {
-      sections.push(card(HELD_CLAIMS_TITLE,
-        el("p", { class: "muted" }, "The support check did not confirm these statements. They are shown with their status and quotations."),
-        held.map((claim) => renderClaim(claim, statusById, itemById)),
-        heldSources.length ? [el("p", { class: "subhead" }, HELD_SOURCES_TITLE), heldSources.map(source)] : null));
-    }
+        ? el("div", { class: "answer" }, shown.map((claim) => renderStatement(claim, refById, statusById)))
+        : el("p", { class: "muted" }, "No statement was confirmed by the support check: see the statements not confirmed below."),
+      renderMissing(result, issueText)));
   }
-  const gaps = renderGaps(result, issueText);
-  if (gaps) sections.push(gaps);
-  sections.push(renderCaveats(result));
+  if (held.length) {
+    sections.push(fold(`Statements not confirmed (${held.length})`,
+      el("p", { class: "muted" }, `${HELD_CLAIMS_TITLE}. The support check did not confirm these statements; they are shown with their status and quotations.`),
+      held.map((claim) => renderClaim(claim, statusById, itemById)),
+      heldSources.length ? [el("p", { class: "subhead" }, HELD_SOURCES_TITLE), heldSources.map(source)] : null));
+  }
   if (mainSources.length) {
-    sections.push(card("Sources", el("p", { class: "muted" }, "The provisions the answer rests on, with what is known about each source."),
+    sections.push(fold(`Sources and their status (${mainSources.length})`,
+      el("p", { class: "muted" }, "The provisions the answer rests on, with what is known about each source."),
       mainSources.map(source)));
   }
-  sections.push(renderTransparency(result, statusById));
+  sections.push(renderTransparency(result, statusById, itemById, shown));
+  if (result.model_notes.length) {
+    sections.push(fold(`Model notes (${result.model_notes.length})`,
+      el("p", { class: "subhead" }, info.model_notes_label), list(result.model_notes, (note) => note)));
+  }
+  sections.push(renderCaveats(result));
   $("#result").replaceChildren(...sections.filter(Boolean));
   $("#result").hidden = false;
   $("#reset").hidden = false;
@@ -268,38 +315,75 @@ function renderResult(result) {
 
 function renderOutcome(result) {
   const outcome = OUTCOMES[result.outcome] || { tone: "warn", title: result.outcome, text: "" };
-  const research = result.mode === "research";
+  const reason = result.outcome === "abstain" ? PLAIN_REASONS[result.abstention_reason] || result.abstention_reason : null;
   const banner = el("div", { class: `banner ${outcome.tone}` },
-    el("h2", {}, outcome.title, badge(research ? "warn" : "ok", MODE_LABELS[result.mode] || result.mode)),
-    el("p", {}, outcome.text),
-    result.as_of ? el("p", { class: "detail" }, `As of ${result.as_of}`) : null);
-  if (research && result.citations.some((ref) => !ref.citable)) {
-    banner.append(el("p", { class: "detail" },
-      "This answer rests on sources pending human review. They are marked below and are not verified."));
-  }
-  if (result.outcome === "abstain") {
-    banner.append(el("p", {}, el("strong", {}, explain(ABSTENTIONS, result.abstention_reason))));
-    if (result.abstention_detail) banner.append(el("p", { class: "detail" }, result.abstention_detail));
-    const analysis = result.analysis;
-    if (analysis && analysis.clarification_question) {
-      banner.append(el("p", { class: "detail" }, `Clarification needed: ${analysis.clarification_question}`));
-    }
+    el("p", { class: "question" }, result.question),
+    el("h2", {}, reason ? `${outcome.title}: ${reason}` : outcome.title),
+    outcome.text ? el("p", {}, outcome.text) : null);
+  const analysis = result.analysis;
+  if (result.outcome === "abstain" && analysis && analysis.clarification_question) {
+    banner.append(el("p", { class: "detail" }, `Clarification needed: ${analysis.clarification_question}`));
   }
   return banner;
 }
 
-function citeLink(evidenceId, status) {
-  const unreviewed = pending(status);
-  return el("a", { class: `cite ${unreviewed ? "unreviewed" : ""}`, href: `#source-${evidenceId}`,
-    title: unreviewed ? "Source pending human review" : "Source" },
-  evidenceId, unreviewed ? "· unreviewed" : null);
+// Always visible, one line each: the mode, not legal advice, the as-of date, the Omnibus caveat.
+function renderNotices(result) {
+  const lines = [];
+  if (result.mode === "research") {
+    lines.push(el("li", { class: "caveat-research" }, result.citations.some((ref) => !ref.citable)
+      ? "Research demo mode. This answer rests on sources pending human review. They are marked «pending review» and are not verified."
+      : "Research demo mode: answers may rest on provisions that no person has reviewed yet."));
+  }
+  lines.push(el("li", {}, "Not legal advice: a research prototype. It does not establish whether a provision is valid or in force."));
+  if (result.as_of) {
+    lines.push(el("li", {}, `As of ${result.as_of}: the answer reflects the texts in the corpus on that date, not the law in force then or later.`));
+  }
+  // The Art. 33 caveat itself, as displayed (in Italian for an Italian question).
+  const omnibus = (result.display_qualifications || result.qualifications).find((text) => text.includes(OMNIBUS_MARK));
+  if (omnibus) lines.push(el("li", {}, omnibus));
+  return el("ul", { class: "notices" }, lines);
 }
 
-function renderStatement(claim, statusById) {
-  return el("p", { class: "statement" },
-    claim.kind === "inference" ? el("span", { class: "kind-tag" }, "Interpretation") : null,
-    claim.text, " ",
-    claim.evidence_ids.map((evidenceId) => citeLink(evidenceId, statusById[evidenceId])));
+function provisionName(ref) {
+  const name = SHORT_NAMES[ref.instrument_id] || info.instruments[ref.instrument_id] || ref.instrument_id;
+  return `${name} art. ${ref.label}${ref.point ? `, point ${ref.point}` : ""}`;
+}
+
+// A statement of the answer: its text, then a chip per provision it cites. A chip opens the exact
+// quotation(s) from that provision and its page; «pending review» marks a source not yet reviewed.
+function renderStatement(claim, refById, statusById) {
+  const panels = [];
+  const chips = claim.evidence_ids.map((evidenceId) => {
+    const ref = refById[evidenceId];
+    const status = statusById[evidenceId];
+    const panelId = `quote-${claim.claim_id}-${evidenceId}`;
+    const panel = el("div", { class: "quote-panel", id: panelId, hidden: true },
+      claim.quotes.filter((quote) => quote.evidence_id === evidenceId).map((quote) => el("blockquote", {}, `«${quote.text}»`)),
+      ref ? el("p", { class: "muted" }, `${provisionName(ref)} — ${ref.heading}${ref.title ? ` (${ref.title})` : ""}, ` +
+        `${pages(ref.page_start, ref.page_end)} of the source PDF` + (pending(status) ? ". Human review pending: not verified." : ".")) : null);
+    panels.push(panel);
+    const chip = el("button", { type: "button", class: `chip-cite ${pending(status) ? "unreviewed" : ""}`,
+      "aria-expanded": "false", "aria-controls": panelId, title: "Show the exact quotation" },
+    ref ? provisionName(ref) : evidenceId, pending(status) ? el("span", { class: "pending-mark" }, "pending review") : null);
+    chip.addEventListener("click", () => {
+      panel.hidden = !panel.hidden;
+      chip.setAttribute("aria-expanded", String(!panel.hidden));
+    });
+    return chip;
+  });
+  return el("div", { class: "statement" },
+    el("p", {}, claim.kind === "inference" ? el("span", { class: "kind-tag" }, "Interpretation") : null,
+      claim.text, " ", chips),
+    panels);
+}
+
+// What the answer leaves open: shown with the answer, in plain words, for a partial answer.
+function renderMissing(result, issueText) {
+  if (!result.unanswered_issues.length) return null;
+  return el("div", { class: "missing" },
+    el("p", { class: "subhead" }, "Not answered by the provisions found"),
+    list(result.unanswered_issues, (gap) => issueText[gap.issue_id] || gap.issue_id));
 }
 
 function renderClaim(claim, statusById, itemById) {
@@ -308,35 +392,21 @@ function renderClaim(claim, statusById, itemById) {
     el("p", { class: "claim-text" }, claim.text),
     el("div", { class: "meta" },
       badge("", claim.claim_id), badge(claim.kind === "inference" ? "warn" : "", KINDS[claim.kind] || claim.kind),
-      badge(tone, label), claim.issue_ids.length ? badge("", `Issue ${claim.issue_ids.join(", ")}`) : null),
+      badge(tone, label), claim.repaired_from ? badge("ok", "Repaired") : null,
+      claim.issue_ids.length ? badge("", `Issue ${claim.issue_ids.join(", ")}`) : null),
+    claim.repaired_from ? el("p", { class: "muted" }, "Rewritten by the repair pass from a wording the support check did not confirm: ",
+      `«${claim.repaired_from}». The rewrite keeps quotations of that statement and was confirmed by the support check.`) : null,
     claim.quotes.map((quote) => {
       const status = statusById[quote.evidence_id];
       const item = itemById[quote.evidence_id];
       return el("blockquote", { class: pending(status) ? "unreviewed" : "" },
-        `«${quote.text}» `, citeLink(quote.evidence_id, status),
+        `«${quote.text}» `, el("span", { class: "muted" }, quote.evidence_id),
         item ? el("span", { class: "muted" }, ` ${item.heading}`) : null);
     }));
 }
 
-function renderGaps(result, issueText) {
-  const parts = [];
-  if (result.unanswered_issues.length) {
-    parts.push(list(result.unanswered_issues, (gap) =>
-      [el("strong", {}, gap.issue_id), issueText[gap.issue_id] ? ` ${issueText[gap.issue_id]} — ` : " — ", gap.reason]));
-  }
-  if (result.model_notes.length) {
-    parts.push(el("p", { class: "subhead" }, info.model_notes_label), list(result.model_notes, (note) => note));
-  }
-  if (result.rejected_claims.length) {
-    parts.push(el("p", { class: "muted" },
-      `${result.rejected_claims.length} statement(s) proposed by the model were removed by the checks; ` +
-      "see Research transparency."));
-  }
-  return parts.length ? card("What could not be established", parts) : null;
-}
-
 function renderCaveats(result) {
-  return card("Caveats and limitations",
+  return fold("All caveats and limitations",
     list(result.display_qualifications || result.qualifications, (text) => (RESEARCH_PREFIXES.some((p) => text.startsWith(p))
       ? el("span", { class: "caveat-research" }, text) : text)),
     result.warnings.length ? el("p", { class: "muted" }, `Warnings: ${result.warnings.join(", ")}`) : null);
@@ -359,11 +429,12 @@ function renderStatus(status) {
 
 function renderSource(ref, item, status) {
   const extent = ref.whole_provision ? "whole provision" : ref.point ? `point ${ref.point} only` : "excerpt";
-  const title = `${ref.evidence_id} · ${ref.heading}${ref.title ? ` — ${ref.title}` : ""}`;
+  const title = `${provisionName(ref)} · ${ref.heading}${ref.title ? ` — ${ref.title}` : ""}`;
   const node = el("article", { class: `source ${pending(status) ? "unreviewed" : ""}`, id: `source-${ref.evidence_id}` },
     el("p", { class: "source-title" }, title),
     renderStatus(status),
     el("dl", { class: "kv" },
+      el("dt", {}, "Evidence ID"), el("dd", {}, ref.evidence_id),
       el("dt", {}, "Instrument"), el("dd", {}, info.instruments[ref.instrument_id] || ref.instrument_id),
       el("dt", {}, "Location"), el("dd", {}, `${ref.path} · ${pages(ref.page_start, ref.page_end)} · ${extent}`),
       el("dt", {}, "Eligibility"), el("dd", {}, ref.citable ? `tier ${ref.tier}`
@@ -389,7 +460,7 @@ function origin(code) {
   return code;
 }
 
-// --- Research transparency ----------------------------------------------------------------------
+// --- How this answer was produced (collapsed) -----------------------------------------------------
 
 function table(head, rows) {
   return el("div", { class: "table-wrap" }, el("table", {},
@@ -397,10 +468,15 @@ function table(head, rows) {
     el("tbody", {}, rows.map((row) => el("tr", {}, row.map((cell) => el("td", {}, cell)))))));
 }
 
-function renderTransparency(result, statusById) {
+function renderTransparency(result, statusById, itemById, shown) {
   const blocks = [];
+  if (shown.length) {
+    blocks.push(el("p", { class: "subhead" }, "Statements in the answer and their checks"),
+      shown.map((claim) => renderClaim(claim, statusById, itemById)));
+  }
   const execution = [el("dt", {}, "Mode"), el("dd", {}, MODE_LABELS[result.mode] || result.mode)];
-  for (const [name, prov] of [["Generation", result.generation], ["Support check", result.verification]]) {
+  for (const [name, prov] of [["Generation", result.generation], ["Support check", result.verification],
+    ["Repair", result.repair], ["Support check of the repairs", result.repair_verification]]) {
     if (prov) {
       execution.push(el("dt", {}, name), el("dd", {},
         `${prov.provider}/${prov.served_by}, ${prov.prompt_version}, ${prov.attempts} attempt${prov.attempts === 1 ? "" : "s"}` +
@@ -419,6 +495,10 @@ function renderTransparency(result, statusById) {
   if (result.outcome === "abstain") {
     blocks.push(el("p", { class: "subhead" }, "Reason for abstaining"),
       el("p", {}, explain(ABSTENTIONS, result.abstention_reason), result.abstention_detail ? `: ${result.abstention_detail}` : ""));
+  }
+  if (result.unanswered_issues.length) {
+    blocks.push(el("p", { class: "subhead" }, "Issues not fully answered"),
+      list(result.unanswered_issues, (gap) => [el("strong", {}, gap.issue_id), ` — ${gap.reason}`]));
   }
 
   const evidence = result.evidence;
@@ -466,8 +546,7 @@ function renderTransparency(result, statusById) {
       list(result.question_references, (resolution) => [`«${resolution.reference.raw_text}» `,
         badge("", resolution.status.replaceAll("_", " ")), ` ${resolution.explanation}`]));
   }
-  return el("section", { class: "card" }, el("details", {},
-    el("summary", {}, "Research transparency: retrieval, exclusions, execution"), blocks));
+  return fold("How this answer was produced", blocks);
 }
 
 // --- Replay of saved answers (python -m src.web_replay) -------------------------------------------
@@ -476,7 +555,7 @@ function renderTransparency(result, statusById) {
 // answer is rendered by renderResult() exactly as a live one.
 
 const REPLAY_FILE = document.documentElement.dataset.replay || null;
-let saved = null;  // the replay file: { replay, info, questions, answers }
+let saved = null;  // the replay file: { replay, info, questions, featured, answers }
 
 async function loadReplay() {
   const statusLine = $("#status");
@@ -500,14 +579,23 @@ async function loadReplay() {
   const names = Object.values(info.instruments);
   $("#corpus").textContent = names.length ? `Corpus: ${names.join(" · ")}.` : "";
 
-  const picker = el("select", { id: "replay-question", class: "replay-select" },
-    el("option", { value: "" }, "Choose a question…"),
-    saved.questions.map((question) => el("option", { value: question.id }, `${question.id} · ${question.question}`)));
-  picker.addEventListener("change", () => showSaved(picker.value));
+  const textOf = Object.fromEntries(saved.questions.map((question) => [question.id, question.question]));
+  const featured = (saved.featured || []).filter((pick) => textOf[pick.id]);
+  const featuredIds = new Set(featured.map((pick) => pick.id));
+  const button = (id, note) => {
+    const node = el("button", { type: "button", class: "pick", "data-id": id, "aria-pressed": "false" },
+      el("span", { class: "pick-question" }, textOf[id]), note ? el("span", { class: "pick-note" }, note) : null);
+    node.addEventListener("click", () => showSaved(id));
+    return node;
+  };
+  const others = saved.questions.filter((question) => !featuredIds.has(question.id));
   $("#ask-form").after(el("section", { class: "card ask-card replay-card" },
     el("p", { class: "replay-label" }, replay.label),
-    el("label", { for: "replay-question", class: "label" }, "Saved question"),
-    picker,
+    el("h2", { class: "picks-title" }, "Choose a question"),
+    el("div", { class: "picks" }, featured.map((pick) => button(pick.id, pick.note))),
+    others.length ? el("details", { class: "more-questions" },
+      el("summary", {}, `More questions (${others.length})`),
+      el("div", { class: "picks" }, others.map((question) => button(question.id, null)))) : null,
     el("p", { class: "muted" }, "Development questions of the project's benchmark. Each answer was generated once " +
       "and saved; choosing a question shows it again without calling any model.")));
   $("#empty").replaceChildren(el("h2", {}, "Choose a saved question"),
@@ -517,6 +605,7 @@ async function loadReplay() {
 
 function showSaved(id) {
   $("#state").replaceChildren();
+  for (const node of document.querySelectorAll(".pick")) node.setAttribute("aria-pressed", String(node.dataset.id === id));
   if (!id) {
     $("#result").replaceChildren();
     $("#result").hidden = true;
