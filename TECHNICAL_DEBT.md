@@ -110,6 +110,8 @@ the phase reports and are not asserted by the test suite.
 | TD-066 | A web demo test fails intermittently | Testing | Observed | Low | Open |
 | TD-067 | Summary sentences are checked for citations, not content | Answer quality | Observed | Medium | Open |
 | TD-068 | Claims of absence cannot be quoted | Answer quality | Observed | Medium | Open |
+| TD-069 | Yes/no and false-premise questions can be answered without an explicit yes or no | Answer quality | Observed | Medium | Open |
+| TD-070 | Quotations that cut off a condition make the support check reject correct claims | Answer quality | Observed | Medium | Open |
 
 ## Ingestion and chunking (Phase 2)
 
@@ -557,6 +559,26 @@ the phase reports and are not asserted by the test suite.
   - The support check therefore rates it partially supported, and it stays held apart. The repair pass could not confirm it either (`2026-11-24-research-repair`).
 - **Impact:** the main answer states the 72-hour rule but does not say that 96 hours is absent from the text. The Art. 33 caveat now names the 96-hour proposal (owner's decision, 2026-11-24).
 - **Follow-up:** a deterministic absence check. Accept a claim that a term does not appear only if the term does not occur in the text of the cited provision (normalised comparison), and mark the claim as an absence check rather than a quotation.
+
+### TD-069 · Yes/no and false-premise questions can be answered without an explicit yes or no
+- **Kind:** Observed · **Priority:** Medium · **Status:** Open
+- **Evidence:** a live question on `legal-rag-live.onrender.com`: "Is it true that every company with more than 250 employees must appoint a DPO?"
+  - The answer rests on correct claims from GDPR Art. 37(1) and Art. 30(5).
+  - It never says "no", and it does not state that the 250-employee threshold belongs to the records duty (Art. 30(5)), not to the appointment of a DPO (Art. 37(1)).
+  - The outcome is "answered", because every issue has a supported claim.
+- **Impact:** a reader must infer the direct answer from the claims. For a false premise, the correction is implicit.
+- **Related:** TD-068. The direct "no" is often a claim of absence ("the text sets no such threshold"), which cannot be quoted.
+- **Follow-up:** detect yes/no and false-premise questions in the query analysis and require a direct-answer claim that rests on the cited provisions. Either:
+  - the outcome rule treats a missing direct answer as a partial answer; or
+  - the page shows the direct answer as a sentence built from supported claims.
+
+### TD-070 · Quotations that cut off a condition make the support check reject correct claims
+- **Kind:** Observed · **Priority:** Medium · **Status:** Open
+- **Evidence:** live answers on `legal-rag-live.onrender.com`. A claim states a rule with its condition, but its quotation stops before the condition. The support check then rates the claim partially supported, and it is held apart although the provision states it:
+  - GDPR Art. 33(4): a claim about giving information "in fasi successive" (in phases). Its quotation leaves out "Qualora e nella misura in cui non sia possibile fornire le informazioni contestualmente".
+  - GDPR Art. 37(4): a claim about designating a DPO voluntarily. Its quotation leaves out "nei casi diversi da quelli di cui al paragrafo 1".
+- **Impact:** correct statements leave the answer, and the answer looks less complete than the evidence allows.
+- **Follow-up:** let the repair pass widen a quotation to the surrounding text of the same provision, so that it includes the condition, instead of only rewriting the claim. The usual deterministic check (an exact quotation from the cited item) and a second support check would still apply. Today the repair pass keeps the original quotations unchanged (`src/claim_repair.py`).
 
 ## Risks and questions for later phases
 
