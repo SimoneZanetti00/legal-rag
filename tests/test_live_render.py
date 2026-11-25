@@ -20,7 +20,7 @@ def test_the_blueprint():
                  "      - key: LLM_PROVIDER\n        value: anthropic",
                  "      - key: LLM_MODEL\n        value: claude-sonnet-5-5",
                  "      - key: ANTHROPIC_API_KEY\n        sync: false",
-                 "      - key: LIVE_CLIENT_IP_HEADER\n        value: X-Forwarded-For"):
+                 "      - key: LIVE_CLIENT_IP_HEADER\n        value: CF-Connecting-IP"):
         assert line in blueprint, line
     assert "sk-ant" not in blueprint  # the key is set in the dashboard, never here
     assert (ROOT / ".python-version").read_text(encoding="utf-8").strip() == "3.13"

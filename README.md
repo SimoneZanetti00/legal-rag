@@ -1,6 +1,9 @@
 # Legal Research RAG
 
-**Live demo:** [huggingface.co/spaces/SimoneZanetti00/legal-rag-demo](https://huggingface.co/spaces/SimoneZanetti00/legal-rag-demo). It replays saved answers, with no live model calls.
+**Live demo:** [legal-rag-live.onrender.com](https://legal-rag-live.onrender.com): ask your own
+question (research mode, daily limits; on free hosting it may take a minute to wake up).
+**Replay** of saved answers, with no live model calls:
+[huggingface.co/spaces/SimoneZanetti00/legal-rag-demo](https://huggingface.co/spaces/SimoneZanetti00/legal-rag-demo).
 
 A retrieval-augmented question-answering prototype for Italian data-protection law: the GDPR and
 the Italian Privacy Code.
@@ -76,7 +79,7 @@ The replay is a static site and can be hosted anywhere: see
 ```mermaid
 flowchart TD
   subgraph build["Corpus build: offline, reproducible, hash-checked"]
-    PDF["Source PDFs<br/>GDPR, OJ L 119 of 2016 (Italian)<br/>Privacy Code, user transcription"] --> SEG["Segment maps and exact anchors<br/>article text to page and character offsets"]
+    PDF["Source PDFs<br/>GDPR, OJ L 119 of 2016 (Italian)<br/>Privacy Code, author's transcription"] --> SEG["Segment maps and exact anchors<br/>article text to page and character offsets"]
     SEG --> STORE["Provision store: 321 articles<br/>tier per article: primary, internal_only, blocked"]
     LEDGER["Review ledger<br/>human review records"] --> STORE
   end
@@ -131,7 +134,7 @@ flowchart TD
 
 **Not established at all:** whether any provision is valid, in force or applicable at any date.
 The GDPR text is the 2016 original publication; the Privacy Code text is an unofficial
-transcription supplied by the user.
+transcription supplied by the author.
 
 ## Evaluation
 

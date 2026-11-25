@@ -315,3 +315,76 @@ def test_the_page_says_where_questions_go_and_links_the_replay():
     assert "showError(message, payload && payload.error ? payload.error.replay_url : null);" in js
     assert "Open the replay of saved answers" in js
 
+
+
+# --- HEAD, the author wording, display titles ----------------------------------------------------
+
+
+def head_and_get(port, path):
+    out = {}
+    for method in ("HEAD", "GET"):
+        conn = http.client.HTTPConnection("127.0.0.1", port, timeout=10)
+        conn.request(method, path, headers={"Host": f"127.0.0.1:{port}"})
+        reply = conn.getresponse()
+        out[method] = reply.status, dict(reply.getheaders()), reply.read()
+        conn.close()
+    return out
+
+
+def test_head_requests_get_the_get_headers_without_a_body(synthetic_result):
+    server = serve(web.DemoApp(Pipeline(synthetic_result), INFO))
+    port = server.server_address[1]
+    try:
+        for path, status in (("/", 200), ("/api/health", 200), ("/nothing", 404)):
+            replies = head_and_get(port, path)
+            (head_status, head_headers, head_body), (get_status, get_headers, get_body) = (
+                replies["HEAD"], replies["GET"])
+            assert head_status == get_status == status and head_body == b""
+            assert head_headers["Content-Length"] == get_headers["Content-Length"] == str(
+                len(get_body))
+            assert head_headers["Content-Type"] == get_headers["Content-Type"]
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
+def test_visitors_see_the_transcription_attributed_to_the_author():
+    from src.answer_generation import CorpusPreflight
+    from src.query_analysis import CORPUS_INSTRUMENTS
+    from src.source_status import author_wording
+    info = web.page_info(CorpusPreflight("build-test", (("internal_only", 1),), 0),
+                         provider="anthropic", model="m", semantic_verification=True)
+    code = info["instruments"]["it-dlgs-2003-196"]
+    assert "supplied by the author" in code and "by the user" not in code
+    assert "Author-provided" in info["qualifications"]["unofficial_transcription"]
+    # What the model reads is unchanged (prompt and recorded replies stay comparable).
+    assert "supplied by the user" in CORPUS_INSTRUMENTS["it-dlgs-2003-196"]
+    assert author_wording("User-provided transcription of the Code") == (
+        "Author-provided transcription of the Code")
+
+
+def test_the_source_status_names_the_author_and_leaves_the_registry_as_recorded():
+    import json
+    from pathlib import Path
+    from types import SimpleNamespace
+    from src.source_status import status_of
+    registry = json.loads((Path(web.__file__).resolve().parent.parent / "data" / "reference"
+                           / "instruments.json").read_text(encoding="utf-8"))
+    code = next(v for v in registry["versions"] if v["instrument_id"] == "it-dlgs-2003-196")
+    assert code["description"].startswith("User-provided transcription")  # recorded, unchanged
+    version = SimpleNamespace(version_kind="transcription", authenticity="user_transcription",
+                              description=code["description"], qualifications=())
+    provision = SimpleNamespace(review=SimpleNamespace(official_check=None, status="pending",
+                                                       checked_on=None),
+                                legal_validity="not_established")
+    item = SimpleNamespace(evidence_id="E1", provision_id="p", citable=False, reasons=())
+    statement = status_of(item, provision, version).statements[0]
+    assert statement.startswith("Unofficial transcription: Author-provided transcription")
+
+
+def test_displayed_titles_drop_the_amendment_markers_but_quotations_do_not():
+    js = (web.STATIC_DIR / "app.js").read_text(encoding="utf-8")
+    assert 'title.replaceAll("((", " ").replaceAll("))", " ")' in js
+    assert "${ref.title ? ` (${displayTitle(ref.title)})` : \"\"}" in js  # the chip's panel
+    assert "${ref.title ? ` — ${displayTitle(ref.title)}` : \"\"}" in js  # the source card
+    assert "displayTitle(quote" not in js and "`«${quote.text}»`" in js  # quotations as they are

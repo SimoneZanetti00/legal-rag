@@ -23,7 +23,7 @@ establish, or abstains. Research mode: the provisions have not been reviewed by 
   PyMuPDF (AGPL-3.0), which the corpus code imports; the complete source is in this Space's files
   and in that public repository.
 - **Sources and attribution:** [NOTICE.md](NOTICE.md). The GDPR text is from EUR-Lex (CC BY 4.0).
-  The Privacy Code text is from an unofficial user transcription, not verified against
+  The Privacy Code text is from an unofficial transcription supplied by the author, not verified against
   Normattiva or the Gazzetta Ufficiale.
 
 Experimental prototype. Not legal advice.

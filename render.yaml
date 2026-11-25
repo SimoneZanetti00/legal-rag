@@ -20,6 +20,8 @@ services:
       # Set in the Render dashboard when the Blueprint is created; never in this file.
       - key: ANTHROPIC_API_KEY
         sync: false
-      # The header that identifies a visitor (per-visitor limits); check it with GET /api/visitor.
+      # The header that identifies a visitor (per-visitor limits). Observed on Render (2026-11-25):
+      # the last X-Forwarded-For entry changes between requests of one PC; CF-Connecting-IP, set
+      # by Cloudflare, does not (docs/deploy-live.md). Check it with GET /api/visitor.
       - key: LIVE_CLIENT_IP_HEADER
-        value: X-Forwarded-For
+        value: CF-Connecting-IP

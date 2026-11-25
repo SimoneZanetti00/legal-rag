@@ -26,8 +26,8 @@ the answers quote it.
 
 - **Content:** the main body of the consolidated text, without annexes. The transcription states
   it is the text in force on 5-11-2026 («Vigente al: 5-11-2026»); that date is not verified.
-- **Source:** Text from an unofficial user transcription of the consolidated Privacy Code; not
-  verified against Normattiva or the Gazzetta Ufficiale.
+- **Source:** Text from an unofficial transcription of the consolidated Privacy Code, supplied
+  by the author; not verified against Normattiva or the Gazzetta Ufficiale.
 - **Changes:** as for the GDPR.
 
 ## Software

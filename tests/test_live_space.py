@@ -74,7 +74,7 @@ def test_the_notice_and_the_card_say_where_the_texts_come_from():
     notice = (HERE / "NOTICE.md").read_text(encoding="utf-8")
     assert "EUR-Lex (https://eur-lex.europa.eu), © European Union" in notice
     assert "CC BY 4.0" in notice
-    assert " ".join(notice.split()).count("Text from an unofficial user transcription of the consolidated Privacy Code; not verified against Normattiva or the Gazzetta Ufficiale.") == 1
+    assert " ".join(notice.split()).count("Text from an unofficial transcription of the consolidated Privacy Code, supplied by the author; not verified against Normattiva or the Gazzetta Ufficiale.") == 1
     assert "Fonte" not in notice and "non autentico" not in notice  # no Normattiva attribution
     assert "PyMuPDF" in notice and "AGPL-3.0" in notice
     card = (HERE / "README.md").read_text(encoding="utf-8")

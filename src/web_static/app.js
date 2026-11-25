@@ -345,6 +345,16 @@ function renderNotices(result) {
   return el("ul", { class: "notices" }, lines);
 }
 
+// Display only: the Code's article titles carry the transcription's amendment markers, e.g.
+// "(( (Autorità di controllo). ))", shown as "Autorità di controllo". Quoted text is never changed.
+function displayTitle(title) {
+  if (!title) return title;
+  let text = title.replaceAll("((", " ").replaceAll("))", " ").replace(/\s+/g, " ").trim();
+  const wrapped = text.match(/^\(([^()]*)\)\.?$/);
+  if (wrapped) text = wrapped[1].trim();
+  return text.replace(/\.$/, "");
+}
+
 function provisionName(ref) {
   const name = SHORT_NAMES[ref.instrument_id] || info.instruments[ref.instrument_id] || ref.instrument_id;
   return `${name} art. ${ref.label}${ref.point ? `, point ${ref.point}` : ""}`;
@@ -360,7 +370,7 @@ function renderStatement(claim, refById, statusById) {
     const panelId = `quote-${claim.claim_id}-${evidenceId}`;
     const panel = el("div", { class: "quote-panel", id: panelId, hidden: true },
       claim.quotes.filter((quote) => quote.evidence_id === evidenceId).map((quote) => el("blockquote", {}, `«${quote.text}»`)),
-      ref ? el("p", { class: "muted" }, `${provisionName(ref)} — ${ref.heading}${ref.title ? ` (${ref.title})` : ""}, ` +
+      ref ? el("p", { class: "muted" }, `${provisionName(ref)} — ${ref.heading}${ref.title ? ` (${displayTitle(ref.title)})` : ""}, ` +
         `${pages(ref.page_start, ref.page_end)} of the source PDF` + (pending(status) ? ". Human review pending: not verified." : ".")) : null);
     panels.push(panel);
     const chip = el("button", { type: "button", class: `chip-cite ${pending(status) ? "unreviewed" : ""}`,
@@ -429,7 +439,7 @@ function renderStatus(status) {
 
 function renderSource(ref, item, status) {
   const extent = ref.whole_provision ? "whole provision" : ref.point ? `point ${ref.point} only` : "excerpt";
-  const title = `${provisionName(ref)} · ${ref.heading}${ref.title ? ` — ${ref.title}` : ""}`;
+  const title = `${provisionName(ref)} · ${ref.heading}${ref.title ? ` — ${displayTitle(ref.title)}` : ""}`;
   const node = el("article", { class: `source ${pending(status) ? "unreviewed" : ""}`, id: `source-${ref.evidence_id}` },
     el("p", { class: "source-title" }, title),
     renderStatus(status),

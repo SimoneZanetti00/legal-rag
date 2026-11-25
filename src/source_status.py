@@ -36,6 +36,20 @@ CATEGORIES = {
     "unofficial_transcription": "Unofficial transcription",
 }
 MATCHES = ("identical", "identical_after_normalisation")
+# Display wording. The Privacy Code transcription was supplied by the project's author; the
+# registry and the corpus descriptions the model reads say "the user", which a visitor would take
+# for themselves. What the page shows names the author; recorded and hashed data are unchanged.
+AUTHOR_WORDING = (("User-provided transcription", "Author-provided transcription"),
+                  ("supplied by the user", "supplied by the author"))
+
+
+def author_wording(text: str) -> str:
+    """`text` as shown to visitors: the transcription attributed to the author, not "the user"."""
+    for old, new in AUTHOR_WORDING:
+        text = text.replace(old, new)
+    return text
+
+
 # The version qualifications that bear on its currency (QUALIFICATIONS codes).
 CURRENCY_CODES = ("original_publication_not_consolidated", "reference_date_unverified",
                   "source_marks_repealed")
@@ -80,7 +94,7 @@ def status_of(item: EvidenceItem, provision: Provision, version: Version) -> Sou
         category = "official_extraction_not_checked"
 
     statements = [
-        (f"Unofficial transcription: {version.description}" if unofficial
+        (f"Unofficial transcription: {author_wording(version.description)}" if unofficial
          else f"Official source: {version.description}")
         + ("" if unofficial or version.authenticity is not None
            else " The authenticity of this copy is not established."),

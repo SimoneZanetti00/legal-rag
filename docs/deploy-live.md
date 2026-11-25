@@ -74,7 +74,7 @@ web service. It says only that Render's load balancer terminates TLS, and that C
 provides DDoS protection.
 
 **How the server counts a visitor.** It uses the header named by `LIVE_CLIENT_IP_HEADER`
-(render.yaml: `X-Forwarded-For`):
+(render.yaml: `CF-Connecting-IP`, as observed below):
 - for `X-Forwarded-For`, the **last** entry, the one appended by the proxy closest to the server.
   A client can add entries in front of it, but not change it;
 - for any other header, its whole value.
@@ -106,10 +106,24 @@ or **step 2 gives the same key** (every visitor looks alike):
 
 The global limits hold in every case: 40 questions and $1.50 between restarts.
 
+**What we observed on Render** (`legal-rag-live.onrender.com`, 2026-11-24 and 2026-11-25):
+- Requests arrive with **3 `X-Forwarded-For` entries**, and with **`True-Client-IP`** and
+  **`CF-Connecting-IP`**.
+- **The last `X-Forwarded-For` entry is not the client.** With the default setting, the same PC
+  got different visitor keys from the browser and from curl.
+- **`CF-Connecting-IP` is.** With `LIVE_CLIENT_IP_HEADER=CF-Connecting-IP`, the startup log
+  reads "visitors counted by CF-Connecting-IP", and the key is stable for one PC.
+- **Forged headers do not move the count.** A request with a forged `X-Forwarded-For` entry or a
+  forged `True-Client-IP` header keeps the same key. A request that sends its own
+  `CF-Connecting-IP` is rejected by Cloudflare (error 1000) before it reaches the service.
+
+render.yaml therefore sets `LIVE_CLIENT_IP_HEADER=CF-Connecting-IP`, so the setting survives
+Blueprint syncs.
+
 ## Settings
 
 The Blueprint sets `LLM_PROVIDER=anthropic`, `LLM_MODEL=claude-sonnet-5-5` and
-`LIVE_CLIENT_IP_HEADER=X-Forwarded-For`.
+`LIVE_CLIENT_IP_HEADER=CF-Connecting-IP`.
 
 `ANTHROPIC_API_KEY` is declared with `sync: false`:
 - Render asks for its value once, when the Blueprint is created. It is never in the repository.
@@ -159,8 +173,8 @@ The click-by-click steps on the Render website:
 The repository now contains the recorded build, including `corpus.jsonl`: the full extracted text
 of both acts.
 - the GDPR, as published in the Official Journal;
-- the Privacy Code, from an **unofficial user transcription**, not verified against Normattiva or
-  the Gazzetta Ufficiale.
+- the Privacy Code, from an **unofficial transcription supplied by the author**, not verified
+  against Normattiva or the Gazzetta Ufficiale.
 
 Its PDF is not in the repository. The sources, attribution and licences are in
 [deploy/live-space/NOTICE.md](../deploy/live-space/NOTICE.md).

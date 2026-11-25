@@ -96,7 +96,7 @@ from src.query_analysis import (
     QueryAnalysisError,
     check_question,
 )
-from src.source_status import CATEGORIES, evidence_status
+from src.source_status import CATEGORIES, author_wording, evidence_status
 
 HOST = "127.0.0.1"
 DEFAULT_PORT = 8000
@@ -295,6 +295,13 @@ class _Handler(BaseHTTPRequestHandler):
     def app(self) -> DemoApp:
         return self.server.app  # type: ignore[attr-defined]
 
+    head_only = False  # set while answering HEAD: the GET reply without its body
+
+    def do_HEAD(self) -> None:  # noqa: N802
+        """GET's status and headers, without the body (uptime checks send HEAD /)."""
+        self.head_only = True
+        self.do_GET()
+
     def do_GET(self) -> None:  # noqa: N802 - the http.server naming
         path = urlsplit(self.path).path
         if not self._from_this_server():
@@ -403,7 +410,8 @@ class _Handler(BaseHTTPRequestHandler):
         for name, value in {**security, **(headers or {})}.items():
             self.send_header(name, value)
         self.end_headers()
-        self.wfile.write(body)
+        if not self.head_only:
+            self.wfile.write(body)
 
     def log_message(self, format: str, *args: Any) -> None:  # noqa: A002 - http.server API
         # Method, path and status only: the question is in the body, never in the log.
@@ -443,9 +451,10 @@ def page_info(preflight: CorpusPreflight, *, provider: str, model: str,
         "model": model,
         "semantic_verification": semantic_verification,
         "max_question_chars": MAX_QUESTION_CHARS,
-        "instruments": dict(CORPUS_INSTRUMENTS),
+        # Shown to visitors: the transcription attributed to the author (source_status).
+        "instruments": {iid: author_wording(name) for iid, name in CORPUS_INSTRUMENTS.items()},
         "reasons": dict(REASONS),
-        "qualifications": dict(QUALIFICATIONS),
+        "qualifications": {code: author_wording(text) for code, text in QUALIFICATIONS.items()},
         "source_categories": dict(CATEGORIES),
         "model_notes_label": MODEL_NOTES_LABEL,
     }
