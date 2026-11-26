@@ -52,7 +52,7 @@ LIVE_URL = "https://legal-rag-live.onrender.com"
 FEATURED = (("a12", "Answers a false premise with the text in force (72 hours) and flags the 96-hour proposal"),
             ("a10", "Links the GDPR to the Italian Code (Garante)"),
             ("a09", "Abstains outside its scope"),
-            ("a06", "Says honestly what it could not establish"))
+            ("a06", "Holds apart a statement its sources do not fully support (portability)"))
 LIVE_FOOTER = ("Local server. Questions and evidence are sent to Anthropic's API for analysis, "
                "generation and verification.")
 REPLAY_FOOTER = ("Static replay: nothing you do on this page is sent to a server or a model. The "

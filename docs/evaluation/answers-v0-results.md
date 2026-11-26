@@ -206,7 +206,7 @@ report was regenerated; their all-rows figures are unchanged.
    - no summary;
    - results and report otherwise identical.
 
-   The replay in `demo/replay/` comes from this re-render.
+   The replay in `demo/replay/` came from this re-render until 2026-11-24.
 
 ## Repair pass: `2026-11-24-research-repair`
 
@@ -231,7 +231,7 @@ The outcome rule is unchanged.
   repair message now names the answer's language.
 - **Re-render:** `2026-11-24-research-repair-caveat` re-renders the run offline with the new Art.
   33 caveat. Only the qualifications of the five answers citing Art. 33 changed, and the report is
-  identical. The replay in `demo/replay/` comes from this re-render.
+  identical. The replay in `demo/replay/` came from this re-render until 2026-11-26.
 
 | Question | Expected | Outcome (before → after) | Claims in answer / held apart (before → after) | Core in citations (before → after) | Repaired / not confirmed |
 |---|---|---|---|---|---|
@@ -588,6 +588,11 @@ than M1: each analysis, answer and check is a new sample.**
 **How it ran:** all 25 questions live, for $1.702 under a $2.00 budget guard (511k input and 68k
 output tokens). The baseline is `2026-11-26-repair-v2`, with a07 and a24 from
 `2026-11-26-repair-v2-cap350`; this run uses `claim-repair-v2.1` on every question.
+
+**The replay in `demo/replay/` now shows this run** (dev questions a01–a12, exported offline on
+2026-11-26). a12 shows the explicit "No", and a06, now a complete answer, is captioned for the
+statement it holds apart (portability). Compared with the previous replay, a01 is now
+`answer_limited` (the model reported it as only partly answered) and a06 is `answer`.
 
 ### M1's own effect
 
