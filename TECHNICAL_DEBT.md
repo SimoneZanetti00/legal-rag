@@ -562,11 +562,16 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-069 · Yes/no and false-premise questions can be answered without an explicit yes or no
 - **Kind:** Observed · **Priority:** Medium · **Status:** Open
-- **Evidence:** a live question on `legal-rag-live.onrender.com`: "Is it true that every company with more than 250 employees must appoint a DPO?"
-  - The answer rests on correct claims from GDPR Art. 37(1) and Art. 30(5).
-  - It never says "no", and it does not state that the 250-employee threshold belongs to the records duty (Art. 30(5)), not to the appointment of a DPO (Art. 37(1)).
-  - The outcome is "answered", because every issue has a supported claim.
-- **Impact:** a reader must infer the direct answer from the claims. For a false premise, the correction is implicit.
+- **Evidence:** live questions on `legal-rag-live.onrender.com`.
+  - "Is it true that every company with more than 250 employees must appoint a DPO?"
+    - The answer rests on correct claims from GDPR Art. 37(1) and Art. 30(5).
+    - It never says "no", and it does not state that the 250-employee threshold belongs to the records duty (Art. 30(5)), not to the appointment of a DPO (Art. 37(1)).
+    - The outcome is "answered", because every issue has a supported claim.
+  - "Il diritto alla portabilità dei dati si applica anche ai trattamenti basati sul legittimo interesse?", asked twice:
+    - the first run kept the "no" only in the model notes, which are not part of the answer;
+    - the second run stated it in the answer, as a labelled interpretation.
+- **The behaviour is intermittent.** Whether the direct answer reaches the answer varies from run to run on the same question. The benchmark figures come from single runs (`docs/evaluation/answers-v0-results.md`) and do not capture this variance.
+- **Impact:** a reader must infer the direct answer from the claims, or find it in the model notes. For a false premise, the correction is implicit.
 - **Related:** TD-068. The direct "no" is often a claim of absence ("the text sets no such threshold"), which cannot be quoted.
 - **Follow-up:** detect yes/no and false-premise questions in the query analysis and require a direct-answer claim that rests on the cited provisions. Either:
   - the outcome rule treats a missing direct answer as a partial answer; or
