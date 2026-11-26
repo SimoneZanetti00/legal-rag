@@ -1,0 +1,109 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": false,
+    "issues": [],
+    "language": "en",
+    "question_type": "open",
+    "scope_reason": "The question concerns German company formation law, which is neither personal data protection under the GDPR nor the Italian Privacy Code.",
+    "search_queries_it": [],
+    "suggested_provisions": [],
+    "uncertainty": null
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRW5NLYB4RNCKcrTYGDU"
+   ],
+   "schema_sha256": "44a4fa3ecc2b31d500358c55fe81e75dce0659d91f641eb8fd347a9945846497",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "481fd16e7ae346f1abd42c6d42db919a7c320600408e22ecf444029200f5a87d",
+   "task": "query_analysis",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 2231,
+    "output_tokens": 115
+   },
+   "user_sha256": "28dd683e292048b85093a5b538cf93bf120331f9f323d4062695dd99c64e3a79"
+  }
+ ],
+ "query_id": "a09",
+ "question": "What are the legal requirements for establishing a company in Germany?",
+ "rendered": "question: What are the legal requirements for establishing a company in Germany?\noutcome: ABSTAIN (out_of_scope)\n  The query analysis assessed the question as outside the corpus, which covers the GDPR and the Italian Privacy Code.\nas of: 2026-11-26\nExperimental prototype. Not legal advice.\n\nissues found by the query analysis (questions written by the model, not answers; query-analysis-v4):\n\nqualifications:\n  - RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.\n  - This system does not establish whether any provision is legally valid, in force or applicable at any date.\n  - As-of date 2026-11-26: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later.\n\ncorpus preflight: build build-f76ff6031f2fc82c4852f0a2bde27807; articles: 2 blocked, 319 internal_only; 0 citable\nmodels: analysis anthropic/claude-sonnet-5-5, 1 attempt(s); generation: not run",
+ "result": {
+  "abstention_detail": "The query analysis assessed the question as outside the corpus, which covers the GDPR and the Italian Privacy Code.",
+  "abstention_reason": "out_of_scope",
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": false,
+   "issues": [],
+   "language": "en",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v4",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011ChRW5NLYB4RNCKcrTYGDU"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "What are the legal requirements for establishing a company in Germany?",
+   "question_type": "open",
+   "rejected_suggestions": [],
+   "scope_reason": "The question concerns German company formation law, which is neither personal data protection under the GDPR nor the Italian Privacy Code.",
+   "search_queries_it": [],
+   "suggested_provisions": [],
+   "uncertainty": null
+  },
+  "as_of": "2026-11-26",
+  "citations": [],
+  "claims": [],
+  "direct_answer": null,
+  "evidence": null,
+  "generation": null,
+  "mode": "research",
+  "model_notes": [],
+  "non_authoritative": [],
+  "outcome": "abstain",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "As-of date 2026-11-26: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later."
+  ],
+  "question": "What are the legal requirements for establishing a company in Germany?",
+  "question_references": [],
+  "rejected_claims": [],
+  "repair": null,
+  "repair_verification": null,
+  "summary": null,
+  "summary_claim_ids": [],
+  "unanswered_issues": [],
+  "verification": null,
+  "warnings": []
+ },
+ "split": "dev",
+ "usage": {
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": 0.005612,
+  "input_tokens": 2231,
+  "output_tokens": 115
+ }
+}

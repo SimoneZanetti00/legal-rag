@@ -1,0 +1,1273 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Il diritto alla portabilità dei dati si applica anche ai trattamenti basati sul legittimo interesse del titolare del trattamento?"
+     }
+    ],
+    "language": "it",
+    "question_type": "yes_no",
+    "scope_reason": "La domanda riguarda l'ambito di applicazione del diritto alla portabilità dei dati ai sensi del GDPR, in relazione alla base giuridica del legittimo interesse.",
+    "search_queries_it": [
+     "diritto alla portabilità dei dati",
+     "portabilità trattamento basato sul consenso o su un contratto",
+     "trattamento effettuato con mezzi automatizzati portabilità",
+     "legittimo interesse del titolare del trattamento",
+     "condizioni di liceità del trattamento"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "20",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "condizioni e ambito del diritto alla portabilità dei dati"
+     },
+     {
+      "article": "6",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "basi giuridiche del trattamento, tra cui il legittimo interesse (par. 1, lett. f)"
+     },
+     {
+      "article": "21",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "diritto di opposizione ai trattamenti fondati sul legittimo interesse, in relazione alla portabilità"
+     }
+    ],
+    "uncertainty": "Le linee guida del Gruppo di lavoro Articolo 29 sulla portabilità non fanno parte del corpus; la questione dipende dal testo dell'art. 20 GDPR."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRWSGgYfES2ut9WSrvxP"
+   ],
+   "schema_sha256": "44a4fa3ecc2b31d500358c55fe81e75dce0659d91f641eb8fd347a9945846497",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "481fd16e7ae346f1abd42c6d42db919a7c320600408e22ecf444029200f5a87d",
+   "task": "query_analysis",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 2251,
+    "output_tokens": 549
+   },
+   "user_sha256": "296f94a367869fd228ad41cea6e887190d63b3daaa3be12577b00f281297e8c7"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "il trattamento si basi sul consenso ai sensi dell'articolo 6, paragrafo 1, lettera a), o dell'articolo 9, paragrafo 2, lettera a), o su un contratto ai sensi dell'articolo 6, paragrafo 1, lettera b); e"
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "il trattamento sia effettuato con mezzi automatizzati."
+       }
+      ],
+      "text": "Ai sensi dell'art. 20, par. 1, il diritto alla portabilità sussiste qualora il trattamento si basi sul consenso (art. 6, par. 1, lett. a, o art. 9, par. 2, lett. a) o su un contratto (art. 6, par. 1, lett. b), e sia effettuato con mezzi automatizzati."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi"
+       }
+      ],
+      "text": "Il legittimo interesse del titolare o di terzi è previsto come condizione di liceità distinta, alla lettera f) dell'art. 6, par. 1."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "il trattamento si basi sul consenso ai sensi dell'articolo 6, paragrafo 1, lettera a), o dell'articolo 9, paragrafo 2, lettera a), o su un contratto ai sensi dell'articolo 6, paragrafo 1, lettera b); e"
+       },
+       {
+        "evidence_id": "E2",
+        "quote": "il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi"
+       }
+      ],
+      "text": "L'art. 20, par. 1, non menziona l'art. 6, par. 1, lett. f) tra le basi giuridiche che attivano la portabilità: dal testo dell'art. 20 risulta quindi che il diritto non si applica ai trattamenti fondati sul legittimo interesse."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "al trattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f)"
+       }
+      ],
+      "text": "Per i trattamenti basati sul legittimo interesse, l'art. 21 prevede invece il diritto di opposizione."
+     }
+    ],
+    "direct_answer": {
+     "claims": [
+      1,
+      2,
+      3
+     ],
+     "text": "No: l'art. 20 collega la portabilità solo a consenso e contratto, non al legittimo interesse.",
+     "value": "no"
+    },
+    "limitations": [
+     "Le linee guida del Gruppo di lavoro Articolo 29 non fanno parte del corpus: la risposta si fonda solo sul testo dell'art. 20 GDPR.",
+     "La conclusione è un'inferenza dal fatto che l'art. 20, par. 1 elenca solo consenso e contratto; il testo non afferma espressamente l'esclusione del legittimo interesse."
+    ],
+    "outcome": "answer",
+    "summary": "L'art. 20 limita la portabilità ai trattamenti basati su consenso o contratto e svolti con mezzi automatizzati [1]. Il legittimo interesse è una base distinta, non richiamata dall'art. 20 [2][3]. Per tali trattamenti è previsto il diritto di opposizione [4].",
+    "unanswered_issues": []
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRWScAKW5tVKJjbNgiLL"
+   ],
+   "schema_sha256": "dedeb6e7acb216de7cf3c79876fb6fec53f6e5fde501144a46ecca6c70db3ba9",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "94c6c4ab7289f9a4547c56627299181dde9c643bcf819ced35f9df90a6f18272",
+   "task": "answer_generation",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 12575,
+    "output_tokens": 1248
+   },
+   "user_sha256": "f7694d54807d636b4a72523bd7061f08a5faa843145b21ffce9a1a74ede95139"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "partially_supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRWTBnter7F4tGKg6uAo"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 4606,
+    "output_tokens": 87
+   },
+   "user_sha256": "ee432505467119a1c800aad049d721de4d96ee4ea4e171e7da0136b41fc6d782"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "repairs": [
+     {
+      "claim_id": "C4",
+      "rewrites": [
+       {
+        "quotes": [
+         {
+          "n": 1,
+          "widened": "L'interessato ha il diritto di opporsi in qualsiasi momento, per motivi connessi alla sua situazione particolare, al trattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f)"
+         }
+        ],
+        "text": "L'art. 21 prevede il diritto dell'interessato di opporsi, per motivi connessi alla sua situazione particolare, al trattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f)."
+       }
+      ]
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRWTHs1wtGAg8TamNrLR"
+   ],
+   "schema_sha256": "d006159aacc0a36afe66c4819f0f76cbf723fe7e17f321024aad5a19d898b902",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "2f52eda14e96f546dd70289a91a966dfb94803182102b9f19717be0d3ab82770",
+   "task": "claim_repair",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 2245,
+    "output_tokens": 240
+   },
+   "user_sha256": "1bd7bcd66ac7b62a0d01efc879825181e1a643bd22cccb7023bb4cd6252dcf1b"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRWTTvzgYcd8FaJ8nmZ6"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 1753,
+    "output_tokens": 30
+   },
+   "user_sha256": "95f3725e1c7c525e3dda01dda30dac3f2f9f75d8ae5ea3045129cc1df9ab35f8"
+  }
+ ],
+ "query_id": "a25",
+ "question": "Il diritto alla portabilità dei dati si applica anche ai trattamenti basati sul legittimo interesse?",
+ "rendered": "question: Il diritto alla portabilità dei dati si applica anche ai trattamenti basati sul legittimo interesse?\noutcome: ANSWER\nas of: 2026-11-26\nExperimental prototype. Not legal advice.\n\nissues found by the query analysis (questions written by the model, not answers; query-analysis-v4):\n  I1  Il diritto alla portabilità dei dati si applica anche ai trattamenti basati sul legittimo interesse del titolare del trattamento?\n  search queries: diritto alla portabilità dei dati; portabilità trattamento basato sul consenso o su un contratto; trattamento effettuato con mezzi automatizzati portabilità; legittimo interesse del titolare del trattamento; condizioni di liceità del trattamento\n\nanswer (each claim with its quotations; quotations are checked against the evidence, support was assessed by a model, which is not legal validation):\n  direct answer (an interpretation of the statements it rests on: C1, C2, C3): NO. No: l'art. 20 collega la portabilità solo a consenso e contratto, non al legittimo interesse.\n  C1 [I1] (source statement; support: supported) Ai sensi dell'art. 20, par. 1, il diritto alla portabilità sussiste qualora il trattamento si basi sul consenso (art. 6, par. 1, lett. a, o art. 9, par. 2, lett. a) o su un contratto (art. 6, par. 1, lett. b), e sia effettuato con mezzi automatizzati.\n      E1: «il trattamento si basi sul consenso ai sensi dell'articolo 6, paragrafo 1, lettera a), o dell'articolo 9, paragrafo 2, lettera a), o su un contratto ai sensi dell'articolo 6, paragrafo 1, lettera b); e»\n      E1: «il trattamento sia effettuato con mezzi automatizzati.»\n  C2 [I1] (source statement; support: supported) Il legittimo interesse del titolare o di terzi è previsto come condizione di liceità distinta, alla lettera f) dell'art. 6, par. 1.\n      E2: «il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi»\n  C3 [I1] (inference; support: supported) L'art. 20, par. 1, non menziona l'art. 6, par. 1, lett. f) tra le basi giuridiche che attivano la portabilità: dal testo dell'art. 20 risulta quindi che il diritto non si applica ai trattamenti fondati sul legittimo interesse.\n      E1: «il trattamento si basi sul consenso ai sensi dell'articolo 6, paragrafo 1, lettera a), o dell'articolo 9, paragrafo 2, lettera a), o su un contratto ai sensi dell'articolo 6, paragrafo 1, lettera b); e»\n      E2: «il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi»\n  C4 [I1] (source statement; support: supported; repaired) L'art. 21 prevede il diritto dell'interessato di opporsi, per motivi connessi alla sua situazione particolare, al trattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f).\n      E3: «L'interessato ha il diritto di opporsi in qualsiasi momento, per motivi connessi alla sua situazione particolare, al trattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f)»\n        widened by the repair pass from: «al trattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f)»\n      rewritten from: Per i trattamenti basati sul legittimo interesse, l'art. 21 prevede invece il diritto di opposizione.\n\ncitations (sources of the answer; in research mode they may be pending human review, as each source's qualifications and status say):\n  [E1] eu-reg-2016-679 Articolo 20 Diritto alla portabilità dei dati (page 45)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:20; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E2] eu-reg-2016-679 Articolo 6 Liceità del trattamento (pages 36-37)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:6; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E3] eu-reg-2016-679 Articolo 21 Diritto di opposizione (pages 45-46)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:21; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n\nMODEL NOTES — UNVERIFIED — NOT PART OF THE LEGAL ANSWER\n  (written by the model; checked only for references to provisions outside the evidence)\n  - La conclusione è un'inferenza dal fatto che l'art. 20, par. 1 elenca solo consenso e contratto; il testo non afferma espressamente l'esclusione del legittimo interesse.\n\nqualifications:\n  - MODALITÀ DIMOSTRATIVA DI RICERCA: questo risultato può basarsi su disposizioni il cui testo non ha superato la revisione umana. Ogni fonte qui sotto indica il proprio stato di revisione; una fonte in attesa di revisione non è citabile in modalità verificata e non va considerata verificata.\n  - Questo sistema non stabilisce se una disposizione sia giuridicamente valida, in vigore o applicabile a una qualsiasi data.\n  - Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.\n  - 5 further candidate provisions were left out by the evidence limits (max_items).\n  - Data di riferimento 2026-11-26: questa risposta riflette i testi presenti nel corpus a tale data. Non stabilisce il diritto vigente a quella data o successivamente.\n\ncorpus preflight: build build-f76ff6031f2fc82c4852f0a2bde27807; articles: 2 blocked, 319 internal_only; 0 citable\nevidence: build build-f76ff6031f2fc82c4852f0a2bde27807; 12 items (0 citable); about 7971 tokens\nwarnings: no_item_citable_in_verified_mode; model_note_removed: unsupported reference articolo 29\nmodels: analysis anthropic/claude-sonnet-5-5, 1 attempt(s); generation anthropic/claude-sonnet-5-5, 1 attempt(s); support check anthropic/claude-sonnet-5-5, 1 attempt(s)",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Il diritto alla portabilità dei dati si applica anche ai trattamenti basati sul legittimo interesse del titolare del trattamento?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v4",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011ChRWSGgYfES2ut9WSrvxP"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Il diritto alla portabilità dei dati si applica anche ai trattamenti basati sul legittimo interesse?",
+   "question_type": "yes_no",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda l'ambito di applicazione del diritto alla portabilità dei dati ai sensi del GDPR, in relazione alla base giuridica del legittimo interesse.",
+   "search_queries_it": [
+    "diritto alla portabilità dei dati",
+    "portabilità trattamento basato sul consenso o su un contratto",
+    "trattamento effettuato con mezzi automatizzati portabilità",
+    "legittimo interesse del titolare del trattamento",
+    "condizioni di liceità del trattamento"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "20",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "condizioni e ambito del diritto alla portabilità dei dati"
+    },
+    {
+     "article": "6",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "basi giuridiche del trattamento, tra cui il legittimo interesse (par. 1, lett. f)"
+    },
+    {
+     "article": "21",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "diritto di opposizione ai trattamenti fondati sul legittimo interesse, in relazione alla portabilità"
+    }
+   ],
+   "uncertainty": "Le linee guida del Gruppo di lavoro Articolo 29 sulla portabilità non fanno parte del corpus; la questione dipende dal testo dell'art. 20 GDPR."
+  },
+  "as_of": "2026-11-26",
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 20",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "20",
+    "legal_validity": "not_established",
+    "page_end": 45,
+    "page_start": 45,
+    "path": "CAPO III > Sezione 3 > Articolo 20",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:20",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Diritto alla portabilità dei dati",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 6",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "6",
+    "legal_validity": "not_established",
+    "page_end": 37,
+    "page_start": 36,
+    "path": "CAPO II > Articolo 6",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Liceità del trattamento",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 21",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "21",
+    "legal_validity": "not_established",
+    "page_end": 46,
+    "page_start": 45,
+    "path": "CAPO III > Sezione 4 > Articolo 21",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:21",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Diritto di opposizione",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "il trattamento si basi sul consenso ai sensi dell'articolo 6, paragrafo 1, lettera a), o dell'articolo 9, paragrafo 2, lettera a), o su un contratto ai sensi dell'articolo 6, paragrafo 1, lettera b); e",
+      "widened_from": null
+     },
+     {
+      "evidence_id": "E1",
+      "text": "il trattamento sia effettuato con mezzi automatizzati.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "Ai sensi dell'art. 20, par. 1, il diritto alla portabilità sussiste qualora il trattamento si basi sul consenso (art. 6, par. 1, lett. a, o art. 9, par. 2, lett. a) o su un contratto (art. 6, par. 1, lett. b), e sia effettuato con mezzi automatizzati.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "Il legittimo interesse del titolare o di terzi è previsto come condizione di liceità distinta, alla lettera f) dell'art. 6, par. 1.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E1",
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "il trattamento si basi sul consenso ai sensi dell'articolo 6, paragrafo 1, lettera a), o dell'articolo 9, paragrafo 2, lettera a), o su un contratto ai sensi dell'articolo 6, paragrafo 1, lettera b); e",
+      "widened_from": null
+     },
+     {
+      "evidence_id": "E2",
+      "text": "il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "L'art. 20, par. 1, non menziona l'art. 6, par. 1, lett. f) tra le basi giuridiche che attivano la portabilità: dal testo dell'art. 20 risulta quindi che il diritto non si applica ai trattamenti fondati sul legittimo interesse.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "L'interessato ha il diritto di opporsi in qualsiasi momento, per motivi connessi alla sua situazione particolare, al trattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f)",
+      "widened_from": "al trattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f)"
+     }
+    ],
+    "repaired_from": "Per i trattamenti basati sul legittimo interesse, l'art. 21 prevede invece il diritto di opposizione.",
+    "text": "L'art. 21 prevede il diritto dell'interessato di opporsi, per motivi connessi alla sua situazione particolare, al trattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f).",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "direct_answer": {
+   "claim_ids": [
+    "C1",
+    "C2",
+    "C3"
+   ],
+   "status": "shown",
+   "text": "No: l'art. 20 collega la portabilità solo a consenso e contratto, non al legittimo interesse.",
+   "value": "no"
+  },
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "89",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:21"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:89",
+     "reason": "max_items",
+     "tokens": 698
+    },
+    {
+     "label": "46",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:46",
+     "reason": "max_items",
+     "tokens": 984
+    },
+    {
+     "label": "47",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:47",
+     "reason": "max_items",
+     "tokens": 1807
+    },
+    {
+     "label": "49",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:49",
+     "reason": "max_items",
+     "tokens": 1424
+    },
+    {
+     "label": "34",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+     "reason": "max_items",
+     "tokens": 608
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 228786,
+       "char_start": 227464,
+       "page": 45,
+       "page_end": 45
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0262-6740676e"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 20",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "20",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:2",
+      "query:3"
+     ],
+     "page_end": 45,
+     "page_start": 45,
+     "path": "CAPO III > Sezione 3 > Articolo 20",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:20",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 20\n\nDiritto alla portabilità dei dati\n\n1.\nL'interessato ha il diritto di ricevere in un formato strutturato, di uso comune e leggibile da dispositivo automatico \ni dati personali che lo riguardano forniti a un titolare del trattamento e ha il diritto di trasmettere tali dati a un altro \ntitolare del trattamento senza impedimenti da parte del titolare del trattamento cui li ha forniti qualora:\n\na)  il trattamento si basi sul consenso ai sensi dell'articolo 6, paragrafo 1, lettera a), o dell'articolo 9, paragrafo 2,\n\nlettera a), o su un contratto ai sensi dell'articolo 6, paragrafo 1, lettera b); e\n\nb)  il trattamento sia effettuato con mezzi automatizzati.\n\n2.\nNell'esercitare i propri diritti relativamente alla portabilità dei dati a norma del paragrafo 1, l'interessato ha il \ndiritto di ottenere la trasmissione diretta dei dati personali da un titolare del trattamento all'altro, se tecnicamente \nfattibile.\n\n3.\nL'esercizio del diritto di cui al paragrafo 1 del presente articolo lascia impregiudicato l'articolo 17. Tale diritto non \nsi applica al trattamento necessario per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di \npubblici poteri di cui è investito il titolare del trattamento.\n\n4.\nIl diritto di cui al paragrafo 1 non deve ledere i diritti e le libertà altrui.",
+     "tier": "internal_only",
+     "title": "Diritto alla portabilità dei dati",
+     "tokens": 441,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 196796,
+       "char_start": 194068,
+       "page": 36,
+       "page_end": 36
+      },
+      {
+       "char_end": 198509,
+       "char_start": 196860,
+       "page": 37,
+       "page_end": 37
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0223-3074f5c6",
+      "doc-8f7504d289853f57-0221-8f546e68"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 6",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "6",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:5",
+      "query:4",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:20",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:21",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13"
+     ],
+     "page_end": 37,
+     "page_start": 36,
+     "path": "CAPO II > Articolo 6",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 6\n\nLiceità del trattamento\n\n1.\nIl trattamento è lecito solo se e nella misura in cui ricorre almeno una delle seguenti condizioni:\n\na)  l'interessato ha espresso il consenso al trattamento dei propri dati personali per una o più specifiche finalità;\n\nb) il trattamento è necessario all'esecuzione di un contratto di cui l'interessato è parte o all'esecuzione di misure precon­\n\ntrattuali adottate su richiesta dello stesso;\n\nc)  il trattamento è necessario per adempiere un obbligo legale al quale è soggetto il titolare del trattamento;\n\nd)  il trattamento è necessario per la salvaguardia degli interessi vitali dell'interessato o di un'altra persona fisica;\n\ne)  il trattamento è necessario per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici\n\npoteri di cui è investito il titolare del trattamento;\n\nf)  il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi, a\n\ncondizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la \nprotezione dei dati personali, in particolare se l'interessato è un minore.\n\nLa lettera f) del primo comma non si applica al trattamento di dati effettuato dalle autorità pubbliche nell'esecuzione dei \nloro compiti.\n\n2.\nGli Stati membri possono mantenere o introdurre disposizioni più specifiche per adeguare l'applicazione delle \nnorme del presente regolamento con riguardo al trattamento, in conformità del paragrafo 1, lettere c) ed e), \ndeterminando con maggiore precisione requisiti specifici per il trattamento e altre misure atte a garantire un trattamento \nlecito e corretto anche per le altre specifiche situazioni di trattamento di cui al capo IX.\n\n3.\nLa base su cui si fonda il trattamento dei dati di cui al paragrafo 1, lettere c) ed e), deve essere stabilita:\n\na)  dal diritto dell'Unione; o\n\nb)  dal diritto dello Stato membro cui è soggetto il titolare del trattamento.\n\nLa finalità del trattamento è determinata in tale base giuridica o, per quanto riguarda il trattamento di cui al paragrafo 1, \nlettera e), è necessaria per l'esecuzione di un compito svolto nel pubblico interesse o connesso all'esercizio di pubblici \npoteri di cui è investito il titolare del trattamento. Tale base giuridica potrebbe contenere disposizioni specifiche per \nadeguare l'applicazione delle norme del presente regolamento, tra cui: le condizioni generali relative alla liceità del \ntrattamento da parte del titolare del trattamento; le tipologie di dati oggetto del trattamento; gli interessati; i soggetti cui \npossono essere comunicati i dati personali e le finalità per cui sono comunicati; le limitazioni della finalità, i periodi di\n\nconservazione e le operazioni e procedure di trattamento, comprese le misure atte a garantire un trattamento lecito e \ncorretto, quali quelle per altre specifiche situazioni di trattamento di cui al capo IX. Il diritto dell'Unione o degli Stati \nmembri persegue un obiettivo di interesse pubblico ed è proporzionato all'obiettivo legittimo perseguito.\n\n4.\nLaddove il trattamento per una finalità diversa da quella per la quale i dati personali sono stati raccolti non sia \nbasato sul consenso dell'interessato o su un atto legislativo dell'Unione o degli Stati membri che costituisca una misura \nnecessaria e proporzionata in una società democratica per la salvaguardia degli obiettivi di cui all'articolo 23, \nparagrafo 1, al fine di verificare se il trattamento per un'altra finalità sia compatibile con la finalità per la quale i dati \npersonali sono stati inizialmente raccolti, il titolare del trattamento tiene conto, tra l'altro:\n\na)  di ogni nesso tra le finalità per cui i dati personali sono stati raccolti e le finalità dell'ulteriore trattamento previsto;\n\nb)  del contesto in cui i dati personali sono stati raccolti, in particolare relativamente alla relazione tra l'interessato e il\n\ntitolare del trattamento;\n\nc) della natura dei dati personali, specialmente se siano trattate categorie particolari di dati personali ai sensi dell'ar­\n\nticolo 9, oppure se siano trattati dati relativi a condanne penali e a reati ai sensi dell'articolo 10;\n\nd)  delle possibili conseguenze dell'ulteriore trattamento previsto per gli interessati;\n\ne)  dell'esistenza di garanzie adeguate, che possono comprendere la cifratura o la pseudonimizzazione.",
+     "tier": "internal_only",
+     "title": "Liceità del trattamento",
+     "tokens": 1459,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 230022,
+       "char_start": 228891,
+       "page": 45,
+       "page_end": 45
+      },
+      {
+       "char_end": 230944,
+       "char_start": 230086,
+       "page": 46,
+       "page_end": 46
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0266-bc318574"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 21",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "21",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:3"
+     ],
+     "page_end": 46,
+     "page_start": 45,
+     "path": "CAPO III > Sezione 4 > Articolo 21",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:21",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 21\n\nDiritto di opposizione\n\n1.\nL'interessato ha il diritto di opporsi in qualsiasi momento, per motivi connessi alla sua situazione particolare, al \ntrattamento dei dati personali che lo riguardano ai sensi dell'articolo 6, paragrafo 1, lettere e) o f), compresa la \nprofilazione sulla base di tali disposizioni. Il titolare del trattamento si astiene dal trattare ulteriormente i dati personali \nsalvo che egli dimostri l'esistenza di motivi legittimi cogenti per procedere al trattamento che prevalgono sugli interessi, \nsui diritti e sulle libertà dell'interessato oppure per l'accertamento, l'esercizio o la difesa di un diritto in sede giudiziaria.\n\n2.\nQualora i dati personali siano trattati per finalità di marketing diretto, l'interessato ha il diritto di opporsi in \nqualsiasi momento al trattamento dei dati personali che lo riguardano effettuato per tali finalità, compresa la \nprofilazione nella misura in cui sia connessa a tale marketing diretto.\n\n3.\nQualora l'interessato si opponga al trattamento per finalità di marketing diretto, i dati personali non sono più \noggetto di trattamento per tali finalità.\n\n4.\nIl diritto di cui ai paragrafi 1 e 2 è esplicitamente portato all'attenzione dell'interessato ed è presentato chiaramente \ne separatamente da qualsiasi altra informazione al più tardi al momento della prima comunicazione con l'interessato.\n\n5.\nNel contesto dell'utilizzo di servizi della società dell'informazione e fatta salva la direttiva 2002/58/CE, l'interessato \npuò esercitare il proprio diritto di opposizione con mezzi automatizzati che utilizzano specifiche tecniche.\n\n6.\nQualora i dati personali siano trattati a fini di ricerca scientifica o storica o a fini statistici a norma dell'articolo 89, \nparagrafo 1, l'interessato, per motivi connessi alla sua situazione particolare, ha il diritto di opporsi al trattamento di dati \npersonali che lo riguarda, salvo se il trattamento è necessario per l'esecuzione di un compito di interesse pubblico.",
+     "tier": "internal_only",
+     "title": "Diritto di opposizione",
+     "tokens": 663,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 199853,
+       "char_start": 198511,
+       "page": 37,
+       "page_end": 37
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0226-6cd70101"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 7",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "7",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5",
+      "query:2"
+     ],
+     "page_end": 37,
+     "page_start": 37,
+     "path": "CAPO II > Articolo 7",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:7",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 7\n\nCondizioni per il consenso\n\n1.\nQualora il trattamento sia basato sul consenso, il titolare del trattamento deve essere in grado di dimostrare che \nl'interessato ha prestato il proprio consenso al trattamento dei propri dati personali.\n\n2.\nSe il consenso dell'interessato è prestato nel contesto di una dichiarazione scritta che riguarda anche altre \nquestioni, la richiesta di consenso è presentata in modo chiaramente distinguibile dalle altre materie, in forma compren­\nsibile e facilmente accessibile, utilizzando un linguaggio semplice e chiaro. Nessuna parte di una tale dichiarazione che \ncostituisca una violazione del presente regolamento è vincolante.\n\n3.\nL'interessato ha il diritto di revocare il proprio consenso in qualsiasi momento. La revoca del consenso non \npregiudica la liceità del trattamento basata sul consenso prima della revoca. Prima di esprimere il proprio consenso, \nl'interessato è informato di ciò. Il consenso è revocato con la stessa facilità con cui è accordato.\n\n4.\nNel valutare se il consenso sia stato liberamente prestato, si tiene nella massima considerazione l'eventualità, tra le \naltre, che l'esecuzione di un contratto, compresa la prestazione di un servizio, sia condizionata alla prestazione del \nconsenso al trattamento di dati personali non necessario all'esecuzione di tale contratto.",
+     "tier": "internal_only",
+     "title": "Condizioni per il consenso",
+     "tokens": 448,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 216762,
+       "char_start": 215593,
+       "page": 42,
+       "page_end": 42
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0248-9ecf858e"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 14",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "14",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "page_end": 42,
+     "page_start": 42,
+     "path": "CAPO III > Sezione 2 > Articolo 14",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "o a un'organizzazione internazionale e l'esistenza o l'assenza di una decisione di adeguatezza della Commissione o, \nnel caso dei trasferimenti di cui all'articolo 46 o 47, o all'articolo 49, secondo comma, il riferimento alle garanzie \nadeguate o opportune e i mezzi per ottenere una copia di tali dati o il luogo dove sono stati resi disponibili.\n\n2.\nOltre alle informazioni di cui al paragrafo 1, il titolare del trattamento fornisce all'interessato le seguenti \ninformazioni necessarie per garantire un trattamento corretto e trasparente nei confronti dell'interessato:\n\na)  il periodo di conservazione dei dati personali oppure, se non è possibile, i criteri utilizzati per determinare tale\n\nperiodo;\n\nb)  qualora il trattamento si basi sull'articolo 6, paragrafo 1, lettera f), i legittimi interessi perseguiti dal titolare del\n\ntrattamento o da terzi;\n\nc)  l'esistenza del diritto dell'interessato di chiedere al titolare del trattamento l'accesso ai dati personali e la rettifica o la\n\ncancellazione degli stessi o la limitazione del trattamento dei dati personali che lo riguardano e di opporsi al loro \ntrattamento, oltre al diritto alla portabilità dei dati;",
+     "tier": "internal_only",
+     "title": "Informazioni da fornire qualora i dati personali non siano stati ottenuti presso l'interessato",
+     "tokens": 390,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 208126,
+       "char_start": 207345,
+       "page": 39,
+       "page_end": 39
+      },
+      {
+       "char_end": 208192,
+       "char_start": 208190,
+       "page": 40,
+       "page_end": 40
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0238-8b081ae5"
+     ],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Articolo 12",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "12",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:3"
+     ],
+     "page_end": 40,
+     "page_start": 39,
+     "path": "CAPO III > Sezione 1 > Articolo 12",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:12",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 12\n\nInformazioni, comunicazioni e modalità trasparenti per l'esercizio dei diritti dell'interessato\n\n1.\nIl titolare del trattamento adotta misure appropriate per fornire all'interessato tutte le informazioni di cui agli \narticoli 13 e 14 e le comunicazioni di cui agli articoli da 15 a 22 e all'articolo 34 relative al trattamento in forma \nconcisa, trasparente, intelligibile e facilmente accessibile, con un linguaggio semplice e chiaro, in particolare nel caso di \ninformazioni destinate specificamente ai minori. Le informazioni sono fornite per iscritto o con altri mezzi, anche, se \ndel caso, con mezzi elettronici. Se richiesto dall'interessato, le informazioni possono essere fornite oralmente, purché sia \ncomprovata con altri mezzi l'identità dell'interessato.\n\n2.",
+     "tier": "internal_only",
+     "title": "Informazioni, comunicazioni e modalità trasparenti per l'esercizio dei diritti dell'interessato",
+     "tokens": 261,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 213453,
+       "char_start": 212300,
+       "page": 41,
+       "page_end": 41
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0244-47407757"
+     ],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Articolo 13",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "13",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "page_end": 41,
+     "page_start": 41,
+     "path": "CAPO III > Sezione 2 > Articolo 13",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "zazione internazionale e l'esistenza o l'assenza di una decisione di adeguatezza della Commissione o, nel caso dei \ntrasferimenti di cui all'articolo 46 o 47, o all'articolo 49, secondo comma, il riferimento alle garanzie appropriate o \nopportune e i mezzi per ottenere una copia di tali dati o il luogo dove sono stati resi disponibili.\n\n2.\nIn aggiunta alle informazioni di cui al paragrafo 1, nel momento in cui i dati personali sono ottenuti, il titolare del \ntrattamento fornisce all'interessato le seguenti ulteriori informazioni necessarie per garantire un trattamento corretto e \ntrasparente:\n\na)  il periodo di conservazione dei dati personali oppure, se non è possibile, i criteri utilizzati per determinare tale\n\nperiodo;\n\nb)  l'esistenza del diritto dell'interessato di chiedere al titolare del trattamento l'accesso ai dati personali e la rettifica o la\n\ncancellazione degli stessi o la limitazione del trattamento che lo riguardano o di opporsi al loro trattamento, oltre al \ndiritto alla portabilità dei dati;\n\nc)  qualora il trattamento sia basato sull'articolo 6, paragrafo 1, lettera a), oppure sull'articolo 9, paragrafo 2, lettera a),",
+     "tier": "internal_only",
+     "title": "Informazioni da fornire qualora i dati personali siano raccolti presso l'interessato",
+     "tokens": 385,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 109177,
+       "char_start": 108079,
+       "page": 31,
+       "page_end": 31
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0256-0e885500"
+     ],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Art. 130",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "130",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:3"
+     ],
+     "page_end": 31,
+     "page_start": 31,
+     "path": "PARTE II > TITOLO X > CAPO I > Art. 130",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:130",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 130\n\n(Comunicazioni indesiderate)\n\n1. Fermo restando quanto stabilito dagli articoli 8 e 21 del decreto legislativo 9 aprile 2003, n. 70, l'uso di\nsistemi automatizzati di chiamata o di comunicazione di chiamata senza l'intervento di un operatore per l'invio\ndi materiale pubblicitario o di vendita diretta o per il compimento di ricerche di mercato o di comunicazione\ncommerciale è consentito con il consenso del contraente o utente. ((Resta in ogni caso fermo quanto previsto\ndall'articolo 1, comma 14, della legge 11 gennaio 2018, n. 5.))\n\n2. La disposizione di cui al comma 1 si applica anche alle comunicazioni elettroniche, effettuate per le finalità\nivi indicate, mediante posta elettronica, telefax, messaggi del tipo Mms (Multimedia Messaging Service) o Sms\n(Short Message Service) o di altro tipo.\n\n3. Fuori dei casi di cui ai commi 1 e 2, ulteriori comunicazioni per le finalità di cui ai medesimi commi effettuate\ncon mezzi diversi da quelli ivi indicati, sono consentite ai sensi degli articoli ((6 e 7 del Regolamento)) nonché\nai sensi di quanto previsto dal comma 3-bis ((...)).",
+     "tier": "internal_only",
+     "title": "(Comunicazioni indesiderate)",
+     "tokens": 366,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 204640,
+       "char_start": 201034,
+       "page": 38,
+       "page_end": 38
+      },
+      {
+       "char_end": 205868,
+       "char_start": 204704,
+       "page": 39,
+       "page_end": 39
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Articolo 9",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "9",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:20",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13"
+     ],
+     "page_end": 39,
+     "page_start": 38,
+     "path": "CAPO II > Articolo 9",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 9\n\nTrattamento di categorie particolari di dati personali\n\n1.\nÈ vietato trattare dati personali che rivelino l'origine razziale o etnica, le opinioni politiche, le convinzioni religiose \no filosofiche, o l'appartenenza sindacale, nonché trattare dati genetici, dati biometrici intesi a identificare in modo \nunivoco una persona fisica, dati relativi alla salute o alla vita sessuale o all'orientamento sessuale della persona.\n\n2.\nIl paragrafo 1 non si applica se si verifica uno dei seguenti casi:\n\na)  l'interessato ha prestato il proprio consenso esplicito al trattamento di tali dati personali per una o più finalità\n\nspecifiche, salvo nei casi in cui il diritto dell'Unione o degli Stati membri dispone che l'interessato non possa revocare \nil divieto di cui al paragrafo 1;\n\nb) il trattamento è necessario per assolvere gli obblighi ed esercitare i diritti specifici del titolare del trattamento o dell'in­\n\nteressato in materia di diritto del lavoro e della sicurezza sociale e protezione sociale, nella misura in cui sia \nautorizzato dal diritto dell'Unione o degli Stati membri o da un contratto collettivo ai sensi del diritto degli Stati \nmembri, in presenza di garanzie appropriate per i diritti fondamentali e gli interessi dell'interessato;\n\nc) il trattamento è necessario per tutelare un interesse vitale dell'interessato o di un'altra persona fisica qualora l'inte­\n\nressato si trovi nell'incapacità fisica o giuridica di prestare il proprio consenso;\n\nd)  il trattamento è effettuato, nell'ambito delle sue legittime attività e con adeguate garanzie, da una fondazione,\n\nassociazione o altro organismo senza scopo di lucro che persegua finalità politiche, filosofiche, religiose o sindacali, a \ncondizione che il trattamento riguardi unicamente i membri, gli ex membri o le persone che hanno regolari contatti \ncon la fondazione, l'associazione o l'organismo a motivo delle sue finalità e che i dati personali non siano comunicati \nall'esterno senza il consenso dell'interessato;\n\ne)  il trattamento riguarda dati personali resi manifestamente pubblici dall'interessato;\n\nf)  il trattamento è necessario per accertare, esercitare o difendere un diritto in sede giudiziaria o ogniqualvolta le\n\nautorità giurisdizionali esercitino le loro funzioni giurisdizionali;\n\ng)  il trattamento è necessario per motivi di interesse pubblico rilevante sulla base del diritto dell'Unione o degli Stati\n\nmembri, che deve essere proporzionato alla finalità perseguita, rispettare l'essenza del diritto alla protezione dei dati e \nprevedere misure appropriate e specifiche per tutelare i diritti fondamentali e gli interessi dell'interessato;\n\nh)  il trattamento è necessario per finalità di medicina preventiva o di medicina del lavoro, valutazione della capacità\n\nlavorativa del dipendente, diagnosi, assistenza o terapia sanitaria o sociale ovvero gestione dei sistemi e servizi \nsanitari o sociali sulla base del diritto dell'Unione o degli Stati membri o conformemente al contratto con un profes­\nsionista della sanità, fatte salve le condizioni e le garanzie di cui al paragrafo 3;\n\ni)  il trattamento è necessario per motivi di interesse pubblico nel settore della sanità pubblica, quali la protezione da\n\ngravi minacce per la salute a carattere transfrontaliero o la garanzia di parametri elevati di qualità e sicurezza dell'assi­\nstenza sanitaria e dei medicinali e dei dispositivi medici, sulla base del diritto dell'Unione o degli Stati membri che \nprevede misure appropriate e specifiche per tutelare i diritti e le libertà dell'interessato, in particolare il segreto profes­\nsionale;\n\nj)  il trattamento è necessario a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini\n\nstatistici in conformità dell'articolo 89, paragrafo 1, sulla base del diritto dell'Unione o nazionale, che è proporzionato \nalla finalità perseguita, rispetta l'essenza del diritto alla protezione dei dati e prevede misure appropriate e specifiche \nper tutelare i diritti fondamentali e gli interessi dell'interessato.\n\n3.\nI dati personali di cui al paragrafo 1 possono essere trattati per le finalità di cui al paragrafo 2, lettera h), se tali \ndati sono trattati da o sotto la responsabilità di un professionista soggetto al segreto professionale conformemente al \ndiritto dell'Unione o degli Stati membri o alle norme stabilite dagli organismi nazionali competenti o da altra persona \nanch'essa soggetta all'obbligo di segretezza conformemente al diritto dell'Unione o degli Stati membri o alle norme \nstabilite dagli organismi nazionali competenti.\n\n4.\nGli Stati membri possono mantenere o introdurre ulteriori condizioni, comprese limitazioni, con riguardo al \ntrattamento di dati genetici, dati biometrici o dati relativi alla salute.",
+     "tier": "internal_only",
+     "title": "Trattamento di categorie particolari di dati personali",
+     "tokens": 1590,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 222889,
+       "char_start": 222403,
+       "page": 43,
+       "page_end": 43
+      },
+      {
+       "char_end": 225296,
+       "char_start": 222953,
+       "page": 44,
+       "page_end": 44
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Articolo 17",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "17",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:20"
+     ],
+     "page_end": 44,
+     "page_start": 43,
+     "path": "CAPO III > Sezione 3 > Articolo 17",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:17",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 17\n\nDiritto alla cancellazione («diritto all'oblio»)\n\n1.\nL'interessato ha il diritto di ottenere dal titolare del trattamento la cancellazione dei dati personali che lo \nriguardano senza ingiustificato ritardo e il titolare del trattamento ha l'obbligo di cancellare senza ingiustificato ritardo i \ndati personali, se sussiste uno dei motivi seguenti:\n\na)  i dati personali non sono più necessari rispetto alle finalità per le quali sono stati raccolti o altrimenti trattati;\n\nb)  l'interessato revoca il consenso su cui si basa il trattamento conformemente all'articolo 6, paragrafo 1, lettera a), o\n\nall'articolo 9, paragrafo 2, lettera a), e se non sussiste altro fondamento giuridico per il trattamento;\n\nc)  l'interessato si oppone al trattamento ai sensi dell'articolo 21, paragrafo 1, e non sussiste alcun motivo legittimo\n\nprevalente per procedere al trattamento, oppure si oppone al trattamento ai sensi dell'articolo 21, paragrafo 2;\n\nd)  i dati personali sono stati trattati illecitamente;\n\ne)  i dati personali devono essere cancellati per adempiere un obbligo legale previsto dal diritto dell'Unione o dello Stato\n\nmembro cui è soggetto il titolare del trattamento;\n\nf)  i dati personali sono stati raccolti relativamente all'offerta di servizi della società dell'informazione di cui all'articolo 8,\n\nparagrafo 1.\n\n2.\nIl titolare del trattamento, se ha reso pubblici dati personali ed è obbligato, ai sensi del paragrafo 1, a cancellarli, \ntenendo conto della tecnologia disponibile e dei costi di attuazione adotta le misure ragionevoli, anche tecniche, per \ninformare i titolari del trattamento che stanno trattando i dati personali della richiesta dell'interessato di cancellare \nqualsiasi link, copia o riproduzione dei suoi dati personali.\n\n3.\nI paragrafi 1 e 2 non si applicano nella misura in cui il trattamento sia necessario:\n\na)  per l'esercizio del diritto alla libertà di espressione e di informazione;\n\nb)  per l'adempimento di un obbligo legale che richieda il trattamento previsto dal diritto dell'Unione o dello Stato\n\nmembro cui è soggetto il titolare del trattamento o per l'esecuzione di un compito svolto nel pubblico interesse \noppure nell'esercizio di pubblici poteri di cui è investito il titolare del trattamento;\n\nc)  per motivi di interesse pubblico nel settore della sanità pubblica in conformità dell'articolo 9, paragrafo 2, lettere h)\n\ne i), e dell'articolo 9, paragrafo 3;\n\nd)  a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini statistici conformemente\n\nall'articolo 89, paragrafo 1, nella misura in cui il diritto di cui al paragrafo 1 rischi di rendere impossibile o di \npregiudicare gravemente il conseguimento degli obiettivi di tale trattamento; o\n\ne)  per l'accertamento, l'esercizio o la difesa di un diritto in sede giudiziaria.",
+     "tier": "internal_only",
+     "title": "Diritto alla cancellazione («diritto all'oblio»)",
+     "tokens": 943,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 233146,
+       "char_start": 232475,
+       "page": 46,
+       "page_end": 46
+      },
+      {
+       "char_end": 235033,
+       "char_start": 233210,
+       "page": 47,
+       "page_end": 47
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Articolo 23",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "23",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:6"
+     ],
+     "page_end": 47,
+     "page_start": 46,
+     "path": "CAPO III > Sezione 5 > Articolo 23",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:23",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 23\n\nLimitazioni\n\n1.\nIl diritto dell'Unione o dello Stato membro cui è soggetto il titolare del trattamento o il responsabile del \ntrattamento può limitare, mediante misure legislative, la portata degli obblighi e dei diritti di cui agli articoli da 12 a 22 \ne 34, nonché all'articolo 5, nella misura in cui le disposizioni ivi contenute corrispondano ai diritti e agli obblighi di cui \nagli articoli da 12 a 22, qualora tale limitazione rispetti l'essenza dei diritti e delle libertà fondamentali e sia una misura \nnecessaria e proporzionata in una società democratica per salvaguardare:\n\na)  la sicurezza nazionale;\n\nb)  la difesa;\n\nc)  la sicurezza pubblica;\n\nd)  la prevenzione, l'indagine, l'accertamento e il perseguimento di reati o l'esecuzione di sanzioni penali, incluse la\n\nsalvaguardia contro e la prevenzione di minacce alla sicurezza pubblica;\n\ne)  altri importanti obiettivi di interesse pubblico generale dell'Unione o di uno Stato membro, in particolare un rilevante\n\ninteresse economico o finanziario dell'Unione o di uno Stato membro, anche in materia monetaria, di bilancio e \ntributaria, di sanità pubblica e sicurezza sociale;\n\nf)  la salvaguardia dell'indipendenza della magistratura e dei procedimenti giudiziari;\n\ng) le attività volte a prevenire, indagare, accertare e perseguire violazioni della deontologia delle professioni regola­\n\nmentate;\n\nh)  una funzione di controllo, d'ispezione o di regolamentazione connessa, anche occasionalmente, all'esercizio di\n\npubblici poteri nei casi di cui alle lettere da a), a e) e g);\n\ni)  la tutela dell'interessato o dei diritti e delle libertà altrui;\n\nj)  l'esecuzione delle azioni civili.\n\n2.\nIn particolare qualsiasi misura legislativa di cui al paragrafo 1 contiene disposizioni specifiche riguardanti almeno, \nse del caso:\n\na)  le finalità del trattamento o le categorie di trattamento;\n\nb)  le categorie di dati personali;\n\nc)  la portata delle limitazioni introdotte;\n\nd)  le garanzie per prevenire abusi o l'accesso o il trasferimento illeciti;\n\ne)  l'indicazione precisa del titolare del trattamento o delle categorie di titolari;\n\nf)  i periodi di conservazione e le garanzie applicabili tenuto conto della natura, dell'ambito di applicazione e delle\n\nfinalità del trattamento o delle categorie di trattamento;\n\ng)  i rischi per i diritti e le libertà degli interessati; e\n\nh)  il diritto degli interessati di essere informati della limitazione, a meno che ciò possa compromettere la finalità della\n\nstessa.",
+     "tier": "internal_only",
+     "title": "Limitazioni",
+     "tokens": 832,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 206449,
+       "char_start": 205870,
+       "page": 39,
+       "page_end": 39
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Articolo 10",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "10",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:6"
+     ],
+     "page_end": 39,
+     "page_start": 39,
+     "path": "CAPO II > Articolo 10",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:10",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 10\n\nTrattamento dei dati personali relativi a condanne penali e reati\n\nIl trattamento dei dati personali relativi alle condanne penali e ai reati o a connesse misure di sicurezza sulla base dell'ar­\nticolo 6, paragrafo 1, deve avvenire soltanto sotto il controllo dell'autorità pubblica o se il trattamento è autorizzato dal \ndiritto dell'Unione o degli Stati membri che preveda garanzie appropriate per i diritti e le libertà degli interessati. Un \neventuale registro completo delle condanne penali deve essere tenuto soltanto sotto il controllo dell'autorità pubblica.",
+     "tier": "internal_only",
+     "title": "Trattamento dei dati personali relativi a condanne penali e reati",
+     "tokens": 193,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "20",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "6",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "21",
+      "point": null
+     }
+    ],
+    "queries": [
+     "diritto alla portabilità dei dati",
+     "portabilità trattamento basato sul consenso o su un contratto",
+     "trattamento effettuato con mezzi automatizzati portabilità",
+     "legittimo interesse del titolare del trattamento",
+     "condizioni di liceità del trattamento"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 7971,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v6",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRWScAKW5tVKJjbNgiLL"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "La conclusione è un'inferenza dal fatto che l'art. 20, par. 1 elenca solo consenso e contratto; il testo non afferma espressamente l'esclusione del legittimo interesse."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "5 further candidate provisions were left out by the evidence limits (max_items).",
+   "As-of date 2026-11-26: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later."
+  ],
+  "question": "Il diritto alla portabilità dei dati si applica anche ai trattamenti basati sul legittimo interesse?",
+  "question_references": [],
+  "rejected_claims": [],
+  "repair": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-repair-v2.1",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRWTHs1wtGAg8TamNrLR"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E3"
+   ],
+   "task": "claim_repair"
+  },
+  "repair_verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRWTTvzgYcd8FaJ8nmZ6"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E3"
+   ],
+   "task": "claim_verification"
+  },
+  "summary": null,
+  "summary_claim_ids": [],
+  "unanswered_issues": [],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRWTBnter7F4tGKg6uAo"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode",
+   "model_note_removed: unsupported reference articolo 29"
+  ]
+ },
+ "split": "candidate",
+ "usage": {
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": 0.0684,
+  "input_tokens": 23430,
+  "output_tokens": 2154
+ }
+}

@@ -1,0 +1,1370 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Quale disciplina si applicava alla notifica di una violazione dei dati personali avvenuta nel 2017?"
+     },
+     {
+      "question": "Da quando si applicano le norme del regolamento (UE) 2016/679 sulla notifica delle violazioni di dati personali?"
+     }
+    ],
+    "language": "it",
+    "question_type": "open",
+    "scope_reason": "La domanda riguarda la disciplina della notifica di una violazione dei dati personali, materia del GDPR e del Codice privacy, con un profilo di diritto intertemporale.",
+    "search_queries_it": [
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "comunicazione di una violazione dei dati personali all'interessato",
+     "entrata in vigore e applicazione del regolamento",
+     "abrogazione della direttiva 95/46/CE",
+     "notificazione di violazioni di dati personali al Garante",
+     "disposizioni transitorie violazione dei dati personali"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "33",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "notifica della violazione all'autorità di controllo"
+     },
+     {
+      "article": "34",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "comunicazione della violazione all'interessato"
+     },
+     {
+      "article": "99",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "entrata in vigore e data di applicazione del regolamento"
+     }
+    ],
+    "uncertainty": "La disciplina vigente nel 2017 dipende dal diritto intertemporale e da atti anteriori o di transizione (versione previgente del Codice, direttiva 95/46/CE, norme di adeguamento nazionali) che non fanno parte del corpus; il testo del Codice disponibile è quello attuale e non verificato. Non è chiaro se la domanda riguardi l'Italia o l'UE in generale, né se la violazione riguardi un fornitore di comunicazioni elettroniche."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRWFxYrgViKDFswJb57j"
+   ],
+   "schema_sha256": "44a4fa3ecc2b31d500358c55fe81e75dce0659d91f641eb8fd347a9945846497",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "481fd16e7ae346f1abd42c6d42db919a7c320600408e22ecf444029200f5a87d",
+   "task": "query_analysis",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 2252,
+    "output_tokens": 1329
+   },
+   "user_sha256": "bda09608dc5629128f6de3216538d100657d1a297a608b799f7e2cec7c9f326d"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I2"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "Esso si applica a decorrere da 25 maggio 2018."
+       }
+      ],
+      "text": "Il regolamento (UE) 2016/679 si applica a decorrere dal 25 maggio 2018."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E4",
+        "quote": "La direttiva 95/46/CE è abrogata a decorrere da 25 maggio 2018."
+       }
+      ],
+      "text": "La direttiva 95/46/CE è abrogata a decorrere dal 25 maggio 2018."
+     },
+     {
+      "issue_ids": [
+       "I1",
+       "I2"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "Esso si applica a decorrere da 25 maggio 2018."
+       }
+      ],
+      "text": "Una violazione avvenuta nel 2017 è anteriore alla data di applicazione del regolamento. Le norme del regolamento sulla notifica delle violazioni non erano quindi ancora applicabili in quel momento."
+     }
+    ],
+    "direct_answer": null,
+    "limitations": [
+     "Il testo del Codice privacy fornito è una trascrizione non ufficiale, non verificata, di cui non è stabilita la validità giuridica.",
+     "Le prove non contengono norme transitorie né atti nazionali o dell'UE anteriori al 25 maggio 2018 sulla notifica delle violazioni.",
+     "Non è chiaro se la domanda riguardi l'Italia o l'UE in generale, né se la violazione riguardi un fornitore di comunicazioni elettroniche."
+    ],
+    "outcome": "answer_limited",
+    "summary": "Il regolamento (UE) 2016/679 si applica dal 25 maggio 2018 [1]. Per una violazione del 2017 ne consegue che le sue norme sulla notifica non erano ancora applicabili [3]. La direttiva 95/46/CE è abrogata dalla stessa data [2], ma le prove non dicono quale disciplina di notifica valesse nel 2017.",
+    "unanswered_issues": [
+     {
+      "issue_id": "I1",
+      "reason": "Le prove non contengono la disciplina sulla notifica delle violazioni in vigore nel 2017, né il contenuto della direttiva 95/46/CE o della versione previgente del Codice. Dicono solo che il regolamento non era ancora applicabile."
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRWGhcU1MsJSy1fzKY6j"
+   ],
+   "schema_sha256": "dedeb6e7acb216de7cf3c79876fb6fec53f6e5fde501144a46ecca6c70db3ba9",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "94c6c4ab7289f9a4547c56627299181dde9c643bcf819ced35f9df90a6f18272",
+   "task": "answer_generation",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 8010,
+    "output_tokens": 1333
+   },
+   "user_sha256": "024875064035e312e8d49f7d46a5e87ce21793785c7e250fdc76db9a270c6d94"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "partially_supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRWHSj3RZBneE7CNk1pP"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 1401,
+    "output_tokens": 69
+   },
+   "user_sha256": "ab067c58a8be28ae9862f81529643d5e2226682d515da925936f895adfdea3c4"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "repairs": [
+     {
+      "claim_id": "C3",
+      "rewrites": [
+       {
+        "quotes": [
+         {
+          "n": 1,
+          "widened": null
+         }
+        ],
+        "text": "Il regolamento si applica a decorrere dal 25 maggio 2018; una violazione avvenuta nel 2017 è dunque anteriore a tale data di applicazione."
+       }
+      ]
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRWHbW8au9VqUFLyom5X"
+   ],
+   "schema_sha256": "d006159aacc0a36afe66c4819f0f76cbf723fe7e17f321024aad5a19d898b902",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "2f52eda14e96f546dd70289a91a966dfb94803182102b9f19717be0d3ab82770",
+   "task": "claim_repair",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 1579,
+    "output_tokens": 114
+   },
+   "user_sha256": "53c0427ac7d421148e03093919c2c0cd70c12b3a7779acdfef2f7fc8558051f6"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRWHkAmwJHNzcVR7r9wx"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 977,
+    "output_tokens": 30
+   },
+   "user_sha256": "69d8914d672c7df78203a0c2eb1442696f5bee6d112f1839bcde61f6a7e8b210"
+  }
+ ],
+ "query_id": "a18",
+ "question": "Qual era la disciplina applicabile alla notifica di una violazione dei dati personali avvenuta nel 2017?",
+ "rendered": "question: Qual era la disciplina applicabile alla notifica di una violazione dei dati personali avvenuta nel 2017?\noutcome: ANSWER LIMITED\nas of: 2026-11-26\nExperimental prototype. Not legal advice.\n\nissues found by the query analysis (questions written by the model, not answers; query-analysis-v4):\n  I1  Quale disciplina si applicava alla notifica di una violazione dei dati personali avvenuta nel 2017?\n  I2  Da quando si applicano le norme del regolamento (UE) 2016/679 sulla notifica delle violazioni di dati personali?\n  search queries: notifica di una violazione dei dati personali all'autorità di controllo; comunicazione di una violazione dei dati personali all'interessato; entrata in vigore e applicazione del regolamento; abrogazione della direttiva 95/46/CE; notificazione di violazioni di dati personali al Garante; disposizioni transitorie violazione dei dati personali\n\nanswer (each claim with its quotations; quotations are checked against the evidence, support was assessed by a model, which is not legal validation):\n  C1 [I2] (source statement; support: supported) Il regolamento (UE) 2016/679 si applica a decorrere dal 25 maggio 2018.\n      E3: «Esso si applica a decorrere da 25 maggio 2018.»\n  C2 [I1] (source statement; support: supported) La direttiva 95/46/CE è abrogata a decorrere dal 25 maggio 2018.\n      E4: «La direttiva 95/46/CE è abrogata a decorrere da 25 maggio 2018.»\n  C3 [I1, I2] (inference; support: supported; repaired) Il regolamento si applica a decorrere dal 25 maggio 2018; una violazione avvenuta nel 2017 è dunque anteriore a tale data di applicazione.\n      E3: «Esso si applica a decorrere da 25 maggio 2018.»\n      rewritten from: Una violazione avvenuta nel 2017 è anteriore alla data di applicazione del regolamento. Le norme del regolamento sulla notifica delle violazioni non erano quindi ancora applicabili in quel momento.\n\ncitations (sources of the answer; in research mode they may be pending human review, as each source's qualifications and status say):\n  [E3] eu-reg-2016-679 Articolo 99 Entrata in vigore e applicazione (page 87)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:99; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E4] eu-reg-2016-679 Articolo 94 Abrogazione della direttiva 95/46/CE (page 86)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:94; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n\nunanswered issues:\n  I1  Reported by the model as not answered, or only partly answered, by the supplied evidence.\n\nMODEL NOTES — UNVERIFIED — NOT PART OF THE LEGAL ANSWER\n  (written by the model; checked only for references to provisions outside the evidence)\n  - Il testo del Codice privacy fornito è una trascrizione non ufficiale, non verificata, di cui non è stabilita la validità giuridica.\n  - Le prove non contengono norme transitorie né atti nazionali o dell'UE anteriori al 25 maggio 2018 sulla notifica delle violazioni.\n  - Non è chiaro se la domanda riguardi l'Italia o l'UE in generale, né se la violazione riguardi un fornitore di comunicazioni elettroniche.\n\nqualifications:\n  - MODALITÀ DIMOSTRATIVA DI RICERCA: questo risultato può basarsi su disposizioni il cui testo non ha superato la revisione umana. Ogni fonte qui sotto indica il proprio stato di revisione; una fonte in attesa di revisione non è citabile in modalità verificata e non va considerata verificata.\n  - Questo sistema non stabilisce se una disposizione sia giuridicamente valida, in vigore o applicabile a una qualsiasi data.\n  - Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.\n  - 26 further candidate provisions were left out by the evidence limits (max_items).\n  - Data di riferimento 2026-11-26: questa risposta riflette i testi presenti nel corpus a tale data. Non stabilisce il diritto vigente a quella data o successivamente.\n\ncorpus preflight: build build-f76ff6031f2fc82c4852f0a2bde27807; articles: 2 blocked, 319 internal_only; 0 citable\nevidence: build build-f76ff6031f2fc82c4852f0a2bde27807; 12 items (0 citable); about 3680 tokens\nwarnings: no_item_citable_in_verified_mode\nmodels: analysis anthropic/claude-sonnet-5-5, 1 attempt(s); generation anthropic/claude-sonnet-5-5, 1 attempt(s); support check anthropic/claude-sonnet-5-5, 1 attempt(s)",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Quale disciplina si applicava alla notifica di una violazione dei dati personali avvenuta nel 2017?"
+    },
+    {
+     "id": "I2",
+     "question": "Da quando si applicano le norme del regolamento (UE) 2016/679 sulla notifica delle violazioni di dati personali?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v4",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011ChRWFxYrgViKDFswJb57j"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Qual era la disciplina applicabile alla notifica di una violazione dei dati personali avvenuta nel 2017?",
+   "question_type": "open",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda la disciplina della notifica di una violazione dei dati personali, materia del GDPR e del Codice privacy, con un profilo di diritto intertemporale.",
+   "search_queries_it": [
+    "notifica di una violazione dei dati personali all'autorità di controllo",
+    "comunicazione di una violazione dei dati personali all'interessato",
+    "entrata in vigore e applicazione del regolamento",
+    "abrogazione della direttiva 95/46/CE",
+    "notificazione di violazioni di dati personali al Garante",
+    "disposizioni transitorie violazione dei dati personali"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "33",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "notifica della violazione all'autorità di controllo"
+    },
+    {
+     "article": "34",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "comunicazione della violazione all'interessato"
+    },
+    {
+     "article": "99",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "entrata in vigore e data di applicazione del regolamento"
+    }
+   ],
+   "uncertainty": "La disciplina vigente nel 2017 dipende dal diritto intertemporale e da atti anteriori o di transizione (versione previgente del Codice, direttiva 95/46/CE, norme di adeguamento nazionali) che non fanno parte del corpus; il testo del Codice disponibile è quello attuale e non verificato. Non è chiaro se la domanda riguardi l'Italia o l'UE in generale, né se la violazione riguardi un fornitore di comunicazioni elettroniche."
+  },
+  "as_of": "2026-11-26",
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 99",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "99",
+    "legal_validity": "not_established",
+    "page_end": 87,
+    "page_start": 87,
+    "path": "CAPO XI > Articolo 99",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:99",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Entrata in vigore e applicazione",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E4",
+    "heading": "Articolo 94",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "94",
+    "legal_validity": "not_established",
+    "page_end": 86,
+    "page_start": 86,
+    "path": "CAPO XI > Articolo 94",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:94",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Abrogazione della direttiva 95/46/CE",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I2"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "Esso si applica a decorrere da 25 maggio 2018.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "Il regolamento (UE) 2016/679 si applica a decorrere dal 25 maggio 2018.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E4"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E4",
+      "text": "La direttiva 95/46/CE è abrogata a decorrere da 25 maggio 2018.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "La direttiva 95/46/CE è abrogata a decorrere dal 25 maggio 2018.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I1",
+     "I2"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "Esso si applica a decorrere da 25 maggio 2018.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": "Una violazione avvenuta nel 2017 è anteriore alla data di applicazione del regolamento. Le norme del regolamento sulla notifica delle violazioni non erano quindi ancora applicabili in quel momento.",
+    "text": "Il regolamento si applica a decorrere dal 25 maggio 2018; una violazione avvenuta nel 2017 è dunque anteriore a tale data di applicazione.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "direct_answer": null,
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "152",
+     "origins": [
+      "query:3"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:152",
+     "reason": "max_items",
+     "tokens": 456
+    },
+    {
+     "label": "50",
+     "origins": [
+      "query:5"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:50",
+     "reason": "max_items",
+     "tokens": 372
+    },
+    {
+     "label": "14",
+     "origins": [
+      "query:2"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+     "reason": "max_items",
+     "tokens": 241
+    },
+    {
+     "label": "91",
+     "origins": [
+      "query:3"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:91",
+     "reason": "max_items",
+     "tokens": 239
+    },
+    {
+     "label": "175",
+     "origins": [
+      "query:6"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:175",
+     "reason": "max_items",
+     "tokens": 746
+    },
+    {
+     "label": "55",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:33"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:55",
+     "reason": "max_items",
+     "tokens": 219
+    },
+    {
+     "label": "2-quaterdecies",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-quaterdecies.1"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-quaterdecies",
+     "reason": "max_items",
+     "tokens": 204
+    },
+    {
+     "label": "77",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:77",
+     "reason": "max_items",
+     "tokens": 208
+    },
+    {
+     "label": "58",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:58",
+     "reason": "max_items",
+     "tokens": 1752
+    },
+    {
+     "label": "83",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:83",
+     "reason": "max_items",
+     "tokens": 2046
+    },
+    {
+     "label": "24",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:24",
+     "reason": "max_items",
+     "tokens": 328
+    },
+    {
+     "label": "25",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:25",
+     "reason": "max_items",
+     "tokens": 542
+    },
+    {
+     "label": "32",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:32",
+     "reason": "max_items",
+     "tokens": 650
+    },
+    {
+     "label": "79",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:40"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:79",
+     "reason": "max_items",
+     "tokens": 361
+    },
+    {
+     "label": "8",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:183"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:8",
+     "reason": "max_items",
+     "tokens": 21
+    },
+    {
+     "label": "123",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:123",
+     "reason": "max_items",
+     "tokens": 884
+    },
+    {
+     "label": "126",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:126",
+     "reason": "max_items",
+     "tokens": 660
+    },
+    {
+     "label": "130",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:130",
+     "reason": "max_items",
+     "tokens": 2184
+    },
+    {
+     "label": "129",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:129",
+     "reason": "max_items",
+     "tokens": 377
+    },
+    {
+     "label": "9",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+     "reason": "max_items",
+     "tokens": 1590
+    },
+    {
+     "label": "10",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:10",
+     "reason": "max_items",
+     "tokens": 193
+    },
+    {
+     "label": "2-sexies",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-sexies",
+     "reason": "max_items",
+     "tokens": 2639
+    },
+    {
+     "label": "2-octies",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-octies",
+     "reason": "max_items",
+     "tokens": 1219
+    },
+    {
+     "label": "2-septies",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-septies",
+     "reason": "max_items",
+     "tokens": 1095
+    },
+    {
+     "label": "49",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:49",
+     "reason": "max_items",
+     "tokens": 1424
+    },
+    {
+     "label": "160-bis",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-decies"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:160-bis",
+     "reason": "max_items",
+     "tokens": 166
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 255123,
+       "char_start": 253118,
+       "page": 52,
+       "page_end": 52
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0296-c5e96e79"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 33",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "33",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:6",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-quaterdecies.1"
+     ],
+     "page_end": 52,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 33",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 33\n\nNotifica di una violazione dei dati personali all'autorità di controllo\n\n1.\nIn caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo \ncompetente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è \nvenuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le \nlibertà delle persone fisiche. Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei \nmotivi del ritardo.\n\n2.\nIl responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a \nconoscenza della violazione.\n\n3.\nLa notifica di cui al paragrafo 1 deve almeno:\n\na) descrivere la natura della violazione dei dati personali compresi, ove possibile, le categorie e il numero approssi­\n\nmativo di interessati in questione nonché le categorie e il numero approssimativo di registrazioni dei dati personali in \nquestione;\n\nb)  comunicare il nome e i dati di contatto del responsabile della protezione dei dati o di altro punto di contatto presso\n\ncui ottenere più informazioni;\n\nc)  descrivere le probabili conseguenze della violazione dei dati personali;\n\nd)  descrivere le misure adottate o di cui si propone l'adozione da parte del titolare del trattamento per porre rimedio\n\nalla violazione dei dati personali e anche, se del caso, per attenuarne i possibili effetti negativi.\n\n4.\nQualora e nella misura in cui non sia possibile fornire le informazioni contestualmente, le informazioni possono \nessere fornite in fasi successive senza ulteriore ingiustificato ritardo.\n\n5.\nIl titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, \nle sue conseguenze e i provvedimenti adottati per porvi rimedio. Tale documentazione consente all'autorità di controllo \ndi verificare il rispetto del presente articolo.",
+     "tier": "internal_only",
+     "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+     "tokens": 669,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 255446,
+       "char_start": 255125,
+       "page": 52,
+       "page_end": 52
+      },
+      {
+       "char_end": 257013,
+       "char_start": 255510,
+       "page": 53,
+       "page_end": 53
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0298-036e8f92",
+      "doc-8f7504d289853f57-0299-eb81eca8"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 34",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "34",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:2"
+     ],
+     "page_end": 53,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 34",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 34\n\nComunicazione di una violazione dei dati personali all'interessato\n\n1.\nQuando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle \npersone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.\n\n2.\nLa comunicazione all'interessato di cui al paragrafo 1 del presente articolo descrive con un linguaggio semplice e \nchiaro la natura della violazione dei dati personali e contiene almeno le informazioni e le misure di cui all'articolo 33, \nparagrafo 3, lettere b), c) e d).\n\n3.\nNon è richiesta la comunicazione all'interessato di cui al paragrafo 1 se è soddisfatta una delle seguenti condizioni:\n\na)  il titolare del trattamento ha messo in atto le misure tecniche e organizzative adeguate di protezione e tali misure\n\nerano state applicate ai dati personali oggetto della violazione, in particolare quelle destinate a rendere i dati personali \nincomprensibili a chiunque non sia autorizzato ad accedervi, quali la cifratura;\n\nb)  il titolare del trattamento ha successivamente adottato misure atte a scongiurare il sopraggiungere di un rischio\n\nelevato per i diritti e le libertà degli interessati di cui al paragrafo 1;\n\nc)  detta comunicazione richiederebbe sforzi sproporzionati. In tal caso, si procede invece a una comunicazione pubblica\n\no a una misura simile, tramite la quale gli interessati sono informati con analoga efficacia.\n\n4.\nNel caso in cui il titolare del trattamento non abbia ancora comunicato all'interessato la violazione dei dati \npersonali, l'autorità di controllo può richiedere, dopo aver valutato la probabilità che la violazione dei dati personali \npresenti un rischio elevato, che vi provveda o può decidere che una delle condizioni di cui al paragrafo 3 è soddisfatta.",
+     "tier": "internal_only",
+     "title": "Comunicazione di una violazione dei dati personali all'interessato",
+     "tokens": 608,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 389799,
+       "char_start": 389562,
+       "page": 87,
+       "page_end": 87
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0467-9de4381c"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 99",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "99",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:3"
+     ],
+     "page_end": 87,
+     "page_start": 87,
+     "path": "CAPO XI > Articolo 99",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:99",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 99\n\nEntrata in vigore e applicazione\n\n1.\nIl presente regolamento entra in vigore il ventesimo giorno successivo alla pubblicazione nella Gazzetta ufficiale \ndell'Unione europea.\n\n2.\nEsso si applica a decorrere da 25 maggio 2018.",
+     "tier": "internal_only",
+     "title": "Entrata in vigore e applicazione",
+     "tokens": 79,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 386741,
+       "char_start": 386283,
+       "page": 86,
+       "page_end": 86
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0461-8c6a653b"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 94",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "94",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4"
+     ],
+     "page_end": 86,
+     "page_start": 86,
+     "path": "CAPO XI > Articolo 94",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:94",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 94\n\nAbrogazione della direttiva 95/46/CE\n\n1.\nLa direttiva 95/46/CE è abrogata a decorrere da 25 maggio 2018.\n\n2.\nI riferimenti alla direttiva abrogata si intendono fatti al presente regolamento. I riferimenti al gruppo per la tutela \ndelle persone con riguardo al trattamento dei dati personali istituito dall'articolo 29 della direttiva 95/46/CE si \nintendono fatti al comitato europeo per la protezione dei dati istituito dal presente regolamento.",
+     "tier": "internal_only",
+     "title": "Abrogazione della direttiva 95/46/CE",
+     "tokens": 153,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 35424,
+       "char_start": 34886,
+       "page": 9,
+       "page_end": 9
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0044-c0acb1d9"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Art. 2-quaterdecies.1",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-quaterdecies.1",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5"
+     ],
+     "page_end": 9,
+     "page_start": 9,
+     "path": "PARTE I > TITOLO I > CAPO IV > Art. 2-quaterdecies.1",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-quaterdecies.1",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-quaterdecies.1\n\n(( (Procedura di notifica delle violazioni di dati personali da parte di microimprese). ))\n\n1. ((Le imprese con meno di cinque dipendenti si avvalgono, per l'adempimento dell'obbligo di cui all'articolo\n33 del regolamento, di una specifica procedura di notifica.))\n\n2. ((La procedura di cui al comma 1 è disciplinata dal Garante con proprio provvedimento, prevedendo il ricorso\na strumenti di autovalutazione guidata e un canale di assistenza semplificata che forniscano supporto ai\nsoggetti tenuti alla notifica.))",
+     "tier": "internal_only",
+     "title": "(( (Procedura di notifica delle violazioni di dati personali da parte di microimprese). ))",
+     "tokens": 180,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 297010,
+       "char_start": 296441,
+       "page": 62,
+       "page_end": 62
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0347-ba720914"
+     ],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Articolo 46",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "46",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "page_end": 62,
+     "page_start": 62,
+     "path": "CAPO V > Articolo 46",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:46",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "5.\nLe autorizzazioni rilasciate da uno Stato membro o dall'autorità di controllo in base all'articolo 26, paragrafo 2, \ndella direttiva 95/46/CE restano valide fino a quando non vengono modificate, sostituite o abrogate, se necessario, dalla \nmedesima autorità di controllo. Le decisioni adottate dalla Commissione in base all'articolo 26, paragrafo 4, della \ndirettiva 95/46/CE restano in vigore fino a quando non vengono modificate, sostituite o abrogate, se necessario, da una \ndecisione della Commissione adottata conformemente al paragrafo 2 del presente articolo.",
+     "tier": "internal_only",
+     "title": "Trasferimento soggetto a garanzie adeguate",
+     "tokens": 190,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 177666,
+       "char_start": 176686,
+       "page": 48,
+       "page_end": 48
+      },
+      {
+       "char_end": 177830,
+       "char_start": 177726,
+       "page": 49,
+       "page_end": 49
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0373-0f8e93ad"
+     ],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Art. 166",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "166",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5"
+     ],
+     "page_end": 49,
+     "page_start": 48,
+     "path": "PARTE III > TITOLO III > CAPO I > Art. 166",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:166",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "4. Il procedimento per l'adozione dei provvedimenti e delle sanzioni indicati al comma 3 può essere avviato, nei\nconfronti sia di soggetti privati, sia di autorità pubbliche ed organismi pubblici, a seguito di reclamo ai sensi\ndell'articolo 77 del Regolamento o di attività istruttoria d'iniziativa del Garante, nell'ambito dell'esercizio dei\npoteri d'indagine di cui all'articolo 58, paragrafo 1, del Regolamento, nonché in relazione ad accessi, ispezioni e\nverifiche svolte in base a poteri di accertamento autonomi, ovvero delegati dal Garante.\n\n5. L'Ufficio del Garante, quando ritiene che gli elementi acquisiti nel corso delle attività di cui al comma 4\nconfigurino una o più violazioni indicate nel presente titolo e nell'articolo 83, paragrafi 4, 5 e 6, del\nRegolamento, avvia il procedimento per l'adozione dei provvedimenti e delle sanzioni di cui al comma 3\nnotificando al titolare o al responsabile del trattamento le presunte violazioni, nel rispetto delle garanzie\n\npreviste dal Regolamento di cui al comma 9, salvo che la previa notifica della contestazione non risulti",
+     "tier": "internal_only",
+     "title": "(Criteri di applicazione delle sanzioni amministrative pecuniarie e procedimento per l'adozione dei provvedimenti correttivi e sanzionatori)",
+     "tokens": 362,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 272824,
+       "char_start": 272178,
+       "page": 57,
+       "page_end": 57
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0320-6d44e82b"
+     ],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Articolo 40",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "40",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1",
+      "query:2"
+     ],
+     "page_end": 57,
+     "page_start": 57,
+     "path": "CAPO IV > Sezione 5 > Articolo 40",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:40",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "sabilità genitoriale sul minore;\n\nh)  le misure e le procedure di cui agli articoli 24 e 25 e le misure volte a garantire la sicurezza del trattamento di cui\n\nall'articolo 32;\n\ni)  la notifica di una violazione dei dati personali alle autorità di controllo e la comunicazione di tali violazioni dei dati\n\npersonali all'interessato;\n\nj)  il trasferimento di dati personali verso paesi terzi o organizzazioni internazionali; o\n\nk)  le procedure stragiudiziali e di altro tipo per comporre le controversie tra titolari del trattamento e interessati in\n\nmateria di trattamento, fatti salvi i diritti degli interessati ai sensi degli articoli 77 e 79.",
+     "tier": "internal_only",
+     "title": "Codici di condotta",
+     "tokens": 216,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 190883,
+       "char_start": 189786,
+       "page": 52,
+       "page_end": 52
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0405-0e9f3940"
+     ],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Art. 183",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "183",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:3"
+     ],
+     "page_end": 52,
+     "page_start": 52,
+     "path": "PARTE III > TITOLO IV > CAPO III > Art. 183",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:183",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 183\n\n(Norme abrogate)\n\n1. Dalla data di entrata in vigore del presente codice sono abrogati:\n\na) la legge 31 dicembre 1996, n. 675;\n\nb) la legge 3 novembre 2000, n. 325;\n\nc) il decreto legislativo 9 maggio 1997, n. 123;\n\nd) il decreto legislativo 28 luglio 1997, n. 255;\n\ne) l'articolo 1 del decreto legislativo 8 maggio 1998, n. 135;\n\nf) il decreto legislativo 13 maggio 1998, n. 171;\n\ng) il decreto legislativo 6 novembre 1998, n. 389;\n\nh) il decreto legislativo 26 febbraio 1999, n. 51;\n\ni) il decreto legislativo 11 maggio 1999, n. 135;\n\nl) il decreto legislativo 30 luglio 1999, n. 281, ad eccezione degli articoli 8, comma 1, 11 e 12;\n\nm) il decreto legislativo 30 luglio 1999, n. 282;\n\nn) il decreto legislativo 28 dicembre 2001, n. 467;\n\no) il decreto del Presidente della Repubblica 28 luglio 1999, n. 318.\n\n2. Dalla data di entrata in vigore del presente codice sono abrogati gli articoli 12, 13, 14, 15, 16, 17, 18, 19 e\n20 del decreto del Presidente della Repubblica 31 marzo 1998, n. 501.\n\n3. Dalla data di entrata in vigore del presente codice sono o restano, altresì, abrogati:",
+     "tier": "internal_only",
+     "title": "(Norme abrogate)",
+     "tokens": 366,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 294057,
+       "char_start": 293774,
+       "page": 62,
+       "page_end": 62
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0344-d25cf17e"
+     ],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Articolo 45",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "45",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167"
+     ],
+     "page_end": 62,
+     "page_start": 62,
+     "path": "CAPO V > Articolo 45",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:45",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "9.\nLe decisioni adottate dalla Commissione in base all'articolo 25, paragrafo 6, della direttiva 95/46/CE restano in \nvigore fino a quando non sono modificate, sostituite o abrogate da una decisione della Commissione adottata confor­\nmemente al paragrafo 3 o 5 del presente articolo.",
+     "tier": "internal_only",
+     "title": "Trasferimento sulla base di una decisione di adeguatezza",
+     "tokens": 95,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 182965,
+       "char_start": 181157,
+       "page": 49,
+       "page_end": 49
+      },
+      {
+       "char_end": 183252,
+       "char_start": 183025,
+       "page": 50,
+       "page_end": 50
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0380-1bfd0c48"
+     ],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Art. 167",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "167",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5"
+     ],
+     "page_end": 50,
+     "page_start": 49,
+     "path": "PARTE III > TITOLO III > CAPO II > Art. 167",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:167",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 167\n\n(Trattamento illecito di dati)\n\n1. Salvo che il fatto costituisca più grave reato, chiunque, al fine di trarre per sé o per altri profitto ovvero di\narrecare danno all'interessato, operando in violazione di quanto disposto dagli articoli 123, 126 e 130 o dal\nprovvedimento di cui all'articolo 129 arreca nocumento all'interessato, è punito con la reclusione da sei mesi a\nun anno e sei mesi.\n\n2. Salvo che il fatto costituisca più grave reato, chiunque, al fine di trarre per sé o per altri profitto ovvero di\narrecare danno all'interessato, procedendo al trattamento dei dati personali di cui agli articoli 9 e 10 del\nRegolamento in violazione delle disposizioni di cui agli articoli 2-sexies e 2-octies, o delle misure di garanzia di\ncui all'articolo 2-septies ((...)) arreca nocumento all'interessato, è punito con la reclusione da uno a tre anni.\n\n3. Salvo che il fatto costituisca più grave reato, la pena di cui al comma 2 si applica altresì a chiunque, al fine di\ntrarre per sé o per altri profitto ovvero di arrecare danno all'interessato, procedendo al trasferimento dei dati\npersonali verso un paese terzo o un'organizzazione internazionale al di fuori dei casi consentiti ai sensi degli\narticoli 45, 46 o 49 del Regolamento, arreca nocumento all'interessato.\n\n4. Il Pubblico ministero, quando ha notizia dei reati di cui ai commi 1, 2 e 3, ne informa senza ritardo il Garante.\n\n5. Il Garante trasmette al pubblico ministero, con una relazione motivata, la documentazione raccolta nello\nsvolgimento dell'attività di accertamento nel caso in cui emergano elementi che facciano presumere la\nesistenza di un reato. La trasmissione degli atti al pubblico ministero avviene al più tardi al termine dell'attività\ndi accertamento delle violazioni delle disposizioni di cui al presente decreto.\n\n6. Quando per lo stesso fatto è stata applicata a norma del presente codice o del Regolamento a carico\ndell'imputato o dell'ente una sanzione amministrativa pecuniaria dal Garante e questa è stata riscossa, la pena\nè diminuita.",
+     "tier": "internal_only",
+     "title": "(Trattamento illecito di dati)",
+     "tokens": 679,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 27144,
+       "char_start": 26895,
+       "page": 7,
+       "page_end": 7
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0033-7c80055b"
+     ],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Art. 2-decies",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-decies",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:6"
+     ],
+     "page_end": 7,
+     "page_start": 7,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-decies",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-decies",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-decies\n\n(( (Inutilizzabilità dei dati). ))\n\n((\n\n1. I dati personali trattati in violazione della disciplina rilevante in materia di trattamento dei dati personali non\npossono essere utilizzati, salvo quanto previsto dall'articolo 160-bis.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Inutilizzabilità dei dati). ))",
+     "tokens": 83,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "33",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "34",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "99",
+      "point": null
+     }
+    ],
+    "queries": [
+     "notifica di una violazione dei dati personali all'autorità di controllo",
+     "comunicazione di una violazione dei dati personali all'interessato",
+     "entrata in vigore e applicazione del regolamento",
+     "abrogazione della direttiva 95/46/CE",
+     "notificazione di violazioni di dati personali al Garante",
+     "disposizioni transitorie violazione dei dati personali"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 3680,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v6",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRWGhcU1MsJSy1fzKY6j"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "Il testo del Codice privacy fornito è una trascrizione non ufficiale, non verificata, di cui non è stabilita la validità giuridica.",
+   "Le prove non contengono norme transitorie né atti nazionali o dell'UE anteriori al 25 maggio 2018 sulla notifica delle violazioni.",
+   "Non è chiaro se la domanda riguardi l'Italia o l'UE in generale, né se la violazione riguardi un fornitore di comunicazioni elettroniche."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "26 further candidate provisions were left out by the evidence limits (max_items).",
+   "As-of date 2026-11-26: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later."
+  ],
+  "question": "Qual era la disciplina applicabile alla notifica di una violazione dei dati personali avvenuta nel 2017?",
+  "question_references": [],
+  "rejected_claims": [],
+  "repair": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-repair-v2.1",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRWHbW8au9VqUFLyom5X"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E3"
+   ],
+   "task": "claim_repair"
+  },
+  "repair_verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRWHkAmwJHNzcVR7r9wx"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E3"
+   ],
+   "task": "claim_verification"
+  },
+  "summary": null,
+  "summary_claim_ids": [],
+  "unanswered_issues": [
+   {
+    "issue_id": "I1",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   }
+  ],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRWHSj3RZBneE7CNk1pP"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E3",
+    "E4"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode"
+  ]
+ },
+ "split": "test",
+ "usage": {
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": 0.057188,
+  "input_tokens": 14219,
+  "output_tokens": 2875
+ }
+}

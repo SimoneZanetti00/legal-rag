@@ -1,0 +1,2076 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "What are the main obligations of a data controller under the GDPR?"
+     }
+    ],
+    "language": "en",
+    "question_type": "open",
+    "scope_reason": "The question concerns the obligations of a data controller under the GDPR, which is a personal data protection matter.",
+    "search_queries_it": [
+     "obblighi del titolare del trattamento",
+     "responsabilità del titolare del trattamento",
+     "principi applicabili al trattamento di dati personali",
+     "informazioni da fornire all'interessato",
+     "registri delle attività di trattamento",
+     "sicurezza del trattamento misure tecniche e organizzative",
+     "protezione dei dati fin dalla progettazione e per impostazione predefinita",
+     "notifica di una violazione dei dati personali all'autorità di controllo"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "5",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "principles the controller must be able to demonstrate compliance with"
+     },
+     {
+      "article": "24",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "general responsibility of the controller"
+     },
+     {
+      "article": "25",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "data protection by design and by default"
+     },
+     {
+      "article": "30",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "records of processing activities"
+     },
+     {
+      "article": "32",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "security of processing"
+     },
+     {
+      "article": "33",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "notification of personal data breach to the authority"
+     },
+     {
+      "article": "35",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "data protection impact assessment"
+     },
+     {
+      "article": "13",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "information to the data subject"
+     }
+    ],
+    "uncertainty": "The question is broad; 'main obligations' is open to interpretation and the answer depends on the type of processing. The question refers only to the GDPR, so Privacy Code provisions are not suggested."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRVzFqUJwQ4K17CuNUjk"
+   ],
+   "schema_sha256": "44a4fa3ecc2b31d500358c55fe81e75dce0659d91f641eb8fd347a9945846497",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "481fd16e7ae346f1abd42c6d42db919a7c320600408e22ecf444029200f5a87d",
+   "task": "query_analysis",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 2231,
+    "output_tokens": 682
+   },
+   "user_sha256": "035072d8dc38cf2d6d549c49acce849710671bd0e3a6b274231a9ee5d2b81834"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Il titolare del trattamento è competente per il rispetto del paragrafo 1 e in grado di comprovarlo («responsabilizzazione»)."
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "trattati in modo lecito, corretto e trasparente nei confronti dell'interessato («liceità, correttezza e trasparenza»)"
+       }
+      ],
+      "text": "The controller is responsible for complying with the principles for processing personal data (lawfulness, fairness and transparency, purpose limitation, minimisation, accuracy, storage limitation, integrity and confidentiality) and must be able to demonstrate compliance (accountability)."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire, ed essere in grado di dimostrare, che il trattamento è effettuato conformemente al presente regolamento."
+       },
+       {
+        "evidence_id": "E2",
+        "quote": "Dette misure sono riesaminate e aggiornate qualora necessario."
+       }
+      ],
+      "text": "The controller must implement appropriate technical and organisational measures to ensure, and be able to demonstrate, that processing complies with the Regulation. The measures are reviewed and updated where necessary."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "sia al momento di determinare i mezzi del trattamento sia all'atto del trattamento stesso il titolare del trattamento mette in atto misure tecniche e organizzative adeguate"
+       }
+      ],
+      "text": "The controller must implement data protection by design, both when determining the means of processing and at the time of processing."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "Il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire che siano trattati, per impostazione predefinita, solo i dati personali necessari per ogni specifica finalità del trattamento."
+       }
+      ],
+      "text": "The controller must implement data protection by default, so that only the personal data necessary for each specific purpose are processed."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E4",
+        "quote": "Ogni titolare del trattamento e, ove applicabile, il suo rappresentante tengono un registro delle attività di trattamento svolte sotto la propria responsabilità."
+       },
+       {
+        "evidence_id": "E4",
+        "quote": "Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti"
+       }
+      ],
+      "text": "Each controller must keep a record of processing activities, subject to an exception for organisations with fewer than 250 employees (which does not apply in certain cases)."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E5",
+        "quote": "il titolare del trattamento e il responsabile del trattamento mettono in atto misure tecniche e organizzative adeguate per garantire un livello di sicurezza adeguato al rischio"
+       }
+      ],
+      "text": "The controller (together with the processor) must implement technical and organisational measures ensuring a level of security appropriate to the risk."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E6",
+        "quote": "il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza"
+       }
+      ],
+      "text": "In the event of a personal data breach, the controller must notify the supervisory authority without undue delay and, where possible, within 72 hours of becoming aware of it, unless the breach is unlikely to present a risk."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E6",
+        "quote": "Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, le sue conseguenze e i provvedimenti adottati per porvi rimedio."
+       }
+      ],
+      "text": "The controller must document any personal data breach, including its circumstances, consequences and remedial measures."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E7",
+        "quote": "il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali."
+       }
+      ],
+      "text": "Where processing is likely to present a high risk, the controller must carry out a data protection impact assessment before processing."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E8",
+        "quote": "il titolare del trattamento fornisce all'interessato, nel momento in cui i dati personali sono ottenuti, le seguenti informazioni:"
+       }
+      ],
+      "text": "Where data are collected from the data subject, the controller must provide specified information to the data subject at the time the data are obtained."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E11",
+        "quote": "Il titolare del trattamento agevola l'esercizio dei diritti dell'interessato ai sensi degli articoli da 15 a 22."
+       },
+       {
+        "evidence_id": "E11",
+        "quote": "in forma concisa, trasparente, intelligibile e facilmente accessibile, con un linguaggio semplice e chiaro"
+       }
+      ],
+      "text": "The controller must facilitate the exercise of data subjects' rights and provide information in a concise, transparent, intelligible and easily accessible form."
+     }
+    ],
+    "direct_answer": null,
+    "limitations": [
+     "The answer is based only on the supplied GDPR provisions and is not an exhaustive list of controller obligations.",
+     "Article 12 (E11) and Article 28 (E9) are excerpts only; E9 concerns processors and is not used for controller obligations.",
+     "Some obligations depend on the type of processing (e.g. the impact assessment applies only where high risk is likely; the record-keeping exception for organisations with fewer than 250 employees is subject to conditions).",
+     "Provisions cross-referenced in the evidence (for example Articles 9, 10, 14, 15 to 22, 34, 40 and 42) are not supplied in full."
+    ],
+    "outcome": "answer_limited",
+    "summary": "The supplied provisions show that the controller must comply with the processing principles and be able to demonstrate it, and must implement appropriate measures, including by design and by default [1][2][3][4]. The controller must also keep records of processing, ensure security appropriate to the risk, and notify and document personal data breaches [5][6][7][8]. Where applicable, the controller must carry out impact assessments, inform data subjects and facilitate the exercise of their rights [9][10][11]; the list is not exhaustive.",
+    "unanswered_issues": [
+     {
+      "issue_id": "I1",
+      "reason": "The question is broad and the evidence is only a selection of provisions. It does not allow a complete list of all controller obligations (for example, the content of data subjects' rights or other obligations not supplied)."
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRVzfKc2q2LKSvC7nQPa"
+   ],
+   "schema_sha256": "dedeb6e7acb216de7cf3c79876fb6fec53f6e5fde501144a46ecca6c70db3ba9",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "94c6c4ab7289f9a4547c56627299181dde9c643bcf819ced35f9df90a6f18272",
+   "task": "answer_generation",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 13849,
+    "output_tokens": 3849
+   },
+   "user_sha256": "66f1df149aac73925886363d8f580300f9557deffe33f2abf42f8c416906dd14"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C8",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C9",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C10",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C11",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRW2FLX4VdqDK6bV6P3Q"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 11802,
+    "output_tokens": 225
+   },
+   "user_sha256": "f38ad9758c458394250f2add991f9258875912f283177889f65bb90e5f455628"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "repairs": [
+     {
+      "claim_id": "C1",
+      "rewrites": [
+       {
+        "quotes": [
+         {
+          "n": 1,
+          "widened": null
+         },
+         {
+          "n": 2,
+          "widened": null
+         }
+        ],
+        "text": "The controller is responsible for complying with paragraph 1 of Article 5 and must be able to demonstrate it (accountability); one of the principles in paragraph 1 is that personal data are processed lawfully, fairly and transparently towards the data subject."
+       }
+      ]
+     },
+     {
+      "claim_id": "C3",
+      "rewrites": [
+       {
+        "quotes": [
+         {
+          "n": 1,
+          "widened": null
+         }
+        ],
+        "text": "Both when determining the means of processing and at the time of the processing itself, the controller puts in place appropriate technical and organisational measures."
+       }
+      ]
+     },
+     {
+      "claim_id": "C5",
+      "rewrites": [
+       {
+        "quotes": [
+         {
+          "n": 1,
+          "widened": null
+         }
+        ],
+        "text": "Each controller and, where applicable, its representative keep a record of the processing activities carried out under their responsibility."
+       },
+       {
+        "quotes": [
+         {
+          "n": 2,
+          "widened": "Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti, a meno che il trattamento che esse effettuano possa presentare un rischio per i diritti e le libertà dell'interessato, il trattamento non sia occasionale o includa il trattamento di categorie particolari di dati di cui all'articolo 9, paragrafo 1, o i dati personali relativi a condanne penali e a reati di cui all'articolo 10."
+         }
+        ],
+        "text": "The record-keeping obligations do not apply to enterprises or organisations with fewer than 250 employees, unless the processing they carry out is likely to present a risk to the rights and freedoms of the data subject, is not occasional, or includes special categories of data under Article 9(1) or personal data relating to criminal convictions and offences under Article 10."
+       }
+      ]
+     },
+     {
+      "claim_id": "C7",
+      "rewrites": [
+       {
+        "quotes": [
+         {
+          "n": 1,
+          "widened": "il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche."
+         }
+        ],
+        "text": "In the event of a personal data breach, the controller notifies the competent supervisory authority without undue delay and, where possible, within 72 hours of becoming aware of it, unless the breach is unlikely to present a risk to the rights and freedoms of natural persons."
+       }
+      ]
+     },
+     {
+      "claim_id": "C9",
+      "rewrites": [
+       {
+        "quotes": [
+         {
+          "n": 1,
+          "widened": "può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali."
+         }
+        ],
+        "text": "Where a type of processing may present a high risk to the rights and freedoms of natural persons, the controller carries out, before proceeding to the processing, an assessment of the impact of the envisaged processing on the protection of personal data."
+       }
+      ]
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRW2QHmon4ksTaE5GAPw"
+   ],
+   "schema_sha256": "d006159aacc0a36afe66c4819f0f76cbf723fe7e17f321024aad5a19d898b902",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "2f52eda14e96f546dd70289a91a966dfb94803182102b9f19717be0d3ab82770",
+   "task": "claim_repair",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 7464,
+    "output_tokens": 1081
+   },
+   "user_sha256": "b1b0407b67ffd35e2a6120fa741257e4bd2690721ffd5d8a8d20b41b2d6dfbaf"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5.1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5.2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C9",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRW2pusGPyYSRmaqJA3s"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 7223,
+    "output_tokens": 124
+   },
+   "user_sha256": "ca4be9b33d3664bf180ca5f06b05a39c341e931d4cc78f83cd7c89fa6cc1d8b4"
+  }
+ ],
+ "query_id": "a07",
+ "question": "What are the main obligations of a data controller under the GDPR?",
+ "rendered": "question: What are the main obligations of a data controller under the GDPR?\noutcome: ANSWER LIMITED\nas of: 2026-11-26\nExperimental prototype. Not legal advice.\n\nissues found by the query analysis (questions written by the model, not answers; query-analysis-v4):\n  I1  What are the main obligations of a data controller under the GDPR?\n  search queries: obblighi del titolare del trattamento; responsabilità del titolare del trattamento; principi applicabili al trattamento di dati personali; informazioni da fornire all'interessato; registri delle attività di trattamento; sicurezza del trattamento misure tecniche e organizzative; protezione dei dati fin dalla progettazione e per impostazione predefinita; notifica di una violazione dei dati personali all'autorità di controllo\n\nanswer (each claim with its quotations; quotations are checked against the evidence, support was assessed by a model, which is not legal validation):\n  C1 [I1] (source statement; support: supported; repaired) The controller is responsible for complying with paragraph 1 of Article 5 and must be able to demonstrate it (accountability); one of the principles in paragraph 1 is that personal data are processed lawfully, fairly and transparently towards the data subject.\n      E1: «Il titolare del trattamento è competente per il rispetto del paragrafo 1 e in grado di comprovarlo («responsabilizzazione»).»\n      E1: «trattati in modo lecito, corretto e trasparente nei confronti dell'interessato («liceità, correttezza e trasparenza»)»\n      rewritten from: The controller is responsible for complying with the principles for processing personal data (lawfulness, fairness and transparency, purpose limitation, minimisation, accuracy, storage limitation, integrity and confidentiality) and must be able to demonstrate compliance (accountability).\n  C2 [I1] (source statement; support: supported) The controller must implement appropriate technical and organisational measures to ensure, and be able to demonstrate, that processing complies with the Regulation. The measures are reviewed and updated where necessary.\n      E2: «il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire, ed essere in grado di dimostrare, che il trattamento è effettuato conformemente al presente regolamento.»\n      E2: «Dette misure sono riesaminate e aggiornate qualora necessario.»\n  C3 [I1] (source statement; support: supported; repaired) Both when determining the means of processing and at the time of the processing itself, the controller puts in place appropriate technical and organisational measures.\n      E3: «sia al momento di determinare i mezzi del trattamento sia all'atto del trattamento stesso il titolare del trattamento mette in atto misure tecniche e organizzative adeguate»\n      rewritten from: The controller must implement data protection by design, both when determining the means of processing and at the time of processing.\n  C4 [I1] (source statement; support: supported) The controller must implement data protection by default, so that only the personal data necessary for each specific purpose are processed.\n      E3: «Il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire che siano trattati, per impostazione predefinita, solo i dati personali necessari per ogni specifica finalità del trattamento.»\n  C5.1 [I1] (source statement; support: supported; repaired) Each controller and, where applicable, its representative keep a record of the processing activities carried out under their responsibility.\n      E4: «Ogni titolare del trattamento e, ove applicabile, il suo rappresentante tengono un registro delle attività di trattamento svolte sotto la propria responsabilità.»\n      rewritten from: Each controller must keep a record of processing activities, subject to an exception for organisations with fewer than 250 employees (which does not apply in certain cases).\n  C5.2 [I1] (source statement; support: supported; repaired) The record-keeping obligations do not apply to enterprises or organisations with fewer than 250 employees, unless the processing they carry out is likely to present a risk to the rights and freedoms of the data subject, is not occasional, or includes special categories of data under Article 9(1) or personal data relating to criminal convictions and offences under Article 10.\n      E4: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti, a meno che il trattamento che esse effettuano possa presentare un rischio per i diritti e le libertà dell'interessato, il trattamento non sia occasionale o includa il trattamento di categorie particolari di dati di cui all'articolo 9, paragrafo 1, o i dati personali relativi a condanne penali e a reati di cui all'articolo 10.»\n        widened by the repair pass from: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti»\n      rewritten from: Each controller must keep a record of processing activities, subject to an exception for organisations with fewer than 250 employees (which does not apply in certain cases).\n  C6 [I1] (source statement; support: supported) The controller (together with the processor) must implement technical and organisational measures ensuring a level of security appropriate to the risk.\n      E5: «il titolare del trattamento e il responsabile del trattamento mettono in atto misure tecniche e organizzative adeguate per garantire un livello di sicurezza adeguato al rischio»\n  C7 [I1] (source statement; support: supported; repaired) In the event of a personal data breach, the controller notifies the competent supervisory authority without undue delay and, where possible, within 72 hours of becoming aware of it, unless the breach is unlikely to present a risk to the rights and freedoms of natural persons.\n      E6: «il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche.»\n        widened by the repair pass from: «il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza»\n      rewritten from: In the event of a personal data breach, the controller must notify the supervisory authority without undue delay and, where possible, within 72 hours of becoming aware of it, unless the breach is unlikely to present a risk.\n  C8 [I1] (source statement; support: supported) The controller must document any personal data breach, including its circumstances, consequences and remedial measures.\n      E6: «Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, le sue conseguenze e i provvedimenti adottati per porvi rimedio.»\n  C9 [I1] (source statement; support: supported; repaired) Where a type of processing may present a high risk to the rights and freedoms of natural persons, the controller carries out, before proceeding to the processing, an assessment of the impact of the envisaged processing on the protection of personal data.\n      E7: «può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.»\n        widened by the repair pass from: «il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.»\n      rewritten from: Where processing is likely to present a high risk, the controller must carry out a data protection impact assessment before processing.\n  C10 [I1] (source statement; support: supported) Where data are collected from the data subject, the controller must provide specified information to the data subject at the time the data are obtained.\n      E8: «il titolare del trattamento fornisce all'interessato, nel momento in cui i dati personali sono ottenuti, le seguenti informazioni:»\n  C11 [I1] (source statement; support: supported) The controller must facilitate the exercise of data subjects' rights and provide information in a concise, transparent, intelligible and easily accessible form.\n      E11: «Il titolare del trattamento agevola l'esercizio dei diritti dell'interessato ai sensi degli articoli da 15 a 22.»\n      E11: «in forma concisa, trasparente, intelligibile e facilmente accessibile, con un linguaggio semplice e chiaro»\n\ncitations (sources of the answer; in research mode they may be pending human review, as each source's qualifications and status say):\n  [E1] eu-reg-2016-679 Articolo 5 Principi applicabili al trattamento di dati personali (pages 35-36)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:5; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E2] eu-reg-2016-679 Articolo 24 Responsabilità del titolare del trattamento (page 47)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:24; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E3] eu-reg-2016-679 Articolo 25 Protezione dei dati fin dalla progettazione e protezione per impostazione predefinita (page 48)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:25; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E4] eu-reg-2016-679 Articolo 30 Registri delle attività di trattamento (pages 50-51)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:30; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E5] eu-reg-2016-679 Articolo 32 Sicurezza del trattamento (pages 51-52)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:32; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E6] eu-reg-2016-679 Articolo 33 Notifica di una violazione dei dati personali all'autorità di controllo (page 52)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:33; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E7] eu-reg-2016-679 Articolo 35 Valutazione d'impatto sulla protezione dei dati (pages 53-54)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:35; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E8] eu-reg-2016-679 Articolo 13 Informazioni da fornire qualora i dati personali siano raccolti presso l'interessato (pages 40-41)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:13; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E11] eu-reg-2016-679 Articolo 12 Informazioni, comunicazioni e modalità trasparenti per l'esercizio dei diritti dell'interessato (pages 39-40, excerpt)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:12; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n\nunanswered issues:\n  I1  Reported by the model as not answered, or only partly answered, by the supplied evidence.\n\nMODEL NOTES — UNVERIFIED — NOT PART OF THE LEGAL ANSWER\n  (written by the model; checked only for references to provisions outside the evidence)\n  - The answer is based only on the supplied GDPR provisions and is not an exhaustive list of controller obligations.\n  - Article 12 (E11) and Article 28 (E9) are excerpts only; E9 concerns processors and is not used for controller obligations.\n  - Some obligations depend on the type of processing (e.g. the impact assessment applies only where high risk is likely; the record-keeping exception for organisations with fewer than 250 employees is subject to conditions).\n\nqualifications:\n  - RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.\n  - This system does not establish whether any provision is legally valid, in force or applicable at any date.\n  - Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.\n  - 22 further candidate provisions were left out by the evidence limits (max_items).\n  - As-of date 2026-11-26: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later.\n  - A pending proposal (Digital Omnibus, COM(2025) 837, not adopted as of 2026-11-08) would limit notification to high-risk breaches and extend the deadline to 96 hours; this answer reflects the text in force in the corpus (72 hours).\n\ncorpus preflight: build build-f76ff6031f2fc82c4852f0a2bde27807; articles: 2 blocked, 319 internal_only; 0 citable\nevidence: build build-f76ff6031f2fc82c4852f0a2bde27807; 12 items (0 citable); about 9337 tokens\nwarnings: no_item_citable_in_verified_mode; model_note_removed: unsupported reference articolo 15\nmodels: analysis anthropic/claude-sonnet-5-5, 1 attempt(s); generation anthropic/claude-sonnet-5-5, 1 attempt(s); support check anthropic/claude-sonnet-5-5, 1 attempt(s)",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "What are the main obligations of a data controller under the GDPR?"
+    }
+   ],
+   "language": "en",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v4",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011ChRVzFqUJwQ4K17CuNUjk"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "What are the main obligations of a data controller under the GDPR?",
+   "question_type": "open",
+   "rejected_suggestions": [],
+   "scope_reason": "The question concerns the obligations of a data controller under the GDPR, which is a personal data protection matter.",
+   "search_queries_it": [
+    "obblighi del titolare del trattamento",
+    "responsabilità del titolare del trattamento",
+    "principi applicabili al trattamento di dati personali",
+    "informazioni da fornire all'interessato",
+    "registri delle attività di trattamento",
+    "sicurezza del trattamento misure tecniche e organizzative",
+    "protezione dei dati fin dalla progettazione e per impostazione predefinita",
+    "notifica di una violazione dei dati personali all'autorità di controllo"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "5",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "principles the controller must be able to demonstrate compliance with"
+    },
+    {
+     "article": "24",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "general responsibility of the controller"
+    },
+    {
+     "article": "25",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "data protection by design and by default"
+    },
+    {
+     "article": "30",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "records of processing activities"
+    },
+    {
+     "article": "32",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "security of processing"
+    },
+    {
+     "article": "33",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "notification of personal data breach to the authority"
+    },
+    {
+     "article": "35",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "data protection impact assessment"
+    },
+    {
+     "article": "13",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "information to the data subject"
+    }
+   ],
+   "uncertainty": "The question is broad; 'main obligations' is open to interpretation and the answer depends on the type of processing. The question refers only to the GDPR, so Privacy Code provisions are not suggested."
+  },
+  "as_of": "2026-11-26",
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 5",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "5",
+    "legal_validity": "not_established",
+    "page_end": 36,
+    "page_start": 35,
+    "path": "CAPO II > Articolo 5",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:5",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Principi applicabili al trattamento di dati personali",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 24",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "24",
+    "legal_validity": "not_established",
+    "page_end": 47,
+    "page_start": 47,
+    "path": "CAPO IV > Sezione 1 > Articolo 24",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:24",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Responsabilità del titolare del trattamento",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 25",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "25",
+    "legal_validity": "not_established",
+    "page_end": 48,
+    "page_start": 48,
+    "path": "CAPO IV > Sezione 1 > Articolo 25",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:25",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Protezione dei dati fin dalla progettazione e protezione per impostazione predefinita",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E4",
+    "heading": "Articolo 30",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "30",
+    "legal_validity": "not_established",
+    "page_end": 51,
+    "page_start": 50,
+    "path": "CAPO IV > Sezione 1 > Articolo 30",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:30",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Registri delle attività di trattamento",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E5",
+    "heading": "Articolo 32",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "32",
+    "legal_validity": "not_established",
+    "page_end": 52,
+    "page_start": 51,
+    "path": "CAPO IV > Sezione 2 > Articolo 32",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:32",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Sicurezza del trattamento",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E6",
+    "heading": "Articolo 33",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "33",
+    "legal_validity": "not_established",
+    "page_end": 52,
+    "page_start": 52,
+    "path": "CAPO IV > Sezione 2 > Articolo 33",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E7",
+    "heading": "Articolo 35",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "35",
+    "legal_validity": "not_established",
+    "page_end": 54,
+    "page_start": 53,
+    "path": "CAPO IV > Sezione 3 > Articolo 35",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:35",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Valutazione d'impatto sulla protezione dei dati",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E8",
+    "heading": "Articolo 13",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "13",
+    "legal_validity": "not_established",
+    "page_end": 41,
+    "page_start": 40,
+    "path": "CAPO III > Sezione 2 > Articolo 13",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Informazioni da fornire qualora i dati personali siano raccolti presso l'interessato",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E11",
+    "heading": "Articolo 12",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "12",
+    "legal_validity": "not_established",
+    "page_end": 40,
+    "page_start": 39,
+    "path": "CAPO III > Sezione 1 > Articolo 12",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:12",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Informazioni, comunicazioni e modalità trasparenti per l'esercizio dei diritti dell'interessato",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": false
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Il titolare del trattamento è competente per il rispetto del paragrafo 1 e in grado di comprovarlo («responsabilizzazione»).",
+      "widened_from": null
+     },
+     {
+      "evidence_id": "E1",
+      "text": "trattati in modo lecito, corretto e trasparente nei confronti dell'interessato («liceità, correttezza e trasparenza»)",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": "The controller is responsible for complying with the principles for processing personal data (lawfulness, fairness and transparency, purpose limitation, minimisation, accuracy, storage limitation, integrity and confidentiality) and must be able to demonstrate compliance (accountability).",
+    "text": "The controller is responsible for complying with paragraph 1 of Article 5 and must be able to demonstrate it (accountability); one of the principles in paragraph 1 is that personal data are processed lawfully, fairly and transparently towards the data subject.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire, ed essere in grado di dimostrare, che il trattamento è effettuato conformemente al presente regolamento.",
+      "widened_from": null
+     },
+     {
+      "evidence_id": "E2",
+      "text": "Dette misure sono riesaminate e aggiornate qualora necessario.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "The controller must implement appropriate technical and organisational measures to ensure, and be able to demonstrate, that processing complies with the Regulation. The measures are reviewed and updated where necessary.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "sia al momento di determinare i mezzi del trattamento sia all'atto del trattamento stesso il titolare del trattamento mette in atto misure tecniche e organizzative adeguate",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": "The controller must implement data protection by design, both when determining the means of processing and at the time of processing.",
+    "text": "Both when determining the means of processing and at the time of the processing itself, the controller puts in place appropriate technical and organisational measures.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "Il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire che siano trattati, per impostazione predefinita, solo i dati personali necessari per ogni specifica finalità del trattamento.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "The controller must implement data protection by default, so that only the personal data necessary for each specific purpose are processed.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5.1",
+    "evidence_ids": [
+     "E4"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E4",
+      "text": "Ogni titolare del trattamento e, ove applicabile, il suo rappresentante tengono un registro delle attività di trattamento svolte sotto la propria responsabilità.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": "Each controller must keep a record of processing activities, subject to an exception for organisations with fewer than 250 employees (which does not apply in certain cases).",
+    "text": "Each controller and, where applicable, its representative keep a record of the processing activities carried out under their responsibility.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5.2",
+    "evidence_ids": [
+     "E4"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E4",
+      "text": "Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti, a meno che il trattamento che esse effettuano possa presentare un rischio per i diritti e le libertà dell'interessato, il trattamento non sia occasionale o includa il trattamento di categorie particolari di dati di cui all'articolo 9, paragrafo 1, o i dati personali relativi a condanne penali e a reati di cui all'articolo 10.",
+      "widened_from": "Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti"
+     }
+    ],
+    "repaired_from": "Each controller must keep a record of processing activities, subject to an exception for organisations with fewer than 250 employees (which does not apply in certain cases).",
+    "text": "The record-keeping obligations do not apply to enterprises or organisations with fewer than 250 employees, unless the processing they carry out is likely to present a risk to the rights and freedoms of the data subject, is not occasional, or includes special categories of data under Article 9(1) or personal data relating to criminal convictions and offences under Article 10.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E5"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E5",
+      "text": "il titolare del trattamento e il responsabile del trattamento mettono in atto misure tecniche e organizzative adeguate per garantire un livello di sicurezza adeguato al rischio",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "The controller (together with the processor) must implement technical and organisational measures ensuring a level of security appropriate to the risk.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C7",
+    "evidence_ids": [
+     "E6"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E6",
+      "text": "il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche.",
+      "widened_from": "il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza"
+     }
+    ],
+    "repaired_from": "In the event of a personal data breach, the controller must notify the supervisory authority without undue delay and, where possible, within 72 hours of becoming aware of it, unless the breach is unlikely to present a risk.",
+    "text": "In the event of a personal data breach, the controller notifies the competent supervisory authority without undue delay and, where possible, within 72 hours of becoming aware of it, unless the breach is unlikely to present a risk to the rights and freedoms of natural persons.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C8",
+    "evidence_ids": [
+     "E6"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E6",
+      "text": "Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, le sue conseguenze e i provvedimenti adottati per porvi rimedio.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "The controller must document any personal data breach, including its circumstances, consequences and remedial measures.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C9",
+    "evidence_ids": [
+     "E7"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E7",
+      "text": "può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.",
+      "widened_from": "il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali."
+     }
+    ],
+    "repaired_from": "Where processing is likely to present a high risk, the controller must carry out a data protection impact assessment before processing.",
+    "text": "Where a type of processing may present a high risk to the rights and freedoms of natural persons, the controller carries out, before proceeding to the processing, an assessment of the impact of the envisaged processing on the protection of personal data.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C10",
+    "evidence_ids": [
+     "E8"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E8",
+      "text": "il titolare del trattamento fornisce all'interessato, nel momento in cui i dati personali sono ottenuti, le seguenti informazioni:",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "Where data are collected from the data subject, the controller must provide specified information to the data subject at the time the data are obtained.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C11",
+    "evidence_ids": [
+     "E11"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E11",
+      "text": "Il titolare del trattamento agevola l'esercizio dei diritti dell'interessato ai sensi degli articoli da 15 a 22.",
+      "widened_from": null
+     },
+     {
+      "evidence_id": "E11",
+      "text": "in forma concisa, trasparente, intelligibile e facilmente accessibile, con un linguaggio semplice e chiaro",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "The controller must facilitate the exercise of data subjects' rights and provide information in a concise, transparent, intelligible and easily accessible form.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "direct_answer": null,
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "83",
+     "origins": [
+      "query:1"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:83",
+     "reason": "max_items",
+     "tokens": 456
+    },
+    {
+     "label": "82",
+     "origins": [
+      "query:2",
+      "query:1"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:82",
+     "reason": "max_items",
+     "tokens": 704
+    },
+    {
+     "label": "47",
+     "origins": [
+      "query:7",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:47",
+     "reason": "max_items",
+     "tokens": 400
+    },
+    {
+     "label": "2-novies",
+     "origins": [
+      "query:3"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-novies",
+     "reason": "max_items",
+     "tokens": 195
+    },
+    {
+     "label": "40",
+     "origins": [
+      "query:8",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:24",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:32",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:40",
+     "reason": "max_items",
+     "tokens": 216
+    },
+    {
+     "label": "132-ter",
+     "origins": [
+      "query:6"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:132-ter",
+     "reason": "max_items",
+     "tokens": 529
+    },
+    {
+     "label": "89",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:5"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:89",
+     "reason": "max_items",
+     "tokens": 698
+    },
+    {
+     "label": "42",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:24",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:25",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:32"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:42",
+     "reason": "max_items",
+     "tokens": 1100
+    },
+    {
+     "label": "49",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:30",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:49",
+     "reason": "max_items",
+     "tokens": 1424
+    },
+    {
+     "label": "9",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:30",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+     "reason": "max_items",
+     "tokens": 1590
+    },
+    {
+     "label": "10",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:30",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:10",
+     "reason": "max_items",
+     "tokens": 193
+    },
+    {
+     "label": "55",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:33"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:55",
+     "reason": "max_items",
+     "tokens": 219
+    },
+    {
+     "label": "68",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:68",
+     "reason": "max_items",
+     "tokens": 400
+    },
+    {
+     "label": "63",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:63",
+     "reason": "max_items",
+     "tokens": 93
+    },
+    {
+     "label": "6",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+     "reason": "max_items",
+     "tokens": 1459
+    },
+    {
+     "label": "46",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:46",
+     "reason": "max_items",
+     "tokens": 984
+    },
+    {
+     "label": "22",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:13"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:22",
+     "reason": "max_items",
+     "tokens": 501
+    },
+    {
+     "label": "98",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:2"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:98",
+     "reason": "max_items",
+     "tokens": 195
+    },
+    {
+     "label": "14",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:14",
+     "reason": "max_items",
+     "tokens": 1648
+    },
+    {
+     "label": "34",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:34",
+     "reason": "max_items",
+     "tokens": 608
+    },
+    {
+     "label": "11",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:11",
+     "reason": "max_items",
+     "tokens": 274
+    },
+    {
+     "label": "92",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:92",
+     "reason": "max_items",
+     "tokens": 492
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 192676,
+       "char_start": 191676,
+       "page": 35,
+       "page_end": 35
+      },
+      {
+       "char_end": 194066,
+       "char_start": 193017,
+       "page": 36,
+       "page_end": 36
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0220-d2661b6a",
+      "doc-8f7504d289853f57-0219-8b08f8f2"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 5",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "5",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:6",
+      "query:3"
+     ],
+     "page_end": 36,
+     "page_start": 35,
+     "path": "CAPO II > Articolo 5",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:5",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 5\n\nPrincipi applicabili al trattamento di dati personali\n\n1.\nI dati personali sono:\n\na)  trattati in modo lecito, corretto e trasparente nei confronti dell'interessato («liceità, correttezza e trasparenza»);\n\nb)  raccolti per finalità determinate, esplicite e legittime, e successivamente trattati in modo che non sia incompatibile\n\ncon tali finalità; un ulteriore trattamento dei dati personali a fini di archiviazione nel pubblico interesse, di ricerca \nscientifica o storica o a fini statistici non è, conformemente all'articolo 89, paragrafo 1, considerato incompatibile \ncon le finalità iniziali («limitazione della finalità»);\n\nc)  adeguati, pertinenti e limitati a quanto necessario rispetto alle finalità per le quali sono trattati («minimizzazione dei\n\ndati»);\n\nd)  esatti e, se necessario, aggiornati; devono essere adottate tutte le misure ragionevoli per cancellare o rettificare\n\ntempestivamente i dati inesatti rispetto alle finalità per le quali sono trattati («esattezza»);\n\ne)  conservati in una forma che consenta l'identificazione degli interessati per un arco di tempo non superiore al\n\nconseguimento delle finalità per le quali sono trattati; i dati personali possono essere conservati per periodi più \nlunghi a condizione che siano trattati esclusivamente a fini di archiviazione nel pubblico interesse, di ricerca \nscientifica o storica o a fini statistici, conformemente all'articolo 89, paragrafo 1, fatta salva l'attuazione di misure \ntecniche e organizzative adeguate richieste dal presente regolamento a tutela dei diritti e delle libertà dell'interessato \n(«limitazione della conservazione»);\n\nf)  trattati in maniera da garantire un'adeguata sicurezza dei dati personali, compresa la protezione, mediante misure\n\ntecniche e organizzative adeguate, da trattamenti non autorizzati o illeciti e dalla perdita, dalla distruzione o dal \ndanno accidentali («integrità e riservatezza»).\n\n2.\nIl titolare del trattamento è competente per il rispetto del paragrafo 1 e in grado di comprovarlo («responsabiliz­\nzazione»).",
+     "tier": "internal_only",
+     "title": "Principi applicabili al trattamento di dati personali",
+     "tokens": 683,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 236113,
+       "char_start": 235131,
+       "page": 47,
+       "page_end": 47
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 24",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "24",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 47,
+     "page_start": 47,
+     "path": "CAPO IV > Sezione 1 > Articolo 24",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:24",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 24\n\nResponsabilità del titolare del trattamento\n\n1.\nTenuto conto della natura, dell'ambito di applicazione, del contesto e delle finalità del trattamento, nonché dei \nrischi aventi probabilità e gravità diverse per i diritti e le libertà delle persone fisiche, il titolare del trattamento mette in \natto misure tecniche e organizzative adeguate per garantire, ed essere in grado di dimostrare, che il trattamento è \neffettuato conformemente al presente regolamento. Dette misure sono riesaminate e aggiornate qualora necessario.\n\n2.\nSe ciò è proporzionato rispetto alle attività di trattamento, le misure di cui al paragrafo 1 includono l'attuazione di \npolitiche adeguate in materia di protezione dei dati da parte del titolare del trattamento.\n\n3.\nL'adesione ai codici di condotta di cui all'articolo 40 o a un meccanismo di certificazione di cui all'articolo 42 può \nessere utilizzata come elemento per dimostrare il rispetto degli obblighi del titolare del trattamento.",
+     "tier": "internal_only",
+     "title": "Responsabilità del titolare del trattamento",
+     "tokens": 328,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 237805,
+       "char_start": 236179,
+       "page": 48,
+       "page_end": 48
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0276-d4450900",
+      "doc-8f7504d289853f57-0277-b2a87038"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 25",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "25",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:7"
+     ],
+     "page_end": 48,
+     "page_start": 48,
+     "path": "CAPO IV > Sezione 1 > Articolo 25",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:25",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 25\n\nProtezione dei dati fin dalla progettazione e protezione per impostazione predefinita\n\n1.\nTenendo conto dello stato dell'arte e dei costi di attuazione, nonché della natura, dell'ambito di applicazione, del \ncontesto e delle finalità del trattamento, come anche dei rischi aventi probabilità e gravità diverse per i diritti e le libertà \ndelle persone fisiche costituiti dal trattamento, sia al momento di determinare i mezzi del trattamento sia all'atto del \ntrattamento stesso il titolare del trattamento mette in atto misure tecniche e organizzative adeguate, quali la pseudoni­\nmizzazione, volte ad attuare in modo efficace i principi di protezione dei dati, quali la minimizzazione, e a integrare nel \ntrattamento le necessarie garanzie al fine di soddisfare i requisiti del presente regolamento e tutelare i diritti degli \ninteressati.\n\n2.\nIl titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire che siano trattati, \nper impostazione predefinita, solo i dati personali necessari per ogni specifica finalità del trattamento. Tale obbligo vale \nper la quantità dei dati personali raccolti, la portata del trattamento, il periodo di conservazione e l'accessibilità. In \nparticolare, dette misure garantiscono che, per impostazione predefinita, non siano resi accessibili dati personali a un \nnumero indefinito di persone fisiche senza l'intervento della persona fisica.\n\n3.\nUn meccanismo di certificazione approvato ai sensi dell'articolo 42 può essere utilizzato come elemento per \ndimostrare la conformità ai requisiti di cui ai paragrafi 1 e 2 del presente articolo.",
+     "tier": "internal_only",
+     "title": "Protezione dei dati fin dalla progettazione e protezione per impostazione predefinita",
+     "tokens": 542,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 248179,
+       "char_start": 247569,
+       "page": 50,
+       "page_end": 50
+      },
+      {
+       "char_end": 250811,
+       "char_start": 248243,
+       "page": 51,
+       "page_end": 51
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0289-8ca513e9"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 30",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "30",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:5"
+     ],
+     "page_end": 51,
+     "page_start": 50,
+     "path": "CAPO IV > Sezione 1 > Articolo 30",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:30",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 30\n\nRegistri delle attività di trattamento\n\n1.\nOgni titolare del trattamento e, ove applicabile, il suo rappresentante tengono un registro delle attività di \ntrattamento svolte sotto la propria responsabilità. Tale registro contiene tutte le seguenti informazioni:\n\na) il nome e i dati di contatto del titolare del trattamento e, ove applicabile, del contitolare del trattamento, del rappre­\n\nsentante del titolare del trattamento e del responsabile della protezione dei dati;\n\nb)  le finalità del trattamento;\n\nc)  una descrizione delle categorie di interessati e delle categorie di dati personali;\n\nd)  le categorie di destinatari a cui i dati personali sono stati o saranno comunicati, compresi i destinatari di paesi terzi\n\nod organizzazioni internazionali;\n\ne)  ove applicabile, i trasferimenti di dati personali verso un paese terzo o un'organizzazione internazionale, compresa\n\nl'identificazione del paese terzo o dell'organizzazione internazionale e, per i trasferimenti di cui al secondo comma \ndell'articolo 49, la documentazione delle garanzie adeguate;\n\nf)  ove possibile, i termini ultimi previsti per la cancellazione delle diverse categorie di dati;\n\ng)  ove possibile, una descrizione generale delle misure di sicurezza tecniche e organizzative di cui all'articolo 32,\n\nparagrafo 1.\n\n2.\nOgni responsabile del trattamento e, ove applicabile, il suo rappresentante tengono un registro di tutte le categorie \ndi attività relative al trattamento svolte per conto di un titolare del trattamento, contenente:\n\na)  il nome e i dati di contatto del responsabile o dei responsabili del trattamento, di ogni titolare del trattamento per\n\nconto del quale agisce il responsabile del trattamento, del rappresentante del titolare del trattamento o del \nresponsabile del trattamento e, ove applicabile, del responsabile della protezione dei dati;\n\nb)  le categorie dei trattamenti effettuati per conto di ogni titolare del trattamento;\n\nc)  ove applicabile, i trasferimenti di dati personali verso un paese terzo o un'organizzazione internazionale, compresa\n\nl'identificazione del paese terzo o dell'organizzazione internazionale e, per i trasferimenti di cui al secondo comma \ndell'articolo 49, la documentazione delle garanzie adeguate;\n\nd)  ove possibile, una descrizione generale delle misure di sicurezza tecniche e organizzative di cui all'articolo 32,\n\nparagrafo 1.\n\n3.\nI registri di cui ai paragrafi 1 e 2 sono tenuti in forma scritta, anche in formato elettronico.\n\n4.\nSu richiesta, il titolare del trattamento o il responsabile del trattamento e, ove applicabile, il rappresentante del \ntitolare del trattamento o del responsabile del trattamento mettono il registro a disposizione dell'autorità di controllo.\n\n5.\nGli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti, \na meno che il trattamento che esse effettuano possa presentare un rischio per i diritti e le libertà dell'interessato, il \ntrattamento non sia occasionale o includa il trattamento di categorie particolari di dati di cui all'articolo 9, paragrafo 1, \no i dati personali relativi a condanne penali e a reati di cui all'articolo 10.",
+     "tier": "internal_only",
+     "title": "Registri delle attività di trattamento",
+     "tokens": 1060,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 251682,
+       "char_start": 251102,
+       "page": 51,
+       "page_end": 51
+      },
+      {
+       "char_end": 253116,
+       "char_start": 251746,
+       "page": 52,
+       "page_end": 52
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0294-ed8b7890"
+     ],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 32",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "32",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:6",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:30"
+     ],
+     "page_end": 52,
+     "page_start": 51,
+     "path": "CAPO IV > Sezione 2 > Articolo 32",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:32",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 32\n\nSicurezza del trattamento\n\n1.\nTenendo conto dello stato dell'arte e dei costi di attuazione, nonché della natura, dell'oggetto, del contesto e delle \nfinalità del trattamento, come anche del rischio di varia probabilità e gravità per i diritti e le libertà delle persone fisiche, \nil titolare del trattamento e il responsabile del trattamento mettono in atto misure tecniche e organizzative adeguate per \ngarantire un livello di sicurezza adeguato al rischio, che comprendono, tra le altre, se del caso:\n\na)  la pseudonimizzazione e la cifratura dei dati personali;\n\nb)  la capacità di assicurare su base permanente la riservatezza, l'integrità, la disponibilità e la resilienza dei sistemi e dei\n\nservizi di trattamento;\n\nc)  la capacità di ripristinare tempestivamente la disponibilità e l'accesso dei dati personali in caso di incidente fisico o\n\ntecnico;\n\nd)  una procedura per testare, verificare e valutare regolarmente l'efficacia delle misure tecniche e organizzative al fine di\n\ngarantire la sicurezza del trattamento.\n\n2.\nNel valutare l'adeguato livello di sicurezza, si tiene conto in special modo dei rischi presentati dal trattamento che \nderivano in particolare dalla distruzione, dalla perdita, dalla modifica, dalla divulgazione non autorizzata o dall'accesso, \nin modo accidentale o illegale, a dati personali trasmessi, conservati o comunque trattati.\n\n3.\nL'adesione a un codice di condotta approvato di cui all'articolo 40 o a un meccanismo di certificazione approvato \ndi cui all'articolo 42 può essere utilizzata come elemento per dimostrare la conformità ai requisiti di cui al paragrafo 1 \ndel presente articolo.\n\n4.\nIl titolare del trattamento e il responsabile del trattamento fanno sì che chiunque agisca sotto la loro autorità e \nabbia accesso a dati personali non tratti tali dati se non è istruito in tal senso dal titolare del trattamento, salvo che lo \nrichieda il diritto dell'Unione o degli Stati membri.",
+     "tier": "internal_only",
+     "title": "Sicurezza del trattamento",
+     "tokens": 650,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 255123,
+       "char_start": 253118,
+       "page": 52,
+       "page_end": 52
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0296-c5e96e79"
+     ],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Articolo 33",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "33",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:8"
+     ],
+     "page_end": 52,
+     "page_start": 52,
+     "path": "CAPO IV > Sezione 2 > Articolo 33",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:33",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 33\n\nNotifica di una violazione dei dati personali all'autorità di controllo\n\n1.\nIn caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo \ncompetente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è \nvenuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le \nlibertà delle persone fisiche. Qualora la notifica all'autorità di controllo non sia effettuata entro 72 ore, è corredata dei \nmotivi del ritardo.\n\n2.\nIl responsabile del trattamento informa il titolare del trattamento senza ingiustificato ritardo dopo essere venuto a \nconoscenza della violazione.\n\n3.\nLa notifica di cui al paragrafo 1 deve almeno:\n\na) descrivere la natura della violazione dei dati personali compresi, ove possibile, le categorie e il numero approssi­\n\nmativo di interessati in questione nonché le categorie e il numero approssimativo di registrazioni dei dati personali in \nquestione;\n\nb)  comunicare il nome e i dati di contatto del responsabile della protezione dei dati o di altro punto di contatto presso\n\ncui ottenere più informazioni;\n\nc)  descrivere le probabili conseguenze della violazione dei dati personali;\n\nd)  descrivere le misure adottate o di cui si propone l'adozione da parte del titolare del trattamento per porre rimedio\n\nalla violazione dei dati personali e anche, se del caso, per attenuarne i possibili effetti negativi.\n\n4.\nQualora e nella misura in cui non sia possibile fornire le informazioni contestualmente, le informazioni possono \nessere fornite in fasi successive senza ulteriore ingiustificato ritardo.\n\n5.\nIl titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, \nle sue conseguenze e i provvedimenti adottati per porvi rimedio. Tale documentazione consente all'autorità di controllo \ndi verificare il rispetto del presente articolo.",
+     "tier": "internal_only",
+     "title": "Notifica di una violazione dei dati personali all'autorità di controllo",
+     "tokens": 669,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 259581,
+       "char_start": 257102,
+       "page": 53,
+       "page_end": 53
+      },
+      {
+       "char_end": 261869,
+       "char_start": 259645,
+       "page": 54,
+       "page_end": 54
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Articolo 35",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "35",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 54,
+     "page_start": 53,
+     "path": "CAPO IV > Sezione 3 > Articolo 35",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:35",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 35\n\nValutazione d'impatto sulla protezione dei dati\n\n1.\nQuando un tipo di trattamento, allorché prevede in particolare l'uso di nuove tecnologie, considerati la natura, \nl'oggetto, il contesto e le finalità del trattamento, può presentare un rischio elevato per i diritti e le libertà delle persone \nfisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti \nprevisti sulla protezione dei dati personali. Una singola valutazione può esaminare un insieme di trattamenti simili che \npresentano rischi elevati analoghi.\n\n2.\nIl titolare del trattamento, allorquando svolge una valutazione d'impatto sulla protezione dei dati, si consulta con il \nresponsabile della protezione dei dati, qualora ne sia designato uno.\n\n3.\nLa valutazione d'impatto sulla protezione dei dati di cui al paragrafo 1 è richiesta in particolare nei casi seguenti:\n\na) una valutazione sistematica e globale di aspetti personali relativi a persone fisiche, basata su un trattamento automa­\n\ntizzato, compresa la profilazione, e sulla quale si fondano decisioni che hanno effetti giuridici o incidono in modo \nanalogo significativamente su dette persone fisiche;\n\nb)  il trattamento, su larga scala, di categorie particolari di dati personali di cui all'articolo 9, paragrafo 1, o di dati\n\nrelativi a condanne penali e a reati di cui all'articolo 10; o\n\nc)  la sorveglianza sistematica su larga scala di una zona accessibile al pubblico.\n\n4.\nL'autorità di controllo redige e rende pubblico un elenco delle tipologie di trattamenti soggetti al requisito di una \nvalutazione d'impatto sulla protezione dei dati ai sensi del paragrafo 1. L'autorità di controllo comunica tali elenchi al \ncomitato di cui all'articolo 68.\n\n5.\nL'autorità di controllo può inoltre redigere e rendere pubblico un elenco delle tipologie di trattamenti per le quali \nnon è richiesta una valutazione d'impatto sulla protezione dei dati. L'autorità di controllo comunica tali elenchi al \ncomitato.\n\n6.\nPrima di adottare gli elenchi di cui ai paragrafi 4 e 5, l'autorità di controllo competente applica il meccanismo di \ncoerenza di cui all'articolo 63 se tali elenchi comprendono attività di trattamento finalizzate all'offerta di beni o servizi a \ninteressati o al monitoraggio del loro comportamento in più Stati membri, o attività di trattamento che possono incidere \nsignificativamente sulla libera circolazione dei dati personali all'interno dell'Unione.\n\n7.\nLa valutazione contiene almeno:\n\na)  una descrizione sistematica dei trattamenti previsti e delle finalità del trattamento, compreso, ove applicabile,\n\nl'interesse legittimo perseguito dal titolare del trattamento;\n\nb)  una valutazione della necessità e proporzionalità dei trattamenti in relazione alle finalità;\n\nc)  una valutazione dei rischi per i diritti e le libertà degli interessati di cui al paragrafo 1; e\n\nd)  le misure previste per affrontare i rischi, includendo le garanzie, le misure di sicurezza e i meccanismi per garantire la\n\nprotezione dei dati personali e dimostrare la conformità al presente regolamento, tenuto conto dei diritti e degli \ninteressi legittimi degli interessati e delle altre persone in questione.\n\n8.\nNel valutare l'impatto del trattamento effettuato dai relativi titolari o responsabili è tenuto in debito conto il \nrispetto da parte di questi ultimi dei codici di condotta approvati di cui all'articolo 40, in particolare ai fini di una \nvalutazione d'impatto sulla protezione dei dati.\n\n9.\nSe del caso, il titolare del trattamento raccoglie le opinioni degli interessati o dei loro rappresentanti sul \ntrattamento previsto, fatta salva la tutela degli interessi commerciali o pubblici o la sicurezza dei trattamenti.\n\n10.\nQualora il trattamento effettuato ai sensi dell'articolo 6, paragrafo 1, lettere c) o e), trovi nel diritto dell'Unione o \nnel diritto dello Stato membro cui il titolare del trattamento è soggetto una base giuridica, tale diritto disciplini il \ntrattamento specifico o l'insieme di trattamenti in questione, e sia già stata effettuata una valutazione d'impatto sulla \nprotezione dei dati nell'ambito di una valutazione d'impatto generale nel contesto dell'adozione di tale base giuridica, i \nparagrafi da 1 a 7 non si applicano, salvo che gli Stati membri ritengano necessario effettuare tale valutazione prima di \nprocedere alle attività di trattamento.\n\n11.\nSe necessario, il titolare del trattamento procede a un riesame per valutare se il trattamento dei dati personali sia \neffettuato conformemente alla valutazione d'impatto sulla protezione dei dati almeno quando insorgono variazioni del \nrischio rappresentato dalle attività relative al trattamento.",
+     "tier": "internal_only",
+     "title": "Valutazione d'impatto sulla protezione dei dati",
+     "tokens": 1568,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 211867,
+       "char_start": 211258,
+       "page": 40,
+       "page_end": 40
+      },
+      {
+       "char_end": 214696,
+       "char_start": 211931,
+       "page": 41,
+       "page_end": 41
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Articolo 13",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "13",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:12"
+     ],
+     "page_end": 41,
+     "page_start": 40,
+     "path": "CAPO III > Sezione 2 > Articolo 13",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:13",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 13\n\nInformazioni da fornire qualora i dati personali siano raccolti presso l'interessato\n\n1.\nIn caso di raccolta presso l'interessato di dati che lo riguardano, il titolare del trattamento fornisce all'interessato, \nnel momento in cui i dati personali sono ottenuti, le seguenti informazioni:\n\na)  l'identità e i dati di contatto del titolare del trattamento e, ove applicabile, del suo rappresentante;\n\nb)  i dati di contatto del responsabile della protezione dei dati, ove applicabile;\n\nc)  le finalità del trattamento cui sono destinati i dati personali nonché la base giuridica del trattamento;\n\nd)  qualora il trattamento si basi sull'articolo 6, paragrafo 1, lettera f), i legittimi interessi perseguiti dal titolare del\n\ntrattamento o da terzi;\n\ne)  gli eventuali destinatari o le eventuali categorie di destinatari dei dati personali;\n\nf) ove applicabile, l'intenzione del titolare del trattamento di trasferire dati personali a un paese terzo o a un'organiz­\n\nzazione internazionale e l'esistenza o l'assenza di una decisione di adeguatezza della Commissione o, nel caso dei \ntrasferimenti di cui all'articolo 46 o 47, o all'articolo 49, secondo comma, il riferimento alle garanzie appropriate o \nopportune e i mezzi per ottenere una copia di tali dati o il luogo dove sono stati resi disponibili.\n\n2.\nIn aggiunta alle informazioni di cui al paragrafo 1, nel momento in cui i dati personali sono ottenuti, il titolare del \ntrattamento fornisce all'interessato le seguenti ulteriori informazioni necessarie per garantire un trattamento corretto e \ntrasparente:\n\na)  il periodo di conservazione dei dati personali oppure, se non è possibile, i criteri utilizzati per determinare tale\n\nperiodo;\n\nb)  l'esistenza del diritto dell'interessato di chiedere al titolare del trattamento l'accesso ai dati personali e la rettifica o la\n\ncancellazione degli stessi o la limitazione del trattamento che lo riguardano o di opporsi al loro trattamento, oltre al \ndiritto alla portabilità dei dati;\n\nc)  qualora il trattamento sia basato sull'articolo 6, paragrafo 1, lettera a), oppure sull'articolo 9, paragrafo 2, lettera a),\n\nl'esistenza del diritto di revocare il consenso in qualsiasi momento senza pregiudicare la liceità del trattamento basata \nsul consenso prestato prima della revoca;\n\nd)  il diritto di proporre reclamo a un'autorità di controllo;\n\ne)  se la comunicazione di dati personali è un obbligo legale o contrattuale oppure un requisito necessario per la\n\nconclusione di un contratto, e se l'interessato ha l'obbligo di fornire i dati personali nonché le possibili conseguenze \ndella mancata comunicazione di tali dati;\n\nf)  l'esistenza di un processo decisionale automatizzato, compresa la profilazione di cui all'articolo 22, paragrafi 1 e 4, e,\n\nalmeno in tali casi, informazioni significative sulla logica utilizzata, nonché l'importanza e le conseguenze previste di \ntale trattamento per l'interessato.\n\n3.\nQualora il titolare del trattamento intenda trattare ulteriormente i dati personali per una finalità diversa da quella \nper cui essi sono stati raccolti, prima di tale ulteriore trattamento fornisce all'interessato informazioni in merito a tale \ndiversa finalità e ogni ulteriore informazione pertinente di cui al paragrafo 2.\n\n4.\nI paragrafi 1, 2 e 3 non si applicano se e nella misura in cui l'interessato dispone già delle informazioni.",
+     "tier": "internal_only",
+     "title": "Informazioni da fornire qualora i dati personali siano raccolti presso l'interessato",
+     "tokens": 1125,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 244293,
+       "char_start": 243971,
+       "page": 49,
+       "page_end": 49
+      },
+      {
+       "char_end": 245646,
+       "char_start": 244357,
+       "page": 50,
+       "page_end": 50
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0285-f9374852",
+      "doc-8f7504d289853f57-0284-dfc5fb8c"
+     ],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Articolo 28",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "28",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:1"
+     ],
+     "page_end": 50,
+     "page_start": 49,
+     "path": "CAPO IV > Sezione 1 > Articolo 28",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:28",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "h)  metta a disposizione del titolare del trattamento tutte le informazioni necessarie per dimostrare il rispetto degli\n\nobblighi di cui al presente articolo e consenta e contribuisca alle attività di revisione, comprese le ispezioni, realizzati \ndal titolare del trattamento o da un altro soggetto da questi incaricato.\n\nCon riguardo alla lettera h) del primo comma, il responsabile del trattamento informa immediatamente il titolare del \ntrattamento qualora, a suo parere, un'istruzione violi il presente regolamento o altre disposizioni, nazionali o \ndell'Unione, relative alla protezione dei dati.\n\n4.\nQuando un responsabile del trattamento ricorre a un altro responsabile del trattamento per l'esecuzione di \nspecifiche attività di trattamento per conto del titolare del trattamento, su tale altro responsabile del trattamento sono \nimposti, mediante un contratto o un altro atto giuridico a norma del diritto dell'Unione o degli Stati membri, gli stessi \nobblighi in materia di protezione dei dati contenuti nel contratto o in altro atto giuridico tra il titolare del trattamento e \nil responsabile del trattamento di cui al paragrafo 3, prevedendo in particolare garanzie sufficienti per mettere in atto \nmisure tecniche e organizzative adeguate in modo tale che il trattamento soddisfi i requisiti del presente regolamento. \nQualora l'altro responsabile del trattamento ometta di adempiere ai propri obblighi in materia di protezione dei dati, il \nresponsabile iniziale conserva nei confronti del titolare del trattamento l'intera responsabilità dell'adempimento degli \nobblighi dell'altro responsabile.",
+     "tier": "internal_only",
+     "title": "Responsabile del trattamento",
+     "tokens": 537,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 180506,
+       "char_start": 178958,
+       "page": 32,
+       "page_end": 32
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0205-1428f35b"
+     ],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Articolo 2",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "2",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:3"
+     ],
+     "page_end": 32,
+     "page_start": 32,
+     "path": "CAPO I > Articolo 2",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:2",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 2\n\nAmbito di applicazione materiale\n\n1.\nIl presente regolamento si applica al trattamento interamente o parzialmente automatizzato di dati personali e al \ntrattamento non automatizzato di dati personali contenuti in un archivio o destinati a figurarvi.\n\n2.\nIl presente regolamento non si applica ai trattamenti di dati personali:\n\na)  effettuati per attività che non rientrano nell'ambito di applicazione del diritto dell'Unione;\n\nb)  effettuati dagli Stati membri nell'esercizio di attività che rientrano nell'ambito di applicazione del titolo V, capo 2,\n\nTUE;\n\nc)  effettuati da una persona fisica per l'esercizio di attività a carattere esclusivamente personale o domestico;\n\nd)  effettuati dalle autorità competenti a fini di prevenzione, indagine, accertamento o perseguimento di reati o\n\nesecuzione di sanzioni penali, incluse la salvaguardia contro minacce alla sicurezza pubblica e la prevenzione delle \nstesse.\n\n3.\nPer il trattamento dei dati personali da parte di istituzioni, organi, uffici e agenzie dell'Unione, si applica il \nregolamento (CE) n. 45/2001. Il regolamento (CE) n. 45/2001 e gli altri atti giuridici dell'Unione applicabili a tale \ntrattamento di dati personali devono essere adeguati ai principi e alle norme del presente regolamento conformemente \nall'articolo 98.\n\n4.\nIl presente regolamento non pregiudica pertanto l'applicazione della direttiva 2000/31/CE, in particolare le norme \nrelative alla responsabilità dei prestatori intermediari di servizi di cui agli articoli da 12 a 15 della medesima direttiva.",
+     "tier": "internal_only",
+     "title": "Ambito di applicazione materiale",
+     "tokens": 516,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 208126,
+       "char_start": 207345,
+       "page": 39,
+       "page_end": 39
+      },
+      {
+       "char_end": 211203,
+       "char_start": 208190,
+       "page": 40,
+       "page_end": 40
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0241-48a559fe",
+      "doc-8f7504d289853f57-0238-8b081ae5"
+     ],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Articolo 12",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "12",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4"
+     ],
+     "page_end": 40,
+     "page_start": 39,
+     "path": "CAPO III > Sezione 1 > Articolo 12",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:12",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 12\n\nInformazioni, comunicazioni e modalità trasparenti per l'esercizio dei diritti dell'interessato\n\n1.\nIl titolare del trattamento adotta misure appropriate per fornire all'interessato tutte le informazioni di cui agli \narticoli 13 e 14 e le comunicazioni di cui agli articoli da 15 a 22 e all'articolo 34 relative al trattamento in forma \nconcisa, trasparente, intelligibile e facilmente accessibile, con un linguaggio semplice e chiaro, in particolare nel caso di \ninformazioni destinate specificamente ai minori. Le informazioni sono fornite per iscritto o con altri mezzi, anche, se \ndel caso, con mezzi elettronici. Se richiesto dall'interessato, le informazioni possono essere fornite oralmente, purché sia \ncomprovata con altri mezzi l'identità dell'interessato.\n\n2.\nIl titolare del trattamento agevola l'esercizio dei diritti dell'interessato ai sensi degli articoli da 15 a 22. Nei casi di \ncui all'articolo 11, paragrafo 2, il titolare del trattamento non può rifiutare di soddisfare la richiesta dell'interessato al \nfine di esercitare i suoi diritti ai sensi degli articoli da 15 a 22, salvo che il titolare del trattamento dimostri che non è in \ngrado di identificare l'interessato.\n\n3.\nIl titolare del trattamento fornisce all'interessato le informazioni relative all'azione intrapresa riguardo a una \nrichiesta ai sensi degli articoli da 15 a 22 senza ingiustificato ritardo e, comunque, al più tardi entro un mese dal \nricevimento della richiesta stessa. Tale termine può essere prorogato di due mesi, se necessario, tenuto conto della \ncomplessità e del numero delle richieste. Il titolare del trattamento informa l'interessato di tale proroga, e dei motivi del \nritardo, entro un mese dal ricevimento della richiesta. Se l'interessato presenta la richiesta mediante mezzi elettronici, le \ninformazioni sono fornite, ove possibile, con mezzi elettronici, salvo diversa indicazione dell'interessato.\n\n4.\nSe non ottempera alla richiesta dell'interessato, il titolare del trattamento informa l'interessato senza ritardo, e al \npiù tardi entro un mese dal ricevimento della richiesta, dei motivi dell'inottemperanza e della possibilità di proporre \nreclamo a un'autorità di controllo e di proporre ricorso giurisdizionale.\n\n5.\nLe informazioni fornite ai sensi degli articoli 13 e 14 ed eventuali comunicazioni e azioni intraprese ai sensi degli \narticoli da 15 a 22 e dell'articolo 34 sono gratuite. Se le richieste dell'interessato sono manifestamente infondate o \neccessive, in particolare per il loro carattere ripetitivo, il titolare del trattamento può:\n\na)  addebitare un contributo spese ragionevole tenendo conto dei costi amministrativi sostenuti per fornire le\n\ninformazioni o la comunicazione o intraprendere l'azione richiesta; oppure\n\nb)  rifiutare di soddisfare la richiesta.\n\nIncombe al titolare del trattamento l'onere di dimostrare il carattere manifestamente infondato o eccessivo della richiesta.\n\n6.\nFatto salvo l'articolo 11, qualora il titolare del trattamento nutra ragionevoli dubbi circa l'identità della persona \nfisica che presenta la richiesta di cui agli articoli da 15 a 21, può richiedere ulteriori informazioni necessarie per \nconfermare l'identità dell'interessato.\n\n7.\nLe informazioni da fornire agli interessati a norma degli articoli 13 e 14 possono essere fornite in combinazione \ncon icone standardizzate per dare, in modo facilmente visibile, intelligibile e chiaramente leggibile, un quadro d'insieme \ndel trattamento previsto. Se presentate elettronicamente, le icone sono leggibili da dispositivo automatico.\n\n8.\nAlla Commissione è conferito il potere di adottare atti delegati conformemente all'articolo 92 al fine di stabilire le \ninformazioni da presentare sotto forma di icona e le procedure per fornire icone standardizzate.",
+     "tier": "internal_only",
+     "title": "Informazioni, comunicazioni e modalità trasparenti per l'esercizio dei diritti dell'interessato",
+     "tokens": 1265,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 14256,
+       "char_start": 13075,
+       "page": 4,
+       "page_end": 4
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0019-c8785565"
+     ],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Art. 2-sexies",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-sexies",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5"
+     ],
+     "page_end": 4,
+     "page_start": 4,
+     "path": "PARTE I > TITOLO I > CAPO II > Art. 2-sexies",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-sexies",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "2. Fermo quanto previsto dal comma 1, si considera rilevante l'interesse pubblico relativo a trattamenti\neffettuati da soggetti che svolgono compiti di interesse pubblico o connessi all'esercizio di pubblici poteri nelle\nseguenti materie:\n\na) accesso a documenti amministrativi e accesso civico;\n\nb) tenuta degli atti e dei registri dello stato civile, delle anagrafi della popolazione residente in Italia e dei\ncittadini italiani residenti all'estero, e delle liste elettorali, nonché rilascio di documenti di riconoscimento o di\nviaggio o cambiamento delle generalità;\n\nc) tenuta di registri pubblici relativi a beni immobili o mobili;\n\nd) tenuta dell'anagrafe nazionale degli abilitati alla guida e dell'archivio nazionale dei veicoli;\n\ne) cittadinanza, immigrazione, asilo, condizione dello straniero e del profugo, stato di rifugiato;\n\nf) elettorato attivo e passivo ed esercizio di altri diritti politici, protezione diplomatica e consolare, nonché\ndocumentazione delle attività istituzionali di organi pubblici, con particolare riguardo alla redazione di verbali e\nresoconti dell'attività di assemblee rappresentative, commissioni e di altri organi collegiali o assembleari;",
+     "tier": "internal_only",
+     "title": "(Trattamento di categorie particolari di dati personali necessario per motivi di interesse pubblico rilevante)",
+     "tokens": 394,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": false
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "5",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "24",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "25",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "30",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "32",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "33",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "35",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "13",
+      "point": null
+     }
+    ],
+    "queries": [
+     "obblighi del titolare del trattamento",
+     "responsabilità del titolare del trattamento",
+     "principi applicabili al trattamento di dati personali",
+     "informazioni da fornire all'interessato",
+     "registri delle attività di trattamento",
+     "sicurezza del trattamento misure tecniche e organizzative",
+     "protezione dei dati fin dalla progettazione e per impostazione predefinita",
+     "notifica di una violazione dei dati personali all'autorità di controllo"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 9337,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v6",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRVzfKc2q2LKSvC7nQPa"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "The answer is based only on the supplied GDPR provisions and is not an exhaustive list of controller obligations.",
+   "Article 12 (E11) and Article 28 (E9) are excerpts only; E9 concerns processors and is not used for controller obligations.",
+   "Some obligations depend on the type of processing (e.g. the impact assessment applies only where high risk is likely; the record-keeping exception for organisations with fewer than 250 employees is subject to conditions)."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer_limited",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "22 further candidate provisions were left out by the evidence limits (max_items).",
+   "As-of date 2026-11-26: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later.",
+   "A pending proposal (Digital Omnibus, COM(2025) 837, not adopted as of 2026-11-08) would limit notification to high-risk breaches and extend the deadline to 96 hours; this answer reflects the text in force in the corpus (72 hours)."
+  ],
+  "question": "What are the main obligations of a data controller under the GDPR?",
+  "question_references": [],
+  "rejected_claims": [],
+  "repair": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-repair-v2.1",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRW2QHmon4ksTaE5GAPw"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E3",
+    "E4",
+    "E6",
+    "E7"
+   ],
+   "task": "claim_repair"
+  },
+  "repair_verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRW2pusGPyYSRmaqJA3s"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E3",
+    "E4",
+    "E6",
+    "E7"
+   ],
+   "task": "claim_verification"
+  },
+  "summary": null,
+  "summary_claim_ids": [],
+  "unanswered_issues": [
+   {
+    "issue_id": "I1",
+    "reason": "Reported by the model as not answered, or only partly answered, by the supplied evidence."
+   }
+  ],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRW2FLX4VdqDK6bV6P3Q"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E11"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode",
+   "model_note_removed: unsupported reference articolo 15"
+  ]
+ },
+ "split": "dev",
+ "usage": {
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": 0.144748,
+  "input_tokens": 42569,
+  "output_tokens": 5961
+ }
+}

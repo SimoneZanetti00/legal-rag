@@ -1,0 +1,98 @@
+{
+ "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+ "code": {
+  "changed_paths": [
+   "?? docs/PROJECT_OVERVIEW.md",
+   "?? docs/reviews/m1-review-record-2026-11-09.md"
+  ],
+  "commit": "b8566c94d599cb1fd1d16a7f27246a86be2ae3ed",
+  "fingerprint": "267b6cf751a761d9fc37e60100004d5fade46c3710e7832df137fb895c941966",
+  "state": "dirty"
+ },
+ "invocations": [
+  {
+   "at": "2026-11-26T13:04:54+01:00",
+   "code": {
+    "changed_paths": [
+     "?? docs/PROJECT_OVERVIEW.md",
+     "?? docs/reviews/m1-review-record-2026-11-09.md"
+    ],
+    "commit": "b8566c94d599cb1fd1d16a7f27246a86be2ae3ed",
+    "fingerprint": "267b6cf751a761d9fc37e60100004d5fade46c3710e7832df137fb895c941966",
+    "state": "dirty"
+   },
+   "offline": false,
+   "questions": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06",
+    "a07",
+    "a08",
+    "a09",
+    "a10",
+    "a11",
+    "a12",
+    "a13",
+    "a14",
+    "a15",
+    "a16",
+    "a17",
+    "a18",
+    "a19",
+    "a20",
+    "a21",
+    "a22",
+    "a23",
+    "a24",
+    "a25"
+   ],
+   "replay_of": null,
+   "spend": {
+    "budget_usd": 2.0,
+    "cost_usd": 1.702146,
+    "model": "claude-sonnet-5-5",
+    "prices_usd_per_mtok": {
+     "cache_read": 0.1,
+     "cache_write": 2.5,
+     "input": 2.0,
+     "output": 10.0
+    },
+    "stopped_before": null,
+    "usage": {
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 0,
+     "input_tokens": 511453,
+     "output_tokens": 67924
+    }
+   },
+   "splits": [
+    "dev",
+    "test",
+    "candidate"
+   ]
+  }
+ ],
+ "kind": "answers-v0-run",
+ "mode": "research",
+ "model": "claude-sonnet-5-5",
+ "offline": false,
+ "prompt_versions": {
+  "answer_generation": "answer-generation-v6",
+  "claim_repair": "claim-repair-v2.1",
+  "claim_verification": "claim-verification-v3",
+  "query_analysis": "query-analysis-v4"
+ },
+ "provider": "anthropic",
+ "replay_of": null,
+ "run_id": "2026-11-26-direct-answer",
+ "schema": 1,
+ "settings": {
+  "context_token_budget": 12000,
+  "final_evidence_count": 12,
+  "max_generation_retries": 1,
+  "semantic_verification": true
+ }
+}
