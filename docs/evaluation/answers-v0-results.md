@@ -20,6 +20,7 @@ build `build-f76ff6031f2fc82c4852f0a2bde27807`.*
 | `2026-11-24-research-repair-caveat` | new Art. 33 caveat (application text only) | 12 items / 12,000 tokens | replayed | replayed (offline: no model call) |
 | `2026-11-26-repair-v1-before` | none: the baseline for the widening change, on 25 questions (a23–a25 added) | 12 items / 12,000 tokens | a01–a12 replayed offline from `2026-11-24-research-repair-caveat`; a13–a22 replayed from `2026-11-17-final`; a23–a25 live | a13–a22: repair calls live; a23–a25: live |
 | `2026-11-26-repair-v2` | repair prompt v2: a quotation may be widened within the same provision (last section) | 12 items / 12,000 tokens | replayed from `2026-11-26-repair-v1-before` | generation and first support check replayed; repair calls and the support check of the rewrites live |
+| `2026-11-26-repair-v2-cap350` | widening cap raised to 350 characters (`claim-repair-v2.1`), after the results of `2026-11-26-repair-v2`; a07 and a24 only | 12 items / 12,000 tokens | replayed from `2026-11-26-repair-v1-before` | as `2026-11-26-repair-v2` |
 
 ## Stage metrics (22 questions, means over questions with core rows)
 
@@ -280,7 +281,7 @@ the baseline is run-to-run variation of the repair pass, not the widening.**
   condition the claim needs, and must then state the condition;
 - the widened passage must contain the whole original quotation, add at most 300 characters (600
   in all, normalised), and be an exact passage of the same evidence item. A widening that fails
-  drops that rewrite;
+  drops that rewrite. The cap was later raised to 350 characters, after these results (below);
 - the rewrites then go through the usual deterministic checks and the support check
   (`claim-verification-v3`), both unchanged;
 - a confirmed widened quotation is marked on the page and in the CLI, with its original.
@@ -342,18 +343,22 @@ held apart went from 73/8 to 78/5.
    - The Art. 33(1) exception, «a meno che sia improbabile che la violazione … presenti un
      rischio»: added and confirmed in a07, a10, a11 and a12 (10, 14–16).
    - The Art. 20(1)(a) condition, consent or contract: confirmed in a06 (7).
-2. **Not every widening adds a condition.** In my reading:
+2. **Not every widening adds a condition.** The prompt asks for conditions only, but the model
+   also widens a quotation for other text the claim states. In my reading:
    - 13 of the 22 confirmed widenings add a condition, an exception or a limit (3, 7, 10, 11,
      14–17, 22, 23, 27, 28, 33);
    - 9 add other text that the claim states (1, 2, 5, 6, 8, 20, 25, 26, 32). Examples: in a01, the
      sentence after Art. 33(5)'s documentation duty; in a07, «Dette misure sono riesaminate e
      aggiornate qualora necessario».
-   - The prompt asks for conditions only, and nothing checks this mechanically. Every confirmed
-     widening is exact text of the same provision, contains its original quotation and passed
-     the support check.
+
+   Whether a widening adds a condition cannot be checked mechanically. **Owner's decision
+   (2026-11-26): these widenings are accepted, and the prompt stays as it is.** The guarantee is
+   the same for every widening: the widened text is an exact passage of the same provision, it
+   contains the original quotation, it is within the cap, and the support check confirmed the
+   rewrite.
 3. **The cap refused the Art. 30(5) exception twice**, at +329 characters (a07 and a24; 9, 34).
    In a24 this is the claim that puts the 250-employee threshold in the records duty, so it stays
-   held apart.
+   held apart. The cap was then raised (next section).
 4. **Five questions are worse at the claim level** (a02, a08, a10, a15, a25):
    - a08 and a25 have one claim fewer in the answer. A claim that the v1 repair had brought into
      the answer stays out: in a08 its widening was refused by the cap (12, 13), and in a25 neither
@@ -364,6 +369,59 @@ held apart went from 73/8 to 78/5.
      confirmed.
 5. **Outcomes are unchanged.** In a06, a07, a15 and a22 the model reported the question as only
    partly answered, and the rule keeps that report.
+
+### The cap raised to 350 characters: `2026-11-26-repair-v2-cap350`
+
+**The cap was raised after the results above, not set in advance.** At 300 characters it had
+refused the Art. 30(5) exception (+329) in a07 and a24.
+- **What changed:** on the owner's decision (2026-11-26), a widening may add up to 350
+  characters (`claim-repair-v2.1`). Only that number in the prompt changed; the total of 600 and
+  every check are unchanged.
+- **How it ran:** a07 and a24 only, from the same baseline, for $0.063.
+
+| Question | Outcome (unchanged) | Claims in answer / held apart (v2 → v2.1) | Core in citations (v2 → v2.1) |
+|---|---|---|---|
+| a07 | answer_limited | 10/1 → 10/2 | 89% → 89% |
+| a24 | answer | 3/1 → 3/1 | 100% → 100% |
+
+- **a24:** the Art. 30(5) widening was confirmed. The claim that the exemption for fewer than 250
+  employees concerns the records of processing ("subject to exceptions") is now in the answer.
+  Another claim (C1, the cases of Art. 37(1)) was not confirmed this time, so the counts are the
+  same.
+- **a07:** the Art. 30(5) widening passed the cap, but the rewrite left the exception out of its
+  own text, and the support check rated it partially supported. One part of another split claim
+  (C8) was not confirmed either, so one more claim is held apart.
+- **The other 23 questions were not run again.** Each of their saved widenings either added at
+  most 300 characters or more than 350 (a05 +417, a08 +402). So the new cap does not change how
+  those proposals are checked. A new repair call would be a new sample, which this does not
+  measure.
+
+The six widened quotations of this re-run:
+
+1. **a07 C1**, GDPR art. 24: confirmed (+63 characters)
+   - Original: «il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire, ed essere in grado di dimostrare, che il trattamento è effettuato conformemente al presente regolamento.»
+   - Widened: «il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire, ed essere in grado di dimostrare, che il trattamento è effettuato conformemente al presente regolamento. Dette misure sono riesaminate e aggiornate qualora necessario.»
+   - Rewrite: The controller must put in place appropriate technical and organisational measures to ensure, and be able to demonstrate, that processing is carried out in compliance with the Regulation. These measures are reviewed and updated where necessary.
+2. **a07 C4.2**, GDPR art. 30: not confirmed (partially_supported) (+329 characters)
+   - Original: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti»
+   - Widened: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti, a meno che il trattamento che esse effettuano possa presentare un rischio per i diritti e le libertà dell'interessato, il trattamento non sia occasionale o includa il trattamento di categorie particolari di dati di cui all'articolo 9, paragrafo 1, o i dati personali relativi a condanne penali e a reati di cui all'articolo 10.»
+   - Rewrite: The obligations in paragraphs 1 and 2 do not apply to enterprises or organisations with fewer than 250 employees.
+3. **a07 C6**, GDPR art. 33: confirmed (+135 characters)
+   - Original: «il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza»
+   - Widened: «il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche.»
+   - Rewrite: In case of a personal data breach the controller must notify the competent supervisory authority without undue delay and, where possible, within 72 hours of becoming aware of it, unless it is unlikely that the breach presents a risk to the rights and freedoms of natural persons.
+4. **a07 C8.2**, GDPR art. 35: confirmed (+251 characters)
+   - Original: «il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.»
+   - Widened: «Quando un tipo di trattamento, allorché prevede in particolare l'uso di nuove tecnologie, considerati la natura, l'oggetto, il contesto e le finalità del trattamento, può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.»
+   - Rewrite: Where a type of processing may present a high risk to the rights and freedoms of natural persons, the controller must carry out, before processing, an assessment of the impact of the envisaged processing on the protection of personal data.
+5. **a24 C3**, GDPR art. 37: confirmed (+244 characters)
+   - Original: «possono o, se previsto dal diritto dell'Unione o degli Stati membri, devono designare un responsabile della protezione dei dati»
+   - Widened: «Nei casi diversi da quelli di cui al paragrafo 1, il titolare e del trattamento, il responsabile del trattamento o le associazioni e gli altri organismi rappresentanti le categorie di titolari del trattamento o di responsabili del trattamento possono o, se previsto dal diritto dell'Unione o degli Stati membri, devono designare un responsabile della protezione dei dati.»
+   - Rewrite: In cases other than those in Article 37(1), controllers and processors may designate a DPO or, if provided for by Union or Member State law, must do so.
+6. **a24 C4**, GDPR art. 30: confirmed (+329 characters)
+   - Original: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti»
+   - Widened: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti, a meno che il trattamento che esse effettuano possa presentare un rischio per i diritti e le libertà dell'interessato, il trattamento non sia occasionale o includa il trattamento di categorie particolari di dati di cui all'articolo 9, paragrafo 1, o i dati personali relativi a condanne penali e a reati di cui all'articolo 10.»
+   - Rewrite: The obligations in paragraphs 1 and 2 of the GDPR article on records of processing activities do not apply to enterprises or organisations with fewer than 250 employees, subject to exceptions.
 
 ### The widened quotations (34)
 

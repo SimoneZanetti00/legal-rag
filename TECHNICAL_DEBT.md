@@ -112,6 +112,7 @@ the phase reports and are not asserted by the test suite.
 | TD-068 | Claims of absence cannot be quoted | Answer quality | Observed | Medium | Open |
 | TD-069 | Yes/no and false-premise questions can be answered without an explicit yes or no | Answer quality | Observed | Medium | Open |
 | TD-070 | Quotations that cut off a condition make the support check reject correct claims | Answer quality | Observed | Medium | Open |
+| TD-071 | A refused widening drops the rewrite, with no fallback to a narrower one | Answer quality | Observed | Low | Open |
 
 ## Ingestion and chunking (Phase 2)
 
@@ -588,10 +589,29 @@ the phase reports and are not asserted by the test suite.
   - held-apart claims fell from 26 to 15, and outcomes were unchanged (21/25);
   - 34 widenings were proposed: 22 confirmed, 7 not confirmed, 5 refused by the cap;
   - Art. 37(4) «Nei casi diversi da quelli di cui al paragrafo 1» was confirmed in a24 and not confirmed in a15. The Art. 33(4) case from the live demo is not in the benchmark.
+- **Owner's decisions (2026-11-26):**
+  - **The cap on the added text was raised to 350 characters** (`claim-repair-v2.1`). This was done after the 300-character cap refused the Art. 30(5) exception (+329) in a07 and a24; the cap was not set in advance at 350.
+    - Re-run on a07 and a24 (`2026-11-26-repair-v2-cap350`).
+    - In a24 the widening was confirmed.
+    - In a07 it passed the cap, but the rewrite left the exception out of its own text and was not confirmed.
+  - **Widenings that add text the claim states beyond a condition are accepted.** These were 9 of the 22 confirmed in `2026-11-26-repair-v2`.
+    - The prompt asks for conditions only, and this cannot be checked mechanically.
+    - The guarantee is the same for every widening: an exact passage of the same provision, containing the original quotation, within the cap, and confirmed by the support check.
 - **Still open:**
-  - the 300-character cap refused the Art. 30(5) exception (+329) twice, in a07 and a24;
-  - 9 of the 22 confirmed widenings add text other than a condition, which the prompt forbids and nothing checks mechanically;
-  - variance is not measured.
+  - variance is not measured;
+  - a refused widening has no fallback (TD-071).
+
+### TD-071 · A refused widening drops the rewrite, with no fallback to a narrower one
+- **Kind:** Observed · **Priority:** Low · **Status:** Open
+- **Evidence:** `2026-11-26-repair-v2`, a08 C11 (GDPR Art. 9(2)).
+  - The repair pass widened two quotations of the claim. One added 402 characters, so the cap refused the rewrite.
+  - Repair v1 had narrowed the same claim, and the support check had confirmed it.
+  - So a08 has one claim fewer in the answer than with repair v1 (12 to 11).
+- **Behaviour:** when the cap or another mechanical check (`widening_problem` in `src/answer_generation.py`) refuses a widened quotation, the whole rewrite is dropped and the original claim stays held apart. There is one repair round, so nothing falls back to a narrower rewrite on the original quotations.
+- **Impact:** a correct claim may stay out of the answer. The failure is safe: nothing unsupported enters the answer.
+- **Follow-up:** either:
+  - on a refused widening, ask once for a narrower rewrite on the original quotations; or
+  - let the model return both a widened and a narrowed rewrite, and keep the narrowed one when the widening is refused.
 
 ## Risks and questions for later phases
 

@@ -1,0 +1,76 @@
+{
+ "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+ "code": {
+  "changed_paths": [
+   " M src/answer_generation.py",
+   "?? docs/PROJECT_OVERVIEW.md",
+   "?? docs/reviews/m1-review-record-2026-11-09.md"
+  ],
+  "commit": "43add0b86f1617ff6e767f86b924804d0d8103d7",
+  "fingerprint": "be9a4f54266aa83664515216646ae5219484b62e568dba750b0cbc71587cd99b",
+  "state": "dirty"
+ },
+ "invocations": [
+  {
+   "at": "2026-11-26T11:55:52+01:00",
+   "code": {
+    "changed_paths": [
+     " M src/answer_generation.py",
+     "?? docs/PROJECT_OVERVIEW.md",
+     "?? docs/reviews/m1-review-record-2026-11-09.md"
+    ],
+    "commit": "43add0b86f1617ff6e767f86b924804d0d8103d7",
+    "fingerprint": "be9a4f54266aa83664515216646ae5219484b62e568dba750b0cbc71587cd99b",
+    "state": "dirty"
+   },
+   "offline": false,
+   "questions": [
+    "a07",
+    "a24"
+   ],
+   "replay_of": "2026-11-26-repair-v1-before",
+   "spend": {
+    "budget_usd": 0.15,
+    "cost_usd": 0.062822,
+    "model": "claude-sonnet-5-5",
+    "prices_usd_per_mtok": {
+     "cache_read": 0.1,
+     "cache_write": 2.5,
+     "input": 2.0,
+     "output": 10.0
+    },
+    "stopped_before": null,
+    "usage": {
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 0,
+     "input_tokens": 20776,
+     "output_tokens": 2127
+    }
+   },
+   "splits": [
+    "dev",
+    "candidate"
+   ]
+  }
+ ],
+ "kind": "answers-v0-run",
+ "mode": "research",
+ "model": "claude-sonnet-5-5",
+ "offline": false,
+ "prompt_versions": {
+  "answer_generation": "answer-generation-v5",
+  "claim_repair": "claim-repair-v2.1",
+  "claim_verification": "claim-verification-v3",
+  "query_analysis": "query-analysis-v3"
+ },
+ "provider": "anthropic",
+ "replay_of": "2026-11-26-repair-v1-before",
+ "run_id": "2026-11-26-repair-v2-cap350",
+ "schema": 1,
+ "settings": {
+  "context_token_budget": 12000,
+  "final_evidence_count": 12,
+  "max_generation_retries": 1,
+  "semantic_verification": true
+ }
+}
