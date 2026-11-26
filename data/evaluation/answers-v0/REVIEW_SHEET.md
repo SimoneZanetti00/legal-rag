@@ -26,6 +26,9 @@
 Roles: **core** = a complete answer must rest on it; **supporting** = useful, not required. The
 role `must_not_cite` is defined but not used yet.
 
+«direct answer» in the outcome column is `expected_direct_answer`: the yes, no, partly or
+cannot_establish a yes/no or premise question should get. It is absent for the other questions.
+
 A unit is written «par. N» (paragraph «N.»), «point N» (point «N)», e.g. the definitions of GDPR
 Art. 4) or «letter x» (letter «x)» inside the paragraph or point). No unit means the whole article.
 
@@ -54,8 +57,8 @@ Art. 4) or «letter x» (letter «x)» inside the paragraph or point). No unit m
 | a21 | test | sanctions | answer | Qual è la sanzione massima per la violazione dell'obbligo di notificare una violazione dei dati personali? | GDPR 83 (par. 4) | GDPR 83 (par. 2) | |
 | a22 | test | italian_specific | answer | Come si presenta un reclamo al Garante e cosa prevede il Codice privacy? | GDPR 77, Codice 141, Codice 142 | Codice 143 | |
 | a23 | candidate | italian_specific | answer | Qual è l'età minima per il consenso del minore ai servizi della società dell'informazione in Italia? | Codice 2-quinquies (par. 1) | GDPR 8 (par. 1) | |
-| a24 | candidate | false_premise | answer | Is it true that every company with more than 250 employees must appoint a DPO? | GDPR 37 (par. 1) | GDPR 30 (par. 5), GDPR 37 (par. 4) | |
-| a25 | candidate | rights | answer | Il diritto alla portabilità dei dati si applica anche ai trattamenti basati sul legittimo interesse? | GDPR 20 (par. 1) | GDPR 6 (par. 1, letter f), GDPR 21 (par. 1) | |
+| a24 | candidate | false_premise | answer; direct answer: no | Is it true that every company with more than 250 employees must appoint a DPO? | GDPR 37 (par. 1) | GDPR 30 (par. 5), GDPR 37 (par. 4) | |
+| a25 | candidate | rights | answer; direct answer: no | Il diritto alla portabilità dei dati si applica anche ai trattamenti basati sul legittimo interesse? | GDPR 20 (par. 1) | GDPR 6 (par. 1, letter f), GDPR 21 (par. 1) | |
 
 **How to record a review.** In the record's `provenance`:
 - set `review_status` to `owner_reviewed` (or `expert_reviewed`), and fill in `reviewed_by` and

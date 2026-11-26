@@ -236,6 +236,7 @@ SYNTHETIC_QUESTION = ("Entro quando il custode del registro deve segnalare un in
 ANALYSIS_REPLY = {
     "language": "it", "in_scope": True,
     "scope_reason": "Riguarda la segnalazione degli incidenti informativi nell'atto di Valdoria.",
+    "question_type": "open",
     "issues": [
         {"question": "Entro quale termine il custode del registro segnala un incidente "
                      "informativo?"},
@@ -287,7 +288,8 @@ SCRIPTED_CLAIMS = (
 )
 # The scripted model claims a complete answer; the pipeline decides what is left of it.
 GENERATION_REPLY = {"outcome": "answer", "claims": [c for _, _, c in SCRIPTED_CLAIMS],
-                    "unanswered_issues": [], "limitations": [], "abstention_reason": None}
+                    "unanswered_issues": [], "limitations": [], "abstention_reason": None,
+                    "direct_answer": None}
 # Verdicts on the claims that pass validation, numbered C1, C2, C3 in the model's order.
 VERIFICATION_REPLY = {"verdicts": [{"claim_id": "C1", "support": "supported"},
                                    {"claim_id": "C2", "support": "supported"},

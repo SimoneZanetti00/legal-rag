@@ -577,6 +577,14 @@ the phase reports and are not asserted by the test suite.
 - **Follow-up:** detect yes/no and false-premise questions in the query analysis and require a direct-answer claim that rests on the cited provisions. Either:
   - the outcome rule treats a missing direct answer as a partial answer; or
   - the page shows the direct answer as a sentence built from supported claims.
+- **Change (2026-11-26; not yet measured):**
+  - `query-analysis-v4` classifies the form of the question: `yes_no`, `premise` (an open question resting on a fact it states as given) or `open`.
+  - For `yes_no` and `premise` questions, `answer-generation-v6` asks for a direct answer: yes, no, partly or cannot_establish, one sentence, and the claims it rests on (`DirectAnswer`, `_direct_answer` in `src/answer_generation.py`).
+  - Outcome rule: such a question is `answer` only if the direct answer is shown, otherwise `answer_limited`. Open questions, and results made before the change, keep the rule as it was.
+- **Owner's decision (2026-11-26): the direct answer is not support-checked.**
+  - It is shown only under mechanical constraints: every claim it rests on is SUPPORTED and in the main answer; its text names no provision outside those claims' items; the page labels it as an interpretation of the statements it rests on, which are marked.
+  - Its correctness is measured against `expected_direct_answer` in benchmark answers-v0.
+  - **Consequence:** a direct answer that says more than its claims, for example "no" where they support only "partly", is not caught by the system. Only the benchmark comparison and human review catch it.
 
 ### TD-070 · Quotations that cut off a condition make the support check reject correct claims
 - **Kind:** Observed · **Priority:** Medium · **Status:** Open

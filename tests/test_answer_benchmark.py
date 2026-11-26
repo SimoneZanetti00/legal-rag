@@ -93,8 +93,7 @@ def test_the_questions_from_the_live_demo_as_the_owner_drafted_them(bench):
     assert rows_of(bench, "a25", "core") == [(G, "20", unit("1"))]
     assert rows_of(bench, "a25", "supporting") == [(G, "6", unit("1", letter="f")),
                                                    (G, "21", unit("1"))]
-    assert "Expected direct answer: no." in by_id["a24"].notes
-    assert "Expected direct answer: no." in by_id["a25"].notes
+    assert [by_id[q].expected_direct_answer for q in ("a23", "a24", "a25")] == [None, "no", "no"]
     assert [r.query_id for r in bench.expectations[82:]] == ["a23"] * 2 + ["a24"] * 3 + ["a25"] * 3
 
 
@@ -192,7 +191,9 @@ def test_the_review_sheet_table_matches_the_files(bench):
     assert sorted(table) == [q.query_id for q in bench.questions]
     for q in bench.questions:
         _, split, category, outcome, text, core, supporting, _ = table[q.query_id]
-        expected = q.expected_outcome + (f" ({q.expected_reason})" if q.expected_reason else "")
+        expected = (q.expected_outcome + (f" ({q.expected_reason})" if q.expected_reason else "")
+                    + (f"; direct answer: {q.expected_direct_answer}"
+                       if q.expected_direct_answer else ""))
         assert (split, category, outcome, text) == (q.split, q.category, expected, q.question)
         assert parse(core) == rows_of(bench, q.query_id, "core"), q.query_id
         assert parse(supporting) == rows_of(bench, q.query_id, "supporting"), q.query_id

@@ -50,6 +50,14 @@ model's own reasons are discarded. Its limitations, and a clarifying question fr
 analysis, are kept only as model notes (MODEL_NOTES_LABEL), after the same reference check
 against the supplied items.
 
+Direct answers (TECHNICAL_DEBT.md TD-069). When the query analysis classifies the question as
+yes_no or premise (DIRECT_ANSWER_TYPES), the model is asked for a direct answer too: yes, no,
+partly or cannot_establish, one sentence, and the claims it rests on. It is an interpretation of
+those claims and is not support-checked itself (owner's decision, 2026-11-26). The application
+shows it only if every claim it rests on is SUPPORTED and in the main answer and its text names no
+provision outside those claims' items (_direct_answer()). For such a question the answer is
+complete only with a direct answer shown; otherwise it is answer_limited.
+
 What passing shows: the quotations are real, exact and from citable provisions, and no article
 or act outside them is named. What it does not show: that the claim follows from its quotations.
 No semantic verification is done yet, so every claim keeps VerificationStatus.NOT_VERIFIED.
@@ -116,7 +124,8 @@ from src.text_normalization import normalise, reading_form
 TASK = "answer_generation"
 # v2: the evidence `source` label describes the Privacy Code as a user transcription
 # (query_analysis.CORPUS_INSTRUMENTS); the system prompt is unchanged.
-PROMPT_VERSION = "answer-generation-v5"  # v5: quote each listed element; v4: summary
+# v6: direct_answer for yes/no and premise questions; v5: quote each listed element; v4: summary
+PROMPT_VERSION = "answer-generation-v6"
 
 MAX_CLAIMS = 12
 MAX_SUPPORT = 4  # quotations per claim
@@ -127,6 +136,25 @@ MAX_SUMMARY_CHARS = 800
 MIN_QUOTE_CHARS = 20  # in the normalised form
 
 KINDS = ("source_statement", "inference")
+
+# Direct answers (TECHNICAL_DEBT.md TD-069): asked for when the query analysis classifies the
+# question as one of these types (query_analysis.QUESTION_TYPES).
+DIRECT_ANSWER_TYPES = ("yes_no", "premise")
+DIRECT_VALUES = ("yes", "no", "partly", "cannot_establish")
+MAX_DIRECT_CHARS = 400
+# DirectAnswer.status. Only DIRECT_SHOWN is shown, and only it lets such a question be complete.
+DIRECT_SHOWN = "shown"
+DIRECT_MISSING = "missing"  # none given, or its text is empty or too long
+DIRECT_NOT_ESTABLISHED = "cannot_establish"  # the model said the evidence does not establish it
+DIRECT_NOT_SUPPORTED = "not_supported"  # it rests on no claim, or on one not SUPPORTED in the answer
+DIRECT_BAD_REFERENCE = "unsupported_reference"  # its text names a provision outside its claims
+DIRECT_LABEL = "an interpretation of the statements it rests on"
+DIRECT_NOT_SHOWN = {  # why none is shown; application text (CLI and web page)
+    DIRECT_MISSING: "the model gave no usable direct answer",
+    DIRECT_NOT_ESTABLISHED: "the supplied provisions do not establish a yes or no",
+    DIRECT_NOT_SUPPORTED: "the statements it rests on were not all confirmed by the support check",
+    DIRECT_BAD_REFERENCE: "it named a provision outside the statements it rests on",
+}
 
 # Act numbers a claim may use for the instruments it cites, beyond those named in the cited text.
 INSTRUMENT_NUMBERS: dict[str, tuple[str, ...]] = {
@@ -294,6 +322,18 @@ class RejectedClaim:
 
 
 @dataclass(frozen=True)
+class DirectAnswer:
+    """The direct answer to a yes/no or premise question, written by the model as an
+    interpretation of the claims it rests on (TECHNICAL_DEBT.md TD-069). Not support-checked
+    itself: shown only when `status` is DIRECT_SHOWN (_direct_answer())."""
+
+    value: str | None  # DIRECT_VALUES; None when the model gave none
+    text: str | None
+    claim_ids: tuple[str, ...]  # the claims it rests on, after validation and repair
+    status: str  # DIRECT_SHOWN, or why it is not shown (DIRECT_NOT_SHOWN)
+
+
+@dataclass(frozen=True)
 class SourceReference:
     """An evidence item as reported: a citation if citable, otherwise non-authoritative."""
 
@@ -391,6 +431,8 @@ class AnswerResult:
     summary_claim_ids: tuple[str, ...] = ()
     repair: GenerationProvenance | None = None  # the repair call, when it ran (_repair())
     repair_verification: GenerationProvenance | None = None  # the support check of the rewrites
+    # Set for a question the analysis classifies as yes_no or premise (DIRECT_ANSWER_TYPES).
+    direct_answer: DirectAnswer | None = None
 
     def to_dict(self) -> dict[str, Any]:
         """Plain JSON-compatible data."""
@@ -411,7 +453,8 @@ _NULLABLE_STRING = {"anyOf": [{"type": "string"}, {"type": "null"}]}
 SCHEMA: dict[str, Any] = {
     "type": "object",
     "additionalProperties": False,
-    "required": ["outcome", "claims", "unanswered_issues", "limitations", "abstention_reason"],
+    "required": ["outcome", "claims", "unanswered_issues", "limitations", "abstention_reason",
+                 "direct_answer"],
     "properties": {
         "outcome": {"type": "string", "enum": [o.value for o in Outcome]},
         "claims": {
@@ -449,6 +492,14 @@ SCHEMA: dict[str, Any] = {
         "limitations": {"type": "array", "items": {"type": "string"}},
         "abstention_reason": _NULLABLE_STRING,
         "summary": _NULLABLE_STRING,  # optional: replies without it stay valid
+        "direct_answer": {"anyOf": [{"type": "null"}, {
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["value", "text", "claims"],
+            "properties": {"value": {"type": "string", "enum": list(DIRECT_VALUES)},
+                           "text": {"type": "string"},
+                           "claims": {"type": "array", "items": {"type": "integer"}}},
+        }]},
     },
 }
 
@@ -493,6 +544,19 @@ sentence followed by the claims it rests on, by their position in the claims lis
 brackets, such as [1] or [1][3]. Say nothing the cited claims do not say, and mention an article \
 only if those claims rest on it or its text names it. Null when the outcome is "abstain".
 
+direct_answer: null unless the request below asks for a direct answer. Then an object with:
+- value: "yes", "no" or "partly", answering the question as asked (for a question that rests on \
+a premise: whether the premise holds), when the claims establish it; "cannot_establish" when \
+they do not;
+- text: one short sentence that gives this answer, in the language requested below. It is an \
+interpretation of the claims it rests on: say nothing they do not state, and mention an article \
+only if those claims rest on it or its text names it;
+- claims: the positions in the claims list (1, 2, ...) of the claims it rests on, at least one \
+unless the value is "cannot_establish".
+When the answer is "no" because the provisions set a different rule from the one the question \
+assumes, such as another deadline, threshold or condition, state that rule in a claim and rest \
+the direct answer on it.
+
 Do not invent evidence IDs, quotations, provisions or article numbers. Do not give legal \
 advice: report what the provisions state and what follows directly from them."""
 
@@ -510,7 +574,9 @@ def build_user_message(question: str, analysis: QueryAnalysis,
     if analysis.uncertainty:
         lines += ["", f"Ambiguities noted when the question was analysed: {analysis.uncertainty}"]
     lines += ["", f"Write the claims, reasons and notes in {language}; quotes stay exactly as in "
-              f"the evidence. Write the summary in {language} too.", "", "Evidence items:"]
+              f"the evidence. Write the summary in {language} too.", "",
+              _DIRECT_REQUESTS.get(analysis.question_type, _DIRECT_REQUESTS["open"]),
+              "", "Evidence items:"]
     for item in items:
         source = CORPUS_INSTRUMENTS.get(item.instrument_id, item.instrument_id)
         extent = "whole article" if item.whole_provision else (
@@ -519,6 +585,15 @@ def build_user_message(question: str, analysis: QueryAnalysis,
                   f'article="{_attr(item.label)}" extent="{extent}">',
                   _defuse(reading_form(item.text, item.title), "evidence"), "</evidence>"]
     return "\n".join(lines)
+
+
+# The request about the direct answer, by question type (query_analysis.QUESTION_TYPES).
+_DIRECT_REQUESTS = {
+    "yes_no": "Direct answer: the question asks whether something is so. Give a direct_answer.",
+    "premise": ("Direct answer: the question rests on a fact it states as given. Give a "
+                "direct_answer on whether that fact holds."),
+    "open": "Direct answer: not asked for. Give direct_answer null.",
+}
 
 
 def _defuse(text: str, tag: str) -> str:
@@ -775,10 +850,13 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
                         verification=verification, **common)
 
     check = "off" if verifier is None else "ran" if verification is not None else "failed"
+    direct = _direct_answer(data.get("direct_answer"), analysis, positions, claims, evidence,
+                            check, warnings)
     complete, missing = decide_coverage(
         [issue.id for issue in analysis.issues],
         [(claim.issue_ids, claim.verification.value) for claim in claims],
-        [u.issue_id for u in unanswered], check)
+        [u.issue_id for u in unanswered], check,
+        direct=direct.status if direct is not None else None)
     unanswered += [UnansweredIssue(issue_id, reason) for issue_id, reason in missing]
     cited = {eid for claim in claims for eid in claim.evidence_ids}
     summary, summary_ids = (
@@ -799,13 +877,13 @@ def _decide(question: str, analysis: QueryAnalysis, evidence: EvidenceSet,
         warnings=tuple(evidence.warnings) + tuple(warnings),
         analysis=analysis, evidence=evidence, generation=provenance,
         verification=verification, summary=summary, summary_claim_ids=summary_ids,
-        repair=repair, repair_verification=repair_verification,
+        repair=repair, repair_verification=repair_verification, direct_answer=direct,
     )
 
 
 def decide_coverage(issue_ids: Sequence[str],
                     claims: Sequence[tuple[Sequence[str], str]],
-                    reported: Iterable[str], check: str
+                    reported: Iterable[str], check: str, *, direct: str | None = None
                     ) -> tuple[bool, list[tuple[str, str]]]:
     """The outcome rule, on plain data (also used to re-score saved results).
 
@@ -819,6 +897,11 @@ def decide_coverage(issue_ids: Sequence[str],
     partly answered; otherwise `answer_limited`. Held-apart and removed claims do not limit it
     by themselves. Returns (complete, [(issue ID, reason)]) for the issues, in order, that are
     neither covered nor reported (reported ones keep the model's entry).
+
+    `direct`: the status of the direct answer of a yes/no or premise question (DirectAnswer), or
+    None when the question asks for none (an open question, or an analysis before
+    query-analysis-v4: the rule is then unchanged). The answer is complete only if it is
+    DIRECT_SHOWN.
     """
     reported = set(reported)
 
@@ -837,8 +920,63 @@ def decide_coverage(issue_ids: Sequence[str],
             missing.append((issue_id, NOT_COVERED))
         elif issue_id not in covered and check == "ran":
             missing.append((issue_id, HELD_ONLY))
-    complete = all(i in covered and i not in reported for i in issue_ids)
+    complete = (all(i in covered and i not in reported for i in issue_ids)
+                and direct in (None, DIRECT_SHOWN))
     return complete, missing
+
+
+def _direct_answer(raw: Mapping[str, Any] | None, analysis: QueryAnalysis,
+                   positions: Mapping[int, str], claims: Sequence[AnswerClaim],
+                   evidence: EvidenceSet, check: str, warnings: list[str],
+                   ) -> DirectAnswer | None:
+    """The direct answer, for a question of a DIRECT_ANSWER_TYPES type; None for any other.
+
+    Its links are the model's claim positions, mapped to the claims that passed validation and
+    then to what the repair pass made of each: its confirmed rewrites (C3, or C3.1, C3.2) and, if
+    it is still held apart, the claim itself. A link to a removed claim is dropped, with a
+    warning. The status (DIRECT_SHOWN or why not) follows the mechanical rules only; the direct
+    answer is not support-checked itself:
+    - cannot_establish -> DIRECT_NOT_ESTABLISHED; no text, or a longer one -> DIRECT_MISSING;
+    - it rests on no claim, or on one that is not SUPPORTED and in the main answer (with the
+      support check off: in the main answer; if the check failed: none) -> DIRECT_NOT_SUPPORTED;
+    - its text names a provision outside the items of those claims -> DIRECT_BAD_REFERENCE.
+    """
+    if analysis.question_type not in DIRECT_ANSWER_TYPES:
+        if raw is not None:
+            warnings.append("direct_answer_ignored: the question type asks for none")
+        return None
+    if raw is None:
+        return DirectAnswer(None, None, (), DIRECT_MISSING)
+    value, text = raw["value"], _clean(raw["text"])
+    linked: list[str] = []
+    for n in dict.fromkeys(raw["claims"]):
+        claim_id = positions.get(n)
+        parts = [c.claim_id for c in claims if claim_id is not None
+                 and (c.claim_id == claim_id or c.claim_id.startswith(f"{claim_id}."))]
+        if not parts:
+            warnings.append(f"direct_answer_link_dropped: [{n}] is not a claim of the answer")
+        linked += [part for part in parts if part not in linked]
+    by_id = {claim.claim_id: claim for claim in claims}
+
+    def rests_on(claim: AnswerClaim) -> bool:
+        if check == "off":
+            return in_answer(claim)
+        return check == "ran" and claim.verification == VerificationStatus.SUPPORTED
+
+    if value == "cannot_establish":
+        status = DIRECT_NOT_ESTABLISHED
+    elif not text or len(text) > MAX_DIRECT_CHARS:
+        status = DIRECT_MISSING
+    elif not linked or not all(rests_on(by_id[c]) for c in linked):
+        status = DIRECT_NOT_SUPPORTED
+    else:
+        items = {item.evidence_id: item for item in evidence.items}
+        cited = [items[e] for c in linked for e in by_id[c].evidence_ids if e in items]
+        bad = unsupported_references(text, _allowed_references(cited))
+        if bad:
+            warnings.append(f"direct_answer_not_shown: unsupported reference {', '.join(bad)}")
+        status = DIRECT_BAD_REFERENCE if bad else DIRECT_SHOWN
+    return DirectAnswer(value, text or None, tuple(linked), status)
 
 
 _SUMMARY_MARKER = re.compile(r"\[(\d{1,2})\]")

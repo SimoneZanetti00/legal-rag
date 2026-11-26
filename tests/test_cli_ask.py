@@ -35,6 +35,7 @@ SETTINGS = load_settings({})  # defaults: mock provider, 5 evidence items, 3,000
 ANALYSIS = {
     "language": "it", "in_scope": True,
     "scope_reason": "Riguarda la notifica di una violazione dei dati personali.",
+    "question_type": "open",
     "issues": [{"question": "Entro quando il titolare notifica la violazione al Garante?"},
                {"question": "Quando il titolare comunica la violazione all'interessato?"}],
     "search_queries_it": ["notifica della violazione al Garante",
@@ -66,7 +67,7 @@ def generation_reply(ids):
               "support": [{"evidence_id": ids["2"], "quote":
                            "Il titolare comunica la violazione all'interessato senza ritardo."}]}
     return {"outcome": "answer", "claims": [notify, inform], "unanswered_issues": [],
-            "limitations": [], "abstention_reason": None}
+            "limitations": [], "abstention_reason": None, "direct_answer": None}
 
 
 def ask(capsys, explored, llm, *extra, question=QUESTION, settings=SETTINGS):
@@ -122,8 +123,8 @@ def test_ask_json(explored, capsys):
     assert [c["evidence_id"] for c in result["citations"]] == ["E1"]
     assert all(c["citable"] for c in result["citations"])
     assert "E2" in [r["evidence_id"] for r in result["non_authoritative"]]
-    assert result["generation"]["prompt_version"] == "answer-generation-v5"
-    assert result["analysis"]["provenance"]["prompt_version"] == "query-analysis-v3"
+    assert result["generation"]["prompt_version"] == "answer-generation-v6"
+    assert result["analysis"]["provenance"]["prompt_version"] == "query-analysis-v4"
     assert result["preflight"]["citable_articles"] == 1  # Art. 1
     assert result["evidence"]["build_id"]
     assert result["claims"][0]["verification"] == "SUPPORTED"
@@ -453,6 +454,7 @@ DEMO_QUESTION = "Quando è obbligatorio notificare un data breach al Garante?"
 DEMO_ANALYSIS = {
     "language": "it", "in_scope": True,
     "scope_reason": "Riguarda la notifica di una violazione dei dati personali.",
+    "question_type": "open",
     "issues": [
         {"question": "Il titolare deve notificare la violazione dei dati personali all'autorità "
                      "di controllo, e quale autorità è competente in Italia?"},
@@ -475,7 +477,8 @@ DEMO_ANALYSIS = {
 # A stand-in generation reply: a deterministic abstention, so the demo test runs to the end
 # whether or not the corpus has citable evidence.
 GENERATION_ABSTAIN = {"outcome": "abstain", "claims": [], "unanswered_issues": [],
-                      "limitations": [], "abstention_reason": "Test stand-in: no answer."}
+                      "limitations": [], "abstention_reason": "Test stand-in: no answer.",
+                      "direct_answer": None}
 
 
 def demo_llm(analysis_reply=DEMO_ANALYSIS):

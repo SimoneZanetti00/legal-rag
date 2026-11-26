@@ -181,7 +181,8 @@ def test_an_out_of_scope_question_abstains_in_research_mode(synthetic):
 
 def test_insufficient_evidence_abstains_in_research_mode(synthetic):
     reply = {"outcome": "abstain", "claims": [], "unanswered_issues": [], "limitations": [],
-             "abstention_reason": "The evidence does not answer the question."}
+             "abstention_reason": "The evidence does not answer the question.",
+             "direct_answer": None}
     result, _ = run(synthetic, Mode.RESEARCH, generation=reply)
     assert (result.outcome, result.abstention_reason) == (Outcome.ABSTAIN, "model_abstained")
     assert "supplied evidence (E1, E2, E3)" in result.abstention_detail
@@ -244,6 +245,7 @@ GDPR, CODE = "eu-reg-2016-679", "it-dlgs-2003-196"
 ANALYSIS = {
     "language": "en", "in_scope": True,
     "scope_reason": "It concerns the notification of a personal data breach under the GDPR.",
+    "question_type": "open",
     "issues": [{"question": "When must the controller notify a personal data breach to the "
                             "supervisory authority?"},
                {"question": "Which authority is the supervisory authority in Italy?"}],
@@ -271,7 +273,8 @@ GENERATION = {"outcome": "answer", "claims": [
              "personali.",
      "support": [{"evidence_id": "E3", "quote": "è individuata nel Garante per la protezione "
                   "dei dati personali"}]},
-], "unanswered_issues": [], "limitations": [], "abstention_reason": None}
+], "unanswered_issues": [], "limitations": [], "abstention_reason": None,
+    "direct_answer": None}
 VERDICTS = {"verdicts": [{"claim_id": "C1", "support": "supported"},
                          {"claim_id": "C2", "support": "supported"}]}
 

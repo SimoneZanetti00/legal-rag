@@ -20,6 +20,7 @@ import src.web_demo as web
 from src.answer_generation import (
     NO_CITABLE_EVIDENCE,
     CorpusPreflight,
+    DirectAnswer,
     GenerationProvenance,
     RejectedClaim,
     SourceReference,
@@ -463,6 +464,7 @@ def test_the_page_reads_only_fields_the_server_provides(synthetic_result):
         "anchor": set(item["anchors"][0]),
         "gap": {"issue_id", "reason"},
         "rejected": names(RejectedClaim),
+        "direct": names(DirectAnswer),
         "pre": set(data["preflight"]),
         "prov": names(GenerationProvenance),
         "analysis": set(data["analysis"]),
@@ -506,7 +508,8 @@ def test_the_page_lists_only_the_answer_sources_and_notes_an_unrated_answer():
     assert "mainSources.map(source)" in APP_JS
     assert "result.citations.map((ref) => renderSource(" not in APP_JS
     assert "heldSources.length ? [el(\"p\", { class: \"subhead\" }, HELD_SOURCES_TITLE)" in APP_JS
-    assert ('card("What the provisions say", result.summary ? el("p", { class: "summary" }, result.summary) : null,'
+    assert ('card("What the provisions say", renderDirect(direct),\n'
+            '      result.summary ? el("p", { class: "summary" }, result.summary) : null,'
             '\n      supportNotice(result),') in APP_JS
 
 

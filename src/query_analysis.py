@@ -8,7 +8,10 @@ analyze(question, llm) runs one structured-JSON LLM task ("query_analysis") that
   checked by query_problem(): an empty, malformed or clearly English query fails the reply,
   which then gets the client's one schema retry;
 - suggests articles of the corpus to look up directly;
-- keeps ambiguities and missing facts, and may ask for clarification.
+- keeps ambiguities and missing facts, and may ask for clarification;
+- classifies the form of the question (question_type): "yes_no", "premise" (an open question
+  resting on a fact it states as given) or "open". Answer generation asks for a direct answer to
+  the first two (TECHNICAL_DEBT.md TD-069). The analysis does not judge whether a premise holds.
 
 Nothing here is evidence. Suggested provisions are retrieval hints only: their labels are
 checked for form, and against the provision store when `provision_exists` is given; failing
@@ -27,9 +30,10 @@ from src.evidence import EvidenceRequest, ProvisionRequest
 from src.llm import LLMClient, LLMSchemaError
 
 TASK = "query_analysis"
-# v3: only the issues the user asked, at most 4; at most 8 lookups; the Privacy Code only for
-# questions about Italy or the Code. v2: the Privacy Code described as a user transcription.
-PROMPT_VERSION = "query-analysis-v3"
+# v4: question_type. v3: only the issues the user asked, at most 4; at most 8 lookups; the
+# Privacy Code only for questions about Italy or the Code. v2: the Privacy Code described as a
+# user transcription.
+PROMPT_VERSION = "query-analysis-v4"
 
 MAX_QUESTION_CHARS = 2000
 MAX_ISSUES = 4
@@ -50,6 +54,8 @@ CORPUS_INSTRUMENTS: dict[str, str] = {
 }
 
 LANGUAGES = ("it", "en", "other")
+# The form of the question: whether it asks for a yes or no, rests on a stated premise, or neither.
+QUESTION_TYPES = ("yes_no", "premise", "open")
 
 
 class QueryAnalysisError(ValueError):
@@ -106,6 +112,7 @@ class QueryAnalysis:
     uncertainty: str | None
     clarification_question: str | None
     provenance: AnalysisProvenance
+    question_type: str = "open"  # QUESTION_TYPES; analyses before query-analysis-v4 have none
 
     @property
     def needs_clarification(self) -> bool:
@@ -138,10 +145,12 @@ _NULLABLE_STRING = {"anyOf": [{"type": "string"}, {"type": "null"}]}
 SCHEMA: dict[str, Any] = {
     "type": "object",
     "additionalProperties": False,
-    "required": ["language", "in_scope", "scope_reason", "issues", "search_queries_it",
-                 "suggested_provisions", "uncertainty", "clarification_question"],
+    "required": ["language", "in_scope", "scope_reason", "question_type", "issues",
+                 "search_queries_it", "suggested_provisions", "uncertainty",
+                 "clarification_question"],
     "properties": {
         "language": {"type": "string", "enum": list(LANGUAGES)},
+        "question_type": {"type": "string", "enum": list(QUESTION_TYPES)},
         "in_scope": {"type": "boolean"},
         "scope_reason": {"type": "string"},
         "issues": {
@@ -193,6 +202,12 @@ Italian Privacy Code, even if other rules also bear on it. false otherwise: anot
 only another country's law, or not a legal question. When false, leave issues, \
 search_queries_it and suggested_provisions empty.
 scope_reason: one sentence on why the question is or is not in scope.
+
+question_type: the form of the question as the user wrote it.
+- "yes_no": it asks whether something is so, may or must be done, or applies, for example "Must every controller appoint a representative in the Union?" or "È vero che il consenso deve essere sempre scritto?"; also when it then asks in which cases.
+- "premise": it asks something else, on the basis of a fact it states as given, for example "Since consent must always be written, how should it be collected?"; the answer must confirm or correct that fact.
+- "open": any other question, such as when, what, which or how.
+Classify the form only; do not judge whether a premise is true.
 
 issues: the legal questions the user actually asked, at most {MAX_ISSUES}, most important \
 first, each a neutral question in the language of the user's question. A simple question is one \
@@ -264,6 +279,7 @@ def analyze(question: str, llm: LLMClient, *,
         language=data["language"],
         in_scope=data["in_scope"],
         scope_reason=_clean(data["scope_reason"]),
+        question_type=data["question_type"],
         issues=tuple(Issue(f"I{i}", _clean(item["question"]))
                      for i, item in enumerate(data["issues"], start=1)),
         search_queries_it=_unique(_clean(q) for q in data["search_queries_it"]),

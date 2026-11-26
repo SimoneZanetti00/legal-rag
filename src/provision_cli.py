@@ -33,6 +33,9 @@ from typing import Any
 
 from src import corpus_build
 from src.answer_generation import (
+    DIRECT_LABEL,
+    DIRECT_NOT_SHOWN,
+    DIRECT_SHOWN,
     HELD_CLAIMS_TITLE,
     HELD_SOURCES_TITLE,
     MODEL_NOTES_LABEL,
@@ -365,6 +368,13 @@ def render_answer(result: AnswerResult) -> str:
                   f"the evidence, {checked}):"]
         if result.summary:
             lines.append(f"  summary: {result.summary}")
+        direct = result.direct_answer
+        if direct is not None and direct.status == DIRECT_SHOWN:
+            lines.append(f"  direct answer ({DIRECT_LABEL}: {', '.join(direct.claim_ids)}): "
+                         f"{direct.value.upper()}. {direct.text}")
+        elif direct is not None:
+            lines.append(f"  direct answer: none shown "
+                         f"({DIRECT_NOT_SHOWN.get(direct.status, direct.status)})")
         notice = support_check_notice(result)
         if notice:
             lines.append(f"  NOTE: {notice}")

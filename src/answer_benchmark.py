@@ -22,6 +22,10 @@ Metrics, per expected row, reported apart for core and supporting rows:
 Per question: the exact outcome match, whether the system abstained, the reason match for an
 expected abstention, and the citations no row lists (a diagnostic, not a penalty).
 
+A question may also name its expected_direct_answer (yes, no, partly or cannot_establish), for a
+yes/no or premise question (answer_generation.DirectAnswer, TECHNICAL_DEBT.md TD-069). The key
+is optional: absent means no direct answer is expected. The runner reports the match.
+
 Eligibility: a question is scored only when it and every one of its rows are reviewed
 (owner_reviewed or expert_reviewed); otherwise it is listed as excluded and gets no metrics,
 unless include_unreviewed is asked for, which reports them apart, labelled, and never in the
@@ -42,6 +46,7 @@ from pathlib import Path
 from typing import Any
 
 from src.answer_generation import (
+    DIRECT_VALUES,
     ANALYSIS_FAILED,
     GENERATION_FAILED,
     MODEL_ABSTAINED,
@@ -137,6 +142,7 @@ class Question:
     time_sensitive: TimeSensitivity | None
     split: str
     provenance: Provenance
+    expected_direct_answer: str | None = None  # DIRECT_VALUES; the key is optional
 
 
 @dataclass(frozen=True)
@@ -235,7 +241,13 @@ def _jsonl(path: Path) -> Iterable[tuple[str, dict[str, Any]]]:
 
 
 def _question(r: dict[str, Any], where: str) -> Question:
-    _keys(r, QUESTION_KEYS, where)
+    _keys({k: v for k, v in r.items() if k != "expected_direct_answer"}, QUESTION_KEYS, where)
+    direct = r.get("expected_direct_answer")
+    if direct is not None and direct not in DIRECT_VALUES:
+        raise BenchmarkError(f"{where}: expected_direct_answer must be one of "
+                             f"{', '.join(DIRECT_VALUES)}, or absent")
+    if direct is not None and r.get("expected_outcome") == Outcome.ABSTAIN:
+        raise BenchmarkError(f"{where}: an expected abstention has no direct answer")
     if not isinstance(r["query_id"], str) or not _QUERY_ID.fullmatch(r["query_id"]):
         raise BenchmarkError(f"{where}: query_id must be a01, a02, ...")
     _text(r, "question", where)
@@ -253,7 +265,7 @@ def _question(r: dict[str, Any], where: str) -> Question:
     return Question(r["query_id"], r["question"], r["language"], r["category"],
                     r["expected_outcome"], r["expected_reason"], r["notes"],
                     _time(r["time_sensitive"], where), r["split"],
-                    _provenance(r["provenance"], where))
+                    _provenance(r["provenance"], where), direct)
 
 
 def _time(raw: Any, where: str) -> TimeSensitivity | None:

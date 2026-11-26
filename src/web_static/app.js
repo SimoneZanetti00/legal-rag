@@ -47,6 +47,15 @@ const VERIFICATION = {
   CONTRADICTED: ["stop", "Contradicted"],
 };
 const KINDS = { source_statement: "Provision text", inference: "Interpretation" };
+// The direct answer to a yes/no or premise question (answer_generation.DirectAnswer).
+const DIRECT_VALUES = { yes: "Yes", no: "No", partly: "Partly" };
+const DIRECT_NOT_SHOWN = {  // as answer_generation.DIRECT_NOT_SHOWN
+  missing: "the model gave no usable direct answer",
+  cannot_establish: "the supplied provisions do not establish a yes or no",
+  not_supported: "the statements it rests on were not all confirmed by the support check",
+  unsupported_reference: "it named a provision outside the statements it rests on",
+};
+const QUESTION_TYPES = { yes_no: "asks for a yes or no", premise: "rests on a stated premise", open: "open question" };
 // Short names for the provision chips (the registry's full names are in info.instruments).
 const SHORT_NAMES = { "eu-reg-2016-679": "GDPR", "it-dlgs-2003-196": "Codice privacy" };
 const HELD_CLAIMS_TITLE = "Partially supported or uncertain — not part of the answer";  // as answer_generation.HELD_CLAIMS_TITLE
@@ -281,12 +290,17 @@ function renderResult(result) {
   const source = (ref) => renderSource(ref, itemById[ref.evidence_id], statusById[ref.evidence_id]);
 
   const sections = [renderOutcome(result), renderNotices(result)];
+  // The statements a direct answer rests on, when the application shows it (answer_generation.
+  // _direct_answer()); absent from results made before the direct answer existed.
+  const direct = result.direct_answer;
+  const basis = new Set(direct && direct.status === "shown" ? direct.claim_ids : []);
   if (result.claims.length) {
     // The summary is shown only when the application kept it (answer_generation._summary()).
-    sections.push(card("What the provisions say", result.summary ? el("p", { class: "summary" }, result.summary) : null,
+    sections.push(card("What the provisions say", renderDirect(direct),
+      result.summary ? el("p", { class: "summary" }, result.summary) : null,
       supportNotice(result),
       shown.length
-        ? el("div", { class: "answer" }, shown.map((claim) => renderStatement(claim, refById, statusById)))
+        ? el("div", { class: "answer" }, shown.map((claim) => renderStatement(claim, refById, statusById, basis.has(claim.claim_id))))
         : el("p", { class: "muted" }, "No statement was confirmed by the support check: see the statements not confirmed below."),
       renderMissing(result, issueText)));
   }
@@ -327,6 +341,18 @@ function renderOutcome(result) {
   return banner;
 }
 
+// The direct answer, at the top of the answer: shown only with the status "shown", as an
+// interpretation of the statements marked below it; otherwise one line says why there is none.
+function renderDirect(direct) {
+  if (!direct) return null;
+  if (direct.status !== "shown") {
+    return el("p", { class: "direct-none" }, `No direct yes or no: ${DIRECT_NOT_SHOWN[direct.status] || direct.status}.`);
+  }
+  return el("div", { class: "direct" },
+    el("p", { class: "direct-label" }, "Direct answer: an interpretation of the statements marked «basis» below"),
+    el("p", { class: "direct-text" }, el("strong", {}, `${DIRECT_VALUES[direct.value] || direct.value}.`), " ", direct.text));
+}
+
 // Always visible, one line each: the mode, not legal advice, the as-of date, the Omnibus caveat.
 function renderNotices(result) {
   const lines = [];
@@ -362,7 +388,7 @@ function provisionName(ref) {
 
 // A statement of the answer: its text, then a chip per provision it cites. A chip opens the exact
 // quotation(s) from that provision and its page; «pending review» marks a source not yet reviewed.
-function renderStatement(claim, refById, statusById) {
+function renderStatement(claim, refById, statusById, isBasis = false) {
   const panels = [];
   const chips = claim.evidence_ids.map((evidenceId) => {
     const ref = refById[evidenceId];
@@ -384,7 +410,8 @@ function renderStatement(claim, refById, statusById) {
     return chip;
   });
   return el("div", { class: "statement" },
-    el("p", {}, claim.kind === "inference" ? el("span", { class: "kind-tag" }, "Interpretation") : null,
+    el("p", {}, isBasis ? el("span", { class: "kind-tag basis-tag" }, "Basis") : null,
+      claim.kind === "inference" ? el("span", { class: "kind-tag" }, "Interpretation") : null,
       claim.text, " ", chips),
     panels);
 }
@@ -489,6 +516,12 @@ function renderTransparency(result, statusById, itemById, shown) {
       shown.map((claim) => renderClaim(claim, statusById, itemById)));
   }
   const execution = [el("dt", {}, "Mode"), el("dd", {}, MODE_LABELS[result.mode] || result.mode)];
+  const direct = result.direct_answer;
+  if (direct) {
+    execution.push(el("dt", {}, "Direct answer"), el("dd", {}, direct.status === "shown"
+      ? `${DIRECT_VALUES[direct.value] || direct.value}, resting on ${direct.claim_ids.join(", ")}; not support-checked itself`
+      : `not shown: ${DIRECT_NOT_SHOWN[direct.status] || direct.status}` + (direct.value ? ` (model's value: ${direct.value})` : "")));
+  }
   for (const [name, prov] of [["Generation", result.generation], ["Support check", result.verification],
     ["Repair", result.repair], ["Support check of the repairs", result.repair_verification]]) {
     if (prov) {
@@ -549,6 +582,7 @@ function renderTransparency(result, statusById, itemById, shown) {
       el("dl", { class: "kv" },
         el("dt", {}, "Language"), el("dd", {}, analysis.language),
         el("dt", {}, "In scope"), el("dd", {}, `${analysis.in_scope ? "yes" : "no"}: ${analysis.scope_reason}`),
+        analysis.question_type ? [el("dt", {}, "Question type"), el("dd", {}, QUESTION_TYPES[analysis.question_type] || analysis.question_type)] : null,
         analysis.uncertainty ? [el("dt", {}, "Uncertainty"), el("dd", {}, analysis.uncertainty)] : null,
         analysis.search_queries_it.length ? [el("dt", {}, "Search queries"), el("dd", {}, analysis.search_queries_it.join("; "))] : null,
         analysis.suggested_provisions.length ? [el("dt", {}, "Suggested lookups"), el("dd", {},

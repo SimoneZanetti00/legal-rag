@@ -56,6 +56,7 @@ DEMO_REPLY = {
     "language": "en",
     "in_scope": True,
     "scope_reason": "It concerns the notification of a personal data breach under the GDPR.",
+    "question_type": "open",
     "issues": [
         {"question": "Must the controller notify a personal data breach to the supervisory "
                      "authority, and which authority is competent in Italy?"},
@@ -93,6 +94,7 @@ OUT_OF_SCOPE_REPLY = {
     "language": "en",
     "in_scope": False,
     "scope_reason": "It concerns tax law, which is outside the corpus.",
+    "question_type": "open",
     "issues": [],
     "search_queries_it": [],
     "suggested_provisions": [],
@@ -136,7 +138,7 @@ def test_corpus_descriptions_claim_no_more_than_the_registry():
     assert f"- it-dlgs-2003-196: {privacy_code}" in SYSTEM_PROMPT
     for word in ("consolidat", "vigente", "in force", "current"):
         assert word not in SYSTEM_PROMPT.lower(), word
-    assert PROMPT_VERSION == "query-analysis-v3"
+    assert PROMPT_VERSION == "query-analysis-v4"
 
 
 def test_prompt_states_the_task_and_does_not_carry_the_demo_answer():

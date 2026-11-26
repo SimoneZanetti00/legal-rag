@@ -50,7 +50,13 @@ from typing import Any
 
 from src import answer_benchmark as ab
 from src.answer_generation import PROMPT_VERSION as GENERATION_PROMPT_VERSION
-from src.answer_generation import REPORTED_UNANSWERED, Mode, answer_question, decide_coverage
+from src.answer_generation import (
+    DIRECT_SHOWN,
+    REPORTED_UNANSWERED,
+    Mode,
+    answer_question,
+    decide_coverage,
+)
 from src.claim_repair import PROMPT_VERSION as REPAIR_PROMPT_VERSION
 from src.config import PROJECT_ROOT, ConfigError, Settings, load_settings
 from src.corpus_identity import CodeVersionError, canonical_json, detect_code_version
@@ -332,10 +338,12 @@ def rescore_result(result: Mapping[str, Any]) -> dict[str, Any]:
     check = ("ran" if result.get("verification") else
              "failed" if any(w.startswith("support_verification_unavailable")
                              for w in result.get("warnings", ())) else "off")
+    direct = result.get("direct_answer")  # None for open questions and older results
     complete, missing = decide_coverage(
         [issue["id"] for issue in result["analysis"]["issues"]],
         [(claim["issue_ids"], claim["verification"]) for claim in result["claims"]],
-        [u["issue_id"] for u in reported], check)
+        [u["issue_id"] for u in reported], check,
+        direct=direct["status"] if direct else None)
     out["outcome"] = "answer" if complete else "answer_limited"
     out["unanswered_issues"] = reported + [{"issue_id": i, "reason": r} for i, r in missing]
     return out
@@ -410,7 +418,7 @@ def stage_metrics(question: ab.Question, rows: Sequence[ab.Expectation],
     removed = Counter(reason.split(":", 1)[0] for r in result.get("rejected_claims", ())
                       for reason in r["reasons"])
     claims = result.get("claims", ())
-    return {
+    entry = {
         "query_id": question.query_id, "split": question.split,
         "expected_outcome": question.expected_outcome, "outcome": scored["outcome"],
         "outcome_match": scored["outcome_match"], "abstention_reason": scored["abstention_reason"],
@@ -427,6 +435,21 @@ def stage_metrics(question: ab.Question, rows: Sequence[ab.Expectation],
         "evidence_items": len(evidence["items"]), "dropped_candidates": len(evidence["dropped"]),
         "unlisted_citations": scored["unlisted_citations"],
     }
+    # The direct answer, for results whose analysis classified the question (query-analysis-v4
+    # on); earlier results get none of these keys, so their saved reports stay as they were.
+    if "question_type" in (result.get("analysis") or {}):
+        direct = result.get("direct_answer")
+        shown = direct is not None and direct["status"] == DIRECT_SHOWN
+        expected = question.expected_direct_answer
+        entry.update({
+            "question_type": result["analysis"]["question_type"],
+            "expected_direct_answer": expected,
+            "direct_answer": direct["value"] if shown else None,
+            "direct_answer_status": direct["status"] if direct else None,
+            "direct_answer_match": None if expected is None else (
+                shown and direct["value"] == expected),
+        })
+    return entry
 
 
 def aggregate(entries: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
@@ -450,7 +473,25 @@ def aggregate(entries: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         "claims_held_apart": sum(e["claims_held_apart"] for e in entries),
         "claims_removed": dict(sorted(removed.items())),
         "missing_from_evidence": dict(sorted(missing.items())),
+        **_direct_aggregate(entries),
     }
+
+
+def _direct_aggregate(entries: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    """Direct-answer counts, when any entry has a classified question (else nothing)."""
+    typed = [e for e in entries if "question_type" in e]
+    if not typed:
+        return {}
+    return {"direct_answers": {
+        "expected": sum(e["expected_direct_answer"] is not None for e in typed),
+        "matched": sum(bool(e["direct_answer_match"]) for e in typed),
+        "shown": sum(e["direct_answer"] is not None for e in typed),
+        "asked_without_expectation": sum(e["question_type"] != "open"
+                                         and e["expected_direct_answer"] is None for e in typed),
+        "expected_but_not_asked": sum(e["question_type"] == "open"
+                                      and e["expected_direct_answer"] is not None
+                                      for e in typed),
+    }}
 
 
 def report(benchmark: ab.Benchmark, run_dir: Path, article_text: ab.ArticleText) -> dict[str, Any]:
@@ -507,17 +548,28 @@ def format_report(data: Mapping[str, Any]) -> str:
             removed = ",".join(f"{k}×{v}" for k, v in e["claims_removed"].items()) or "-"
             missing = ",".join(f"{m['provision']}:{m['reason']}"
                                for m in e["missing_from_evidence"]) or "-"
+            direct = ""
+            if "question_type" in e:
+                given = e["direct_answer"] or e["direct_answer_status"] or "-"
+                direct = (f" [{e['question_type']}; direct {given}, expected "
+                          f"{e['expected_direct_answer'] or '-'}]")
             lines.append(f"{e['query_id']} {e['split']:<5} {outcome:<34} "
                          f"{_pct(e['core_candidate_recall'])} {_pct(e['core_evidence_recall'])} "
                          f"{_pct(e['core_citation_recall'])}  {e['claims_in_answer']:>2}/"
                          f"{e['claims_held_apart']:<2}    {removed}; {missing}"
-                         + (" [time-sensitive]" if e["time_sensitive"] else ""))
+                         + (" [time-sensitive]" if e["time_sensitive"] else "") + direct)
         a = body["aggregate"]
         lines.append(f"ALL {a['questions']} questions: core recall cand {_pct(a['core_candidate_recall'])}% "
                      f"evid {_pct(a['core_evidence_recall'])}% cite {_pct(a['core_citation_recall'])}%; "
                      f"outcome {a['outcome_matches']}/{a['questions']}; abstained {a['abstained']}; "
                      f"claims in answer {a['claims_in_answer']}, held apart {a['claims_held_apart']}; "
                      f"removed {a['claims_removed'] or '{}'}; missing {a['missing_from_evidence'] or '{}'}")
+        if "direct_answers" in a:
+            d = a["direct_answers"]
+            lines.append(f"    direct answers: shown {d['shown']}; matching the expected one "
+                         f"{d['matched']}/{d['expected']}; asked for with none expected "
+                         f"{d['asked_without_expectation']}; expected but not asked for "
+                         f"{d['expected_but_not_asked']}")
     if data["errors"]:
         lines += ["", "errors: " + "; ".join(f"{k}: {v}" for k, v in data["errors"].items())]
     return "\n".join(lines)
