@@ -21,6 +21,7 @@ build `build-f76ff6031f2fc82c4852f0a2bde27807`.*
 | `2026-11-26-repair-v1-before` | none: the baseline for the widening change, on 25 questions (a23–a25 added) | 12 items / 12,000 tokens | a01–a12 replayed offline from `2026-11-24-research-repair-caveat`; a13–a22 replayed from `2026-11-17-final`; a23–a25 live | a13–a22: repair calls live; a23–a25: live |
 | `2026-11-26-repair-v2` | repair prompt v2: a quotation may be widened within the same provision (last section) | 12 items / 12,000 tokens | replayed from `2026-11-26-repair-v1-before` | generation and first support check replayed; repair calls and the support check of the rewrites live |
 | `2026-11-26-repair-v2-cap350` | widening cap raised to 350 characters (`claim-repair-v2.1`), after the results of `2026-11-26-repair-v2`; a07 and a24 only | 12 items / 12,000 tokens | replayed from `2026-11-26-repair-v1-before` | as `2026-11-26-repair-v2` |
+| `2026-11-26-direct-answer` | direct answers (M1): `query-analysis-v4`, `answer-generation-v6`, with `claim-repair-v2.1` (last section) | 12 items / 12,000 tokens | live | live |
 
 ## Stage metrics (22 questions, means over questions with core rows)
 
@@ -563,3 +564,87 @@ Character counts are in the normalised form. The rewrite is the claim as the rep
    - Original: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti»
    - Widened: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti, a meno che il trattamento che esse effettuano possa presentare un rischio per i diritti e le libertà dell'interessato, il trattamento non sia occasionale o includa il trattamento di categorie particolari di dati di cui all'articolo 9, paragrafo 1, o i dati personali relativi a condanne penali e a reati di cui all'articolo 10.»
    - Rewrite: Article 30 GDPR, on records of processing activities, provides that the obligations in paragraphs 1 and 2 do not apply to enterprises or organisations with fewer than 250 employees, subject to exceptions.
+
+## Direct answers (M1): `2026-11-26-direct-answer`
+
+**This is a single run on 25 questions. Repeated runs were left out for budget, so model variance
+is not measured. Every call was made again, live, so this run differs from the baseline in more
+than M1: each analysis, answer and check is a new sample.**
+
+**What changed** (TECHNICAL_DEBT.md TD-069, from answers on the live demo):
+- `query-analysis-v4` classifies the form of each question: `yes_no`, `premise` or `open`.
+- For a yes/no or premise question, `answer-generation-v6` asks for a direct answer: yes, no,
+  partly or cannot_establish, one sentence, and the claims it rests on.
+- **The direct answer is not support-checked itself** (owner's decision, 2026-11-26). It is shown
+  only if every claim it rests on is SUPPORTED and in the main answer, and its text names no
+  provision outside those claims' items. The page labels it as an interpretation and marks the
+  claims it rests on.
+- **Outcome rule:** a yes/no or premise question is `answer` only with its direct answer shown.
+  Open questions keep the rule as it was.
+- **Benchmark:** `expected_direct_answer` lists the accepted values (owner's decisions,
+  2026-11-26): a08 yes; a11, a12, a24 and a25 no; a16 and a20 yes or partly. Every other question
+  expects none.
+
+**How it ran:** all 25 questions live, for $1.702 under a $2.00 budget guard (511k input and 68k
+output tokens). The baseline is `2026-11-26-repair-v2`, with a07 and a24 from
+`2026-11-26-repair-v2-cap350`; this run uses `claim-repair-v2.1` on every question.
+
+### M1's own effect
+
+- **Question type: 25/25 as expected.** The seven yes/no questions (a08, a11, a12, a16, a20, a24,
+  a25) were classified `yes_no`, and every other question `open`. None was classified `premise`.
+- **Direct answers: shown and correct on 6 of the 7.** Before M1 none was possible: the answer had
+  no direct-answer field.
+
+| Question | Accepted | Shown | Value | Direct answer (as shown, or as given) |
+|---|---|---|---|---|
+| a08 | yes | yes | yes | Yes, a company can process personal data without consent if another lawful basis applies (e.g. contract, legal obligation, legitimate interest), subject to the stated conditions and stricter rules for special categories. |
+| a11 | no | yes | no | No: la notifica al Garante spetta al titolare del trattamento, mentre il responsabile deve informare il titolare. |
+| a12 | no | yes | no | No: il GDPR prevede un termine di 72 ore, ove possibile, e non di 96 ore. |
+| a16 | yes, partly | yes | yes | Sì, si può chiedere la cancellazione dei dati al titolare del trattamento, nei casi previsti e salvo le eccezioni. |
+| a20 | yes, partly | **no** | yes | Sì, ma solo con garanzie adeguate o, in mancanza, se ricorre una delle deroghe previste. |
+| a24 | no | yes | no | No: the obligation depends on the conditions in Article 37(1), not on having more than 250 employees. |
+| a25 | no | yes | no | No: l'art. 20 collega la portabilità solo a consenso e contratto, non al legittimo interesse. |
+
+- **a20: the direct answer was withheld.** It rests on four claims: C1 (Art. 44), C2 (Art. 46),
+  C5 (Art. 49) and C7 (Art. 49(1), second subparagraph, compelling legitimate interests).
+  - C7 was rated partially supported, and the repair pass did not confirm its rewrite.
+  - Art. 46 alone (C2, supported) supports "yes". But a direct answer is shown only when every
+    claim it rests on is supported, so a20 is `answer_limited` (TD-072).
+  - Its value, "yes", would have matched.
+- **a25: the direct answer says «solo»** (only consent and contract).
+  - The inference is correct: Art. 20(1) lists the legal bases exhaustively.
+  - But it is not support-checked, by design. The claims list the conditions; the word «solo» is
+    the direct answer's own.
+
+### What is not M1's effect
+
+| Question | Outcome (before → after) | Expected | Cause |
+|---|---|---|---|
+| a20 | answer → answer_limited | answer | M1: the direct answer withheld (above) |
+| a01 | answer → answer_limited | answer | open question: the model reported it as only partly answered |
+| a06 | answer_limited → answer | answer | open question: the model no longer reported it as partly answered |
+| a15 | answer_limited → answer | answer | as a06 |
+| a22 | answer_limited → answer | answer | as a06 |
+
+- **Outcomes went from 21/25 to 22/25, but this is not attributable to M1.** M1 changed only a20,
+  for the worse. a01, a06, a15 and a22 are open questions, which the new rule does not touch;
+  their changes are run-to-run variation in the model's own report of a partial answer.
+- **Claims in the answer / held apart went from 144/16 to 140/6 in this run.** M1 does not change
+  how claims are checked, and every call was regenerated, so a single run cannot separate this
+  from run-to-run variation.
+- **Core citation recall went from 99% to 98%.** The only change is a07, from 89% to 78%:
+  - under `query-analysis-v3`, Art. 37 reached the evidence only as one of the analysis's eight
+    suggested lookups;
+  - the `query-analysis-v4` analysis suggested Art. 13 in its place, and none of its search
+    queries reaches Art. 37, so Art. 37 was not a candidate (`not_a_candidate`);
+  - retrieval is deterministic, so the difference comes from the analysis. Whether the new
+    prompt or sampling caused it cannot be told from one run.
+
+| Scope | Outcomes (before → after) | Claims in answer / held apart | Core citation recall |
+|---|---|---|---|
+| All 25 | 21/25 → 22/25 | 144/16 → 140/6 | 99% → 98% |
+| dev (a01–a12) | 10/12 → 10/12 | 75/6 → 78/3 | 98% → 97% |
+| test (a13–a22) | 8/10 → 9/10 | 59/7 → 50/3 | 100% → 100% |
+| candidate (a23–a25) | 3/3 → 3/3 | 10/3 → 12/0 | 100% → 100% |
+| Owner-reviewed (a01–a13) | 11/13 → 11/13 | 78/6 → 82/3 | 98% → 97% |

@@ -139,7 +139,8 @@ transcription supplied by the author.
 ## Evaluation
 
 **The benchmark, `answers-v0`:**
-- 22 questions in Italian and English (12 dev, 10 test). Two of them must abstain.
+- 25 questions in Italian and English: 12 dev, 10 test, and 3 candidates (a23–a25) taken from
+  the live demo. Two of them must abstain.
 - Each question has an expected outcome and the "core" provisions an answer needs.
 - Scoring is deterministic and offline, stage by stage: are the core provisions among the
   candidates, in the evidence given to the model, and cited in the main answer?
@@ -197,6 +198,34 @@ The four remaining mismatches (a06, a07, a15, a22) are `answer_limited` where `a
 expected. In each, the model reported its question as only partly answered; a06 and a07 are
 broad overview questions.
 
+**Two changes from the live demo (2026-11-26).** Answers on the live demo showed two problems.
+Three of its questions became the candidates a23–a25.
+- **M2, widening a quotation (TD-070).** A claim whose quotation stopped before its condition was
+  held apart, although the provision states the condition. The repair pass may now widen the
+  quotation within the same provision. The widened passage must be exact, contain the original,
+  and add at most 350 characters; the support check then runs again.
+- **M1, direct answers (TD-069).** A yes/no question could be answered without an explicit yes
+  or no. Now it gets a direct answer, as an interpretation of the claims it rests on. It is shown
+  only if they are all supported; without one shown, the answer is `answer_limited`.
+
+| On 25 questions | Repair v1 | M2: widening | M1: direct answers |
+|---|---|---|---|
+| Claims in the answer / held apart | 132 / 26 | 144 / 15 | 140 / 6 |
+| Core provisions cited in the main answer | 98% | 99% | 98% |
+| Outcome matches | 21/25 | 21/25 | 22/25 |
+| Question type classified as expected | — | — | 25/25 |
+| Yes/no questions with the expected direct answer shown | — | — | 6/7 |
+
+- **Each column is a single run.** Model variance is not measured.
+- **M2's 300-character cap was raised to 350 after the results,** on the Art. 30(5) exception; a07
+  and a24 were run again, and the M1 column compares with that (144 / 16).
+- **What is M1's own effect:** the classification and the direct answers.
+  - The outcome change is not M1's: M1 changed only a20, for the worse. Its direct answer was
+    withheld because one of its four basis claims was not confirmed (TD-072).
+  - a01, a06, a15 and a22 are open questions; their changes are run-to-run variation.
+  - Every call was made again in the M1 run, so the fall in held-apart claims cannot be
+    separated from that variation either.
+
 **Cost and variance.** The final run cost **$1.08** for 22 questions, from the API's reported
 token usage, under a budget guard that stops a run before it can exceed its limit. It is a
 single run, so model variance is not measured.
@@ -222,8 +251,8 @@ template are ready in [docs/reviews/](docs/reviews/).
 
 ## Limits
 
-- **The benchmark.** 22 questions. Only a01–a13 are owner-reviewed; the rest are candidate
-  expectations. One run, so model variance is not measured.
+- **The benchmark.** 25 questions. Only a01–a13 are owner-reviewed; the rest are candidate
+  expectations. One run per configuration, so model variance is not measured.
 - **No human review recorded yet.** Verified mode abstains on every question, and every answer
   shown here rests on provisions pending review.
 - **The sources.** The Privacy Code text is an **unofficial transcription** supplied by the
@@ -248,7 +277,7 @@ template are ready in [docs/reviews/](docs/reviews/).
    and citation rules.
 4. **An LLM judge calibrated on human labels.** Grade whole answers with a model judge whose
    agreement with owner-reviewed labels is measured before its scores are used.
-5. **Owner review and variance.** Finish the owner's review (a14–a22), and make repeated runs
+5. **Owner review and variance.** Finish the owner's review (a14–a25), and make repeated runs
    to measure run-to-run variance.
 6. **A retrieval benchmark.** Add questions whose provisions BM25 and the lookups miss, before
    comparing hybrid retrieval and reranking.

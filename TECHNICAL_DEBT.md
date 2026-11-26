@@ -110,9 +110,10 @@ the phase reports and are not asserted by the test suite.
 | TD-066 | A web demo test fails intermittently | Testing | Observed | Low | Open |
 | TD-067 | Summary sentences are checked for citations, not content | Answer quality | Observed | Medium | Open |
 | TD-068 | Claims of absence cannot be quoted | Answer quality | Observed | Medium | Open |
-| TD-069 | Yes/no and false-premise questions can be answered without an explicit yes or no | Answer quality | Observed | Medium | Open |
+| TD-069 | Yes/no and false-premise questions can be answered without an explicit yes or no | Answer quality | Observed | Medium | Resolved |
 | TD-070 | Quotations that cut off a condition make the support check reject correct claims | Answer quality | Observed | Medium | Open |
 | TD-071 | A refused widening drops the rewrite, with no fallback to a narrower one | Answer quality | Observed | Low | Open |
+| TD-072 | A direct answer is withheld if any one of its basis claims fails | Answer quality | Observed | Medium | Open |
 
 ## Ingestion and chunking (Phase 2)
 
@@ -539,7 +540,9 @@ the phase reports and are not asserted by the test suite.
 
 ### TD-066 · A web demo test fails intermittently
 - **Kind:** Observed · **Priority:** Low · **Status:** Open
-- **Evidence:** `tests/test_web_demo.py::test_requests_from_other_hosts_or_sites_are_refused[headers1]` failed once in a full run on 2026-11-17 (Windows 11, 2234 passed), then passed three times on its own and in a run of its whole file (71 passed). The test starts the local demo server; the cause, presumably timing in that server, was not investigated.
+- **Evidence:** two tests that start the local demo server; the cause, presumably timing in that server, was not investigated.
+  - `tests/test_web_demo.py::test_requests_from_other_hosts_or_sites_are_refused[headers1]` failed once in a full run on 2026-11-17 (Windows 11, 2234 passed), then passed three times on its own and in a run of its whole file (71 passed).
+  - `tests/test_web_demo.py::test_only_json_bodies_are_accepted[multipart/form-data; boundary=x]` failed once in a full run on 2026-11-26 (Windows 11, 2386 passed), then passed three times on its own and in a run of its whole file (73 passed); the next full run passed.
 - **Impact:** an occasional red full run that is not a regression.
 - **Follow-up:** reproduce it in a loop, find the cause, and make the test deterministic. Not fixed for now (owner's decision, 2026-11-17).
 
@@ -562,7 +565,7 @@ the phase reports and are not asserted by the test suite.
 - **Follow-up:** a deterministic absence check. Accept a claim that a term does not appear only if the term does not occur in the text of the cited provision (normalised comparison), and mark the claim as an absence check rather than a quotation.
 
 ### TD-069 · Yes/no and false-premise questions can be answered without an explicit yes or no
-- **Kind:** Observed · **Priority:** Medium · **Status:** Open
+- **Kind:** Observed · **Priority:** Medium · **Status:** Resolved (2026-11-26, M1; measured on a single run)
 - **Evidence:** live questions on `legal-rag-live.onrender.com`.
   - "Is it true that every company with more than 250 employees must appoint a DPO?"
     - The answer rests on correct claims from GDPR Art. 37(1) and Art. 30(5).
@@ -577,7 +580,7 @@ the phase reports and are not asserted by the test suite.
 - **Follow-up:** detect yes/no and false-premise questions in the query analysis and require a direct-answer claim that rests on the cited provisions. Either:
   - the outcome rule treats a missing direct answer as a partial answer; or
   - the page shows the direct answer as a sentence built from supported claims.
-- **Change (2026-11-26; not yet measured):**
+- **Change (2026-11-26):**
   - `query-analysis-v4` classifies the form of the question: `yes_no`, `premise` (an open question resting on a fact it states as given) or `open`.
   - For `yes_no` and `premise` questions, `answer-generation-v6` asks for a direct answer: yes, no, partly or cannot_establish, one sentence, and the claims it rests on (`DirectAnswer`, `_direct_answer` in `src/answer_generation.py`).
   - Outcome rule: such a question is `answer` only if the direct answer is shown, otherwise `answer_limited`. Open questions, and results made before the change, keep the rule as it was.
@@ -585,6 +588,12 @@ the phase reports and are not asserted by the test suite.
   - It is shown only under mechanical constraints: every claim it rests on is SUPPORTED and in the main answer; its text names no provision outside those claims' items; the page labels it as an interpretation of the statements it rests on, which are marked.
   - Its correctness is measured against `expected_direct_answer` in benchmark answers-v0.
   - **Consequence:** a direct answer that says more than its claims, for example "no" where they support only "partly", is not caught by the system. Only the benchmark comparison and human review catch it.
+- **Measured** in `2026-11-26-direct-answer`, a single run on 25 questions (`docs/evaluation/answers-v0-results.md`):
+  - question type: 25/25 as expected;
+  - direct answer shown and correct on 6 of the 7 yes/no questions;
+  - a20's was withheld, because one of its four basis claims was not confirmed (TD-072);
+  - a25's says «solo»: a correct inference, not support-checked, by design.
+- **Why Resolved:** a yes/no question can no longer end as a complete answer without a direct answer. When none is shown, the outcome is `answer_limited` and the page says why. Still open: run-to-run variance (not measured; the intermittency above) and TD-072.
 
 ### TD-070 · Quotations that cut off a condition make the support check reject correct claims
 - **Kind:** Observed · **Priority:** Medium · **Status:** Open
@@ -620,6 +629,16 @@ the phase reports and are not asserted by the test suite.
 - **Follow-up:** either:
   - on a refused widening, ask once for a narrower rewrite on the original quotations; or
   - let the model return both a widened and a narrowed rewrite, and keep the narrowed one when the widening is refused.
+
+### TD-072 · A direct answer is withheld if any one of its basis claims fails
+- **Kind:** Observed · **Priority:** Medium · **Status:** Open
+- **Evidence:** `2026-11-26-direct-answer`, a20 ("Si possono trasferire dati personali verso un paese terzo senza una decisione di adeguatezza?").
+  - The direct answer, "yes", rests on four claims: C1 (GDPR Art. 44), C2 (Art. 46), C5 (Art. 49) and C7 (Art. 49(1), second subparagraph).
+  - C7 was rated partially supported, and the repair pass did not confirm it.
+  - Art. 46 alone (C2, supported) supports "yes", but the direct answer was withheld and a20 became `answer_limited`. Its value would have matched the expected one.
+- **Behaviour:** `_direct_answer` (`src/answer_generation.py`) shows a direct answer only if every claim it rests on is SUPPORTED and in the main answer. The model links every claim it considers relevant, not only the ones the answer needs.
+- **Impact:** a correct direct answer is withheld, and the question is scored as a partial answer. The failure is safe: nothing unsupported is shown.
+- **Follow-up:** let the model designate a minimal sufficient basis: the claims that alone establish the direct answer, apart from the ones that only add context. The direct answer would then be withheld only if a claim of that basis fails. Whether the basis is sufficient would still not be checked mechanically.
 
 ## Risks and questions for later phases
 
