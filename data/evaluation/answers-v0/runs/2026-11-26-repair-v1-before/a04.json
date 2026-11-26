@@ -1,0 +1,1716 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Quale autorità di controllo è competente in Italia in materia di protezione dei dati personali?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda l'individuazione dell'autorità di controllo in materia di protezione dei dati personali in Italia, disciplinata dal GDPR e dal Codice privacy.",
+    "search_queries_it": [
+     "Garante per la protezione dei dati personali autorità di controllo",
+     "istituzione autorità di controllo indipendente",
+     "competenza dell'autorità di controllo",
+     "compiti dell'autorità di controllo",
+     "poteri dell'autorità di controllo",
+     "autorità di controllo capofila competenza"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "51",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "autorità di controllo negli Stati membri"
+     },
+     {
+      "article": "55",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "competenza dell'autorità di controllo"
+     },
+     {
+      "article": "56",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "competenza dell'autorità capofila nei casi transfrontalieri"
+     },
+     {
+      "article": "57",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "compiti dell'autorità di controllo"
+     },
+     {
+      "article": "58",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "poteri dell'autorità di controllo"
+     },
+     {
+      "article": "153",
+      "instrument": "it-dlgs-2003-196",
+      "point": null,
+      "reason": "Garante per la protezione dei dati personali"
+     },
+     {
+      "article": "154",
+      "instrument": "it-dlgs-2003-196",
+      "point": null,
+      "reason": "compiti del Garante"
+     }
+    ],
+    "uncertainty": "La domanda è generica: non è chiaro se riguardi l'individuazione dell'autorità nazionale o la competenza in casi specifici (ad esempio trattamenti transfrontalieri)."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8QgzyPgZwGUQwjmX547"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "227beb1de4fc6243a3938fe318d8012e0b5aca13ab853ae115b57893c3c1ffd7",
+   "task": "query_analysis",
+   "usage": null,
+   "user_sha256": "a0945b97b9251dc7cdae8756191ceb3f0adf64c25614fdc2952bf1ecd98126ac"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali, di seguito «Garante», di cui all'articolo 153."
+       }
+      ],
+      "text": "Il Codice privacy italiano individua l'Autorità di controllo di cui all'art. 51 del regolamento nel Garante per la protezione dei dati personali."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E2",
+        "quote": "Ogni Stato membro dispone che una o più autorità pubbliche indipendenti siano incaricate di sorvegliare l'applicazione del presente regolamento"
+       }
+      ],
+      "text": "Il GDPR prevede che ogni Stato membro disponga che una o più autorità pubbliche indipendenti siano incaricate di sorvegliare l'applicazione del regolamento."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E3",
+        "quote": "Ogni autorità di controllo è competente a eseguire i compiti assegnati e a esercitare i poteri a essa conferiti a norma del presente regolamento nel territorio del rispettivo Stato membro."
+       }
+      ],
+      "text": "Ogni autorità di controllo è competente a eseguire i compiti e a esercitare i poteri conferiti dal regolamento nel territorio del proprio Stato membro."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "inference",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali"
+       },
+       {
+        "evidence_id": "E3",
+        "quote": "Ogni autorità di controllo è competente a eseguire i compiti assegnati e a esercitare i poteri a essa conferiti a norma del presente regolamento nel territorio del rispettivo Stato membro."
+       }
+      ],
+      "text": "Ne consegue che, sul territorio italiano, l'autorità competente ai sensi del regolamento è il Garante per la protezione dei dati personali."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E7",
+        "quote": "Il Garante è composto dal Collegio, che ne costituisce il vertice, e dall'Ufficio."
+       }
+      ],
+      "text": "Il Garante è composto dal Collegio, che ne costituisce il vertice, e dall'Ufficio."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E4",
+        "quote": "l'autorità di controllo dello stabilimento principale o dello stabilimento unico del titolare e del trattamento o responsabile del trattamento è competente ad agire in qualità di autorità di controllo capofila per i trattamenti transfrontalieri"
+       }
+      ],
+      "text": "Per i trattamenti transfrontalieri, l'autorità dello stabilimento principale o unico del titolare o responsabile è competente come autorità capofila, fatto salvo l'art. 55."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E4",
+        "quote": "ogni autorità di controllo è competente per la gestione dei reclami a essa proposti o di eventuali violazioni del presente regolamento se l'oggetto riguarda unicamente uno stabilimento nel suo Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro."
+       }
+      ],
+      "text": "In deroga a ciò, ogni autorità di controllo è competente per i reclami o le violazioni il cui oggetto riguarda unicamente uno stabilimento nel suo Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E8",
+        "quote": "Il Garante non è competente per il controllo dei trattamenti effettuati dalle autorità giudiziarie nell'esercizio delle loro funzioni."
+       }
+      ],
+      "text": "Il Garante non è competente per il controllo dei trattamenti effettuati dalle autorità giudiziarie nell'esercizio delle loro funzioni."
+     }
+    ],
+    "limitations": [
+     "Gli articoli 2-bis, 153 e 154 del Codice provengono da una trascrizione non ufficiale, non verificata su un testo ufficiale, di cui non è accertata la validità giuridica.",
+     "La domanda è generica: le prove indicano il Garante come autorità nazionale e riportano le regole di competenza per i trattamenti transfrontalieri, ma non permettono di stabilire la competenza in singoli casi concreti."
+    ],
+    "outcome": "answer",
+    "summary": "In Italia l'autorità di controllo ai sensi del regolamento è il Garante per la protezione dei dati personali [1][4]. La sua competenza opera sul territorio nazionale, con regole particolari per i trattamenti transfrontalieri (autorità capofila) [3][6][7]. Il Garante non controlla i trattamenti delle autorità giudiziarie nell'esercizio delle loro funzioni [8].",
+    "unanswered_issues": []
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8m6E6tyesEPzdX6efbg"
+   ],
+   "schema_sha256": "d8a27d64b6aa12eaaee825a48db3d6d6394c1ca218fe8e3c1931c4eac1161fce",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "004a4fa0b9fa85c7be10287fa90d2f495be7bcf3f12097b0e1a7ad01cf844932",
+   "task": "answer_generation",
+   "usage": null,
+   "user_sha256": "afb2a2dc83c99d150c831019753cd7db517fd696481273e810b5792ae78377ce"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C8",
+      "support": "supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8m72dN9skMDx5r28viR"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": null,
+   "user_sha256": "707d2e9b31ce0f9bf7676e1c34a9d37a4e3823082e0fafec4b3079dfaa451b10"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "repairs": [
+     {
+      "claim_id": "C7",
+      "rewrites": [
+       {
+        "quotes": [
+         1
+        ],
+        "text": "Ogni autorità di controllo è competente per la gestione dei reclami a essa proposti o di eventuali violazioni del regolamento se l'oggetto riguarda unicamente uno stabilimento nel suo Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro."
+       }
+      ]
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011ChMbCbsQ2h9NDszZRywjF"
+   ],
+   "schema_sha256": "fc3b674f15cb4ffc6f381f07149a48b3ff618b3f6fc3d2dc521f64e1041e1e79",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "7d2f2361eb59607c9fe41fec7cfde0d1db24f7b04af2ff348ca8fb374db8f1f4",
+   "task": "claim_repair",
+   "usage": null,
+   "user_sha256": "94c4d26cc6d7f08ce3a1376eaaadd041511fbb7aca011ee809a2ed0018b394e1"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C7",
+      "support": "partially_supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011ChMbCkGRL89ZN6eioxJyE"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": null,
+   "user_sha256": "3c2c24b8a4e7a0b7d51ca095898f5e18b37bd8f850a779dbfa817f1215f7ba40"
+  }
+ ],
+ "query_id": "a04",
+ "question": "Quale autorità di controllo è competente in Italia?",
+ "rendered": "question: Quale autorità di controllo è competente in Italia?\noutcome: ANSWER\nas of: 2026-11-26\nExperimental prototype. Not legal advice.\n\nissues found by the query analysis (questions written by the model, not answers; query-analysis-v3):\n  I1  Quale autorità di controllo è competente in Italia in materia di protezione dei dati personali?\n  search queries: Garante per la protezione dei dati personali autorità di controllo; istituzione autorità di controllo indipendente; competenza dell'autorità di controllo; compiti dell'autorità di controllo; poteri dell'autorità di controllo; autorità di controllo capofila competenza\n\nanswer (each claim with its quotations; quotations are checked against the evidence, support was assessed by a model, which is not legal validation):\n  C1 [I1] (source statement; support: supported) Il Codice privacy italiano individua l'Autorità di controllo di cui all'art. 51 del regolamento nel Garante per la protezione dei dati personali.\n      E1: «L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali, di seguito «Garante», di cui all'articolo 153.»\n  C2 [I1] (source statement; support: supported) Il GDPR prevede che ogni Stato membro disponga che una o più autorità pubbliche indipendenti siano incaricate di sorvegliare l'applicazione del regolamento.\n      E2: «Ogni Stato membro dispone che una o più autorità pubbliche indipendenti siano incaricate di sorvegliare l'applicazione del presente regolamento»\n  C3 [I1] (source statement; support: supported) Ogni autorità di controllo è competente a eseguire i compiti e a esercitare i poteri conferiti dal regolamento nel territorio del proprio Stato membro.\n      E3: «Ogni autorità di controllo è competente a eseguire i compiti assegnati e a esercitare i poteri a essa conferiti a norma del presente regolamento nel territorio del rispettivo Stato membro.»\n  C4 [I1] (inference; support: supported) Ne consegue che, sul territorio italiano, l'autorità competente ai sensi del regolamento è il Garante per la protezione dei dati personali.\n      E1: «L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali»\n      E3: «Ogni autorità di controllo è competente a eseguire i compiti assegnati e a esercitare i poteri a essa conferiti a norma del presente regolamento nel territorio del rispettivo Stato membro.»\n  C5 [I1] (source statement; support: supported) Il Garante è composto dal Collegio, che ne costituisce il vertice, e dall'Ufficio.\n      E7: «Il Garante è composto dal Collegio, che ne costituisce il vertice, e dall'Ufficio.»\n  C6 [I1] (source statement; support: supported) Per i trattamenti transfrontalieri, l'autorità dello stabilimento principale o unico del titolare o responsabile è competente come autorità capofila, fatto salvo l'art. 55.\n      E4: «l'autorità di controllo dello stabilimento principale o dello stabilimento unico del titolare e del trattamento o responsabile del trattamento è competente ad agire in qualità di autorità di controllo capofila per i trattamenti transfrontalieri»\n  C8 [I1] (source statement; support: supported) Il Garante non è competente per il controllo dei trattamenti effettuati dalle autorità giudiziarie nell'esercizio delle loro funzioni.\n      E8: «Il Garante non è competente per il controllo dei trattamenti effettuati dalle autorità giudiziarie nell'esercizio delle loro funzioni.»\n\ncitations (sources of the answer; in research mode they may be pending human review, as each source's qualifications and status say):\n  [E1] it-dlgs-2003-196 Art. 2-bis (( (Autorità di controllo). )) (page 2)\n      it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis; legal validity not_established\n      qualifications: unofficial_transcription, reference_date_unverified, legal_validity_not_established\n  [E2] eu-reg-2016-679 Articolo 51 Autorità di controllo (page 65)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:51; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E3] eu-reg-2016-679 Articolo 55 Competenza (page 67)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:55; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E4] eu-reg-2016-679 Articolo 56 Competenza dell'autorità di controllo capofila (pages 67-68)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:56; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n  [E7] it-dlgs-2003-196 Art. 153 (Garante per la protezione dei dati personali) (pages 41-42)\n      it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:153; legal validity not_established\n      qualifications: unofficial_transcription, reference_date_unverified, legal_validity_not_established\n  [E8] it-dlgs-2003-196 Art. 154 (Compiti) (pages 42-43)\n      it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:154; legal validity not_established\n      qualifications: unofficial_transcription, reference_date_unverified, legal_validity_not_established\n\nPartially supported or uncertain — not part of the answer:\n  C7 [I1] (source statement; support: partially supported) In deroga a ciò, ogni autorità di controllo è competente per i reclami o le violazioni il cui oggetto riguarda unicamente uno stabilimento nel suo Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro.\n      E4: «ogni autorità di controllo è competente per la gestione dei reclami a essa proposti o di eventuali violazioni del presente regolamento se l'oggetto riguarda unicamente uno stabilimento nel suo Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro.»\n\nMODEL NOTES — UNVERIFIED — NOT PART OF THE LEGAL ANSWER\n  (written by the model; checked only for references to provisions outside the evidence)\n  - Gli articoli 2-bis, 153 e 154 del Codice provengono da una trascrizione non ufficiale, non verificata su un testo ufficiale, di cui non è accertata la validità giuridica.\n  - La domanda è generica: le prove indicano il Garante come autorità nazionale e riportano le regole di competenza per i trattamenti transfrontalieri, ma non permettono di stabilire la competenza in singoli casi concreti.\n\nqualifications:\n  - MODALITÀ DIMOSTRATIVA DI RICERCA: questo risultato può basarsi su disposizioni il cui testo non ha superato la revisione umana. Ogni fonte qui sotto indica il proprio stato di revisione; una fonte in attesa di revisione non è citabile in modalità verificata e non va considerata verificata.\n  - Questo sistema non stabilisce se una disposizione sia giuridicamente valida, in vigore o applicabile a una qualsiasi data.\n  - Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.\n  - 27 further candidate provisions were left out by the evidence limits (max_items).\n  - Data di riferimento 2026-11-26: questa risposta riflette i testi presenti nel corpus a tale data. Non stabilisce il diritto vigente a quella data o successivamente.\n\ncorpus preflight: build build-f76ff6031f2fc82c4852f0a2bde27807; articles: 2 blocked, 319 internal_only; 0 citable\nevidence: build build-f76ff6031f2fc82c4852f0a2bde27807; 12 items (0 citable); about 9983 tokens\nwarnings: no_item_citable_in_verified_mode; repair_not_confirmed: C7 (partially_supported)\nmodels: analysis anthropic/claude-sonnet-5-5, 1 attempt(s); generation anthropic/claude-sonnet-5-5, 1 attempt(s); support check anthropic/claude-sonnet-5-5, 1 attempt(s)",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Quale autorità di controllo è competente in Italia in materia di protezione dei dati personali?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v3",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8QgzyPgZwGUQwjmX547"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Quale autorità di controllo è competente in Italia?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda l'individuazione dell'autorità di controllo in materia di protezione dei dati personali in Italia, disciplinata dal GDPR e dal Codice privacy.",
+   "search_queries_it": [
+    "Garante per la protezione dei dati personali autorità di controllo",
+    "istituzione autorità di controllo indipendente",
+    "competenza dell'autorità di controllo",
+    "compiti dell'autorità di controllo",
+    "poteri dell'autorità di controllo",
+    "autorità di controllo capofila competenza"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "2-bis",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "added by the application: the question names the Garante or Italy"
+    },
+    {
+     "article": "51",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "autorità di controllo negli Stati membri"
+    },
+    {
+     "article": "55",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "competenza dell'autorità di controllo"
+    },
+    {
+     "article": "56",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "competenza dell'autorità capofila nei casi transfrontalieri"
+    },
+    {
+     "article": "57",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "compiti dell'autorità di controllo"
+    },
+    {
+     "article": "58",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "poteri dell'autorità di controllo"
+    },
+    {
+     "article": "153",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "Garante per la protezione dei dati personali"
+    },
+    {
+     "article": "154",
+     "instrument": "it-dlgs-2003-196",
+     "point": null,
+     "reason": "compiti del Garante"
+    }
+   ],
+   "uncertainty": "La domanda è generica: non è chiaro se riguardi l'individuazione dell'autorità nazionale o la competenza in casi specifici (ad esempio trattamenti transfrontalieri)."
+  },
+  "as_of": "2026-11-26",
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Art. 2-bis",
+    "instrument_id": "it-dlgs-2003-196",
+    "label": "2-bis",
+    "legal_validity": "not_established",
+    "page_end": 2,
+    "page_start": 2,
+    "path": "PARTE I > TITOLO I > CAPO I > Art. 2-bis",
+    "point": null,
+    "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis",
+    "qualifications": [
+     "unofficial_transcription",
+     "reference_date_unverified",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "(( (Autorità di controllo). ))",
+    "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E2",
+    "heading": "Articolo 51",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "51",
+    "legal_validity": "not_established",
+    "page_end": 65,
+    "page_start": 65,
+    "path": "CAPO VI > Sezione 1 > Articolo 51",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:51",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Autorità di controllo",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E3",
+    "heading": "Articolo 55",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "55",
+    "legal_validity": "not_established",
+    "page_end": 67,
+    "page_start": 67,
+    "path": "CAPO VI > Sezione 2 > Articolo 55",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:55",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Competenza",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E4",
+    "heading": "Articolo 56",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "56",
+    "legal_validity": "not_established",
+    "page_end": 68,
+    "page_start": 67,
+    "path": "CAPO VI > Sezione 2 > Articolo 56",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:56",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Competenza dell'autorità di controllo capofila",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E7",
+    "heading": "Art. 153",
+    "instrument_id": "it-dlgs-2003-196",
+    "label": "153",
+    "legal_validity": "not_established",
+    "page_end": 42,
+    "page_start": 41,
+    "path": "PARTE III > TITOLO II > CAPO I > Art. 153",
+    "point": null,
+    "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:153",
+    "qualifications": [
+     "unofficial_transcription",
+     "reference_date_unverified",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "(Garante per la protezione dei dati personali)",
+    "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+    "whole_provision": true
+   },
+   {
+    "citable": false,
+    "evidence_id": "E8",
+    "heading": "Art. 154",
+    "instrument_id": "it-dlgs-2003-196",
+    "label": "154",
+    "legal_validity": "not_established",
+    "page_end": 43,
+    "page_start": 42,
+    "path": "PARTE III > TITOLO II > CAPO I > Art. 154",
+    "point": null,
+    "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:154",
+    "qualifications": [
+     "unofficial_transcription",
+     "reference_date_unverified",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "(Compiti)",
+    "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali, di seguito «Garante», di cui all'articolo 153."
+     }
+    ],
+    "repaired_from": null,
+    "text": "Il Codice privacy italiano individua l'Autorità di controllo di cui all'art. 51 del regolamento nel Garante per la protezione dei dati personali.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E2"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E2",
+      "text": "Ogni Stato membro dispone che una o più autorità pubbliche indipendenti siano incaricate di sorvegliare l'applicazione del presente regolamento"
+     }
+    ],
+    "repaired_from": null,
+    "text": "Il GDPR prevede che ogni Stato membro disponga che una o più autorità pubbliche indipendenti siano incaricate di sorvegliare l'applicazione del regolamento.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E3"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E3",
+      "text": "Ogni autorità di controllo è competente a eseguire i compiti assegnati e a esercitare i poteri a essa conferiti a norma del presente regolamento nel territorio del rispettivo Stato membro."
+     }
+    ],
+    "repaired_from": null,
+    "text": "Ogni autorità di controllo è competente a eseguire i compiti e a esercitare i poteri conferiti dal regolamento nel territorio del proprio Stato membro.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E1",
+     "E3"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "inference",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei dati personali"
+     },
+     {
+      "evidence_id": "E3",
+      "text": "Ogni autorità di controllo è competente a eseguire i compiti assegnati e a esercitare i poteri a essa conferiti a norma del presente regolamento nel territorio del rispettivo Stato membro."
+     }
+    ],
+    "repaired_from": null,
+    "text": "Ne consegue che, sul territorio italiano, l'autorità competente ai sensi del regolamento è il Garante per la protezione dei dati personali.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E7"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E7",
+      "text": "Il Garante è composto dal Collegio, che ne costituisce il vertice, e dall'Ufficio."
+     }
+    ],
+    "repaired_from": null,
+    "text": "Il Garante è composto dal Collegio, che ne costituisce il vertice, e dall'Ufficio.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E4"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E4",
+      "text": "l'autorità di controllo dello stabilimento principale o dello stabilimento unico del titolare e del trattamento o responsabile del trattamento è competente ad agire in qualità di autorità di controllo capofila per i trattamenti transfrontalieri"
+     }
+    ],
+    "repaired_from": null,
+    "text": "Per i trattamenti transfrontalieri, l'autorità dello stabilimento principale o unico del titolare o responsabile è competente come autorità capofila, fatto salvo l'art. 55.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C7",
+    "evidence_ids": [
+     "E4"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E4",
+      "text": "ogni autorità di controllo è competente per la gestione dei reclami a essa proposti o di eventuali violazioni del presente regolamento se l'oggetto riguarda unicamente uno stabilimento nel suo Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro."
+     }
+    ],
+    "repaired_from": null,
+    "text": "In deroga a ciò, ogni autorità di controllo è competente per i reclami o le violazioni il cui oggetto riguarda unicamente uno stabilimento nel suo Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro.",
+    "verification": "PARTIALLY_SUPPORTED"
+   },
+   {
+    "claim_id": "C8",
+    "evidence_ids": [
+     "E8"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E8",
+      "text": "Il Garante non è competente per il controllo dei trattamenti effettuati dalle autorità giudiziarie nell'esercizio delle loro funzioni."
+     }
+    ],
+    "repaired_from": null,
+    "text": "Il Garante non è competente per il controllo dei trattamenti effettuati dalle autorità giudiziarie nell'esercizio delle loro funzioni.",
+    "verification": "SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "65",
+     "origins": [
+      "query:6",
+      "query:3",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:74"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:65",
+     "reason": "max_items",
+     "tokens": 317
+    },
+    {
+     "label": "68",
+     "origins": [
+      "query:1"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:68",
+     "reason": "max_items",
+     "tokens": 400
+    },
+    {
+     "label": "31",
+     "origins": [
+      "query:4"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:31",
+     "reason": "max_items",
+     "tokens": 82
+    },
+    {
+     "label": "60",
+     "origins": [
+      "query:6",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:56"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:60",
+     "reason": "max_items",
+     "tokens": 381
+    },
+    {
+     "label": "154-bis",
+     "origins": [
+      "query:2"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:154-bis",
+     "reason": "max_items",
+     "tokens": 564
+    },
+    {
+     "label": "50",
+     "origins": [
+      "query:1"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:50",
+     "reason": "max_items",
+     "tokens": 372
+    },
+    {
+     "label": "41",
+     "origins": [
+      "query:4",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:57"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:41",
+     "reason": "max_items",
+     "tokens": 364
+    },
+    {
+     "label": "63",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:51",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:74"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:63",
+     "reason": "max_items",
+     "tokens": 93
+    },
+    {
+     "label": "6",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:55"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+     "reason": "max_items",
+     "tokens": 1459
+    },
+    {
+     "label": "61",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:56"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:61",
+     "reason": "max_items",
+     "tokens": 1083
+    },
+    {
+     "label": "28",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:57",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:28",
+     "reason": "max_items",
+     "tokens": 2103
+    },
+    {
+     "label": "46",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:57",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:46",
+     "reason": "max_items",
+     "tokens": 984
+    },
+    {
+     "label": "36",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:57",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:154"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:36",
+     "reason": "max_items",
+     "tokens": 940
+    },
+    {
+     "label": "40",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:57",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:40",
+     "reason": "max_items",
+     "tokens": 1804
+    },
+    {
+     "label": "42",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:57",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:42",
+     "reason": "max_items",
+     "tokens": 1100
+    },
+    {
+     "label": "43",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:57",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:43",
+     "reason": "max_items",
+     "tokens": 1578
+    },
+    {
+     "label": "47",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:57",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:47",
+     "reason": "max_items",
+     "tokens": 1807
+    },
+    {
+     "label": "16",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:16",
+     "reason": "max_items",
+     "tokens": 124
+    },
+    {
+     "label": "17",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:17",
+     "reason": "max_items",
+     "tokens": 943
+    },
+    {
+     "label": "18",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:18",
+     "reason": "max_items",
+     "tokens": 511
+    },
+    {
+     "label": "19",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:19",
+     "reason": "max_items",
+     "tokens": 189
+    },
+    {
+     "label": "83",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:58"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:83",
+     "reason": "max_items",
+     "tokens": 2046
+    },
+    {
+     "label": "155",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:153"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:155",
+     "reason": "max_items",
+     "tokens": 225
+    },
+    {
+     "label": "2-quater",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:154"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-quater",
+     "reason": "max_items",
+     "tokens": 395
+    },
+    {
+     "label": "59",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:154"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:59",
+     "reason": "max_items",
+     "tokens": 153
+    },
+    {
+     "label": "13",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:154"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:13",
+     "reason": "max_items",
+     "tokens": 22
+    },
+    {
+     "label": "156",
+     "origins": [
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:154"
+     ],
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:156",
+     "reason": "max_items",
+     "tokens": 1711
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 4176,
+       "char_start": 3948,
+       "page": 2,
+       "page_end": 2
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-0d264a29f564b4ba-0008-bd16fcea"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Art. 2-bis",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "2-bis",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1"
+     ],
+     "page_end": 2,
+     "page_start": 2,
+     "path": "PARTE I > TITOLO I > CAPO I > Art. 2-bis",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 2-bis\n\n(( (Autorità di controllo). ))\n\n((\n\n1. L'Autorità di controllo di cui all'articolo 51 del regolamento è individuata nel Garante per la protezione dei\ndati personali, di seguito «Garante», di cui all'articolo 153.\n\n))",
+     "tier": "internal_only",
+     "title": "(( (Autorità di controllo). ))",
+     "tokens": 76,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 309891,
+       "char_start": 308754,
+       "page": 65,
+       "page_end": 65
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 51",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "51",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis"
+     ],
+     "page_end": 65,
+     "page_start": 65,
+     "path": "CAPO VI > Sezione 1 > Articolo 51",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:51",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 51\n\nAutorità di controllo\n\n1.\nOgni Stato membro dispone che una o più autorità pubbliche indipendenti siano incaricate di sorvegliare l'appli­\ncazione del presente regolamento al fine di tutelare i diritti e le libertà fondamentali delle persone fisiche con riguardo al \ntrattamento e di agevolare la libera circolazione dei dati personali all'interno dell'Unione (l'«autorità di controllo»).\n\n2.\nOgni autorità di controllo contribuisce alla coerente applicazione del presente regolamento in tutta l'Unione. A tale \nscopo, le autorità di controllo cooperano tra loro e con la Commissione, conformemente al capo VII.\n\n3.\nQualora in uno Stato membro siano istituite più autorità di controllo, detto Stato membro designa l'autorità di \ncontrollo che rappresenta tali autorità nel comitato e stabilisce il meccanismo in base al quale le altre autorità si \nconformano alle norme relative al meccanismo di coerenza di cui all'articolo 63.\n\n4.\nOgni Stato membro notifica alla Commissione le disposizioni di legge adottate ai sensi del presente capo al più \ntardi entro 25 maggio 2018, e comunica senza ritardo ogni successiva modifica.",
+     "tier": "internal_only",
+     "title": "Autorità di controllo",
+     "tokens": 379,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 314887,
+       "char_start": 314231,
+       "page": 67,
+       "page_end": 67
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0370-1927af3b"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 55",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "55",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:3",
+      "query:4",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:56"
+     ],
+     "page_end": 67,
+     "page_start": 67,
+     "path": "CAPO VI > Sezione 2 > Articolo 55",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:55",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 55\n\nCompetenza\n\n1.\nOgni autorità di controllo è competente a eseguire i compiti assegnati e a esercitare i poteri a essa conferiti a \nnorma del presente regolamento nel territorio del rispettivo Stato membro.\n\n2.\nSe il trattamento è effettuato da autorità pubbliche o organismi privati che agiscono sulla base dell'articolo 6, \nparagrafo 1, lettera c) o e), è competente l'autorità di controllo dello Stato membro interessato. In tal caso, non si \napplica l'articolo 56.\n\n3.\nLe autorità di controllo non sono competenti per il controllo dei trattamenti effettuati dalle autorità giurisdizionali \nnell'esercizio delle loro funzioni giurisdizionali.",
+     "tier": "internal_only",
+     "title": "Competenza",
+     "tokens": 219,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 316207,
+       "char_start": 314889,
+       "page": 67,
+       "page_end": 67
+      },
+      {
+       "char_end": 317139,
+       "char_start": 316271,
+       "page": 68,
+       "page_end": 68
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0371-004b6455",
+      "doc-8f7504d289853f57-0373-9c6145e1"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 56",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "56",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:6",
+      "query:3",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:55"
+     ],
+     "page_end": 68,
+     "page_start": 67,
+     "path": "CAPO VI > Sezione 2 > Articolo 56",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:56",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 56\n\nCompetenza dell'autorità di controllo capofila\n\n1.\nFatto salvo l'articolo 55, l'autorità di controllo dello stabilimento principale o dello stabilimento unico del titolare e \ndel trattamento o responsabile del trattamento è competente ad agire in qualità di autorità di controllo capofila per i \ntrattamenti transfrontalieri effettuati dal suddetto titolare del trattamento o responsabile del trattamento, secondo la \nprocedura di cui all'articolo 60.\n\n2.\nIn deroga al paragrafo 1, ogni autorità di controllo è competente per la gestione dei reclami a essa proposti o di \neventuali violazioni del presente regolamento se l'oggetto riguarda unicamente uno stabilimento nel suo Stato membro o \nincide in modo sostanziale sugli interessati unicamente nel suo Stato membro.\n\n3.\nNei casi indicati al paragrafo 2 del presente articolo, l'autorità di controllo informa senza indugio l'autorità di \ncontrollo capofila in merito alla questione. Entro un termine di tre settimane da quando è stata informata, l'autorità di \ncontrollo capofila decide se intende o meno trattare il caso secondo la procedura di cui all'articolo 60, tenendo conto \ndell'esistenza o meno di uno stabilimento del titolare del trattamento o responsabile del trattamento nello Stato membro \ndell'autorità di controllo che l'ha informata.\n\n4.\nQualora l'autorità di controllo capofila decida di trattare il caso, si applica la procedura di cui all'articolo 60. \nL'autorità di controllo che ha informato l'autorità di controllo capofila può presentare a quest'ultima un progetto di \ndecisione. L'autorità di controllo capofila tiene nella massima considerazione tale progetto nella predisposizione del \nprogetto di decisione di cui all'articolo 60, paragrafo 3.\n\n5.\nNel caso in cui l'autorità di controllo capofila decida di non trattarlo, l'autorità di controllo che ha informato \nl'autorità di controllo capofila tratta il caso conformemente agli articoli 61 e 62.\n\n6.\nL'autorità di controllo capofila è l'unico interlocutore del titolare del trattamento o del responsabile del trattamento \nin merito al trattamento transfrontaliero effettuato da tale titolare del trattamento o responsabile del trattamento.",
+     "tier": "internal_only",
+     "title": "Competenza dell'autorità di controllo capofila",
+     "tokens": 729,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 320252,
+       "char_start": 317141,
+       "page": 68,
+       "page_end": 68
+      },
+      {
+       "char_end": 321909,
+       "char_start": 320316,
+       "page": 69,
+       "page_end": 69
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 57",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "57",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:154"
+     ],
+     "page_end": 69,
+     "page_start": 68,
+     "path": "CAPO VI > Sezione 2 > Articolo 57",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:57",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 57\n\nCompiti\n\n1.\nFatti salvi gli altri compiti indicati nel presente regolamento, sul proprio territorio ogni autorità di controllo:\n\na)  sorveglia e assicura l'applicazione del presente regolamento;\n\nb)  promuove la consapevolezza e favorisce la comprensione del pubblico riguardo ai rischi, alle norme, alle garanzie e\n\nai diritti in relazione al trattamento. Sono oggetto di particolare attenzione le attività destinate specificamente ai \nminori;\n\nc)  fornisce consulenza, a norma del diritto degli Stati membri, al parlamento nazionale, al governo e ad altri organismi\n\ne istituzioni in merito alle misure legislative e amministrative relative alla protezione dei diritti e delle libertà delle \npersone fisiche con riguardo al trattamento;\n\nd)  promuove la consapevolezza dei titolari del trattamento e dei responsabili del trattamento riguardo agli obblighi\n\nimposti loro dal presente regolamento;\n\ne)  su richiesta, fornisce informazioni all'interessato in merito all'esercizio dei propri diritti derivanti dal presente\n\nregolamento e, se del caso, coopera a tal fine con le autorità di controllo di altri Stati membri;\n\nf)\ntratta i reclami proposti da un interessato, o da un organismo, un'organizzazione o un'associazione ai sensi dell'ar­\nticolo 80, e svolge le indagini opportune sull'oggetto del reclamo e informa il reclamante dello stato e dell'esito delle \nindagini entro un termine ragionevole, in particolare ove siano necessarie ulteriori indagini o un coordinamento con \nun'altra autorità di controllo;\n\ng)  collabora, anche tramite scambi di informazioni, con le altre autorità di controllo e presta assistenza reciproca al fine\n\ndi garantire l'applicazione e l'attuazione coerente del presente regolamento;\n\nh)  svolge indagini sull'applicazione del presente regolamento, anche sulla base di informazioni ricevute da un'altra\n\nautorità di controllo o da un'altra autorità pubblica;\n\ni)  sorveglia gli sviluppi che presentano un interesse, se e in quanto incidenti sulla protezione dei dati personali, in\n\nparticolare l'evoluzione delle tecnologie dell'informazione e della comunicazione e le prassi commerciali;\n\nj)  adotta le clausole contrattuali tipo di cui all'articolo 28, paragrafo 8, e all'articolo 46, paragrafo 2, lettera d);\n\nk)\nredige e tiene un elenco in relazione al requisito di una valutazione d'impatto sulla protezione dei dati ai sensi dell'ar­\nticolo 35, paragrafo 4;\n\nl)  offre consulenza sui trattamenti di cui all'articolo 36, paragrafo 2;\n\nm)  incoraggia l'elaborazione di codici di condotta ai sensi dell'articolo 40, paragrafo 1, e fornisce un parere su tali\n\ncodici di condotta e approva quelli che forniscono garanzie sufficienti, a norma dell'articolo 40, paragrafo 5;\n\nn)  incoraggia l'istituzione di meccanismi di certificazione della protezione dei dati nonché di sigilli e marchi di\n\nprotezione dei dati a norma dell'articolo 42, paragrafo 1, e approva i criteri di certificazione a norma dell'articolo 42, \nparagrafo 5;\n\no)  ove applicabile, effettua un riesame periodico delle certificazioni rilasciate in conformità dell'articolo 42, paragrafo 7;\n\np)  definisce e pubblica i criteri per l'accreditamento di un organismo per il controllo dei codici di condotta ai sensi\n\ndell'articolo 41 e di un organismo di certificazione ai sensi dell'articolo 43;\n\nq)  effettua l'accreditamento di un organismo per il controllo dei codici di condotta ai sensi dell'articolo 41 e di un\n\norganismo di certificazione ai sensi dell'articolo 43;\n\nr)  autorizza le clausole contrattuali e le altre disposizioni di cui all'articolo 46, paragrafo 3;\n\ns)  approva le norme vincolanti d'impresa ai sensi dell'articolo 47;\n\nt)  contribuisce alle attività del comitato;\n\nu)  tiene registri interni delle violazioni del presente regolamento e delle misure adottate in conformità dell'articolo 58,\n\nparagrafo 2; e\n\nv)  svolge qualsiasi altro compito legato alla protezione dei dati personali.\n\n2.\nOgni autorità di controllo agevola la proposizione di reclami di cui al paragrafo 1, lettera f), tramite misure quali \nun modulo per la proposizione dei reclami compilabile anche elettronicamente, senza escludere altri mezzi di comuni­\ncazione.\n\n3.\nOgni autorità di controllo svolge i propri compiti senza spese né per l'interessato né, ove applicabile, per il \nresponsabile della protezione dei dati.\n\n4.\nQualora le richieste siano manifestamente infondate o eccessive, in particolare per il carattere ripetitivo, l'autorità \ndi controllo può addebitare un contributo spese ragionevole basato sui costi amministrativi o rifiutarsi di soddisfare la \nrichiesta. Incombe all'autorità di controllo dimostrare il carattere manifestamente infondato o eccessivo della richiesta.",
+     "tier": "internal_only",
+     "title": "Compiti",
+     "tokens": 1568,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 323657,
+       "char_start": 321911,
+       "page": 69,
+       "page_end": 69
+      },
+      {
+       "char_end": 327230,
+       "char_start": 323721,
+       "page": 70,
+       "page_end": 70
+      }
+     ],
+     "best_rank": 5,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0383-7631bb1e"
+     ],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Articolo 58",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "58",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:5",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:57"
+     ],
+     "page_end": 70,
+     "page_start": 69,
+     "path": "CAPO VI > Sezione 2 > Articolo 58",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:58",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 58\n\nPoteri\n\n1.\nOgni autorità di controllo ha tutti i poteri di indagine seguenti:\n\na)  ingiungere al titolare del trattamento e al responsabile del trattamento e, ove applicabile, al rappresentante del titolare\n\ndel trattamento o del responsabile del trattamento, di fornirle ogni informazione di cui necessiti per l'esecuzione dei \nsuoi compiti;\n\nb)  condurre indagini sotto forma di attività di revisione sulla protezione dei dati;\n\nc)  effettuare un riesame delle certificazioni rilasciate in conformità dell'articolo 42, paragrafo 7;\n\nd)  notificare al titolare del trattamento o al responsabile del trattamento le presunte violazioni del presente regolamento;\n\ne)  ottenere, dal titolare del trattamento o dal responsabile del trattamento, l'accesso a tutti i dati personali e a tutte le\n\ninformazioni necessarie per l'esecuzione dei suoi compiti; e\n\nf)  ottenere accesso a tutti i locali del titolare del trattamento e del responsabile del trattamento, compresi tutti gli\n\nstrumenti e mezzi di trattamento dei dati, in conformità con il diritto dell'Unione o il diritto processuale degli Stati \nmembri.\n\n2.\nOgni autorità di controllo ha tutti i poteri correttivi seguenti:\n\na)  rivolgere avvertimenti al titolare del trattamento o al responsabile del trattamento sul fatto che i trattamenti previsti\n\npossono verosimilmente violare le disposizioni del presente regolamento;\n\nb)  rivolgere ammonimenti al titolare e del trattamento o al responsabile del trattamento ove i trattamenti abbiano\n\nviolato le disposizioni del presente regolamento;\n\nc)  ingiungere al titolare del trattamento o al responsabile del trattamento di soddisfare le richieste dell'interessato di\n\nesercitare i diritti loro derivanti dal presente regolamento;\n\nd)  ingiungere al titolare del trattamento o al responsabile del trattamento di conformare i trattamenti alle disposizioni\n\ndel presente regolamento, se del caso, in una determinata maniera ed entro un determinato termine;\n\ne)  ingiungere al titolare del trattamento di comunicare all'interessato una violazione dei dati personali;\n\nf)  imporre una limitazione provvisoria o definitiva al trattamento, incluso il divieto di trattamento;\n\ng)  ordinare la rettifica, la cancellazione di dati personali o la limitazione del trattamento a norma degli articoli 16, 17\n\ne 18 e la notificazione di tali misure ai destinatari cui sono stati comunicati i dati personali ai sensi dell'articolo 17, \nparagrafo 2, e dell'articolo 19;\n\nh)  revocare la certificazione o ingiungere all'organismo di certificazione di ritirare la certificazione rilasciata a norma\n\ndegli articoli 42 e 43, oppure ingiungere all'organismo di certificazione di non rilasciare la certificazione se i requisiti \nper la certificazione non sono o non sono più soddisfatti;\n\ni)  infliggere una sanzione amministrativa pecuniaria ai sensi dell'articolo 83, in aggiunta alle misure di cui al presente\n\nparagrafo, o in luogo di tali misure, in funzione delle circostanze di ogni singolo caso; e\n\nj)  ordinare la sospensione dei flussi di dati verso un destinatario in un paese terzo o un'organizzazione internazionale.\n\n3.\nOgni autorità di controllo ha tutti i poteri autorizzativi e consultivi seguenti:\n\na)  fornire consulenza al titolare del trattamento, secondo la procedura di consultazione preventiva di cui all'articolo 36;\n\nb)  rilasciare, di propria iniziativa o su richiesta, pareri destinati al parlamento nazionale, al governo dello Stato membro,\n\noppure, conformemente al diritto degli Stati membri, ad altri organismi e istituzioni e al pubblico su questioni \nriguardanti la protezione dei dati personali;\n\nc)  autorizzare il trattamento di cui all'articolo 36, paragrafo 5, se il diritto dello Stato membro richiede una siffatta\n\nautorizzazione preliminare;\n\nd)  rilasciare un parere sui progetti di codici di condotta e approvarli, ai sensi dell'articolo 40, paragrafo 5;\n\ne)  accreditare gli organismi di certificazione a norma dell'articolo 43;\n\nf)  rilasciare certificazioni e approvare i criteri di certificazione conformemente all'articolo 42, paragrafo 5;\n\ng)  adottare le clausole tipo di protezione dei dati di cui all'articolo 28, paragrafo 8, e all'articolo 46, paragrafo 2,\n\nlettera d);\n\nh)  autorizzare le clausole contrattuali di cui all'articolo 46, paragrafo 3, lettera a);\n\ni)  autorizzare gli accordi amministrativi di cui all'articolo 46, paragrafo 3, lettera b);\n\nj)  approvare le norme vincolanti d'impresa ai sensi dell'articolo 47.\n\n4.\nL'esercizio da parte di un'autorità di controllo dei poteri attribuitile dal presente articolo è soggetto a garanzie \nadeguate, inclusi il ricorso giurisdizionale effettivo e il giusto processo, previste dal diritto dell'Unione e degli Stati \nmembri conformemente alla Carta.\n\n5.\nOgni Stato membro dispone per legge che la sua autorità di controllo abbia il potere di intentare un'azione o di \nagire in sede giudiziale o, ove del caso, stragiudiziale in caso di violazione del presente regolamento per far rispettare le \ndisposizioni dello stesso.\n\n6.\nOgni Stato membro può prevedere per legge che la sua autorità di controllo abbia ulteriori poteri rispetto a quelli \ndi cui ai paragrafi 1, 2 e 3. L'esercizio di tali poteri non pregiudica l'operatività effettiva del capo VII.",
+     "tier": "internal_only",
+     "title": "Poteri",
+     "tokens": 1752,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 147609,
+       "char_start": 145082,
+       "page": 41,
+       "page_end": 41
+      },
+      {
+       "char_end": 148343,
+       "char_start": 147669,
+       "page": 42,
+       "page_end": 42
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Art. 153",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "153",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "reference:it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:2-bis"
+     ],
+     "page_end": 42,
+     "page_start": 41,
+     "path": "PARTE III > TITOLO II > CAPO I > Art. 153",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:153",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 153\n\n(Garante per la protezione dei dati personali)\n\n1. Il Garante è composto dal Collegio, che ne costituisce il vertice, e dall'Ufficio. Il Collegio è costituito da\nquattro componenti, eletti due dalla Camera dei deputati e due dal Senato della Repubblica con voto limitato. I\ncomponenti devono essere eletti tra coloro che presentano la propria candidatura nell'ambito di una procedura\ndi selezione il cui avviso deve essere pubblicato nei siti internet della Camera, del Senato e del Garante almeno\nsessanta giorni prima della nomina. Le candidature devono pervenire almeno trenta giorni prima della nomina\ne i curricula devono essere pubblicati negli stessi siti internet. Le candidature possono essere avanzate da\npersone che assicurino indipendenza e che risultino di comprovata esperienza nel settore della protezione dei\ndati personali, con particolare riferimento alle discipline giuridiche o dell'informatica.\n\n2. I componenti eleggono nel loro ambito un presidente, il cui voto prevale in caso di parità. Eleggono altresì un\nvice presidente, che assume le funzioni del presidente in caso di sua assenza o impedimento.\n\n3. L'incarico di presidente e quello di componente hanno durata settennale e non sono rinnovabili. Per tutta la\ndurata dell'incarico il presidente e i componenti non possono esercitare, a pena di decadenza, alcuna attività\nprofessionale o di consulenza, anche non remunerata, né essere amministratori o dipendenti di enti pubblici o\nprivati, né ricoprire cariche elettive.\n\n4. I membri del Collegio devono mantenere il segreto, sia durante sia successivamente alla cessazione\ndell'incarico, in merito alle informazioni riservate cui hanno avuto accesso nell'esecuzione dei propri compiti o\nnell'esercizio dei propri poteri.\n\n5. All'atto dell'accettazione della nomina il presidente e i componenti sono collocati fuori ruolo se dipendenti di\npubbliche amministrazioni o magistrati in attività di servizio; se professori universitari di ruolo, sono collocati in\naspettativa senza assegni ai sensi dell'articolo 13 del decreto del Presidente della Repubblica 11 luglio 1980, n.\n382. Il personale collocato fuori ruolo o in aspettativa non può essere sostituito.\n\n6. Al presidente ((e ai componenti)) compete una indennità di funzione pari alla retribuzione in godimento al\nprimo Presidente della Corte di cassazione, nei limiti previsti dalla legge per il trattamento economico annuo\nomnicomprensivo di chiunque riceva a carico delle finanze pubbliche emolumenti o retribuzioni nell'ambito di\n\nrapporti di lavoro dipendente o autonomo con pubbliche amministrazioni statali. ((L'indennità di funzione di cui\nal primo periodo è da ritenere onnicomprensiva ad esclusione del rimborso delle spese effettivamente\nsostenute e documentate in occasione di attività istituzionali)).\n\n7. Alle dipendenze del Garante è posto l'Ufficio di cui all'articolo 155.\n\n8. Il presidente, i componenti, il segretario generale e i dipendenti si astengono dal trattare, per i due anni\nsuccessivi alla cessazione dell'incarico ovvero del servizio presso il Garante, procedimenti dinanzi al Garante,\nivi compresa la presentazione per conto di terzi di reclami richieste di parere o interpelli.",
+     "tier": "internal_only",
+     "title": "(Garante per la protezione dei dati personali)",
+     "tokens": 1067,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 152075,
+       "char_start": 149009,
+       "page": 42,
+       "page_end": 42
+      },
+      {
+       "char_end": 156962,
+       "char_start": 152135,
+       "page": 43,
+       "page_end": 43
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Art. 154",
+     "instrument_id": "it-dlgs-2003-196",
+     "label": "154",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup"
+     ],
+     "page_end": 43,
+     "page_start": 42,
+     "path": "PARTE III > TITOLO II > CAPO I > Art. 154",
+     "point": null,
+     "provision_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05/body/article:154",
+     "qualifications": [
+      "unofficial_transcription",
+      "reference_date_unverified",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Art. 154\n\n(Compiti)\n\n1. Oltre a quanto previsto da specifiche disposizioni e dalla Sezione II del Capo VI del regolamento, il Garante,\nai sensi dell'articolo 57, paragrafo 1, lettera v), del Regolamento medesimo, anche di propria iniziativa e\navvalendosi dell'Ufficio, in conformità alla disciplina vigente e nei confronti di uno o più titolari del trattamento,\nha il compito di:\n\na) controllare se i trattamenti sono effettuati nel rispetto della disciplina applicabile, anche in caso di loro\ncessazione e con riferimento alla conservazione dei dati di traffico;\n\nb) trattare i reclami presentati ai sensi del regolamento, e delle disposizioni del presente codice, anche\nindividuando con proprio regolamento modalità specifiche per la trattazione, nonché fissando annualmente le\npriorità delle questioni emergenti dai reclami che potranno essere istruite nel corso dell'anno di riferimento;\n\nc) promuovere l'adozione di regole deontologiche, nei casi di cui all'articolo 2-quater;\n\nd) denunciare i fatti configurabili come reati perseguibili d'ufficio, dei quali viene a conoscenza nell'esercizio o\na causa delle funzioni;\n\ne) trasmettere la relazione, predisposta annualmente ai sensi dell'articolo 59 del Regolamento, al Parlamento e\nal Governo entro il 31 maggio dell'anno successivo a quello cui si riferisce;\n\nf) assicurare la tutela dei diritti e delle libertà fondamentali degli individui dando idonea attuazione al\nRegolamento e al presente codice;\n\ng) provvedere altresì all'espletamento dei compiti ad esso attribuiti dal diritto dell'Unione europea o dello Stato\ne svolgere le ulteriori funzioni previste dall'ordinamento.\n\n2. Il Garante svolge altresì, ai sensi del comma 1, la funzione di controllo o assistenza in materia di trattamento\ndei dati personali prevista da leggi di ratifica di accordi o convenzioni internazionali o da atti comunitari o\ndell'Unione europea e, in particolare:\n\na) dal Regolamento (CE) n. 1987/2006 del Parlamento europeo e del Consiglio, del 20 dicembre 2006,\nsull'istituzione, l'esercizio e l'uso del sistema d'informazione Schengen di seconda generazione (SIS II) e\nDecisione 2007/533/GAI del Consiglio, del 12 giugno 2007, sull'istituzione, l'esercizio e l'uso del sistema\nd'informazione Schengen di seconda generazione (SIS II);\n\nb) dal Regolamento (UE) 2016/794 del Parlamento europeo e del Consiglio, dell'11 maggio 2016, che istituisce\nl'Agenzia dell'Unione europea per la cooperazione nell'attività di contrasto (Europol) e sostituisce e abroga le\ndecisioni del Consiglio 2009/371/GAI, 2009/934/GAI, 2009/935/GAI, 2009/936/GAI e 2009/968/GAI;\n\nc) dal Regolamento (UE) 2015/1525 del Parlamento europeo e del Consiglio, del 9 settembre 2015, che\nmodifica il Regolamento (CE) n. 515/97 del Consiglio relativo alla mutua assistenza tra le autorità\namministrative degli Stati membri e alla collaborazione tra queste e la Commissione per assicurare la corretta\napplicazione delle normative doganale e agricola e decisione 2009/917/GAI del Consiglio, del 30 novembre\n2009, sull'uso dell'informatica nel settore doganale;\n\nd) dal Regolamento (CE) n. 603/2013 del Parlamento europeo e del Consiglio, del 26 giugno 2013, che\nistituisce l'Eurodac per il confronto delle impronte digitali per l'efficace applicazione del Regolamento (UE) n.\n604/2013 che stabilisce i criteri e i meccanismi di determinazione dello Stato membro competente per l'esame\ndi una domanda di protezione internazionale presentata in uno degli Stati membri da un cittadino di un paese\nterzo o da un apolide e per le richieste di confronto con i dati Eurodac presentate dalle autorità di contrasto\ndegli Stati membri e da Europol a fini di contrasto, e che modifica il Regolamento (UE) n. 1077/2011 che\nistituisce un'agenzia europea per la gestione operativa dei sistemi IT su larga scala nello spazio di libertà,\nsicurezza e giustizia;\n\ne) dal Regolamento (CE) n. 767/2008 del Parlamento europeo e del Consiglio, del 9 luglio 2008, concernente il\nsistema di informazione visti (VIS) e lo scambio di dati tra Stati membri sui visti per soggiorni di breve durata\n(Regolamento VIS) e decisione n. 2008/633/GAI del Consiglio, del 23 giugno 2008, relativa all'accesso per la\nconsultazione al sistema di informazione visti (VIS) da parte delle autorità designate degli Stati membri e di\nEuropol ai fini della prevenzione, dell'individuazione e dell'investigazione di reati di terrorismo e altri reati\ngravi;\n\nf) dal Regolamento (CE) n. 1024/2012 del Parlamento europeo e del Consiglio, del 25 ottobre 2012, relativo alla\ncooperazione amministrativa attraverso il sistema di informazione del mercato interno e che abroga la\ndecisione 2008/49/CE della Commissione (Regolamento IMI) Testo rilevante ai fini del SEE;\n\ng) dalle disposizioni di cui al capitolo IV della Convenzione n. 108 sulla protezione delle persone rispetto al\ntrattamento automatizzato di dati di carattere personale, adottata a Strasburgo il 28 gennaio 1981 e resa\nesecutiva con legge 21 febbraio 1989, n. 98, quale autorità designata ai fini della cooperazione tra Stati ai\nsensi dell'articolo 13 della convenzione medesima.\n\n3. Per quanto non previsto dal Regolamento e dal presente codice, il Garante disciplina con proprio\nRegolamento, ai sensi dell'articolo 156, comma 3, le modalità specifiche dei procedimenti relativi all'esercizio\ndei compiti e dei poteri ad esso attribuiti dal Regolamento e dal presente codice.\n\n4. Il Garante collabora con altre autorità amministrative indipendenti nazionali nello svolgimento dei rispettivi\ncompiti.\n\n5. Fatti salvi i termini più brevi previsti per legge, il parere del Garante, anche nei casi di cui agli articoli 36,\nparagrafo 4, del Regolamento, è reso nel termine di quarantacinque giorni dal ricevimento della richiesta.\nDecorso il termine, l'amministrazione può procedere indipendentemente dall'acquisizione del parere.\n\nQuando, per esigenze istruttorie, non può essere rispettato il termine di cui al presente comma, tale termine\npuò essere interrotto per una sola volta e il parere deve essere reso definitivamente entro venti giorni dal\nricevimento degli elementi istruttori da parte delle amministrazioni interessate.\n\n((\n\n5-bis. Il parere di cui all'articolo 36, paragrafo 4, del Regolamento è reso dal Garante nei soli casi in cui la legge\no il regolamento in corso di adozione disciplina espressamente le modalità del trattamento descrivendo una o\npiù operazioni, compiute con o senza l'ausilio di processi automatizzati e applicate a dati personali o insiemi di\ndati personali, come la raccolta, la registrazione, l'organizzazione, la strutturazione, la conservazione,\nl'adattamento o la modifica, l'estrazione, la consultazione, l'uso, la comunicazione mediante trasmissione,\ndiffusione o qualsiasi altra forma di messa a disposizione, il raffronto o l'interconnessione, la limitazione, la\ncancellazione o la distruzione, nonché nei casi in cui la norma di legge o di regolamento autorizza\nespressamente un trattamento di dati personali da parte di soggetti privati senza rinviare la disciplina delle\nmodalità del trattamento a fonti sottoordinate.\n\n5-ter. Quando il Presidente del Consiglio dei ministri dichiara che ragioni di urgenza non consentono la\nconsultazione preventiva e comunque nei casi di adozione di decreti-legge, il Garante esprime il parere di cui al\ncomma 5-bis:\n\na) in sede di esame parlamentare dei disegni di legge o dei disegni di legge di conversione dei decreti-legge;\n\nb) in sede di esame definitivo degli schemi di decreto legislativo sottoposti al parere delle Commissioni\nparlamentari))\n\n6. Copia dei provvedimenti emessi dall'autorità giudiziaria in relazione a quanto previsto dal presente codice o\nin materia di criminalità informatica è trasmessa, a cura della cancelleria, al Garante.\n\n7. Il Garante non è competente per il controllo dei trattamenti effettuati dalle autorità giudiziarie nell'esercizio\ndelle loro funzioni.",
+     "tier": "internal_only",
+     "title": "(Compiti)",
+     "tokens": 2631,
+     "version_id": "it-dlgs-2003-196@transcription-vigente-2026-11-05",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 359930,
+       "char_start": 359356,
+       "page": 79,
+       "page_end": 79
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0425-d6ef9638"
+     ],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Articolo 74",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "74",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4"
+     ],
+     "page_end": 79,
+     "page_start": 79,
+     "path": "CAPO VII > Sezione 3 > Articolo 74",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:74",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 74\n\nCompiti del presidente\n\n1.\nIl presidente ha il compito di:\n\na)  convocare le riunioni del comitato e stabilirne l'ordine del giorno;\n\nb)  notificare le decisioni adottate dal comitato a norma dell'articolo 65 all'autorità di controllo capofila e alle autorità di\n\ncontrollo interessate;\n\nc)  assicurare l'esecuzione tempestiva dei compiti del comitato, in particolare in relazione al meccanismo di coerenza di\n\ncui all'articolo 63.\n\n2.\nIl comitato europeo stabilisce nel proprio regolamento interno la ripartizione dei compiti tra presidente e vicepre­\nsidenti.",
+     "tier": "internal_only",
+     "title": "Compiti del presidente",
+     "tokens": 192,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 337931,
+       "char_start": 337066,
+       "page": 73,
+       "page_end": 73
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0396-b19d5160"
+     ],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Articolo 62",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "62",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:56"
+     ],
+     "page_end": 73,
+     "page_start": 73,
+     "path": "CAPO VII > Sezione 1 > Articolo 62",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:62",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "3.\nUn'autorità di controllo può, in conformità del diritto degli Stati membri e con l'autorizzazione dell'autorità di \ncontrollo ospitata, conferire poteri, anche d'indagine, ai membri o al personale dell'autorità di controllo ospitata che \npartecipano alle operazioni congiunte o consentire ai membri o al personale dell'autorità di controllo ospitata, nella \nmisura in cui il diritto dello Stato membro dell'autorità di controllo ospite lo permette, di esercitare i loro poteri \nd'indagine in conformità del diritto dello Stato membro dell'autorità di controllo ospitata. Tali poteri d'indagine possono \nessere esercitati unicamente sotto il controllo e in presenza di membri o personale dell'autorità di controllo ospite. I \nmembri o il personale dell'autorità di controllo ospitata sono soggetti al diritto dello Stato membro dell'autorità di \ncontrollo ospite.",
+     "tier": "internal_only",
+     "title": "Operazioni congiunte delle autorità di controllo",
+     "tokens": 289,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 312610,
+       "char_start": 312426,
+       "page": 66,
+       "page_end": 66
+      },
+      {
+       "char_end": 314188,
+       "char_start": 312674,
+       "page": 67,
+       "page_end": 67
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0367-0c561051"
+     ],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Articolo 54",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "54",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:2"
+     ],
+     "page_end": 67,
+     "page_start": 66,
+     "path": "CAPO VI > Sezione 1 > Articolo 54",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:54",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 54\n\nNorme sull'istituzione dell'autorità di controllo\n\n1.\nOgni Stato membro prevede con legge tutte le condizioni seguenti:\n\na)  l'istituzione di ogni autorità di controllo;\n\nb)  le qualifiche e le condizioni di idoneità richieste per essere nominato membro di ogni autorità di controllo;\n\nc)  le norme e le procedure per la nomina del membro o dei membri di ogni autorità di controllo;\n\nd)  la durata del mandato del membro o dei membri di ogni autorità di controllo non inferiore a quattro anni, salvo per\n\nle prime nomine dopo 24 maggio 2016, alcune delle quali possono avere una durata inferiore qualora ciò sia \nnecessario per tutelare l'indipendenza dell'autorità di controllo mediante una procedura di nomina scaglionata;\n\ne)  l'eventuale rinnovabilità e, in caso positivo, il numero di rinnovi del mandato del membro o dei membri di ogni\n\nautorità di controllo;\n\nf)  le condizioni che disciplinano gli obblighi del membro o dei membri e del personale di ogni autorità di controllo, i\n\ndivieti relativi ad attività, professioni e benefici incompatibili con tali obblighi durante e dopo il mandato e le regole \nche disciplinano la cessazione del rapporto di lavoro.\n\n2.\nIl membro o i membri e il personale di ogni autorità di controllo sono tenuti, in virtù del diritto dell'Unione o \ndegli Stati membri, al segreto professionale in merito alle informazioni riservate cui hanno avuto accesso nell'esecuzione \ndei loro compiti o nell'esercizio dei loro poteri, sia durante che dopo il mandato. Per tutta la durata del loro mandato, \ntale obbligo del segreto professionale si applica in particolare alle segnalazioni da parte di persone fisiche di violazioni \ndel presente regolamento.",
+     "tier": "internal_only",
+     "title": "Norme sull'istituzione dell'autorità di controllo",
+     "tokens": 566,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 311501,
+       "char_start": 309957,
+       "page": 66,
+       "page_end": 66
+      }
+     ],
+     "best_rank": 2,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0364-1358820e"
+     ],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Articolo 52",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "52",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4",
+      "query:5"
+     ],
+     "page_end": 66,
+     "page_start": 66,
+     "path": "CAPO VI > Sezione 1 > Articolo 52",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:52",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 52\n\nIndipendenza\n\n1.\nOgni autorità di controllo agisce in piena indipendenza nell'adempimento dei propri compiti e nell'esercizio dei \npropri poteri conformemente al presente regolamento.\n\n2.\nNell'adempimento dei rispettivi compiti e nell'esercizio dei rispettivi poteri previsti dal presente regolamento, il \nmembro o i membri di ogni autorità di controllo non subiscono pressioni esterne, né dirette, né indirette, e non \nsollecitano né accettano istruzioni da alcuno.\n\n3.\nIl membro o i membri dell'autorità di controllo si astengono da qualunque azione incompatibile con le loro \nfunzioni e per tutta la durata del mandato non possono esercitare alcuna altra attività incompatibile, remunerata o \nmeno.\n\n4.\nOgni Stato membro provvede affinché ogni autorità di controllo sia dotata delle risorse umane, tecniche e \nfinanziarie, dei locali e delle infrastrutture necessari per l'effettivo adempimento dei suoi compiti e l'esercizio dei propri \npoteri, compresi quelli nell'ambito dell'assistenza reciproca, della cooperazione e della partecipazione al comitato.\n\n5.\nOgni Stato membro provvede affinché ogni autorità di controllo selezioni e disponga di proprio personale, \nsoggetto alla direzione esclusiva del membro o dei membri dell'autorità di controllo interessata.\n\n6.\nOgni Stato membro provvede affinché ogni autorità di controllo sia soggetta a un controllo finanziario che non ne \npregiudichi l'indipendenza e disponga di bilanci annuali, separati e pubblici, che possono far parte del bilancio generale \nstatale o nazionale.",
+     "tier": "internal_only",
+     "title": "Indipendenza",
+     "tokens": 515,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "2-bis",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "51",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "55",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "56",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "57",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "58",
+      "point": null
+     },
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "153",
+      "point": null
+     },
+     {
+      "instrument": "it-dlgs-2003-196",
+      "label": "154",
+      "point": null
+     }
+    ],
+    "queries": [
+     "Garante per la protezione dei dati personali autorità di controllo",
+     "istituzione autorità di controllo indipendente",
+     "competenza dell'autorità di controllo",
+     "compiti dell'autorità di controllo",
+     "poteri dell'autorità di controllo",
+     "autorità di controllo capofila competenza"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 9983,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v5",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8m6E6tyesEPzdX6efbg"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "Gli articoli 2-bis, 153 e 154 del Codice provengono da una trascrizione non ufficiale, non verificata su un testo ufficiale, di cui non è accertata la validità giuridica.",
+   "La domanda è generica: le prove indicano il Garante come autorità nazionale e riportano le regole di competenza per i trattamenti transfrontalieri, ma non permettono di stabilire la competenza in singoli casi concreti."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "27 further candidate provisions were left out by the evidence limits (max_items).",
+   "As-of date 2026-11-26: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later."
+  ],
+  "question": "Quale autorità di controllo è competente in Italia?",
+  "question_references": [],
+  "rejected_claims": [],
+  "repair": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-repair-v1",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChMbCbsQ2h9NDszZRywjF"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E4"
+   ],
+   "task": "claim_repair"
+  },
+  "repair_verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChMbCkGRL89ZN6eioxJyE"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E4"
+   ],
+   "task": "claim_verification"
+  },
+  "summary": null,
+  "summary_claim_ids": [],
+  "unanswered_issues": [],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8m72dN9skMDx5r28viR"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E7",
+    "E8"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode",
+   "repair_not_confirmed: C7 (partially_supported)"
+  ]
+ },
+ "split": "dev"
+}
