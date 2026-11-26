@@ -184,6 +184,9 @@ def test_a_run_saves_each_question_once_and_reports_both_scopes(tmp_path):
     assert run.report(bench, tmp_path, article_text) == data  # deterministic
     record_file = json.loads((tmp_path / run.RUN_RECORD).read_text(encoding="utf-8"))
     assert [i["splits"] for i in record_file["invocations"]] == [["dev"], ["dev"]]
+    # Each invocation says where its replies came from and which questions it answered.
+    assert [(i["replay_of"], i["questions"]) for i in record_file["invocations"]] == [
+        (None, ["a01", "a03"]), (None, [])]
 
 
 def test_run_ids_and_splits_are_checked(tmp_path):
@@ -210,8 +213,13 @@ def explorer():
 def test_a_saved_report_is_reproduced_offline_from_its_saved_run(explorer, run_id):
     run_dir = run.RUNS_DIR / run_id
     saved = json.loads((run_dir / run.REPORT_FILE).read_text(encoding="utf-8"))
-    again = run.report(ab.load_benchmark(), run_dir, run.explorer_article_text(explorer))
-    assert json.loads(json.dumps(again)) == saved
+    again = json.loads(json.dumps(
+        run.report(ab.load_benchmark(), run_dir, run.explorer_article_text(explorer))))
+    # The benchmark files changed after some reports were saved (a23-a25 added on 2026-11-26),
+    # so their hashes may differ; the benchmark version and every score must not.
+    assert again["benchmark"]["version"] == saved["benchmark"]["version"]
+    assert {k: v for k, v in again.items() if k != "benchmark"} == {
+        k: v for k, v in saved.items() if k != "benchmark"}
 
 
 def test_a_run_can_be_limited_to_named_questions_and_saves_the_rendered_answer(tmp_path):

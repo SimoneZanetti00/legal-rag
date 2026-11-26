@@ -1,6 +1,6 @@
 # Benchmark v0 (end-to-end answers): review sheet
 
-> **Partly reviewed.** a01–a13 and their rows are `owner_reviewed` (2026-11-18); a14–a22 are
+> **Partly reviewed.** a01–a13 and their rows are `owner_reviewed` (2026-11-18); a14–a25 are
 > still `candidate`.
 >
 > - **Drafted** by Claude (AI assistant, claude.ai) on 2026-11-13.
@@ -8,10 +8,13 @@
 >   corrections listed under «Changes from the draft».
 > - **Status:** a01–a13 and their rows were reviewed by the owner on 2026-11-18, with a second
 >   opinion from an AI assistant (Claude, claude.ai) on each row; the decisions are the
->   owner's (see «Owner review (2026-11-18)»). a14–a22 are `candidate`: every expected
+>   owner's (see «Owner review (2026-11-18)»). a14–a25 are `candidate`: every expected
 >   provision there is still a legal judgment to be checked and signed off by the owner.
 > - **Files:** `benchmark.json` (the manifest), `questions.jsonl`, `expectations.jsonl`. The table
 >   below is kept identical to the two JSONL files by `tests/test_answer_benchmark.py`.
+> - **Split `candidate`:** a23–a25 were asked on the live demo and added on 2026-11-26 with the
+>   owner's draft expectations (rows 83–90). They are in neither dev nor test, so the dev and test
+>   figures do not change.
 > - **Code:** `src/answer_benchmark.py` checks the files and computes the metrics. It does not run
 >   the pipeline; no runner exists yet.
 > - **Build:** `build-f76ff6031f2fc82c4852f0a2bde27807`, confirmed by the owner on 2026-11-16.
@@ -50,6 +53,9 @@ Art. 4) or «letter x» (letter «x)» inside the paragraph or point). No unit m
 | a20 | test | transfers | answer | Si possono trasferire dati personali verso un paese terzo senza una decisione di adeguatezza? | GDPR 46, GDPR 49 | GDPR 45, GDPR 44, GDPR 47 | |
 | a21 | test | sanctions | answer | Qual è la sanzione massima per la violazione dell'obbligo di notificare una violazione dei dati personali? | GDPR 83 (par. 4) | GDPR 83 (par. 2) | |
 | a22 | test | italian_specific | answer | Come si presenta un reclamo al Garante e cosa prevede il Codice privacy? | GDPR 77, Codice 141, Codice 142 | Codice 143 | |
+| a23 | candidate | italian_specific | answer | Qual è l'età minima per il consenso del minore ai servizi della società dell'informazione in Italia? | Codice 2-quinquies (par. 1) | GDPR 8 (par. 1) | |
+| a24 | candidate | false_premise | answer | Is it true that every company with more than 250 employees must appoint a DPO? | GDPR 37 (par. 1) | GDPR 30 (par. 5), GDPR 37 (par. 4) | |
+| a25 | candidate | rights | answer | Il diritto alla portabilità dei dati si applica anche ai trattamenti basati sul legittimo interesse? | GDPR 20 (par. 1) | GDPR 6 (par. 1, letter f), GDPR 21 (par. 1) | |
 
 **How to record a review.** In the record's `provenance`:
 - set `review_status` to `owner_reviewed` (or `expert_reviewed`), and fill in `reviewed_by` and
@@ -150,7 +156,7 @@ One record per reviewed answer, checked by `check_legal_review()`. **No record e
 
 ## Caveats
 
-- **Privacy Code rows** (a01, a04, a10, a17, a22) rest on a user transcription of the Code, not verified against an official text. Its reference date is unverified.
+- **Privacy Code rows** (a01, a04, a10, a17, a22, a23) rest on a user transcription of the Code, not verified against an official text. Its reference date is unverified.
 - **Digital Omnibus.** a01, a10 and a12 carry `valid_as_of` 2026-11-08, the date of the M1 record, and their `basis` as drafted.
   - Their status has **not** been re-verified for this benchmark. The procedure number and status quoted in `basis` come from the draft and were not checked in this repository.
   - Whether the proposal amends other provisions used as core here (e.g. GDPR 4(1) in a13, Art. 35 in a14, Art. 33 in a07 and a11) has not been checked.

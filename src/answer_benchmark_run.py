@@ -280,16 +280,20 @@ def run_questions(benchmark: ab.Benchmark, run_dir: Path, splits: Sequence[str],
                  "budget_usd": budget_usd, "stopped_before": stopped_before}
         log(f"spent ${spend['cost_usd']:.4f} on {len(done)} question(s)"
             + (f"; stopped before {stopped_before}" if stopped_before else ""))
-    _update_record(run_dir, record, splits, spend=spend)
+    _update_record(run_dir, record, splits, spend=spend, questions=done)
     return done
 
 
 def _update_record(run_dir: Path, record: Mapping[str, Any], splits: Sequence[str], *,
-                   spend: Mapping[str, Any] | None = None) -> None:
+                   spend: Mapping[str, Any] | None = None, questions: Sequence[str] = ()) -> None:
+    """Add this invocation to run.json (created from `record` on the first one). Each invocation
+    records its own source (`replay_of`, `offline`) and the questions it answered, since one run
+    may gather questions answered by several invocations from different sources."""
     path = run_dir / RUN_RECORD
     current = json.loads(path.read_text(encoding="utf-8")) if path.exists() else dict(record)
     invocation = {"splits": list(splits), "at": datetime.datetime.now().astimezone().isoformat(
-        timespec="seconds"), "code": record["code"]}
+        timespec="seconds"), "code": record["code"], "replay_of": record.get("replay_of"),
+        "offline": record.get("offline"), "questions": list(questions)}
     if spend is not None:
         invocation["spend"] = dict(spend)
     current["invocations"] = current.get("invocations", []) + [invocation]

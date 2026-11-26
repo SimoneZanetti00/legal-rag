@@ -63,7 +63,9 @@ KIND = "end_to_end"
 DEFAULT_FRESHNESS_DAYS = 30  # days since a time-sensitive question was re-verified
 DEFAULT_BENCHMARK = PROJECT_ROOT / "data" / "evaluation" / "answers-v0"
 FILES = ("benchmark.json", "questions.jsonl", "expectations.jsonl")
-SPLITS = ("dev", "test")
+# "candidate": questions added later (a23-a25, from the live demo), in neither dev nor test, so
+# the figures of those two splits do not change.
+SPLITS = ("dev", "test", "candidate")
 LANGUAGES = ("it", "en")
 ROLES = ("core", "supporting", "must_not_cite")
 OUTCOMES = tuple(outcome.value for outcome in Outcome)

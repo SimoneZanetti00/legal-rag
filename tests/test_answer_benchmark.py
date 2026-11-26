@@ -41,14 +41,16 @@ def test_the_shipped_benchmark_loads_with_its_manifest(bench):
     assert (bench.benchmark_id, bench.version, bench.kind, bench.schema_version) == (
         "answers", "0-draft", "end_to_end", 1)
     assert bench.build_id == "build-f76ff6031f2fc82c4852f0a2bde27807"
-    assert (len(bench.questions), len(bench.expectations)) == (22, 82)
+    assert (len(bench.questions), len(bench.expectations)) == (25, 90)
     assert set(bench.files) == set(ab.FILES)
 
 
 def test_ids_and_splits(bench):
-    assert [q.query_id for q in bench.questions] == [f"a{n:02d}" for n in range(1, 23)]
+    assert [q.query_id for q in bench.questions] == [f"a{n:02d}" for n in range(1, 26)]
     assert [q.query_id for q in bench.questions if q.split == "dev"] == [
         f"a{n:02d}" for n in range(1, 13)]
+    assert [q.query_id for q in bench.questions if q.split == "candidate"] == [
+        "a23", "a24", "a25"]
 
 
 OWNER_REVIEW = ("Simone Zanetti (owner); second opinion on each row: Claude (AI assistant, "
@@ -57,7 +59,7 @@ OWNER_REVIEW = ("Simone Zanetti (owner); second opinion on each row: Claude (AI 
 
 def test_the_owner_review_of_2026_11_18(bench):
     """a01-a13 and expectation rows 1-57 reviewed as drafted, row 82 added (a03, GDPR 34(4),
-    supporting); a14-a22 and rows 58-81 still candidates."""
+    supporting); a14-a25 and rows 58-81 and 83-90 still candidates."""
     reviewed = {f"a{n:02d}" for n in range(1, 14)}
     for q in bench.questions:
         assert ab.is_reviewed(q.provenance) == (q.query_id in reviewed), q.query_id
@@ -73,6 +75,27 @@ def test_the_owner_review_of_2026_11_18(bench):
     added = bench.expectations[81]
     assert (added.query_id, added.instrument, added.article, added.unit, added.role) == (
         "a03", G, "34", ab.Unit("4"), "supporting")
+
+
+def test_the_questions_from_the_live_demo_as_the_owner_drafted_them(bench):
+    """a23-a25 (2026-11-26): split candidate, the owner's draft expectations, rows 83-90."""
+    by_id = {q.query_id: q for q in bench.questions}
+    unit = ab.Unit
+    for qid in ("a23", "a24", "a25"):
+        q = by_id[qid]
+        assert (q.split, q.expected_outcome, q.provenance.review_status) == (
+            "candidate", "answer", "candidate")
+        assert q.provenance.drafted_by.startswith("Simone Zanetti (owner)")
+    assert rows_of(bench, "a23", "core") == [(C, "2-quinquies", unit("1"))]
+    assert rows_of(bench, "a23", "supporting") == [(G, "8", unit("1"))]
+    assert rows_of(bench, "a24", "core") == [(G, "37", unit("1"))]
+    assert rows_of(bench, "a24", "supporting") == [(G, "30", unit("5")), (G, "37", unit("4"))]
+    assert rows_of(bench, "a25", "core") == [(G, "20", unit("1"))]
+    assert rows_of(bench, "a25", "supporting") == [(G, "6", unit("1", letter="f")),
+                                                   (G, "21", unit("1"))]
+    assert "Expected direct answer: no." in by_id["a24"].notes
+    assert "Expected direct answer: no." in by_id["a25"].notes
+    assert [r.query_id for r in bench.expectations[82:]] == ["a23"] * 2 + ["a24"] * 3 + ["a25"] * 3
 
 
 def test_outcomes_and_reasons(bench):
