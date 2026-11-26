@@ -421,7 +421,7 @@ def test_a_claim_confirmed_after_repair_enters_the_answer_marked_repaired():
         "C2", INFORM_REPAIRED, S.SUPPORTED)
     assert repaired.repaired_from == INFORM["text"] and repaired.quotes == (Quote("E2", Q3),)
     assert result.outcome == Outcome.ANSWER  # the unchanged outcome rule, on the repaired claims
-    assert result.repair.prompt_version == "claim-repair-v2"
+    assert result.repair.prompt_version == "claim-repair-v2.1"
     assert result.repair_verification.prompt_version == PROMPT_VERSION
     repair_call, second_check = llm.calls[2], llm.calls[3]
     assert '<claim id="C2" rating="partially_supported">' in repair_call.user
@@ -523,7 +523,7 @@ def test_a_partially_supported_claim_may_widen_its_quotation_within_the_same_pro
     ("partially_supported", "Quando la violazione è suscettibile di presentare un rischio elevato",
      "widened_without_original"),
     ("partially_supported", "In ogni caso, " + Q3, "widened_not_in_provision"),
-    ("partially_supported", Q3 + ", " + "e ancora " * 40, "widened_too_long"),
+    ("partially_supported", Q3 + ", " + "e ancora " * 45, "widened_too_long"),
     ("uncertain", WIDE, "widening_not_allowed"),
 ])
 def test_a_widening_that_fails_a_check_drops_the_rewrite(rating, widened, reason):
@@ -560,6 +560,7 @@ def test_the_widening_bounds():
     for widened, problem in ((at_limit, None), ("x" + at_limit, "widened_too_long")):
         assert widening_problem(original, widened, f"a {widened} fine") == problem
     long_original = "parola " * 80 + "fine"  # 564 characters
+    assert (WIDEN_MAX_ADDED, WIDEN_MAX_CHARS) == (350, 600)
     widened = "y" * (WIDEN_MAX_CHARS - len(long_original)) + " " + long_original
     assert len(widened) == WIDEN_MAX_CHARS + 1
     assert widening_problem(long_original, widened, widened) == "widened_too_long"

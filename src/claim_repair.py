@@ -30,9 +30,12 @@ from src.llm import JSONResult, LLMClient, LLMSchemaError
 from src.text_normalization import reading_form
 
 TASK = "claim_repair"
-PROMPT_VERSION = "claim-repair-v2"  # v2: a quotation may be widened within the same provision
+# v2: a quotation may be widened within the same provision; v2.1: the cap on the added text
+# raised from 300 to 350 characters (2026-11-26, after the GDPR Art. 30(5) exception, +329, was
+# refused in a07 and a24), the rest of the prompt unchanged.
+PROMPT_VERSION = "claim-repair-v2.1"
 MAX_REWRITES = 3  # per claim
-WIDEN_MAX_ADDED = 300  # characters a widened quotation may add to the original (normalised)
+WIDEN_MAX_ADDED = 350  # characters a widened quotation may add to the original (normalised)
 WIDEN_MAX_CHARS = 600  # characters a widened quotation may have in all (normalised)
 WIDENABLE = "partially_supported"  # the only rating whose quotations may be widened
 
