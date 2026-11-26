@@ -237,7 +237,10 @@ def test_the_page_shows_the_direct_answer_as_an_interpretation_with_its_basis():
     for status, text in DIRECT_NOT_SHOWN.items():
         assert f'  {status}: "{text}"' in APP_JS  # the same words as the CLI
     assert 'if (direct.status !== "shown") {' in APP_JS
-    assert "Direct answer: an interpretation of the statements marked «basis» below" in APP_JS
+    # The value is the label; the model's sentence follows, unchanged, on its own line.
+    assert 'el("strong", {}, `Direct answer: ${DIRECT_VALUES[direct.value] || direct.value}`)' in APP_JS
+    assert '" · an interpretation of the statements marked «basis» below"' in APP_JS
+    assert 'el("p", { class: "direct-text" }, direct.text))' in APP_JS
     assert 'isBasis ? el("span", { class: "kind-tag basis-tag" }, "Basis") : null' in APP_JS
     assert "renderStatement(claim, refById, statusById, basis.has(claim.claim_id))" in APP_JS
     assert "if (!direct) return null;" in APP_JS  # results made before it existed

@@ -343,14 +343,17 @@ function renderOutcome(result) {
 
 // The direct answer, at the top of the answer: shown only with the status "shown", as an
 // interpretation of the statements marked below it; otherwise one line says why there is none.
+// The value is the label ("Direct answer: No"); the model's sentence follows on its own line,
+// unchanged, so a sentence that itself starts with "No" does not repeat it after the value.
 function renderDirect(direct) {
   if (!direct) return null;
   if (direct.status !== "shown") {
     return el("p", { class: "direct-none" }, `No direct yes or no: ${DIRECT_NOT_SHOWN[direct.status] || direct.status}.`);
   }
   return el("div", { class: "direct" },
-    el("p", { class: "direct-label" }, "Direct answer: an interpretation of the statements marked «basis» below"),
-    el("p", { class: "direct-text" }, el("strong", {}, `${DIRECT_VALUES[direct.value] || direct.value}.`), " ", direct.text));
+    el("p", { class: "direct-label" }, el("strong", {}, `Direct answer: ${DIRECT_VALUES[direct.value] || direct.value}`),
+      " · an interpretation of the statements marked «basis» below"),
+    el("p", { class: "direct-text" }, direct.text));
 }
 
 // Always visible, one line each: the mode, not legal advice, the as-of date, the Omnibus caveat.
