@@ -1,0 +1,98 @@
+{
+ "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+ "code": {
+  "changed_paths": [
+   "?? docs/PROJECT_OVERVIEW.md",
+   "?? docs/reviews/m1-review-record-2026-11-09.md"
+  ],
+  "commit": "3fee1a474cfabfcfc135c60677e774fcc428ba31",
+  "fingerprint": "267b6cf751a761d9fc37e60100004d5fade46c3710e7832df137fb895c941966",
+  "state": "dirty"
+ },
+ "invocations": [
+  {
+   "at": "2026-11-26T11:27:56+01:00",
+   "code": {
+    "changed_paths": [
+     "?? docs/PROJECT_OVERVIEW.md",
+     "?? docs/reviews/m1-review-record-2026-11-09.md"
+    ],
+    "commit": "3fee1a474cfabfcfc135c60677e774fcc428ba31",
+    "fingerprint": "267b6cf751a761d9fc37e60100004d5fade46c3710e7832df137fb895c941966",
+    "state": "dirty"
+   },
+   "offline": false,
+   "questions": [
+    "a01",
+    "a02",
+    "a03",
+    "a04",
+    "a05",
+    "a06",
+    "a07",
+    "a08",
+    "a09",
+    "a10",
+    "a11",
+    "a12",
+    "a13",
+    "a14",
+    "a15",
+    "a16",
+    "a17",
+    "a18",
+    "a19",
+    "a20",
+    "a21",
+    "a22",
+    "a23",
+    "a24",
+    "a25"
+   ],
+   "replay_of": "2026-11-26-repair-v1-before",
+   "spend": {
+    "budget_usd": 0.5,
+    "cost_usd": 0.41629,
+    "model": "claude-sonnet-5-5",
+    "prices_usd_per_mtok": {
+     "cache_read": 0.1,
+     "cache_write": 2.5,
+     "input": 2.0,
+     "output": 10.0
+    },
+    "stopped_before": null,
+    "usage": {
+     "cache_creation_input_tokens": 0,
+     "cache_read_input_tokens": 0,
+     "input_tokens": 118455,
+     "output_tokens": 17938
+    }
+   },
+   "splits": [
+    "dev",
+    "test",
+    "candidate"
+   ]
+  }
+ ],
+ "kind": "answers-v0-run",
+ "mode": "research",
+ "model": "claude-sonnet-5-5",
+ "offline": false,
+ "prompt_versions": {
+  "answer_generation": "answer-generation-v5",
+  "claim_repair": "claim-repair-v2",
+  "claim_verification": "claim-verification-v3",
+  "query_analysis": "query-analysis-v3"
+ },
+ "provider": "anthropic",
+ "replay_of": "2026-11-26-repair-v1-before",
+ "run_id": "2026-11-26-repair-v2",
+ "schema": 1,
+ "settings": {
+  "context_token_budget": 12000,
+  "final_evidence_count": 12,
+  "max_generation_retries": 1,
+  "semantic_verification": true
+ }
+}

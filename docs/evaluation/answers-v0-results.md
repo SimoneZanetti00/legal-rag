@@ -18,6 +18,8 @@ build `build-f76ff6031f2fc82c4852f0a2bde27807`.*
 | `2026-11-17-research-t7-outcome-rule-2` | outcome rule, adopted version (below) | 12 items / 12,000 tokens | re-scored from t7-prompt's saved results (`rescore`: outcome only, no model call) | same |
 | `2026-11-24-research-repair` | repair pass, dev questions only (last section) | 12 items / 12,000 tokens | replayed from `2026-11-17-final` | generation and first support check replayed; repair calls and the support check of the rewrites live |
 | `2026-11-24-research-repair-caveat` | new Art. 33 caveat (application text only) | 12 items / 12,000 tokens | replayed | replayed (offline: no model call) |
+| `2026-11-26-repair-v1-before` | none: the baseline for the widening change, on 25 questions (a23–a25 added) | 12 items / 12,000 tokens | a01–a12 replayed offline from `2026-11-24-research-repair-caveat`; a13–a22 replayed from `2026-11-17-final`; a23–a25 live | a13–a22: repair calls live; a23–a25: live |
+| `2026-11-26-repair-v2` | repair prompt v2: a quotation may be widened within the same provision (last section) | 12 items / 12,000 tokens | replayed from `2026-11-26-repair-v1-before` | generation and first support check replayed; repair calls and the support check of the rewrites live |
 
 ## Stage metrics (22 questions, means over questions with core rows)
 
@@ -264,3 +266,242 @@ The outcome rule is unchanged.
    sets no 96-hour deadline stays held apart, also after repair. The main answer states the
    72-hour rule. The Art. 33 caveat now names the proposal: it "would limit notification to
    high-risk breaches and extend the deadline to 96 hours".
+
+## Quotation widening: `2026-11-26-repair-v2`
+
+**This is a single run on 25 questions: a01–a22 and the candidates a23–a25 from the live demo.
+Model variance is not measured. Each repair call is a new sample, so part of the difference from
+the baseline is run-to-run variation of the repair pass, not the widening.**
+
+**What changed** (TECHNICAL_DEBT.md TD-070). The repair prompt is now `claim-repair-v2`:
+- for a claim rated partially supported, the repair call also receives the text of the provisions
+  it quotes;
+- a rewrite may replace a quotation with a longer passage of the same provision, to include a
+  condition the claim needs, and must then state the condition;
+- the widened passage must contain the whole original quotation, add at most 300 characters (600
+  in all, normalised), and be an exact passage of the same evidence item. A widening that fails
+  drops that rewrite;
+- the rewrites then go through the usual deterministic checks and the support check
+  (`claim-verification-v3`), both unchanged;
+- a confirmed widened quotation is marked on the page and in the CLI, with its original.
+
+The outcome rule is unchanged.
+
+**How it ran.**
+- **Baseline** `2026-11-26-repair-v1-before`: the pipeline as it was (`claim-repair-v1`) on all 25
+  questions, for $0.284:
+  - a01–a12 replayed offline from `2026-11-24-research-repair-caveat`;
+  - a13–a22 replayed from `2026-11-17-final`, with the repair calls live ($0.093);
+  - a23–a25 fully live ($0.191).
+- **After** `2026-11-26-repair-v2`: everything replayed from the baseline except the repair calls
+  and the support check of the rewrites. These cost $0.416 under a $0.50 budget guard, more than
+  the $0.25 estimated, because the repair messages now carry provision texts.
+
+| Question | Split | Expected | Outcome (before → after) | Claims in answer / held apart (before → after) | Core in citations (before → after) |
+|---|---|---|---|---|---|
+| a01 | dev | answer | answer → answer | 9/0 → 9/0 | 100% → 100% |
+| a02 | dev | answer | answer → answer | 2/0 → 2/1 | 100% → 100% |
+| a03 | dev | answer | answer → answer | 5/0 → 5/0 | 100% → 100% |
+| a04 | dev | answer | answer → answer | 7/1 → 8/0 | 100% → 100% |
+| a05 | dev | answer | answer → answer | 6/1 → 7/1 | 100% → 100% |
+| a06 | dev | answer | answer_limited → answer_limited | 9/1 → 9/0 | 86% → 86% |
+| a07 | dev | answer | answer_limited → answer_limited | 8/3 → 10/1 | 78% → 89% |
+| a08 | dev | answer | answer → answer | 12/0 → 11/1 | 100% → 100% |
+| a09 | dev | abstain | abstain → abstain | 0/0 → 0/0 | — |
+| a10 | dev | answer | answer → answer | 6/0 → 6/1 | 100% → 100% |
+| a11 | dev | answer | answer → answer | 3/1 → 4/0 | 100% → 100% |
+| a12 | dev | answer | answer → answer | 3/1 → 4/0 | 100% → 100% |
+| a13 | test | answer | answer → answer | 3/0 → 3/0 | 100% → 100% |
+| a14 | test | answer | answer → answer | 5/2 → 6/1 | 100% → 100% |
+| a15 | test | answer | answer_limited → answer_limited | 6/0 → 6/1 | 100% → 100% |
+| a16 | test | answer | answer → answer | 9/2 → 10/1 | 100% → 100% |
+| a17 | test | answer | answer → answer | 5/0 → 5/0 | 100% → 100% |
+| a18 | test | answer_limited | answer_limited → answer_limited | 2/3 → 2/2 | 100% → 100% |
+| a19 | test | abstain | abstain → abstain | 0/0 → 0/0 | — |
+| a20 | test | answer | answer → answer | 8/3 → 10/1 | 100% → 100% |
+| a21 | test | answer | answer → answer | 3/2 → 5/0 | 100% → 100% |
+| a22 | test | answer | answer_limited → answer_limited | 11/1 → 12/1 | 100% → 100% |
+| a23 | candidate | answer | answer → answer | 4/1 → 4/1 | 100% → 100% |
+| a24 | candidate | answer | answer → answer | 2/3 → 3/1 | 100% → 100% |
+| a25 | candidate | answer | answer → answer | 4/1 → 3/1 | 100% → 100% |
+| **Total** | | | **21/25 → 21/25** | **132/26 → 144/15** | **98% → 99%** |
+
+In the owner-reviewed scope (a01–a13), outcomes are 11/13 in both runs, and claims in answer /
+held apart went from 73/8 to 78/5.
+
+**Widenings.** The model proposed 34:
+- 22 were confirmed and entered the answer, in 20 claims;
+- 7 were not confirmed by the support check, so their original claims stay held apart;
+- 5 quotations, in 4 rewrites, were refused by the length cap.
+
+**Reading.**
+
+1. **The case TD-070 describes works.**
+   - GDPR Art. 37(4), «Nei casi diversi da quelli di cui al paragrafo 1»: widened and confirmed in
+     a24 (33), not confirmed in a15 (19).
+   - The Art. 33(1) exception, «a meno che sia improbabile che la violazione … presenti un
+     rischio»: added and confirmed in a07, a10, a11 and a12 (10, 14–16).
+   - The Art. 20(1)(a) condition, consent or contract: confirmed in a06 (7).
+2. **Not every widening adds a condition.** In my reading:
+   - 13 of the 22 confirmed widenings add a condition, an exception or a limit (3, 7, 10, 11,
+     14–17, 22, 23, 27, 28, 33);
+   - 9 add other text that the claim states (1, 2, 5, 6, 8, 20, 25, 26, 32). Examples: in a01, the
+     sentence after Art. 33(5)'s documentation duty; in a07, «Dette misure sono riesaminate e
+     aggiornate qualora necessario».
+   - The prompt asks for conditions only, and nothing checks this mechanically. Every confirmed
+     widening is exact text of the same provision, contains its original quotation and passed
+     the support check.
+3. **The cap refused the Art. 30(5) exception twice**, at +329 characters (a07 and a24; 9, 34).
+   In a24 this is the claim that puts the 250-employee threshold in the records duty, so it stays
+   held apart.
+4. **Five questions are worse at the claim level** (a02, a08, a10, a15, a25):
+   - a08 and a25 have one claim fewer in the answer. A claim that the v1 repair had brought into
+     the answer stays out: in a08 its widening was refused by the cap (12, 13), and in a25 neither
+     part of the new split was confirmed. A refused widening drops the whole rewrite; nothing falls
+     back to a narrower rewrite.
+   - a02, a10 and a15 have one more claim held apart. The new repair split a claim and only one
+     part was confirmed, so the original also stays held apart; v1's single rewrite had been
+     confirmed.
+5. **Outcomes are unchanged.** In a06, a07, a15 and a22 the model reported the question as only
+   partly answered, and the rule keeps that report.
+
+### The widened quotations (34)
+
+Character counts are in the normalised form. The rewrite is the claim as the repair pass wrote it.
+
+1. **a01 C9**, GDPR art. 33: confirmed (+104 characters)
+   - Original: «Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, le sue conseguenze e i provvedimenti adottati per porvi rimedio.»
+   - Widened: «Il titolare del trattamento documenta qualsiasi violazione dei dati personali, comprese le circostanze a essa relative, le sue conseguenze e i provvedimenti adottati per porvi rimedio. Tale documentazione consente all'autorità di controllo di verificare il rispetto del presente articolo.»
+   - Rewrite: The controller must document any personal data breach, including the circumstances relating to it, its consequences and the measures taken to remedy it. This documentation enables the supervisory authority to verify compliance with the article.
+2. **a02 C2.2**, GDPR art. 4: confirmed (+136 characters)
+   - Original: «comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica»
+   - Widened: «la violazione di sicurezza che comporta accidentalmente o in modo illecito la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso ai dati personali trasmessi, conservati o comunque trattati»
+   - Rewrite: Secondo la definizione di violazione dei dati personali, la violazione di sicurezza può comportare, accidentalmente o in modo illecito, distruzione, perdita o modifica dei dati personali trasmessi, conservati o comunque trattati.
+3. **a04 C7**, GDPR art. 56: confirmed (+29 characters)
+   - Original: «ogni autorità di controllo è competente per la gestione dei reclami a essa proposti o di eventuali violazioni del presente regolamento se l'oggetto riguarda unicamente uno stabilimento nel suo Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro.»
+   - Widened: «2. In deroga al paragrafo 1, ogni autorità di controllo è competente per la gestione dei reclami a essa proposti o di eventuali violazioni del presente regolamento se l'oggetto riguarda unicamente uno stabilimento nel suo Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro.»
+   - Rewrite: In deroga al paragrafo 1 dell'articolo 56, ogni autorità di controllo è competente per la gestione dei reclami a essa proposti o di eventuali violazioni del regolamento se l'oggetto riguarda unicamente uno stabilimento nel suo Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro.
+4. **a05 C5.2**, GDPR art. 5: refused: widened_too_long (+417 characters)
+   - Original: «conservati in una forma che consenta l'identificazione degli interessati per un arco di tempo non superiore al conseguimento delle finalità per le quali sono trattati;»
+   - Widened: «conservati in una forma che consenta l'identificazione degli interessati per un arco di tempo non superiore al conseguimento delle finalità per le quali sono trattati; i dati personali possono essere conservati per periodi più lunghi a condizione che siano trattati esclusivamente a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini statistici, conformemente all'articolo 89, paragrafo 1, fatta salva l'attuazione di misure tecniche e organizzative adeguate richieste dal presente regolamento a tutela dei diritti e delle libertà dell'interessato»
+   - Rewrite: Under Article 5(1)(e), personal data may be kept for longer periods provided they are processed exclusively for archiving in the public interest, scientific or historical research or statistical purposes, in accordance with Article 89(1), subject to appropriate technical and organisational measures required by the Regulation to protect the rights and freedoms of the data subject (storage limitation).
+5. **a05 C6**, GDPR art. 5: confirmed (+131 characters)
+   - Original: «trattati in maniera da garantire un'adeguata sicurezza dei dati personali, compresa la protezione, mediante misure tecniche e organizzative adeguate»
+   - Widened: «trattati in maniera da garantire un'adeguata sicurezza dei dati personali, compresa la protezione, mediante misure tecniche e organizzative adeguate, da trattamenti non autorizzati o illeciti e dalla perdita, dalla distruzione o dal danno accidentali («integrità e riservatezza»)»
+   - Rewrite: Under Article 5(1)(f), personal data must be processed so as to ensure appropriate security of the data, including protection by appropriate technical and organisational measures, against unauthorised or unlawful processing and against accidental loss, destruction or damage (integrity and confidentiality).
+6. **a06 C5**, GDPR art. 20: confirmed (+160 characters)
+   - Original: «L'interessato ha il diritto di ricevere in un formato strutturato, di uso comune e leggibile da dispositivo automatico i dati personali che lo riguardano forniti a un titolare del trattamento»
+   - Widened: «L'interessato ha il diritto di ricevere in un formato strutturato, di uso comune e leggibile da dispositivo automatico i dati personali che lo riguardano forniti a un titolare del trattamento e ha il diritto di trasmettere tali dati a un altro titolare del trattamento senza impedimenti da parte del titolare del trattamento cui li ha forniti qualora:»
+   - Rewrite: The data subject has the right to receive the personal data they have provided to a controller in a structured, commonly used, machine-readable format, and the right to transmit those data to another controller without hindrance from the controller to whom they were provided. This applies where the processing is based on consent or on a contract and is carried out by automated means (Article 20).
+7. **a06 C5**, GDPR art. 20: confirmed (+208 characters)
+   - Original: «il trattamento sia effettuato con mezzi automatizzati.»
+   - Widened: «a) il trattamento si basi sul consenso ai sensi dell'articolo 6, paragrafo 1, lettera a), o dell'articolo 9, paragrafo 2, lettera a), o su un contratto ai sensi dell'articolo 6, paragrafo 1, lettera b); e b) il trattamento sia effettuato con mezzi automatizzati.»
+   - Rewrite: The data subject has the right to receive the personal data they have provided to a controller in a structured, commonly used, machine-readable format, and the right to transmit those data to another controller without hindrance from the controller to whom they were provided. This applies where the processing is based on consent or on a contract and is carried out by automated means (Article 20).
+8. **a07 C1**, GDPR art. 24: confirmed (+63 characters)
+   - Original: «il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire, ed essere in grado di dimostrare, che il trattamento è effettuato conformemente al presente regolamento.»
+   - Widened: «il titolare del trattamento mette in atto misure tecniche e organizzative adeguate per garantire, ed essere in grado di dimostrare, che il trattamento è effettuato conformemente al presente regolamento. Dette misure sono riesaminate e aggiornate qualora necessario.»
+   - Rewrite: The controller must put in place appropriate technical and organisational measures to ensure, and be able to demonstrate, that processing is carried out in accordance with the Regulation. These measures are reviewed and updated where necessary.
+9. **a07 C4.2**, GDPR art. 30: refused: widened_too_long (+329 characters)
+   - Original: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti»
+   - Widened: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti, a meno che il trattamento che esse effettuano possa presentare un rischio per i diritti e le libertà dell'interessato, il trattamento non sia occasionale o includa il trattamento di categorie particolari di dati di cui all'articolo 9, paragrafo 1, o i dati personali relativi a condanne penali e a reati di cui all'articolo 10.»
+   - Rewrite: The obligations of paragraphs 1 and 2 do not apply to enterprises or organisations with fewer than 250 employees, unless the processing they carry out is likely to present a risk to the data subject's rights and freedoms, is not occasional, or includes special categories of data or data on criminal convictions and offences.
+10. **a07 C6**, GDPR art. 33: confirmed (+177 characters)
+   - Original: «il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza»
+   - Widened: «In caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche.»
+   - Rewrite: In case of a personal data breach the controller must notify the competent supervisory authority without undue delay and, where possible, within 72 hours of becoming aware of it, unless the breach is unlikely to present a risk to individuals' rights and freedoms.
+11. **a07 C8**, GDPR art. 35: confirmed (+251 characters)
+   - Original: «il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.»
+   - Widened: «Quando un tipo di trattamento, allorché prevede in particolare l'uso di nuove tecnologie, considerati la natura, l'oggetto, il contesto e le finalità del trattamento, può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.»
+   - Rewrite: Where a type of processing may present a high risk to individuals' rights and freedoms, the controller must carry out, before processing, an assessment of the impact of the envisaged processing on the protection of personal data.
+12. **a08 C11**, GDPR art. 9: refused: widened_too_long (+228 characters)
+   - Original: «il trattamento è necessario per motivi di interesse pubblico rilevante sulla base del diritto dell'Unione o degli Stati membri»
+   - Widened: «il trattamento è necessario per motivi di interesse pubblico rilevante sulla base del diritto dell'Unione o degli Stati membri, che deve essere proporzionato alla finalità perseguita, rispettare l'essenza del diritto alla protezione dei dati e prevedere misure appropriate e specifiche per tutelare i diritti fondamentali e gli interessi dell'interessato»
+   - Rewrite: Article 9(1) does not apply where processing is necessary for reasons of substantial public interest on the basis of Union or Member State law, which must be proportionate to the aim pursued, respect the essence of the right to data protection and provide suitable and specific measures to safeguard the data subject's fundamental rights and interests. It also does not apply where processing is necessary for reasons of public interest in the area of public health, on the basis of Union or Member State law providing suitable and specific measures to safeguard the data subject's rights and freedoms, in particular professional secrecy.
+13. **a08 C11**, GDPR art. 9: refused: widened_too_long (+402 characters)
+   - Original: «il trattamento è necessario per motivi di interesse pubblico nel settore della sanità pubblica»
+   - Widened: «il trattamento è necessario per motivi di interesse pubblico nel settore della sanità pubblica, quali la protezione da gravi minacce per la salute a carattere transfrontaliero o la garanzia di parametri elevati di qualità e sicurezza dell'assistenza sanitaria e dei medicinali e dei dispositivi medici, sulla base del diritto dell'Unione o degli Stati membri che prevede misure appropriate e specifiche per tutelare i diritti e le libertà dell'interessato, in particolare il segreto professionale»
+   - Rewrite: Article 9(1) does not apply where processing is necessary for reasons of substantial public interest on the basis of Union or Member State law, which must be proportionate to the aim pursued, respect the essence of the right to data protection and provide suitable and specific measures to safeguard the data subject's fundamental rights and interests. It also does not apply where processing is necessary for reasons of public interest in the area of public health, on the basis of Union or Member State law providing suitable and specific measures to safeguard the data subject's rights and freedoms, in particular professional secrecy.
+14. **a10 C5.1**, GDPR art. 33: confirmed (+134 characters)
+   - Original: «senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza»
+   - Widened: «senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche»
+   - Rewrite: Il titolare del trattamento notifica la violazione all'autorità di controllo senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione presenti un rischio per i diritti e le libertà delle persone fisiche.
+15. **a11 C1**, GDPR art. 33: confirmed (+135 characters)
+   - Original: «In caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza»
+   - Widened: «In caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo competente a norma dell'articolo 55 senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche.»
+   - Rewrite: In caso di violazione dei dati personali, il titolare del trattamento notifica la violazione all'autorità di controllo competente senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione presenti un rischio per i diritti e le libertà delle persone fisiche.
+16. **a12 C3**, GDPR art. 33: confirmed (+181 characters)
+   - Original: «entro 72 ore dal momento in cui ne è venuto a conoscenza»
+   - Widened: «senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione dei dati personali presenti un rischio per i diritti e le libertà delle persone fisiche»
+   - Rewrite: Il titolare del trattamento notifica la violazione all'autorità di controllo, ove possibile, entro 72 ore dal momento in cui ne è venuto a conoscenza, a meno che sia improbabile che la violazione presenti un rischio per i diritti e le libertà delle persone fisiche.
+17. **a14 C1**, GDPR art. 35: confirmed (+167 characters)
+   - Original: «può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.»
+   - Widened: «Quando un tipo di trattamento, allorché prevede in particolare l'uso di nuove tecnologie, considerati la natura, l'oggetto, il contesto e le finalità del trattamento, può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.»
+   - Rewrite: Quando un tipo di trattamento, in particolare con l'uso di nuove tecnologie e considerati natura, oggetto, contesto e finalità, può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare effettua una valutazione d'impatto sulla protezione dei dati prima di procedere al trattamento.
+18. **a14 C7**, GDPR art. 35: not confirmed (partially_supported) (+270 characters)
+   - Original: «i paragrafi da 1 a 7 non si applicano, salvo che gli Stati membri ritengano necessario effettuare tale valutazione prima di procedere alle attività di trattamento.»
+   - Widened: «tale diritto disciplini il trattamento specifico o l'insieme di trattamenti in questione, e sia già stata effettuata una valutazione d'impatto sulla protezione dei dati nell'ambito di una valutazione d'impatto generale nel contesto dell'adozione di tale base giuridica, i paragrafi da 1 a 7 non si applicano, salvo che gli Stati membri ritengano necessario effettuare tale valutazione prima di procedere alle attività di trattamento.»
+   - Rewrite: Quando il diritto che costituisce la base giuridica disciplina il trattamento specifico o l'insieme di trattamenti in questione e una valutazione d'impatto generale è già stata effettuata nel contesto dell'adozione di tale base giuridica, i paragrafi da 1 a 7 non si applicano, salvo che gli Stati membri ritengano necessario effettuare tale valutazione prima di procedere alle attività di trattamento.
+19. **a15 C6.2**, GDPR art. 37: not confirmed (partially_supported) (+259 characters)
+   - Original: «Nei casi diversi da quelli di cui al paragrafo 1, il titolare e del trattamento, il responsabile del trattamento»
+   - Widened: «Nei casi diversi da quelli di cui al paragrafo 1, il titolare e del trattamento, il responsabile del trattamento o le associazioni e gli altri organismi rappresentanti le categorie di titolari del trattamento o di responsabili del trattamento possono o, se previsto dal diritto dell'Unione o degli Stati membri, devono designare un responsabile della protezione dei dati.»
+   - Rewrite: Nei casi diversi da quelli del paragrafo 1, il titolare e il responsabile del trattamento possono designare un responsabile della protezione dei dati o, se previsto dal diritto dell'Unione o degli Stati membri, devono designarlo.
+20. **a16 C2**, GDPR art. 17: confirmed (+256 characters)
+   - Original: «se sussiste uno dei motivi seguenti:»
+   - Widened: «L'interessato ha il diritto di ottenere dal titolare del trattamento la cancellazione dei dati personali che lo riguardano senza ingiustificato ritardo e il titolare del trattamento ha l'obbligo di cancellare senza ingiustificato ritardo i dati personali, se sussiste uno dei motivi seguenti:»
+   - Rewrite: Il titolare del trattamento ha l'obbligo di cancellare i dati personali senza ingiustificato ritardo se sussiste uno dei motivi elencati nell'articolo 17, paragrafo 1.
+21. **a18 C3.2**, GDPR art. 34: not confirmed (partially_supported) (+98 characters)
+   - Original: «Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche»
+   - Widened: «Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.»
+   - Rewrite: Secondo l'art. 34, quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento la comunica all'interessato.
+22. **a20 C5**, GDPR art. 46: confirmed (+68 characters)
+   - Original: «le disposizioni da inserire in accordi amministrativi tra autorità pubbliche o organismi pubblici»
+   - Widened: «le disposizioni da inserire in accordi amministrativi tra autorità pubbliche o organismi pubblici che comprendono diritti effettivi e azionabili per gli interessati.»
+   - Rewrite: Fatta salva l'autorizzazione dell'autorità di controllo competente, possono costituire garanzie adeguate le clausole contrattuali tra il titolare o il responsabile del trattamento e il titolare, il responsabile o il destinatario dei dati, e le disposizioni da inserire in accordi amministrativi tra autorità pubbliche o organismi pubblici che comprendono diritti effettivi e azionabili per gli interessati.
+23. **a20 C8**, GDPR art. 49: confirmed (+99 characters)
+   - Original: «il trasferimento sia necessario per tutelare gli interessi vitali dell'interessato o di altre persone»
+   - Widened: «il trasferimento sia necessario per tutelare gli interessi vitali dell'interessato o di altre persone, qualora l'interessato si trovi nell'incapacità fisica o giuridica di prestare il proprio consenso»
+   - Rewrite: Tra le deroghe previste figurano il trasferimento necessario per importanti motivi di interesse pubblico, per accertare, esercitare o difendere un diritto in sede giudiziaria, e per tutelare gli interessi vitali dell'interessato o di altre persone qualora l'interessato si trovi nell'incapacità fisica o giuridica di prestare il proprio consenso.
+24. **a20 C9**, GDPR art. 49: not confirmed (partially_supported) (+79 characters)
+   - Original: «soltanto se non è ripetitivo, riguarda un numero limitato di interessati, è necessario per il perseguimento degli interessi legittimi cogenti del titolare del trattamento»
+   - Widened: «soltanto se non è ripetitivo, riguarda un numero limitato di interessati, è necessario per il perseguimento degli interessi legittimi cogenti del titolare del trattamento, su cui non prevalgano gli interessi o i diritti e le libertà dell'interessato»
+   - Rewrite: In un trasferimento non basato sugli articoli 45 o 46 né su una deroga, il trasferimento è ammesso soltanto se non è ripetitivo, riguarda un numero limitato di interessati ed è necessario per il perseguimento degli interessi legittimi cogenti del titolare del trattamento, su cui non prevalgano gli interessi o i diritti e le libertà dell'interessato; il titolare del trattamento informa del trasferimento l'autorità di controllo.
+25. **a20 C10**, GDPR art. 46: confirmed (+284 characters)
+   - Original: «In mancanza di una decisione ai sensi dell'articolo 45, paragrafo 3»
+   - Widened: «In mancanza di una decisione ai sensi dell'articolo 45, paragrafo 3, il titolare del trattamento o il responsabile del trattamento può trasferire dati personali verso un paese terzo o un'organizzazione internazionale solo se ha fornito garanzie adeguate e a condizione che gli interessati dispongano di diritti azionabili e mezzi di ricorso effettivi.»
+   - Rewrite: In mancanza di una decisione ai sensi dell'articolo 45, paragrafo 3, il trasferimento verso un paese terzo è ammesso solo se sono fornite garanzie adeguate e gli interessati dispongono di diritti azionabili e mezzi di ricorso effettivi; in mancanza anche di garanzie adeguate, è ammesso soltanto se si verifica una delle condizioni elencate nell'articolo 49.
+26. **a20 C10**, GDPR art. 49: confirmed (+228 characters)
+   - Original: «In mancanza di una decisione di adeguatezza ai sensi dell'articolo 45, paragrafo 3, o di garanzie adeguate ai sensi dell'articolo 46»
+   - Widened: «In mancanza di una decisione di adeguatezza ai sensi dell'articolo 45, paragrafo 3, o di garanzie adeguate ai sensi dell'articolo 46, comprese le norme vincolanti d'impresa, è ammesso il trasferimento o un complesso di trasferimenti di dati personali verso un paese terzo o un'organizzazione internazionale soltanto se si verifica una delle seguenti condizioni»
+   - Rewrite: In mancanza di una decisione ai sensi dell'articolo 45, paragrafo 3, il trasferimento verso un paese terzo è ammesso solo se sono fornite garanzie adeguate e gli interessati dispongono di diritti azionabili e mezzi di ricorso effettivi; in mancanza anche di garanzie adeguate, è ammesso soltanto se si verifica una delle condizioni elencate nell'articolo 49.
+27. **a21 C4**, GDPR art. 34: confirmed (+138 characters)
+   - Original: «il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.»
+   - Widened: «Quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.»
+   - Rewrite: Secondo l'art. 34, paragrafo 1, quando la violazione dei dati personali è suscettibile di presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento comunica la violazione all'interessato senza ingiustificato ritardo.
+28. **a21 C5**, GDPR art. 83: confirmed (+200 characters)
+   - Original: «l'importo totale della sanzione amministrativa pecuniaria non supera l'importo specificato per la violazione più grave.»
+   - Widened: «Se, in relazione allo stesso trattamento o a trattamenti collegati, un titolare del trattamento o un responsabile del trattamento viola, con dolo o colpa, varie disposizioni del presente regolamento, l'importo totale della sanzione amministrativa pecuniaria non supera l'importo specificato per la violazione più grave.»
+   - Rewrite: Se un titolare o un responsabile del trattamento viola, con dolo o colpa, varie disposizioni del regolamento in relazione allo stesso trattamento o a trattamenti collegati, l'importo totale della sanzione amministrativa pecuniaria non supera l'importo specificato per la violazione più grave.
+29. **a22 C9**, Codice art. 143: not confirmed (partially_supported) (+126 characters)
+   - Original: «Il Garante decide il reclamo entro nove mesi dalla data di presentazione e, in ogni caso, entro tre mesi dalla predetta data informa l'interessato sullo stato del procedimento.»
+   - Widened: «Il Garante decide il reclamo entro nove mesi dalla data di presentazione e, in ogni caso, entro tre mesi dalla predetta data informa l'interessato sullo stato del procedimento. In presenza di motivate esigenze istruttorie, che il Garante comunica all'interessato, il reclamo è deciso entro dodici mesi.»
+   - Rewrite: Il Garante decide il reclamo entro nove mesi dalla data di presentazione e, in ogni caso, entro tre mesi dalla predetta data informa l'interessato sullo stato del procedimento; in presenza di motivate esigenze istruttorie, comunicate all'interessato, il reclamo è deciso entro dodici mesi.
+30. **a23 C3.1**, GDPR art. 8: not confirmed (partially_supported) (+151 characters)
+   - Original: «il trattamento di dati personali del minore è lecito ove il minore abbia almeno 16 anni.»
+   - Widened: «Qualora si applichi l'articolo 6, paragrafo 1, lettera a), per quanto riguarda l'offerta diretta di servizi della società dell'informazione ai minori, il trattamento di dati personali del minore è lecito ove il minore abbia almeno 16 anni.»
+   - Rewrite: Il Regolamento prevede che il trattamento di dati personali del minore sia lecito ove il minore abbia almeno 16 anni, quando si applica l'articolo 6, paragrafo 1, lettera a), all'offerta diretta di servizi della società dell'informazione ai minori.
+31. **a23 C3.2**, GDPR art. 8: not confirmed (partially_supported) (+195 characters)
+   - Original: «il trattamento di dati personali del minore è lecito ove il minore abbia almeno 16 anni.»
+   - Widened: «il trattamento di dati personali del minore è lecito ove il minore abbia almeno 16 anni. Ove il minore abbia un'età inferiore ai 16 anni, tale trattamento è lecito soltanto se e nella misura in cui tale consenso è prestato o autorizzato dal titolare della responsabilità genitoriale.»
+   - Rewrite: Il Regolamento prevede che, ove il minore abbia meno di 16 anni, il trattamento sia lecito soltanto se e nella misura in cui il consenso è prestato o autorizzato dal titolare della responsabilità genitoriale.
+32. **a24 C1**, GDPR art. 37: confirmed (+71 characters)
+   - Original: «le attività principali del titolare del trattamento o del responsabile del trattamento consistono nel trattamento, su larga scala, di categorie particolari di dati personali di cui all'articolo 9»
+   - Widened: «le attività principali del titolare del trattamento o del responsabile del trattamento consistono nel trattamento, su larga scala, di categorie particolari di dati personali di cui all'articolo 9 o di dati relativi a condanne penali e a reati di cui all'articolo 10.»
+   - Rewrite: Article 37(1) GDPR lists, among the cases in which a DPO is to be designated, processing carried out by a public authority or body, except courts acting in their judicial capacity; core activities that require regular and systematic monitoring of data subjects on a large scale; and core activities consisting of large-scale processing of special categories of personal data under Article 9.
+33. **a24 C3**, GDPR art. 37: confirmed (+244 characters)
+   - Original: «possono o, se previsto dal diritto dell'Unione o degli Stati membri, devono designare un responsabile della protezione dei dati»
+   - Widened: «Nei casi diversi da quelli di cui al paragrafo 1, il titolare e del trattamento, il responsabile del trattamento o le associazioni e gli altri organismi rappresentanti le categorie di titolari del trattamento o di responsabili del trattamento possono o, se previsto dal diritto dell'Unione o degli Stati membri, devono designare un responsabile della protezione dei dati.»
+   - Rewrite: In cases other than those in Article 37(1), controllers, processors or associations representing them may designate a DPO or, if Union or Member State law provides for it, must designate one.
+34. **a24 C4**, GDPR art. 30: refused: widened_too_long (+329 characters)
+   - Original: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti»
+   - Widened: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni con meno di 250 dipendenti, a meno che il trattamento che esse effettuano possa presentare un rischio per i diritti e le libertà dell'interessato, il trattamento non sia occasionale o includa il trattamento di categorie particolari di dati di cui all'articolo 9, paragrafo 1, o i dati personali relativi a condanne penali e a reati di cui all'articolo 10.»
+   - Rewrite: Article 30 GDPR, on records of processing activities, provides that the obligations in paragraphs 1 and 2 do not apply to enterprises or organisations with fewer than 250 employees, subject to exceptions.

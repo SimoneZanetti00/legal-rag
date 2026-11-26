@@ -1,0 +1,1270 @@
+{
+ "llm_calls": [
+  {
+   "attempts": 1,
+   "data": {
+    "clarification_question": null,
+    "in_scope": true,
+    "issues": [
+     {
+      "question": "Quando è obbligatoria una valutazione d'impatto sulla protezione dei dati?"
+     }
+    ],
+    "language": "it",
+    "scope_reason": "La domanda riguarda i casi in cui è richiesta la valutazione d'impatto sulla protezione dei dati, istituto disciplinato dal GDPR.",
+    "search_queries_it": [
+     "valutazione d'impatto sulla protezione dei dati",
+     "trattamento che può presentare un rischio elevato per i diritti e le libertà delle persone fisiche",
+     "valutazione d'impatto obbligatoria casi",
+     "elenco delle tipologie di trattamenti soggetti a valutazione d'impatto",
+     "consultazione preventiva autorità di controllo rischio elevato"
+    ],
+    "suggested_provisions": [
+     {
+      "article": "35",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "casi in cui la valutazione d'impatto è richiesta, elenchi delle autorità di controllo"
+     },
+     {
+      "article": "36",
+      "instrument": "eu-reg-2016-679",
+      "point": null,
+      "reason": "consultazione preventiva se la valutazione indica rischio elevato"
+     }
+    ],
+    "uncertainty": "La domanda non specifica se riguardi l'Italia; sono stati considerati solo il GDPR e, se pertinenti, gli elenchi dell'autorità di controllo, che possono dipendere da atti esterni al corpus."
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8QteEokcSiycv3YdjDk"
+   ],
+   "schema_sha256": "e89069076af3b5fe8ec4a99df19bf30653f4eb06c13ddda257c17f0a16edb6fa",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "227beb1de4fc6243a3938fe318d8012e0b5aca13ab853ae115b57893c3c1ffd7",
+   "task": "query_analysis",
+   "usage": null,
+   "user_sha256": "79963c920054915ca31aaf21b9512c56a5041ca935c5c52f060f8e63ba35749e"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "abstention_reason": null,
+    "claims": [
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali."
+       }
+      ],
+      "text": "La valutazione d'impatto è obbligatoria quando un tipo di trattamento può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, tenuto conto di natura, oggetto, contesto e finalità (in particolare con l'uso di nuove tecnologie); in tal caso il titolare la effettua prima di procedere al trattamento."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "Una singola valutazione può esaminare un insieme di trattamenti simili che presentano rischi elevati analoghi."
+       }
+      ],
+      "text": "Una singola valutazione può riguardare un insieme di trattamenti simili che presentano rischi elevati analoghi."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "una valutazione sistematica e globale di aspetti personali relativi a persone fisiche, basata su un trattamento automatizzato, compresa la profilazione, e sulla quale si fondano decisioni che hanno effetti giuridici o incidono in modo analogo significativamente su dette persone fisiche;"
+       }
+      ],
+      "text": "La valutazione è richiesta in particolare nel caso di una valutazione sistematica e globale di aspetti personali basata su trattamento automatizzato, compresa la profilazione, su cui si fondano decisioni con effetti giuridici o effetti analoghi significativi sulle persone."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "il trattamento, su larga scala, di categorie particolari di dati personali di cui all'articolo 9, paragrafo 1, o di dati relativi a condanne penali e a reati di cui all'articolo 10; o"
+       }
+      ],
+      "text": "È richiesta in particolare anche per il trattamento su larga scala di categorie particolari di dati (art. 9, par. 1) o di dati relativi a condanne penali e reati (art. 10)."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "la sorveglianza sistematica su larga scala di una zona accessibile al pubblico."
+       }
+      ],
+      "text": "È richiesta in particolare anche per la sorveglianza sistematica su larga scala di una zona accessibile al pubblico."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "L'autorità di controllo redige e rende pubblico un elenco delle tipologie di trattamenti soggetti al requisito di una valutazione d'impatto sulla protezione dei dati ai sensi del paragrafo 1."
+       },
+       {
+        "evidence_id": "E1",
+        "quote": "L'autorità di controllo può inoltre redigere e rendere pubblico un elenco delle tipologie di trattamenti per le quali non è richiesta una valutazione d'impatto sulla protezione dei dati."
+       }
+      ],
+      "text": "L'autorità di controllo redige e pubblica un elenco delle tipologie di trattamenti soggetti al requisito della valutazione d'impatto, e può redigere anche un elenco di quelli per cui non è richiesta."
+     },
+     {
+      "issue_ids": [
+       "I1"
+      ],
+      "kind": "source_statement",
+      "support": [
+       {
+        "evidence_id": "E1",
+        "quote": "i paragrafi da 1 a 7 non si applicano, salvo che gli Stati membri ritengano necessario effettuare tale valutazione prima di procedere alle attività di trattamento."
+       }
+      ],
+      "text": "Il requisito non si applica (paragrafi da 1 a 7) quando il trattamento si fonda su obbligo legale o compito di interesse pubblico con base giuridica nel diritto dell'Unione o dello Stato membro e una valutazione d'impatto generale è già stata effettuata nell'adozione di tale base giuridica, salvo che gli Stati membri ritengano necessaria la valutazione."
+     }
+    ],
+    "limitations": [
+     "Il contenuto degli elenchi redatti dalle autorità di controllo (art. 35, parr. 4 e 5) non è nelle evidenze; non è quindi possibile dire quali ulteriori trattamenti vi rientrino, né se esistano elenchi nazionali italiani.",
+     "Non sono presenti atti italiani (Codice Privacy) né altre fonti sulla applicazione concreta delle nozioni di «rischio elevato» e «larga scala».",
+     "L'art. 35, par. 3 usa «in particolare»: l'elenco dei casi non è quindi esaustivo."
+    ],
+    "outcome": "answer",
+    "summary": "La valutazione d'impatto è obbligatoria quando il trattamento può presentare un rischio elevato per diritti e libertà delle persone, ed è prevista in particolare per profilazione con decisioni significative, trattamento su larga scala di dati sensibili o penali e sorveglianza sistematica di zone pubbliche [1][3][4][5]. Gli elenchi dell'autorità di controllo ne precisano i casi o le esclusioni [6], e vale un'eccezione per trattamenti con base giuridica già oggetto di valutazione generale [7].",
+    "unanswered_issues": []
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8mFziGQBEfo7Jy9ms2s"
+   ],
+   "schema_sha256": "d8a27d64b6aa12eaaee825a48db3d6d6394c1ca218fe8e3c1931c4eac1161fce",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "004a4fa0b9fa85c7be10287fa90d2f495be7bcf3f12097b0e1a7ad01cf844932",
+   "task": "answer_generation",
+   "usage": null,
+   "user_sha256": "c26309f8b52d7f052a2f79294fc927b9c8eed82a26a7859cd2b8a1037c0be897"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "partially_supported"
+     },
+     {
+      "claim_id": "C2",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C3",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C4",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C5",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C6",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "partially_supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": true,
+   "request_ids": [
+    "req_011Ch8mGtpqijYrtbFW51Jbx"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": null,
+   "user_sha256": "8dc9c03a8df86657032976c61915a584731c5ab224d0449dcad9d218e8b21860"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "repairs": [
+     {
+      "claim_id": "C1",
+      "rewrites": [
+       {
+        "quotes": [
+         {
+          "n": 1,
+          "widened": "Quando un tipo di trattamento, allorché prevede in particolare l'uso di nuove tecnologie, considerati la natura, l'oggetto, il contesto e le finalità del trattamento, può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali."
+         }
+        ],
+        "text": "Quando un tipo di trattamento, in particolare con l'uso di nuove tecnologie e considerati natura, oggetto, contesto e finalità, può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare effettua una valutazione d'impatto sulla protezione dei dati prima di procedere al trattamento."
+       }
+      ]
+     },
+     {
+      "claim_id": "C7",
+      "rewrites": [
+       {
+        "quotes": [
+         {
+          "n": 1,
+          "widened": "tale diritto disciplini il trattamento specifico o l'insieme di trattamenti in questione, e sia già stata effettuata una valutazione d'impatto sulla protezione dei dati nell'ambito di una valutazione d'impatto generale nel contesto dell'adozione di tale base giuridica, i paragrafi da 1 a 7 non si applicano, salvo che gli Stati membri ritengano necessario effettuare tale valutazione prima di procedere alle attività di trattamento."
+         }
+        ],
+        "text": "Quando il diritto che costituisce la base giuridica disciplina il trattamento specifico o l'insieme di trattamenti in questione e una valutazione d'impatto generale è già stata effettuata nel contesto dell'adozione di tale base giuridica, i paragrafi da 1 a 7 non si applicano, salvo che gli Stati membri ritengano necessario effettuare tale valutazione prima di procedere alle attività di trattamento."
+       }
+      ]
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRNwn7yeMmkAYGjMUASd"
+   ],
+   "schema_sha256": "d006159aacc0a36afe66c4819f0f76cbf723fe7e17f321024aad5a19d898b902",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "d2320613be982aa9cc95fe2ef7a5ab6da1cefef81a94bb48777b15fda2f6043b",
+   "task": "claim_repair",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 3639,
+    "output_tokens": 2236
+   },
+   "user_sha256": "990acec48efea67a54460c9824e804937715d6272117a0eb03c8c422a12b3f3f"
+  },
+  {
+   "attempts": 1,
+   "data": {
+    "verdicts": [
+     {
+      "claim_id": "C1",
+      "support": "supported"
+     },
+     {
+      "claim_id": "C7",
+      "support": "partially_supported"
+     }
+    ]
+   },
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "provider": "anthropic",
+   "replayed": false,
+   "request_ids": [
+    "req_011ChRNxst3LhhrGzYwHCavm"
+   ],
+   "schema_sha256": "ddd1301837c99a39a97945c1046687813ac2eebacdb6d42bc1c9ffa28484c06d",
+   "served_by": "claude-sonnet-5-5",
+   "system_sha256": "1fe60fa4caf2f0dc4b8ab80e3d9699345fba19db863ae21c3a2df1da9f4d8172",
+   "task": "claim_verification",
+   "usage": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 3221,
+    "output_tokens": 253
+   },
+   "user_sha256": "a2bd946a16fb4408c80152751e717dc1de7915fa7f5f06c1449407f1bf14caf5"
+  }
+ ],
+ "query_id": "a14",
+ "question": "Quando è obbligatoria una valutazione d'impatto sulla protezione dei dati?",
+ "rendered": "question: Quando è obbligatoria una valutazione d'impatto sulla protezione dei dati?\noutcome: ANSWER\nas of: 2026-11-26\nExperimental prototype. Not legal advice.\n\nissues found by the query analysis (questions written by the model, not answers; query-analysis-v3):\n  I1  Quando è obbligatoria una valutazione d'impatto sulla protezione dei dati?\n  search queries: valutazione d'impatto sulla protezione dei dati; trattamento che può presentare un rischio elevato per i diritti e le libertà delle persone fisiche; valutazione d'impatto obbligatoria casi; elenco delle tipologie di trattamenti soggetti a valutazione d'impatto; consultazione preventiva autorità di controllo rischio elevato\n\nanswer (each claim with its quotations; quotations are checked against the evidence, support was assessed by a model, which is not legal validation):\n  C1 [I1] (source statement; support: supported; repaired) Quando un tipo di trattamento, in particolare con l'uso di nuove tecnologie e considerati natura, oggetto, contesto e finalità, può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare effettua una valutazione d'impatto sulla protezione dei dati prima di procedere al trattamento.\n      E1: «Quando un tipo di trattamento, allorché prevede in particolare l'uso di nuove tecnologie, considerati la natura, l'oggetto, il contesto e le finalità del trattamento, può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.»\n        widened by the repair pass from: «può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.»\n      rewritten from: La valutazione d'impatto è obbligatoria quando un tipo di trattamento può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, tenuto conto di natura, oggetto, contesto e finalità (in particolare con l'uso di nuove tecnologie); in tal caso il titolare la effettua prima di procedere al trattamento.\n  C2 [I1] (source statement; support: supported) Una singola valutazione può riguardare un insieme di trattamenti simili che presentano rischi elevati analoghi.\n      E1: «Una singola valutazione può esaminare un insieme di trattamenti simili che presentano rischi elevati analoghi.»\n  C3 [I1] (source statement; support: supported) La valutazione è richiesta in particolare nel caso di una valutazione sistematica e globale di aspetti personali basata su trattamento automatizzato, compresa la profilazione, su cui si fondano decisioni con effetti giuridici o effetti analoghi significativi sulle persone.\n      E1: «una valutazione sistematica e globale di aspetti personali relativi a persone fisiche, basata su un trattamento automatizzato, compresa la profilazione, e sulla quale si fondano decisioni che hanno effetti giuridici o incidono in modo analogo significativamente su dette persone fisiche;»\n  C4 [I1] (source statement; support: supported) È richiesta in particolare anche per il trattamento su larga scala di categorie particolari di dati (art. 9, par. 1) o di dati relativi a condanne penali e reati (art. 10).\n      E1: «il trattamento, su larga scala, di categorie particolari di dati personali di cui all'articolo 9, paragrafo 1, o di dati relativi a condanne penali e a reati di cui all'articolo 10; o»\n  C5 [I1] (source statement; support: supported) È richiesta in particolare anche per la sorveglianza sistematica su larga scala di una zona accessibile al pubblico.\n      E1: «la sorveglianza sistematica su larga scala di una zona accessibile al pubblico.»\n  C6 [I1] (source statement; support: supported) L'autorità di controllo redige e pubblica un elenco delle tipologie di trattamenti soggetti al requisito della valutazione d'impatto, e può redigere anche un elenco di quelli per cui non è richiesta.\n      E1: «L'autorità di controllo redige e rende pubblico un elenco delle tipologie di trattamenti soggetti al requisito di una valutazione d'impatto sulla protezione dei dati ai sensi del paragrafo 1.»\n      E1: «L'autorità di controllo può inoltre redigere e rendere pubblico un elenco delle tipologie di trattamenti per le quali non è richiesta una valutazione d'impatto sulla protezione dei dati.»\n\ncitations (sources of the answer; in research mode they may be pending human review, as each source's qualifications and status say):\n  [E1] eu-reg-2016-679 Articolo 35 Valutazione d'impatto sulla protezione dei dati (pages 53-54)\n      eu-reg-2016-679@oj-l119-2016-it/body/article:35; legal validity not_established\n      qualifications: original_publication_not_consolidated, authenticity_not_established, legal_validity_not_established\n\nPartially supported or uncertain — not part of the answer:\n  C7 [I1] (source statement; support: partially supported) Il requisito non si applica (paragrafi da 1 a 7) quando il trattamento si fonda su obbligo legale o compito di interesse pubblico con base giuridica nel diritto dell'Unione o dello Stato membro e una valutazione d'impatto generale è già stata effettuata nell'adozione di tale base giuridica, salvo che gli Stati membri ritengano necessaria la valutazione.\n      E1: «i paragrafi da 1 a 7 non si applicano, salvo che gli Stati membri ritengano necessario effettuare tale valutazione prima di procedere alle attività di trattamento.»\n\nMODEL NOTES — UNVERIFIED — NOT PART OF THE LEGAL ANSWER\n  (written by the model; checked only for references to provisions outside the evidence)\n  - Il contenuto degli elenchi redatti dalle autorità di controllo (art. 35, parr. 4 e 5) non è nelle evidenze; non è quindi possibile dire quali ulteriori trattamenti vi rientrino, né se esistano elenchi nazionali italiani.\n  - Non sono presenti atti italiani (Codice Privacy) né altre fonti sulla applicazione concreta delle nozioni di «rischio elevato» e «larga scala».\n  - L'art. 35, par. 3 usa «in particolare»: l'elenco dei casi non è quindi esaustivo.\n\nqualifications:\n  - MODALITÀ DIMOSTRATIVA DI RICERCA: questo risultato può basarsi su disposizioni il cui testo non ha superato la revisione umana. Ogni fonte qui sotto indica il proprio stato di revisione; una fonte in attesa di revisione non è citabile in modalità verificata e non va considerata verificata.\n  - Questo sistema non stabilisce se una disposizione sia giuridicamente valida, in vigore o applicabile a una qualsiasi data.\n  - Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.\n  - 3 further candidate provisions were left out by the evidence limits (max_items).\n  - Data di riferimento 2026-11-26: questa risposta riflette i testi presenti nel corpus a tale data. Non stabilisce il diritto vigente a quella data o successivamente.\n\ncorpus preflight: build build-f76ff6031f2fc82c4852f0a2bde27807; articles: 2 blocked, 319 internal_only; 0 citable\nevidence: build build-f76ff6031f2fc82c4852f0a2bde27807; 12 items (0 citable); about 11541 tokens\nwarnings: no_item_citable_in_verified_mode; repair_not_confirmed: C7 (partially_supported)\nmodels: analysis anthropic/claude-sonnet-5-5, 1 attempt(s); generation anthropic/claude-sonnet-5-5, 1 attempt(s); support check anthropic/claude-sonnet-5-5, 1 attempt(s)",
+ "result": {
+  "abstention_detail": null,
+  "abstention_reason": null,
+  "analysis": {
+   "clarification_question": null,
+   "in_scope": true,
+   "issues": [
+    {
+     "id": "I1",
+     "question": "Quando è obbligatoria una valutazione d'impatto sulla protezione dei dati?"
+    }
+   ],
+   "language": "it",
+   "provenance": {
+    "attempts": 1,
+    "fallback_used": false,
+    "model": "claude-sonnet-5-5",
+    "prompt_version": "query-analysis-v3",
+    "provider": "anthropic",
+    "request_ids": [
+     "req_011Ch8QteEokcSiycv3YdjDk"
+    ],
+    "served_by": "claude-sonnet-5-5",
+    "task": "query_analysis"
+   },
+   "question": "Quando è obbligatoria una valutazione d'impatto sulla protezione dei dati?",
+   "rejected_suggestions": [],
+   "scope_reason": "La domanda riguarda i casi in cui è richiesta la valutazione d'impatto sulla protezione dei dati, istituto disciplinato dal GDPR.",
+   "search_queries_it": [
+    "valutazione d'impatto sulla protezione dei dati",
+    "trattamento che può presentare un rischio elevato per i diritti e le libertà delle persone fisiche",
+    "valutazione d'impatto obbligatoria casi",
+    "elenco delle tipologie di trattamenti soggetti a valutazione d'impatto",
+    "consultazione preventiva autorità di controllo rischio elevato"
+   ],
+   "suggested_provisions": [
+    {
+     "article": "35",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "casi in cui la valutazione d'impatto è richiesta, elenchi delle autorità di controllo"
+    },
+    {
+     "article": "36",
+     "instrument": "eu-reg-2016-679",
+     "point": null,
+     "reason": "consultazione preventiva se la valutazione indica rischio elevato"
+    }
+   ],
+   "uncertainty": "La domanda non specifica se riguardi l'Italia; sono stati considerati solo il GDPR e, se pertinenti, gli elenchi dell'autorità di controllo, che possono dipendere da atti esterni al corpus."
+  },
+  "as_of": "2026-11-26",
+  "citations": [
+   {
+    "citable": false,
+    "evidence_id": "E1",
+    "heading": "Articolo 35",
+    "instrument_id": "eu-reg-2016-679",
+    "label": "35",
+    "legal_validity": "not_established",
+    "page_end": 54,
+    "page_start": 53,
+    "path": "CAPO IV > Sezione 3 > Articolo 35",
+    "point": null,
+    "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:35",
+    "qualifications": [
+     "original_publication_not_consolidated",
+     "authenticity_not_established",
+     "legal_validity_not_established"
+    ],
+    "reasons": [
+     "structure_not_reviewed"
+    ],
+    "tier": "internal_only",
+    "title": "Valutazione d'impatto sulla protezione dei dati",
+    "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+    "whole_provision": true
+   }
+  ],
+  "claims": [
+   {
+    "claim_id": "C1",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Quando un tipo di trattamento, allorché prevede in particolare l'uso di nuove tecnologie, considerati la natura, l'oggetto, il contesto e le finalità del trattamento, può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali.",
+      "widened_from": "può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti previsti sulla protezione dei dati personali."
+     }
+    ],
+    "repaired_from": "La valutazione d'impatto è obbligatoria quando un tipo di trattamento può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, tenuto conto di natura, oggetto, contesto e finalità (in particolare con l'uso di nuove tecnologie); in tal caso il titolare la effettua prima di procedere al trattamento.",
+    "text": "Quando un tipo di trattamento, in particolare con l'uso di nuove tecnologie e considerati natura, oggetto, contesto e finalità, può presentare un rischio elevato per i diritti e le libertà delle persone fisiche, il titolare effettua una valutazione d'impatto sulla protezione dei dati prima di procedere al trattamento.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C2",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "Una singola valutazione può esaminare un insieme di trattamenti simili che presentano rischi elevati analoghi.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "Una singola valutazione può riguardare un insieme di trattamenti simili che presentano rischi elevati analoghi.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C3",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "una valutazione sistematica e globale di aspetti personali relativi a persone fisiche, basata su un trattamento automatizzato, compresa la profilazione, e sulla quale si fondano decisioni che hanno effetti giuridici o incidono in modo analogo significativamente su dette persone fisiche;",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "La valutazione è richiesta in particolare nel caso di una valutazione sistematica e globale di aspetti personali basata su trattamento automatizzato, compresa la profilazione, su cui si fondano decisioni con effetti giuridici o effetti analoghi significativi sulle persone.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C4",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "il trattamento, su larga scala, di categorie particolari di dati personali di cui all'articolo 9, paragrafo 1, o di dati relativi a condanne penali e a reati di cui all'articolo 10; o",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "È richiesta in particolare anche per il trattamento su larga scala di categorie particolari di dati (art. 9, par. 1) o di dati relativi a condanne penali e reati (art. 10).",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C5",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "la sorveglianza sistematica su larga scala di una zona accessibile al pubblico.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "È richiesta in particolare anche per la sorveglianza sistematica su larga scala di una zona accessibile al pubblico.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C6",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "L'autorità di controllo redige e rende pubblico un elenco delle tipologie di trattamenti soggetti al requisito di una valutazione d'impatto sulla protezione dei dati ai sensi del paragrafo 1.",
+      "widened_from": null
+     },
+     {
+      "evidence_id": "E1",
+      "text": "L'autorità di controllo può inoltre redigere e rendere pubblico un elenco delle tipologie di trattamenti per le quali non è richiesta una valutazione d'impatto sulla protezione dei dati.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "L'autorità di controllo redige e pubblica un elenco delle tipologie di trattamenti soggetti al requisito della valutazione d'impatto, e può redigere anche un elenco di quelli per cui non è richiesta.",
+    "verification": "SUPPORTED"
+   },
+   {
+    "claim_id": "C7",
+    "evidence_ids": [
+     "E1"
+    ],
+    "issue_ids": [
+     "I1"
+    ],
+    "kind": "source_statement",
+    "quotes": [
+     {
+      "evidence_id": "E1",
+      "text": "i paragrafi da 1 a 7 non si applicano, salvo che gli Stati membri ritengano necessario effettuare tale valutazione prima di procedere alle attività di trattamento.",
+      "widened_from": null
+     }
+    ],
+    "repaired_from": null,
+    "text": "Il requisito non si applica (paragrafi da 1 a 7) quando il trattamento si fonda su obbligo legale o compito di interesse pubblico con base giuridica nel diritto dell'Unione o dello Stato membro e una valutazione d'impatto generale è già stata effettuata nell'adozione di tale base giuridica, salvo che gli Stati membri ritengano necessaria la valutazione.",
+    "verification": "PARTIALLY_SUPPORTED"
+   }
+  ],
+  "evidence": {
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "dropped": [
+    {
+     "label": "43",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:64"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:43",
+     "reason": "max_items",
+     "tokens": 1578
+    },
+    {
+     "label": "46",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:64"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:46",
+     "reason": "max_items",
+     "tokens": 984
+    },
+    {
+     "label": "28",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:64"
+     ],
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:28",
+     "reason": "max_items",
+     "tokens": 2103
+    }
+   ],
+   "has_citable_evidence": false,
+   "items": [
+    {
+     "anchors": [
+      {
+       "char_end": 259581,
+       "char_start": 257102,
+       "page": 53,
+       "page_end": 53
+      },
+      {
+       "char_end": 261869,
+       "char_start": 259645,
+       "page": 54,
+       "page_end": 54
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0301-2bdb5212",
+      "doc-8f7504d289853f57-0302-a02ae5e1",
+      "doc-8f7504d289853f57-0305-5e1ed8b0"
+     ],
+     "citable": false,
+     "evidence_id": "E1",
+     "heading": "Articolo 35",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "35",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:1",
+      "query:3",
+      "query:4",
+      "query:2",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:36",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:64",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:39"
+     ],
+     "page_end": 54,
+     "page_start": 53,
+     "path": "CAPO IV > Sezione 3 > Articolo 35",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:35",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 35\n\nValutazione d'impatto sulla protezione dei dati\n\n1.\nQuando un tipo di trattamento, allorché prevede in particolare l'uso di nuove tecnologie, considerati la natura, \nl'oggetto, il contesto e le finalità del trattamento, può presentare un rischio elevato per i diritti e le libertà delle persone \nfisiche, il titolare del trattamento effettua, prima di procedere al trattamento, una valutazione dell'impatto dei trattamenti \nprevisti sulla protezione dei dati personali. Una singola valutazione può esaminare un insieme di trattamenti simili che \npresentano rischi elevati analoghi.\n\n2.\nIl titolare del trattamento, allorquando svolge una valutazione d'impatto sulla protezione dei dati, si consulta con il \nresponsabile della protezione dei dati, qualora ne sia designato uno.\n\n3.\nLa valutazione d'impatto sulla protezione dei dati di cui al paragrafo 1 è richiesta in particolare nei casi seguenti:\n\na) una valutazione sistematica e globale di aspetti personali relativi a persone fisiche, basata su un trattamento automa­\n\ntizzato, compresa la profilazione, e sulla quale si fondano decisioni che hanno effetti giuridici o incidono in modo \nanalogo significativamente su dette persone fisiche;\n\nb)  il trattamento, su larga scala, di categorie particolari di dati personali di cui all'articolo 9, paragrafo 1, o di dati\n\nrelativi a condanne penali e a reati di cui all'articolo 10; o\n\nc)  la sorveglianza sistematica su larga scala di una zona accessibile al pubblico.\n\n4.\nL'autorità di controllo redige e rende pubblico un elenco delle tipologie di trattamenti soggetti al requisito di una \nvalutazione d'impatto sulla protezione dei dati ai sensi del paragrafo 1. L'autorità di controllo comunica tali elenchi al \ncomitato di cui all'articolo 68.\n\n5.\nL'autorità di controllo può inoltre redigere e rendere pubblico un elenco delle tipologie di trattamenti per le quali \nnon è richiesta una valutazione d'impatto sulla protezione dei dati. L'autorità di controllo comunica tali elenchi al \ncomitato.\n\n6.\nPrima di adottare gli elenchi di cui ai paragrafi 4 e 5, l'autorità di controllo competente applica il meccanismo di \ncoerenza di cui all'articolo 63 se tali elenchi comprendono attività di trattamento finalizzate all'offerta di beni o servizi a \ninteressati o al monitoraggio del loro comportamento in più Stati membri, o attività di trattamento che possono incidere \nsignificativamente sulla libera circolazione dei dati personali all'interno dell'Unione.\n\n7.\nLa valutazione contiene almeno:\n\na)  una descrizione sistematica dei trattamenti previsti e delle finalità del trattamento, compreso, ove applicabile,\n\nl'interesse legittimo perseguito dal titolare del trattamento;\n\nb)  una valutazione della necessità e proporzionalità dei trattamenti in relazione alle finalità;\n\nc)  una valutazione dei rischi per i diritti e le libertà degli interessati di cui al paragrafo 1; e\n\nd)  le misure previste per affrontare i rischi, includendo le garanzie, le misure di sicurezza e i meccanismi per garantire la\n\nprotezione dei dati personali e dimostrare la conformità al presente regolamento, tenuto conto dei diritti e degli \ninteressi legittimi degli interessati e delle altre persone in questione.\n\n8.\nNel valutare l'impatto del trattamento effettuato dai relativi titolari o responsabili è tenuto in debito conto il \nrispetto da parte di questi ultimi dei codici di condotta approvati di cui all'articolo 40, in particolare ai fini di una \nvalutazione d'impatto sulla protezione dei dati.\n\n9.\nSe del caso, il titolare del trattamento raccoglie le opinioni degli interessati o dei loro rappresentanti sul \ntrattamento previsto, fatta salva la tutela degli interessi commerciali o pubblici o la sicurezza dei trattamenti.\n\n10.\nQualora il trattamento effettuato ai sensi dell'articolo 6, paragrafo 1, lettere c) o e), trovi nel diritto dell'Unione o \nnel diritto dello Stato membro cui il titolare del trattamento è soggetto una base giuridica, tale diritto disciplini il \ntrattamento specifico o l'insieme di trattamenti in questione, e sia già stata effettuata una valutazione d'impatto sulla \nprotezione dei dati nell'ambito di una valutazione d'impatto generale nel contesto dell'adozione di tale base giuridica, i \nparagrafi da 1 a 7 non si applicano, salvo che gli Stati membri ritengano necessario effettuare tale valutazione prima di \nprocedere alle attività di trattamento.\n\n11.\nSe necessario, il titolare del trattamento procede a un riesame per valutare se il trattamento dei dati personali sia \neffettuato conformemente alla valutazione d'impatto sulla protezione dei dati almeno quando insorgono variazioni del \nrischio rappresentato dalle attività relative al trattamento.",
+     "tier": "internal_only",
+     "title": "Valutazione d'impatto sulla protezione dei dati",
+     "tokens": 1568,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 263869,
+       "char_start": 261871,
+       "page": 54,
+       "page_end": 54
+      },
+      {
+       "char_end": 264753,
+       "char_start": 263933,
+       "page": 55,
+       "page_end": 55
+      }
+     ],
+     "best_rank": 1,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0306-2c97af3a"
+     ],
+     "citable": false,
+     "evidence_id": "E2",
+     "heading": "Articolo 36",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "36",
+     "legal_validity": "not_established",
+     "origins": [
+      "lookup",
+      "query:5",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:39"
+     ],
+     "page_end": 55,
+     "page_start": 54,
+     "path": "CAPO IV > Sezione 3 > Articolo 36",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:36",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 36\n\nConsultazione preventiva\n\n1.\nIl titolare del trattamento, prima di procedere al trattamento, consulta l'autorità di controllo qualora la valutazione \nd'impatto sulla protezione dei dati a norma dell'articolo 35 indichi che il trattamento presenterebbe un rischio elevato in \nassenza di misure adottate dal titolare del trattamento per attenuare il rischio.\n\n2.\nSe ritiene che il trattamento previsto di cui al paragrafo 1 violi il presente regolamento, in particolare qualora il \ntitolare del trattamento non abbia identificato o attenuato sufficientemente il rischio, l'autorità di controllo fornisce, \nentro un termine di otto settimane dal ricevimento della richiesta di consultazione, un parere scritto al titolare del \ntrattamento e, ove applicabile, al responsabile del trattamento e può avvalersi dei poteri di cui all'articolo 58. Tale \nperiodo può essere prorogato di sei settimane, tenendo conto della complessità del trattamento previsto. L'autorità di \ncontrollo informa il titolare del trattamento e, ove applicabile, il responsabile del trattamento di tale proroga, unitamente \nai motivi del ritardo, entro un mese dal ricevimento della richiesta di consultazione. La decorrenza dei termini può \nessere sospesa fino all'ottenimento da parte dell'autorità di controllo delle informazioni richieste ai fini della consul­\ntazione.\n\n3.\nAl momento di consultare l'autorità di controllo ai sensi del paragrafo 1, il titolare del trattamento comunica \nall'autorità di controllo:\n\na)  ove applicabile, le rispettive responsabilità del titolare del trattamento, dei contitolari del trattamento e dei\n\nresponsabili del trattamento, in particolare relativamente al trattamento nell'ambito di un gruppo imprenditoriale;\n\nb)  le finalità e i mezzi del trattamento previsto;\n\nc)  le misure e le garanzie previste per proteggere i diritti e le libertà degli interessati a norma del presente regolamento;\n\nd)  ove applicabile, i dati di contatto del titolare della protezione dei dati;\n\ne)  la valutazione d'impatto sulla protezione dei dati di cui all'articolo 35;\n\nf)  ogni altra informazione richiesta dall'autorità di controllo.\n\n4.\nGli Stati membri consultano l'autorità di controllo durante l'elaborazione di una proposta di atto legislativo che \ndeve essere adottato dai parlamenti nazionali o di misura regolamentare basata su detto atto legislativo relativamente al \ntrattamento.\n\n5.\nNonostante il paragrafo 1, il diritto degli Stati membri può prescrivere che i titolari del trattamento consultino \nl'autorità di controllo, e ne ottengano l'autorizzazione preliminare, in relazione al trattamento da parte di un titolare del \ntrattamento per l'esecuzione, da parte di questi, di un compito di interesse pubblico, tra cui il trattamento con riguardo \nalla protezione sociale e alla sanità pubblica.",
+     "tier": "internal_only",
+     "title": "Consultazione preventiva",
+     "tokens": 940,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 340518,
+       "char_start": 339835,
+       "page": 73,
+       "page_end": 73
+      },
+      {
+       "char_end": 340928,
+       "char_start": 340582,
+       "page": 74,
+       "page_end": 74
+      }
+     ],
+     "best_rank": 3,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0401-348217ea"
+     ],
+     "citable": false,
+     "evidence_id": "E3",
+     "heading": "Articolo 64",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "64",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:4"
+     ],
+     "page_end": 74,
+     "page_start": 73,
+     "path": "CAPO VII > Sezione 2 > Articolo 64",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:64",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 64\n\nParere del comitato europeo per la protezione dei dati\n\n1.\nIl comitato emette un parere ove un'autorità di controllo competente intenda adottare una delle misure in \nappresso. A tal fine, l'autorità di controllo competente comunica il progetto di decisione al comitato, quando la \ndecisione:\n\na)  è finalizzata a stabilire un elenco di trattamenti soggetti al requisito di una valutazione d'impatto sulla protezione dei\n\ndati ai sensi dell'articolo 35, paragrafo 4;\n\nb)  riguarda una questione di cui all'articolo 40, paragrafo 7, relativa alla conformità al presente regolamento di un\n\nprogetto di codice di condotta o una modifica o proroga di un codice di condotta;\n\nc)  è finalizzata ad approvare i criteri per l'accreditamento di un organismo ai sensi dell'articolo 41, paragrafo 3, o di un\n\norganismo di certificazione ai sensi dell'articolo 43, paragrafo 3;\n\nd)  è finalizzata a determinare clausole tipo di protezione dei dati di cui all'articolo 46, paragrafo 2, lettera d), e\n\nall'articolo 28, paragrafo 8;",
+     "tier": "internal_only",
+     "title": "Parere del comitato europeo per la protezione dei dati",
+     "tokens": 343,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": false
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 270942,
+       "char_start": 269355,
+       "page": 56,
+       "page_end": 56
+      }
+     ],
+     "best_rank": 4,
+     "chunk_ids": [
+      "doc-8f7504d289853f57-0317-d02a695f"
+     ],
+     "citable": false,
+     "evidence_id": "E4",
+     "heading": "Articolo 39",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "39",
+     "legal_validity": "not_established",
+     "origins": [
+      "query:5"
+     ],
+     "page_end": 56,
+     "page_start": 56,
+     "path": "CAPO IV > Sezione 4 > Articolo 39",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:39",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 39\n\nCompiti del responsabile della protezione dei dati\n\n1.\nIl responsabile della protezione dei dati è incaricato almeno dei seguenti compiti:\n\na)  informare e fornire consulenza al titolare del trattamento o al responsabile del trattamento nonché ai dipendenti che\n\neseguono il trattamento in merito agli obblighi derivanti dal presente regolamento nonché da altre disposizioni \ndell'Unione o degli Stati membri relative alla protezione dei dati;\n\nb)  sorvegliare l'osservanza del presente regolamento, di altre disposizioni dell'Unione o degli Stati membri relative alla\n\nprotezione dei dati nonché delle politiche del titolare del trattamento o del responsabile del trattamento in materia di \nprotezione dei dati personali, compresi l'attribuzione delle responsabilità, la sensibilizzazione e la formazione del \npersonale che partecipa ai trattamenti e alle connesse attività di controllo;\n\nc)  fornire, se richiesto, un parere in merito alla valutazione d'impatto sulla protezione dei dati e sorvegliarne lo\n\nsvolgimento ai sensi dell'articolo 35;\n\nd)  cooperare con l'autorità di controllo; e\n\ne)  fungere da punto di contatto per l'autorità di controllo per questioni connesse al trattamento, tra cui la consultazione\n\npreventiva di cui all'articolo 36, ed effettuare, se del caso, consultazioni relativamente a qualunque altra questione.\n\n2.\nNell'eseguire i propri compiti il responsabile della protezione dei dati considera debitamente i rischi inerenti al \ntrattamento, tenuto conto della natura, dell'ambito di applicazione, del contesto e delle finalità del medesimo.",
+     "tier": "internal_only",
+     "title": "Compiti del responsabile della protezione dei dati",
+     "tokens": 529,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 204640,
+       "char_start": 201034,
+       "page": 38,
+       "page_end": 38
+      },
+      {
+       "char_end": 205868,
+       "char_start": 204704,
+       "page": 39,
+       "page_end": 39
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E5",
+     "heading": "Articolo 9",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "9",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "page_end": 39,
+     "page_start": 38,
+     "path": "CAPO II > Articolo 9",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:9",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 9\n\nTrattamento di categorie particolari di dati personali\n\n1.\nÈ vietato trattare dati personali che rivelino l'origine razziale o etnica, le opinioni politiche, le convinzioni religiose \no filosofiche, o l'appartenenza sindacale, nonché trattare dati genetici, dati biometrici intesi a identificare in modo \nunivoco una persona fisica, dati relativi alla salute o alla vita sessuale o all'orientamento sessuale della persona.\n\n2.\nIl paragrafo 1 non si applica se si verifica uno dei seguenti casi:\n\na)  l'interessato ha prestato il proprio consenso esplicito al trattamento di tali dati personali per una o più finalità\n\nspecifiche, salvo nei casi in cui il diritto dell'Unione o degli Stati membri dispone che l'interessato non possa revocare \nil divieto di cui al paragrafo 1;\n\nb) il trattamento è necessario per assolvere gli obblighi ed esercitare i diritti specifici del titolare del trattamento o dell'in­\n\nteressato in materia di diritto del lavoro e della sicurezza sociale e protezione sociale, nella misura in cui sia \nautorizzato dal diritto dell'Unione o degli Stati membri o da un contratto collettivo ai sensi del diritto degli Stati \nmembri, in presenza di garanzie appropriate per i diritti fondamentali e gli interessi dell'interessato;\n\nc) il trattamento è necessario per tutelare un interesse vitale dell'interessato o di un'altra persona fisica qualora l'inte­\n\nressato si trovi nell'incapacità fisica o giuridica di prestare il proprio consenso;\n\nd)  il trattamento è effettuato, nell'ambito delle sue legittime attività e con adeguate garanzie, da una fondazione,\n\nassociazione o altro organismo senza scopo di lucro che persegua finalità politiche, filosofiche, religiose o sindacali, a \ncondizione che il trattamento riguardi unicamente i membri, gli ex membri o le persone che hanno regolari contatti \ncon la fondazione, l'associazione o l'organismo a motivo delle sue finalità e che i dati personali non siano comunicati \nall'esterno senza il consenso dell'interessato;\n\ne)  il trattamento riguarda dati personali resi manifestamente pubblici dall'interessato;\n\nf)  il trattamento è necessario per accertare, esercitare o difendere un diritto in sede giudiziaria o ogniqualvolta le\n\nautorità giurisdizionali esercitino le loro funzioni giurisdizionali;\n\ng)  il trattamento è necessario per motivi di interesse pubblico rilevante sulla base del diritto dell'Unione o degli Stati\n\nmembri, che deve essere proporzionato alla finalità perseguita, rispettare l'essenza del diritto alla protezione dei dati e \nprevedere misure appropriate e specifiche per tutelare i diritti fondamentali e gli interessi dell'interessato;\n\nh)  il trattamento è necessario per finalità di medicina preventiva o di medicina del lavoro, valutazione della capacità\n\nlavorativa del dipendente, diagnosi, assistenza o terapia sanitaria o sociale ovvero gestione dei sistemi e servizi \nsanitari o sociali sulla base del diritto dell'Unione o degli Stati membri o conformemente al contratto con un profes­\nsionista della sanità, fatte salve le condizioni e le garanzie di cui al paragrafo 3;\n\ni)  il trattamento è necessario per motivi di interesse pubblico nel settore della sanità pubblica, quali la protezione da\n\ngravi minacce per la salute a carattere transfrontaliero o la garanzia di parametri elevati di qualità e sicurezza dell'assi­\nstenza sanitaria e dei medicinali e dei dispositivi medici, sulla base del diritto dell'Unione o degli Stati membri che \nprevede misure appropriate e specifiche per tutelare i diritti e le libertà dell'interessato, in particolare il segreto profes­\nsionale;\n\nj)  il trattamento è necessario a fini di archiviazione nel pubblico interesse, di ricerca scientifica o storica o a fini\n\nstatistici in conformità dell'articolo 89, paragrafo 1, sulla base del diritto dell'Unione o nazionale, che è proporzionato \nalla finalità perseguita, rispetta l'essenza del diritto alla protezione dei dati e prevede misure appropriate e specifiche \nper tutelare i diritti fondamentali e gli interessi dell'interessato.\n\n3.\nI dati personali di cui al paragrafo 1 possono essere trattati per le finalità di cui al paragrafo 2, lettera h), se tali \ndati sono trattati da o sotto la responsabilità di un professionista soggetto al segreto professionale conformemente al \ndiritto dell'Unione o degli Stati membri o alle norme stabilite dagli organismi nazionali competenti o da altra persona \nanch'essa soggetta all'obbligo di segretezza conformemente al diritto dell'Unione o degli Stati membri o alle norme \nstabilite dagli organismi nazionali competenti.\n\n4.\nGli Stati membri possono mantenere o introdurre ulteriori condizioni, comprese limitazioni, con riguardo al \ntrattamento di dati genetici, dati biometrici o dati relativi alla salute.",
+     "tier": "internal_only",
+     "title": "Trattamento di categorie particolari di dati personali",
+     "tokens": 1590,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 206449,
+       "char_start": 205870,
+       "page": 39,
+       "page_end": 39
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E6",
+     "heading": "Articolo 10",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "10",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "page_end": 39,
+     "page_start": 39,
+     "path": "CAPO II > Articolo 10",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:10",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 10\n\nTrattamento dei dati personali relativi a condanne penali e reati\n\nIl trattamento dei dati personali relativi alle condanne penali e ai reati o a connesse misure di sicurezza sulla base dell'ar­\nticolo 6, paragrafo 1, deve avvenire soltanto sotto il controllo dell'autorità pubblica o se il trattamento è autorizzato dal \ndiritto dell'Unione o degli Stati membri che preveda garanzie appropriate per i diritti e le libertà degli interessati. Un \neventuale registro completo delle condanne penali deve essere tenuto soltanto sotto il controllo dell'autorità pubblica.",
+     "tier": "internal_only",
+     "title": "Trattamento dei dati personali relativi a condanne penali e reati",
+     "tokens": 193,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 350771,
+       "char_start": 349572,
+       "page": 76,
+       "page_end": 76
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E7",
+     "heading": "Articolo 68",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "68",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "page_end": 76,
+     "page_start": 76,
+     "path": "CAPO VII > Sezione 3 > Articolo 68",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:68",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 68\n\nComitato europeo per la protezione dei dati\n\n1.\nIl comitato europeo per la protezione dei dati («comitato») è istituito quale organismo dell'Unione ed è dotato di \npersonalità giuridica.\n\n2.\nIl comitato è rappresentato dal suo presidente.\n\n3.\nIl comitato è composto dalla figura di vertice di un'autorità di controllo per ciascuno Stato membro e dal garante \neuropeo della protezione dei dati, o dai rispettivi rappresentanti.\n\n4.\nQualora, in uno Stato membro, più autorità di controllo siano incaricate di sorvegliare l'applicazione delle \ndisposizioni del presente regolamento, è designato un rappresentante comune conformemente al diritto di tale Stato \nmembro.\n\n5.\nLa Commissione ha il diritto di partecipare alle attività e alle riunioni del comitato senza diritto di voto. La \nCommissione designa un rappresentante. Il presidente del comitato comunica alla Commissione le attività del comitato.\n\n6.\nNei casi di cui all'articolo 65, il garante europeo della protezione dei dati ha diritto di voto solo per decisioni che \nriguardano principi e norme applicabili a istituzioni, organi, uffici e agenzie dell'Unione che corrispondono nella \nsostanza a quelli del presente regolamento.",
+     "tier": "internal_only",
+     "title": "Comitato europeo per la protezione dei dati",
+     "tokens": 400,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 339833,
+       "char_start": 339554,
+       "page": 73,
+       "page_end": 73
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E8",
+     "heading": "Articolo 63",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "63",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "page_end": 73,
+     "page_start": 73,
+     "path": "CAPO VII > Sezione 2 > Articolo 63",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:63",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 63\n\nMeccanismo di coerenza\n\nAl fine di contribuire all'applicazione coerente del presente regolamento in tutta l'Unione, le autorità di controllo \ncooperano tra loro e, se del caso, con la Commissione mediante il meccanismo di coerenza stabilito nella presente \nsezione.",
+     "tier": "internal_only",
+     "title": "Meccanismo di coerenza",
+     "tokens": 93,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 271702,
+       "char_start": 270992,
+       "page": 56,
+       "page_end": 56
+      },
+      {
+       "char_end": 276159,
+       "char_start": 271766,
+       "page": 57,
+       "page_end": 57
+      },
+      {
+       "char_end": 276532,
+       "char_start": 276223,
+       "page": 58,
+       "page_end": 58
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E9",
+     "heading": "Articolo 40",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "40",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35",
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:64"
+     ],
+     "page_end": 58,
+     "page_start": 56,
+     "path": "CAPO IV > Sezione 5 > Articolo 40",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:40",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 40\n\nCodici di condotta\n\n1.\nGli Stati membri, le autorità di controllo, il comitato e la Commissione incoraggiano l'elaborazione di codici di \ncondotta destinati a contribuire alla corretta applicazione del presente regolamento, in funzione delle specificità dei vari \nsettori di trattamento e delle esigenze specifiche delle micro, piccole e medie imprese.\n\n2.\nLe associazioni e gli altri organismi rappresentanti le categorie di titolari del trattamento o responsabili del \ntrattamento possono elaborare i codici di condotta, modificarli o prorogarli, allo scopo di precisare l'applicazione del \npresente regolamento, ad esempio relativamente a:\n\na)  il trattamento corretto e trasparente dei dati;\n\nb)  i legittimi interessi perseguiti dal responsabile del trattamento in contesti specifici;\n\nc)  la raccolta dei dati personali;\n\nd)  la pseudonimizzazione dei dati personali;\n\ne)  l'informazione fornita al pubblico e agli interessati;\n\nf)  l'esercizio dei diritti degli interessati;\n\ng) l'informazione fornita e la protezione del minore e le modalità con cui è ottenuto il consenso dei titolari della respon­\n\nsabilità genitoriale sul minore;\n\nh)  le misure e le procedure di cui agli articoli 24 e 25 e le misure volte a garantire la sicurezza del trattamento di cui\n\nall'articolo 32;\n\ni)  la notifica di una violazione dei dati personali alle autorità di controllo e la comunicazione di tali violazioni dei dati\n\npersonali all'interessato;\n\nj)  il trasferimento di dati personali verso paesi terzi o organizzazioni internazionali; o\n\nk)  le procedure stragiudiziali e di altro tipo per comporre le controversie tra titolari del trattamento e interessati in\n\nmateria di trattamento, fatti salvi i diritti degli interessati ai sensi degli articoli 77 e 79.\n\n3.\nOltre all'adesione ai codici di condotta approvati ai sensi del paragrafo 5 del presente articolo e aventi validità \ngenerale a norma del paragrafo 9 del presente articolo da parte di titolari o responsabili soggetti al presente \nregolamento, possono aderire a tali codici di condotta anche i titolari del trattamento o i responsabili del trattamento \nche non sono soggetti al presente regolamento ai sensi dell'articolo 3, al fine di fornire adeguate garanzie nel quadro dei \ntrasferimenti di dati personali verso paesi terzi o organizzazioni internazionali alle condizioni di cui all'articolo 46, \nparagrafo 2, lettera e). Detti titolari del trattamento o responsabili del trattamento assumono l'impegno vincolante e \nazionabile, mediante strumenti contrattuali o di altro tipo giuridicamente vincolanti, di applicare le stesse adeguate \ngaranzie anche per quanto riguarda i diritti degli interessati.\n\n4.\nIl codice di condotta di cui al paragrafo 2 del presente articolo contiene i meccanismi che consentono all'or­\nganismo di cui all'articolo 41, paragrafo 1, di effettuare il controllo obbligatorio del rispetto delle norme del codice da \nparte dei titolari del trattamento o dei responsabili del trattamento che si impegnano ad applicarlo, fatti salvi i compiti e \ni poteri delle autorità di controllo competenti ai sensi degli articoli 55 o 56.\n\n5.\nLe associazioni e gli altri organismi di cui al paragrafo 2 del presente articolo che intendono elaborare un codice di \ncondotta o modificare o prorogare un codice esistente sottopongono il progetto di codice, la modifica o la proroga \nall'autorità di controllo competente ai sensi dell'articolo 55. L'autorità di controllo esprime un parere sulla conformità al \npresente regolamento del progetto di codice, della modifica o della proroga e approva tale progetto, modifica o proroga, \nse ritiene che offra in misura sufficiente garanzie adeguate.\n\n6.\nQualora il progetto di codice, la modifica o la proroga siano approvati ai sensi dell'articolo 55, e se il codice di \ncondotta in questione non si riferisce alle attività di trattamento in vari Stati membri, l'autorità di controllo registra e \npubblica il codice.\n\n7.\nQualora il progetto di codice di condotta si riferisca alle attività di trattamento in vari Stati membri, prima di \napprovare il progetto, la modifica o la proroga, l'autorità di controllo che è competente ai sensi dell'articolo 55 lo \nsottopone, tramite la procedura di cui all'articolo 63, al comitato, il quale formula un parere sulla conformità al presente \nregolamento del progetto di codice, della modifica o della proroga o, nel caso di cui al paragrafo 3 del presente articolo, \nsulla previsione di adeguate garanzie.\n\n8.\nQualora il parere di cui al paragrafo 7 confermi che il progetto di codice di condotta, la modifica o la proroga è \nconforme al presente regolamento o, nel caso di cui al paragrafo 3, fornisce adeguate garanzie, il comitato trasmette il \nsuo parere alla Commissione.\n\n9.\nLa Commissione può decidere, mediante atti di esecuzione, che il codice di condotta, la modifica o la proroga \napprovati, che le sono stati sottoposti ai sensi del paragrafo 8 del presente articolo, hanno validità generale all'interno \ndell'Unione. Tali atti di esecuzione sono adottati secondo la procedura d'esame di cui all'articolo 93, paragrafo 2.\n\n10.\nLa Commissione provvede a dare un'adeguata pubblicità dei codici approvati per i quali è stata decisa la validità \ngenerale ai sensi del paragrafo 9.\n\n11.\nIl comitato raccoglie in un registro tutti i codici di condotta, le modifiche e le proroghe approvati e li rende \npubblici mediante mezzi appropriati.",
+     "tier": "internal_only",
+     "title": "Codici di condotta",
+     "tokens": 1804,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 196796,
+       "char_start": 194068,
+       "page": 36,
+       "page_end": 36
+      },
+      {
+       "char_end": 198509,
+       "char_start": 196860,
+       "page": 37,
+       "page_end": 37
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E10",
+     "heading": "Articolo 6",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "6",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:35"
+     ],
+     "page_end": 37,
+     "page_start": 36,
+     "path": "CAPO II > Articolo 6",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:6",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 6\n\nLiceità del trattamento\n\n1.\nIl trattamento è lecito solo se e nella misura in cui ricorre almeno una delle seguenti condizioni:\n\na)  l'interessato ha espresso il consenso al trattamento dei propri dati personali per una o più specifiche finalità;\n\nb) il trattamento è necessario all'esecuzione di un contratto di cui l'interessato è parte o all'esecuzione di misure precon­\n\ntrattuali adottate su richiesta dello stesso;\n\nc)  il trattamento è necessario per adempiere un obbligo legale al quale è soggetto il titolare del trattamento;\n\nd)  il trattamento è necessario per la salvaguardia degli interessi vitali dell'interessato o di un'altra persona fisica;\n\ne)  il trattamento è necessario per l'esecuzione di un compito di interesse pubblico o connesso all'esercizio di pubblici\n\npoteri di cui è investito il titolare del trattamento;\n\nf)  il trattamento è necessario per il perseguimento del legittimo interesse del titolare del trattamento o di terzi, a\n\ncondizione che non prevalgano gli interessi o i diritti e le libertà fondamentali dell'interessato che richiedono la \nprotezione dei dati personali, in particolare se l'interessato è un minore.\n\nLa lettera f) del primo comma non si applica al trattamento di dati effettuato dalle autorità pubbliche nell'esecuzione dei \nloro compiti.\n\n2.\nGli Stati membri possono mantenere o introdurre disposizioni più specifiche per adeguare l'applicazione delle \nnorme del presente regolamento con riguardo al trattamento, in conformità del paragrafo 1, lettere c) ed e), \ndeterminando con maggiore precisione requisiti specifici per il trattamento e altre misure atte a garantire un trattamento \nlecito e corretto anche per le altre specifiche situazioni di trattamento di cui al capo IX.\n\n3.\nLa base su cui si fonda il trattamento dei dati di cui al paragrafo 1, lettere c) ed e), deve essere stabilita:\n\na)  dal diritto dell'Unione; o\n\nb)  dal diritto dello Stato membro cui è soggetto il titolare del trattamento.\n\nLa finalità del trattamento è determinata in tale base giuridica o, per quanto riguarda il trattamento di cui al paragrafo 1, \nlettera e), è necessaria per l'esecuzione di un compito svolto nel pubblico interesse o connesso all'esercizio di pubblici \npoteri di cui è investito il titolare del trattamento. Tale base giuridica potrebbe contenere disposizioni specifiche per \nadeguare l'applicazione delle norme del presente regolamento, tra cui: le condizioni generali relative alla liceità del \ntrattamento da parte del titolare del trattamento; le tipologie di dati oggetto del trattamento; gli interessati; i soggetti cui \npossono essere comunicati i dati personali e le finalità per cui sono comunicati; le limitazioni della finalità, i periodi di\n\nconservazione e le operazioni e procedure di trattamento, comprese le misure atte a garantire un trattamento lecito e \ncorretto, quali quelle per altre specifiche situazioni di trattamento di cui al capo IX. Il diritto dell'Unione o degli Stati \nmembri persegue un obiettivo di interesse pubblico ed è proporzionato all'obiettivo legittimo perseguito.\n\n4.\nLaddove il trattamento per una finalità diversa da quella per la quale i dati personali sono stati raccolti non sia \nbasato sul consenso dell'interessato o su un atto legislativo dell'Unione o degli Stati membri che costituisca una misura \nnecessaria e proporzionata in una società democratica per la salvaguardia degli obiettivi di cui all'articolo 23, \nparagrafo 1, al fine di verificare se il trattamento per un'altra finalità sia compatibile con la finalità per la quale i dati \npersonali sono stati inizialmente raccolti, il titolare del trattamento tiene conto, tra l'altro:\n\na)  di ogni nesso tra le finalità per cui i dati personali sono stati raccolti e le finalità dell'ulteriore trattamento previsto;\n\nb)  del contesto in cui i dati personali sono stati raccolti, in particolare relativamente alla relazione tra l'interessato e il\n\ntitolare del trattamento;\n\nc) della natura dei dati personali, specialmente se siano trattate categorie particolari di dati personali ai sensi dell'ar­\n\nticolo 9, oppure se siano trattati dati relativi a condanne penali e a reati ai sensi dell'articolo 10;\n\nd)  delle possibili conseguenze dell'ulteriore trattamento previsto per gli interessati;\n\ne)  dell'esistenza di garanzie adeguate, che possono comprendere la cifratura o la pseudonimizzazione.",
+     "tier": "internal_only",
+     "title": "Liceità del trattamento",
+     "tokens": 1459,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 323657,
+       "char_start": 321911,
+       "page": 69,
+       "page_end": 69
+      },
+      {
+       "char_end": 327230,
+       "char_start": 323721,
+       "page": 70,
+       "page_end": 70
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E11",
+     "heading": "Articolo 58",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "58",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:36"
+     ],
+     "page_end": 70,
+     "page_start": 69,
+     "path": "CAPO VI > Sezione 2 > Articolo 58",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:58",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 58\n\nPoteri\n\n1.\nOgni autorità di controllo ha tutti i poteri di indagine seguenti:\n\na)  ingiungere al titolare del trattamento e al responsabile del trattamento e, ove applicabile, al rappresentante del titolare\n\ndel trattamento o del responsabile del trattamento, di fornirle ogni informazione di cui necessiti per l'esecuzione dei \nsuoi compiti;\n\nb)  condurre indagini sotto forma di attività di revisione sulla protezione dei dati;\n\nc)  effettuare un riesame delle certificazioni rilasciate in conformità dell'articolo 42, paragrafo 7;\n\nd)  notificare al titolare del trattamento o al responsabile del trattamento le presunte violazioni del presente regolamento;\n\ne)  ottenere, dal titolare del trattamento o dal responsabile del trattamento, l'accesso a tutti i dati personali e a tutte le\n\ninformazioni necessarie per l'esecuzione dei suoi compiti; e\n\nf)  ottenere accesso a tutti i locali del titolare del trattamento e del responsabile del trattamento, compresi tutti gli\n\nstrumenti e mezzi di trattamento dei dati, in conformità con il diritto dell'Unione o il diritto processuale degli Stati \nmembri.\n\n2.\nOgni autorità di controllo ha tutti i poteri correttivi seguenti:\n\na)  rivolgere avvertimenti al titolare del trattamento o al responsabile del trattamento sul fatto che i trattamenti previsti\n\npossono verosimilmente violare le disposizioni del presente regolamento;\n\nb)  rivolgere ammonimenti al titolare e del trattamento o al responsabile del trattamento ove i trattamenti abbiano\n\nviolato le disposizioni del presente regolamento;\n\nc)  ingiungere al titolare del trattamento o al responsabile del trattamento di soddisfare le richieste dell'interessato di\n\nesercitare i diritti loro derivanti dal presente regolamento;\n\nd)  ingiungere al titolare del trattamento o al responsabile del trattamento di conformare i trattamenti alle disposizioni\n\ndel presente regolamento, se del caso, in una determinata maniera ed entro un determinato termine;\n\ne)  ingiungere al titolare del trattamento di comunicare all'interessato una violazione dei dati personali;\n\nf)  imporre una limitazione provvisoria o definitiva al trattamento, incluso il divieto di trattamento;\n\ng)  ordinare la rettifica, la cancellazione di dati personali o la limitazione del trattamento a norma degli articoli 16, 17\n\ne 18 e la notificazione di tali misure ai destinatari cui sono stati comunicati i dati personali ai sensi dell'articolo 17, \nparagrafo 2, e dell'articolo 19;\n\nh)  revocare la certificazione o ingiungere all'organismo di certificazione di ritirare la certificazione rilasciata a norma\n\ndegli articoli 42 e 43, oppure ingiungere all'organismo di certificazione di non rilasciare la certificazione se i requisiti \nper la certificazione non sono o non sono più soddisfatti;\n\ni)  infliggere una sanzione amministrativa pecuniaria ai sensi dell'articolo 83, in aggiunta alle misure di cui al presente\n\nparagrafo, o in luogo di tali misure, in funzione delle circostanze di ogni singolo caso; e\n\nj)  ordinare la sospensione dei flussi di dati verso un destinatario in un paese terzo o un'organizzazione internazionale.\n\n3.\nOgni autorità di controllo ha tutti i poteri autorizzativi e consultivi seguenti:\n\na)  fornire consulenza al titolare del trattamento, secondo la procedura di consultazione preventiva di cui all'articolo 36;\n\nb)  rilasciare, di propria iniziativa o su richiesta, pareri destinati al parlamento nazionale, al governo dello Stato membro,\n\noppure, conformemente al diritto degli Stati membri, ad altri organismi e istituzioni e al pubblico su questioni \nriguardanti la protezione dei dati personali;\n\nc)  autorizzare il trattamento di cui all'articolo 36, paragrafo 5, se il diritto dello Stato membro richiede una siffatta\n\nautorizzazione preliminare;\n\nd)  rilasciare un parere sui progetti di codici di condotta e approvarli, ai sensi dell'articolo 40, paragrafo 5;\n\ne)  accreditare gli organismi di certificazione a norma dell'articolo 43;\n\nf)  rilasciare certificazioni e approvare i criteri di certificazione conformemente all'articolo 42, paragrafo 5;\n\ng)  adottare le clausole tipo di protezione dei dati di cui all'articolo 28, paragrafo 8, e all'articolo 46, paragrafo 2,\n\nlettera d);\n\nh)  autorizzare le clausole contrattuali di cui all'articolo 46, paragrafo 3, lettera a);\n\ni)  autorizzare gli accordi amministrativi di cui all'articolo 46, paragrafo 3, lettera b);\n\nj)  approvare le norme vincolanti d'impresa ai sensi dell'articolo 47.\n\n4.\nL'esercizio da parte di un'autorità di controllo dei poteri attribuitile dal presente articolo è soggetto a garanzie \nadeguate, inclusi il ricorso giurisdizionale effettivo e il giusto processo, previste dal diritto dell'Unione e degli Stati \nmembri conformemente alla Carta.\n\n5.\nOgni Stato membro dispone per legge che la sua autorità di controllo abbia il potere di intentare un'azione o di \nagire in sede giudiziale o, ove del caso, stragiudiziale in caso di violazione del presente regolamento per far rispettare le \ndisposizioni dello stesso.\n\n6.\nOgni Stato membro può prevedere per legge che la sua autorità di controllo abbia ulteriori poteri rispetto a quelli \ndi cui ai paragrafi 1, 2 e 3. L'esercizio di tali poteri non pregiudica l'operatività effettiva del capo VII.",
+     "tier": "internal_only",
+     "title": "Poteri",
+     "tokens": 1752,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    },
+    {
+     "anchors": [
+      {
+       "char_end": 279143,
+       "char_start": 276534,
+       "page": 58,
+       "page_end": 58
+      }
+     ],
+     "best_rank": null,
+     "chunk_ids": [],
+     "citable": false,
+     "evidence_id": "E12",
+     "heading": "Articolo 41",
+     "instrument_id": "eu-reg-2016-679",
+     "label": "41",
+     "legal_validity": "not_established",
+     "origins": [
+      "reference:eu-reg-2016-679@oj-l119-2016-it/body/article:64"
+     ],
+     "page_end": 58,
+     "page_start": 58,
+     "path": "CAPO IV > Sezione 5 > Articolo 41",
+     "point": null,
+     "provision_id": "eu-reg-2016-679@oj-l119-2016-it/body/article:41",
+     "qualifications": [
+      "original_publication_not_consolidated",
+      "authenticity_not_established",
+      "legal_validity_not_established"
+     ],
+     "reasons": [
+      "structure_not_reviewed"
+     ],
+     "text": "Articolo 41\n\nMonitoraggio dei codici di condotta approvati\n\n1.\nFatti salvi i compiti e i poteri dell'autorità di controllo competente di cui agli articoli 57 e 58, il controllo della \nconformità con un codice di condotta ai sensi dell'articolo 40 può essere effettuato da un organismo in possesso del \nlivello adeguato di competenze riguardo al contenuto del codice e del necessario accreditamento a tal fine dell'autorità di \ncontrollo competente.\n\n2.\nL'organismo di cui al paragrafo 1 può essere accreditato a monitorare l'osservanza di un codice di condotta se esso \nha:\n\na)  dimostrato in modo convincente all'autorità di controllo competente di essere indipendente e competente riguardo al\n\ncontenuto del codice;\n\nb)  istituito procedure che gli consentono di valutare l'ammissibilità dei titolari del trattamento e dei responsabili del\n\ntrattamento in questione ad applicare il codice, di controllare che detti titolari e responsabili ne rispettino le \ndisposizioni e di riesaminarne periodicamente il funzionamento;\n\nc)  istituito procedure e strutture atte a gestire i reclami relativi a violazioni del codice o il modo in cui il codice è stato\n\no è attuato da un titolare del trattamento o un responsabile del trattamento e a rendere dette procedure e strutture \ntrasparenti per gli interessati e il pubblico; e\n\nd)  dimostrato in modo convincente all'autorità di controllo competente che i compiti e le funzioni da esso svolti non\n\ndanno adito a conflitto di interessi.\n\n3.\nL'autorità di controllo competente presenta al comitato il progetto di criteri per l'accreditamento dell'organismo di \ncui al paragrafo 1 del presente articolo, ai sensi del meccanismo di coerenza di cui all'articolo 63.\n\n4.\nFatti salvi i compiti e i poteri dell'autorità di controllo competente e le disposizioni del capo VIII, un organismo di \ncui al paragrafo 1 del presente articolo adotta, stanti garanzie appropriate, le opportune misure in caso di violazione del \ncodice da parte di un titolare del trattamento o responsabile del trattamento, tra cui la sospensione o l'esclusione dal \ncodice del titolare del trattamento o del responsabile del trattamento. Esso informa l'autorità di controllo competente di \ntali misure e dei motivi della loro adozione.\n\n5.\nL'autorità di controllo competente revoca l'accreditamento dell'organismo di cui al paragrafo 1, se le condizioni per \nl'accreditamento non sono, o non sono più, rispettate o se le misure adottate dall'organismo violano il presente \nregolamento.\n\n6.\nIl presente articolo non si applica al trattamento effettuato da autorità pubbliche e da organismi pubblici.",
+     "tier": "internal_only",
+     "title": "Monitoraggio dei codici di condotta approvati",
+     "tokens": 870,
+     "version_id": "eu-reg-2016-679@oj-l119-2016-it",
+     "whole_provision": true
+    }
+   ],
+   "max_items": 12,
+   "request": {
+    "cross_instrument": true,
+    "expand_references": true,
+    "provisions": [
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "35",
+      "point": null
+     },
+     {
+      "instrument": "eu-reg-2016-679",
+      "label": "36",
+      "point": null
+     }
+    ],
+    "queries": [
+     "valutazione d'impatto sulla protezione dei dati",
+     "trattamento che può presentare un rischio elevato per i diritti e le libertà delle persone fisiche",
+     "valutazione d'impatto obbligatoria casi",
+     "elenco delle tipologie di trattamenti soggetti a valutazione d'impatto",
+     "consultazione preventiva autorità di controllo rischio elevato"
+    ],
+    "top_k": 5
+   },
+   "token_budget": 12000,
+   "total_tokens": 11541,
+   "warnings": [
+    "no_citable_evidence"
+   ]
+  },
+  "generation": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "answer-generation-v5",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8mFziGQBEfo7Jy9ms2s"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5",
+    "E6",
+    "E7",
+    "E8",
+    "E9",
+    "E10",
+    "E11",
+    "E12"
+   ],
+   "task": "answer_generation"
+  },
+  "mode": "research",
+  "model_notes": [
+   "Il contenuto degli elenchi redatti dalle autorità di controllo (art. 35, parr. 4 e 5) non è nelle evidenze; non è quindi possibile dire quali ulteriori trattamenti vi rientrino, né se esistano elenchi nazionali italiani.",
+   "Non sono presenti atti italiani (Codice Privacy) né altre fonti sulla applicazione concreta delle nozioni di «rischio elevato» e «larga scala».",
+   "L'art. 35, par. 3 usa «in particolare»: l'elenco dei casi non è quindi esaustivo."
+  ],
+  "non_authoritative": [],
+  "outcome": "answer",
+  "preflight": {
+   "article_tiers": {
+    "blocked": 2,
+    "internal_only": 319
+   },
+   "build_id": "build-f76ff6031f2fc82c4852f0a2bde27807",
+   "citable_articles": 0
+  },
+  "qualifications": [
+   "RESEARCH DEMO MODE: this result may rest on provisions whose text has not passed human review. Each source below states its review status; a source pending review is not citable in verified mode and must not be relied on as verified.",
+   "This system does not establish whether any provision is legally valid, in force or applicable at any date.",
+   "Quotations were checked against the evidence text, and a model assessed whether each claim's cited evidence states it (claim-verification-v3). That assessment is not legal validation; a claim marked partially supported or uncertain is not verified.",
+   "3 further candidate provisions were left out by the evidence limits (max_items).",
+   "As-of date 2026-11-26: this answer reflects the texts in the corpus on that date. It does not establish the law in force then or later."
+  ],
+  "question": "Quando è obbligatoria una valutazione d'impatto sulla protezione dei dati?",
+  "question_references": [],
+  "rejected_claims": [],
+  "repair": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-repair-v2",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRNwn7yeMmkAYGjMUASd"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1"
+   ],
+   "task": "claim_repair"
+  },
+  "repair_verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011ChRNxst3LhhrGzYwHCavm"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1"
+   ],
+   "task": "claim_verification"
+  },
+  "summary": null,
+  "summary_claim_ids": [],
+  "unanswered_issues": [],
+  "verification": {
+   "attempts": 1,
+   "fallback_used": false,
+   "model": "claude-sonnet-5-5",
+   "prompt_version": "claim-verification-v3",
+   "provider": "anthropic",
+   "quote_normalisation": "ws-markers-softhyphen-v1",
+   "request_ids": [
+    "req_011Ch8mGtpqijYrtbFW51Jbx"
+   ],
+   "served_by": "claude-sonnet-5-5",
+   "supplied_evidence_ids": [
+    "E1"
+   ],
+   "task": "claim_verification"
+  },
+  "warnings": [
+   "no_item_citable_in_verified_mode",
+   "repair_not_confirmed: C7 (partially_supported)"
+  ]
+ },
+ "split": "test",
+ "usage": {
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": 0.03861,
+  "input_tokens": 6860,
+  "output_tokens": 2489
+ }
+}

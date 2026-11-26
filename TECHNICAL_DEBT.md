@@ -583,7 +583,15 @@ the phase reports and are not asserted by the test suite.
   - GDPR Art. 33(4): a claim about giving information "in fasi successive" (in phases). Its quotation leaves out "Qualora e nella misura in cui non sia possibile fornire le informazioni contestualmente".
   - GDPR Art. 37(4): a claim about designating a DPO voluntarily. Its quotation leaves out "nei casi diversi da quelli di cui al paragrafo 1".
 - **Impact:** correct statements leave the answer, and the answer looks less complete than the evidence allows.
-- **Follow-up:** let the repair pass widen a quotation to the surrounding text of the same provision, so that it includes the condition, instead of only rewriting the claim. The usual deterministic check (an exact quotation from the cited item) and a second support check would still apply. Today the repair pass keeps the original quotations unchanged (`src/claim_repair.py`).
+- **Change (2026-11-26):** `claim-repair-v2` lets the repair pass widen a quotation within the same provision, for a claim rated partially supported (`src/claim_repair.py`, `widening_problem` in `src/answer_generation.py`). The widened passage must contain the original, add at most 300 characters (600 in all), and be an exact passage of the same item. The usual deterministic checks and a second support check still apply.
+- **Measured** in `2026-11-26-repair-v2`, a single run on 25 questions (`docs/evaluation/answers-v0-results.md`):
+  - held-apart claims fell from 26 to 15, and outcomes were unchanged (21/25);
+  - 34 widenings were proposed: 22 confirmed, 7 not confirmed, 5 refused by the cap;
+  - Art. 37(4) «Nei casi diversi da quelli di cui al paragrafo 1» was confirmed in a24 and not confirmed in a15. The Art. 33(4) case from the live demo is not in the benchmark.
+- **Still open:**
+  - the 300-character cap refused the Art. 30(5) exception (+329) twice, in a07 and a24;
+  - 9 of the 22 confirmed widenings add text other than a condition, which the prompt forbids and nothing checks mechanically;
+  - variance is not measured.
 
 ## Risks and questions for later phases
 
