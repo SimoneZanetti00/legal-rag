@@ -315,8 +315,10 @@ def _claim_lines(claim) -> list[str]:
     repaired = "; repaired" if claim.repaired_from else ""
     lines = [f"  {claim.claim_id} [{', '.join(claim.issue_ids)}] ({kind}{support}{repaired}) "
              f"{claim.text}",
-             *(f"      {quote.evidence_id}: «{' '.join(quote.text.split())}»"
-               for quote in claim.quotes)]
+             *(line for quote in claim.quotes for line in (
+                 f"      {quote.evidence_id}: «{' '.join(quote.text.split())}»",
+                 *([f"        widened by the repair pass from: "
+                    f"«{' '.join(quote.widened_from.split())}»"] if quote.widened_from else [])))]
     if claim.repaired_from:
         lines.append(f"      rewritten from: {claim.repaired_from}")
     return lines

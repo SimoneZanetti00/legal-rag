@@ -100,7 +100,14 @@ from src.query_analysis import (
     store_checker,
 )
 from src.claim_repair import PROMPT_VERSION as REPAIR_PROMPT_VERSION
-from src.claim_repair import ClaimToRepair, repair_claims
+from src.claim_repair import (
+    WIDEN_MAX_ADDED,
+    WIDEN_MAX_CHARS,
+    WIDENABLE,
+    ClaimToRepair,
+    Rewrite,
+    repair_claims,
+)
 from src.support_verification import PROMPT_VERSION as SUPPORT_PROMPT_VERSION
 from src.support_verification import ClaimToVerify, verify_support
 from src.text_normalization import PROFILE as QUOTE_PROFILE
@@ -252,6 +259,9 @@ _ID = {"evidence": re.compile(r"E[1-9][0-9]{0,3}"), "issue": re.compile(r"I[1-9]
 class Quote:
     evidence_id: str
     text: str  # as the model wrote it; it occurs in the item's text (normalised comparison)
+    # Set when the repair pass widened the quotation within the same item (claim-repair-v2,
+    # _repair()): the original quotation, which `text` contains.
+    widened_from: str | None = None
 
 
 @dataclass(frozen=True)
@@ -263,7 +273,8 @@ class AnswerClaim:
     quotes: tuple[Quote, ...]
     verification: VerificationStatus = VerificationStatus.NOT_VERIFIED
     # Set on a claim the repair pass rewrote (_repair()): the wording the support check did not
-    # confirm. The rewrite keeps quotations of that claim and was itself rated SUPPORTED.
+    # confirm. The rewrite keeps quotations of that claim (possibly widened within the same item,
+    # Quote.widened_from) and was itself rated SUPPORTED.
     repaired_from: str | None = None
 
     @property
@@ -960,12 +971,15 @@ def _repair(claims: list[AnswerClaim], evidence: EvidenceSet, llm: LLMClient,
     supported or uncertain.
 
     The model rewrites each so that it states only what its own quotations state (it may
-    shorten or split it, keeping some of its quotations). Each rewrite then goes through the
-    usual deterministic checks (validate_claims) and the support check, once. A rewrite rated
-    SUPPORTED enters the answer in place of the claim, with the claim's wording kept in
-    repaired_from; when not every rewrite of a claim is SUPPORTED, the original claim also stays,
-    held apart, with its rating. Rewrites that fail are reported in the warnings and dropped.
-    The outcome rule is then applied, unchanged, to the claims as they stand.
+    shorten or split it, keeping some of its quotations). For a partially supported claim it may
+    instead widen a quotation within the same item, to include a condition the claim needs; a
+    widening must pass widening_problem, or the rewrite is rejected. Each rewrite then goes
+    through the usual deterministic checks (validate_claims) and the support check, once. A
+    rewrite rated SUPPORTED enters the answer in place of the claim, with the claim's wording
+    kept in repaired_from and each widened quotation's original in Quote.widened_from; when not
+    every rewrite of a claim is SUPPORTED, the original claim also stays, held apart, with its
+    rating. Rewrites that fail are reported in the warnings and dropped. The outcome rule is
+    then applied, unchanged, to the claims as they stand.
     """
     held = [claim for claim in claims if claim.verification in REPAIRABLE]
     if not held:
@@ -973,25 +987,31 @@ def _repair(claims: list[AnswerClaim], evidence: EvidenceSet, llm: LLMClient,
     try:
         out = repair_claims([ClaimToRepair(c.claim_id, c.text, c.verification.value.lower(),
                                            tuple((q.evidence_id, q.text) for q in c.quotes))
-                             for c in held], llm, language=language)
+                             for c in held], llm, language=language, items=evidence.items)
     except (LLMRefusalError, LLMOutputError) as exc:
         warnings.append(f"claim_repair_unavailable: {type(exc).__name__}")
         return claims, None, None
     repair = _provenance(out.result, REPAIR_PROMPT_VERSION,
                          tuple(dict.fromkeys(e for c in held for e in c.evidence_ids)))
+    items = {item.evidence_id: item for item in evidence.items}
     candidates: dict[str, list[AnswerClaim]] = {}
     for claim in held:
         rewrites = out.rewrites.get(claim.claim_id, ())
         for k, rewrite in enumerate(rewrites, 1):
             claim_id = claim.claim_id if len(rewrites) == 1 else f"{claim.claim_id}.{k}"
+            support, originals, problem = _widened_support(claim, rewrite, items)
+            if problem:
+                warnings.append(f"repair_rejected: {claim_id} ({problem})")
+                continue
             raw = {"issue_ids": list(claim.issue_ids), "kind": claim.kind, "text": rewrite.text,
-                   "support": [{"evidence_id": claim.quotes[n - 1].evidence_id,
-                                "quote": claim.quotes[n - 1].text} for n in rewrite.quotes]}
+                   "support": support}
             kept, failed = validate_claims([raw], issue_ids=issue_ids, evidence=evidence,
                                            mode=mode)
             if kept:
+                quotes = tuple(dataclasses.replace(quote, widened_from=original)
+                               for quote, original in zip(kept[0].quotes, originals))
                 candidates.setdefault(claim.claim_id, []).append(dataclasses.replace(
-                    kept[0], claim_id=claim_id, repaired_from=claim.text))
+                    kept[0], claim_id=claim_id, quotes=quotes, repaired_from=claim.text))
             else:
                 warnings.append(f"repair_rejected: {claim_id} ({', '.join(failed[0].reasons)})")
     rewritten = [r for parts in candidates.values() for r in parts]
@@ -1018,6 +1038,33 @@ def _repair(claims: list[AnswerClaim], evidence: EvidenceSet, llm: LLMClient,
         if not confirmed or len(confirmed) < len(out.rewrites.get(claim.claim_id, ())):
             result.append(claim)  # not every part of it confirmed: it stays, held apart
     return result, repair, repair_verification
+
+
+def _widened_support(claim: AnswerClaim, rewrite: Rewrite, items: Mapping[str, EvidenceItem],
+                     ) -> tuple[list[dict[str, str]], list[str | None], str | None]:
+    """The support of a rewrite: for each quotation it names, the original or, if widened, the
+    widened passage. Returns (support, the original of each widened quotation or None, a problem
+    "reason:evidence ID" if a widening is refused). A widening equal to its original (normalised)
+    counts as none; only a claim rated partially supported may widen (WIDENABLE)."""
+    widened = dict(rewrite.widened)
+    support: list[dict[str, str]] = []
+    originals: list[str | None] = []
+    for n in rewrite.quotes:
+        original = claim.quotes[n - 1]
+        text = widened.get(n)
+        if text is not None and normalise(text) == normalise(original.text):
+            text = None
+        if text is not None:
+            problem = ("widening_not_allowed"
+                       if claim.verification.value.lower() != WIDENABLE
+                       else widening_problem(original.text, text,
+                                             items[original.evidence_id].text))
+            if problem:
+                return [], [], f"{problem}:{original.evidence_id}"
+        support.append({"evidence_id": original.evidence_id,
+                        "quote": original.text if text is None else text})
+        originals.append(None if text is None else original.text)
+    return support, originals, None
 
 
 def _provenance(result: JSONResult, prompt_version: str,
@@ -1243,6 +1290,24 @@ def quote_problem(quote: str, text: str) -> str | None:
             return None
         start = t.find(q, start + 1)
     return "quote_not_found"
+
+
+def widening_problem(original: str, widened: str, text: str) -> str | None:
+    """None if `widened` may replace the quotation `original` from an item whose text is `text`
+    (claim-repair-v2), else a reason. All comparisons in the normalised form:
+    - "widened_without_original": it does not contain the whole original quotation;
+    - "widened_too_long": it adds more than WIDEN_MAX_ADDED characters, or has more than
+      WIDEN_MAX_CHARS in all;
+    - "widened_not_in_provision": it is not an exact passage of the same item (quote_problem).
+    """
+    o, w = normalise(original), normalise(widened)
+    if o not in w:
+        return "widened_without_original"
+    if len(w) - len(o) > WIDEN_MAX_ADDED or len(w) > WIDEN_MAX_CHARS:
+        return "widened_too_long"
+    if quote_problem(widened, text) is not None:
+        return "widened_not_in_provision"
+    return None
 
 
 # --- Source references (parsed and attributed by src/citations.py) ----------------------------

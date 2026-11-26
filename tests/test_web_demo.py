@@ -544,6 +544,8 @@ def test_the_simple_view():
     assert 'el("details", {}, el("summary", {}, title)' in APP_JS  # never open by default
     # Repaired statements are marked in the detailed view.
     assert 'claim.repaired_from ? badge("ok", "Repaired") : null' in APP_JS
+    # Quotations the repair pass widened are marked, in both views.
+    assert APP_JS.count('quote.widened_from ? el("span", { class: "widened-note" }') == 2
     # The reading guide, three lines, on both pages.
     guide = page[page.index('<aside class="howto"'):page.index("</aside>", page.index('<aside class="howto"'))]
     assert "How to read an answer" in guide and guide.count("<li>") == 3

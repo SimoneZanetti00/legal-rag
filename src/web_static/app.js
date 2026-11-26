@@ -369,7 +369,8 @@ function renderStatement(claim, refById, statusById) {
     const status = statusById[evidenceId];
     const panelId = `quote-${claim.claim_id}-${evidenceId}`;
     const panel = el("div", { class: "quote-panel", id: panelId, hidden: true },
-      claim.quotes.filter((quote) => quote.evidence_id === evidenceId).map((quote) => el("blockquote", {}, `«${quote.text}»`)),
+      claim.quotes.filter((quote) => quote.evidence_id === evidenceId).map((quote) => el("blockquote", {}, `«${quote.text}»`,
+        quote.widened_from ? el("span", { class: "widened-note" }, `Widened by the repair pass, within the same provision, from «${quote.widened_from}».`) : null)),
       ref ? el("p", { class: "muted" }, `${provisionName(ref)} — ${ref.heading}${ref.title ? ` (${displayTitle(ref.title)})` : ""}, ` +
         `${pages(ref.page_start, ref.page_end)} of the source PDF` + (pending(status) ? ". Human review pending: not verified." : ".")) : null);
     panels.push(panel);
@@ -405,13 +406,16 @@ function renderClaim(claim, statusById, itemById) {
       badge(tone, label), claim.repaired_from ? badge("ok", "Repaired") : null,
       claim.issue_ids.length ? badge("", `Issue ${claim.issue_ids.join(", ")}`) : null),
     claim.repaired_from ? el("p", { class: "muted" }, "Rewritten by the repair pass from a wording the support check did not confirm: ",
-      `«${claim.repaired_from}». The rewrite keeps quotations of that statement and was confirmed by the support check.`) : null,
+      `«${claim.repaired_from}». The rewrite keeps quotations of that statement` +
+      (claim.quotes.some((quote) => quote.widened_from) ? ", widened within the same provision where marked," : "") +
+      " and was confirmed by the support check.") : null,
     claim.quotes.map((quote) => {
       const status = statusById[quote.evidence_id];
       const item = itemById[quote.evidence_id];
       return el("blockquote", { class: pending(status) ? "unreviewed" : "" },
         `«${quote.text}» `, el("span", { class: "muted" }, quote.evidence_id),
-        item ? el("span", { class: "muted" }, ` ${item.heading}`) : null);
+        item ? el("span", { class: "muted" }, ` ${item.heading}`) : null,
+        quote.widened_from ? el("span", { class: "widened-note" }, `Widened by the repair pass, within the same provision, from «${quote.widened_from}».`) : null);
     }));
 }
 

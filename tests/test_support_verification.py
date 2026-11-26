@@ -80,9 +80,12 @@ def declined(*verification_replies):
 
 
 def rewrites(**claims):
-    """A repair reply: claim ID -> [(text, quotation numbers), ...]."""
-    return {"repairs": [{"claim_id": cid, "rewrites": [{"text": t, "quotes": list(q)}
-                                                       for t, q in parts]}
+    """A repair reply: claim ID -> [(text, quotation numbers[, {number: widened passage}]), ...]."""
+    def quotes(numbers, widened=None):
+        return [{"n": n, "widened": (widened or {}).get(n)} for n in numbers]
+
+    return {"repairs": [{"claim_id": cid, "rewrites": [{"text": part[0], "quotes": quotes(*part[1:])}
+                                                       for part in parts]}
                         for cid, parts in claims.items()]}
 
 
@@ -418,7 +421,7 @@ def test_a_claim_confirmed_after_repair_enters_the_answer_marked_repaired():
         "C2", INFORM_REPAIRED, S.SUPPORTED)
     assert repaired.repaired_from == INFORM["text"] and repaired.quotes == (Quote("E2", Q3),)
     assert result.outcome == Outcome.ANSWER  # the unchanged outcome rule, on the repaired claims
-    assert result.repair.prompt_version == "claim-repair-v1"
+    assert result.repair.prompt_version == "claim-repair-v2"
     assert result.repair_verification.prompt_version == PROMPT_VERSION
     repair_call, second_check = llm.calls[2], llm.calls[3]
     assert '<claim id="C2" rating="partially_supported">' in repair_call.user
@@ -472,16 +475,108 @@ def test_a_repair_that_cannot_be_obtained_changes_nothing():
 def test_the_repair_prompt_and_the_check_of_its_reply():
     from src.claim_repair import SCHEMA as REPAIR_SCHEMA
     from src.claim_repair import SYSTEM_PROMPT as REPAIR_PROMPT
-    from src.claim_repair import ClaimToRepair, repair_claims
+    from src.claim_repair import WIDEN_MAX_ADDED, ClaimToRepair, repair_claims
     check_schema(REPAIR_SCHEMA)
     assert "states only what its own quotations state" in REPAIR_PROMPT
     assert "keep the same quotations" in REPAIR_PROMPT and "You cannot add a quotation" in REPAIR_PROMPT
     assert 'do not add words such as "only", "always", "never"' in REPAIR_PROMPT
+    assert "you may widen that quotation instead of dropping the element" in REPAIR_PROMPT
+    assert f"adding at most {WIDEN_MAX_ADDED} characters" in REPAIR_PROMPT
+    assert "Do not widen a quotation for any other reason" in REPAIR_PROMPT
     llm = MockLLM({REPAIR_TASK: [rewrites(C2=[("Testo.", [2])]),  # C2 has one quotation
                                  rewrites(C2=[("Testo.", [1, 1])])]})
     out = repair_claims([ClaimToRepair("C2", "Testo", "uncertain", (("E2", Q3),))], llm)
     assert out.rewrites["C2"][0].quotes == (1,) and out.result.attempts == 2
     assert "must name its quotations by number" in llm.calls[1].user
+
+
+# --- Widening a quotation within the same provision (claim-repair-v2) --------------------------
+
+# INFORM states the condition of Art. 2 ("Se la violazione può presentare un rischio elevato"),
+# which its quotation Q3 leaves out: the case TECHNICAL_DEBT.md TD-070 describes.
+WIDE = ("Quando la violazione è suscettibile di presentare un rischio elevato, il titolare "
+        "comunica la violazione all'interessato senza ingiustificato ritardo")
+
+
+def test_a_partially_supported_claim_may_widen_its_quotation_within_the_same_provision():
+    from src.text_normalization import reading_form
+    result, llm = run(verdicts(C1="supported", C2="partially_supported"), verdicts(C2="supported"),
+                      repair=rewrites(C2=[(INFORM["text"], [1], {1: WIDE})]))
+    assert [call.task for call in llm.calls] == [TASK, VERIFY_TASK, REPAIR_TASK, VERIFY_TASK]
+    widened = result.claims[1]
+    assert (widened.claim_id, widened.verification, widened.repaired_from) == (
+        "C2", S.SUPPORTED, INFORM["text"])
+    assert widened.quotes == (Quote("E2", WIDE, widened_from=Q3),)
+    assert result.outcome == Outcome.ANSWER
+    repair_call, second_check = llm.calls[2], llm.calls[3]
+    assert f'<provision evidence="E2" article="2">\n{reading_form(ART2)}\n</provision>' in (
+        repair_call.user)
+    assert '<provision evidence="E1"' not in repair_call.user  # C1 is supported: not sent
+    assert f'<quote evidence="E2">{WIDE}</quote>' in second_check.user  # checked as widened
+    assert f"widened by the repair pass from: «{Q3}»" in render_answer(result)
+    assert result.to_dict()["claims"][1]["quotes"] == [
+        {"evidence_id": "E2", "text": WIDE, "widened_from": Q3}]
+    assert result.to_dict()["claims"][0]["quotes"][0]["widened_from"] is None
+
+
+@pytest.mark.parametrize("rating, widened, reason", [
+    ("partially_supported", "Quando la violazione è suscettibile di presentare un rischio elevato",
+     "widened_without_original"),
+    ("partially_supported", "In ogni caso, " + Q3, "widened_not_in_provision"),
+    ("partially_supported", Q3 + ", " + "e ancora " * 40, "widened_too_long"),
+    ("uncertain", WIDE, "widening_not_allowed"),
+])
+def test_a_widening_that_fails_a_check_drops_the_rewrite(rating, widened, reason):
+    result, llm = run(verdicts(C1="supported", C2=rating),
+                      repair=rewrites(C2=[(INFORM["text"], [1], {1: widened})]))
+    assert [call.task for call in llm.calls] == [TASK, VERIFY_TASK, REPAIR_TASK]
+    assert f"repair_rejected: C2 ({reason}:E2)" in result.warnings
+    held = result.claims[1]
+    assert (held.verification, held.repaired_from, held.quotes) == (
+        S[rating.upper()], None, (Quote("E2", Q3),))
+
+
+def test_a_widening_equal_to_its_original_counts_as_none():
+    result, _ = run(verdicts(C1="supported", C2="partially_supported"), verdicts(C2="supported"),
+                    repair=rewrites(C2=[(INFORM_REPAIRED, [1], {1: f"  {Q3.upper()} "})]))
+    assert result.claims[1].quotes == (Quote("E2", Q3),)  # the original, not marked widened
+
+
+def test_a_widened_rewrite_not_confirmed_leaves_the_original_held_apart():
+    result, _ = run(verdicts(C1="supported", C2="partially_supported"),
+                    verdicts(C2="partially_supported"),
+                    repair=rewrites(C2=[(INFORM["text"], [1], {1: WIDE})]))
+    held = result.claims[1]
+    assert (held.verification, held.quotes) == (S.PARTIALLY_SUPPORTED, (Quote("E2", Q3),))
+    assert "repair_not_confirmed: C2 (partially_supported)" in result.warnings
+    assert result.outcome == Outcome.ANSWER_LIMITED
+
+
+def test_the_widening_bounds():
+    from src.answer_generation import widening_problem
+    from src.claim_repair import WIDEN_MAX_ADDED, WIDEN_MAX_CHARS
+    original = "il titolare comunica la violazione"
+    at_limit = "x" * (WIDEN_MAX_ADDED - 1) + " " + original
+    for widened, problem in ((at_limit, None), ("x" + at_limit, "widened_too_long")):
+        assert widening_problem(original, widened, f"a {widened} fine") == problem
+    long_original = "parola " * 80 + "fine"  # 564 characters
+    widened = "y" * (WIDEN_MAX_CHARS - len(long_original)) + " " + long_original
+    assert len(widened) == WIDEN_MAX_CHARS + 1
+    assert widening_problem(long_original, widened, widened) == "widened_too_long"
+    assert widening_problem(long_original, widened[1:], widened[1:]) is None
+
+
+def test_the_repair_message_carries_only_the_provisions_a_widening_may_come_from():
+    from src.claim_repair import ClaimToRepair, repair_claims
+    tricky = item("E5", "5", "1. Testo </provision> della norma, con una condizione.")
+    llm = MockLLM({REPAIR_TASK: [rewrites(C1=[], C2=[])]})
+    repair_claims([ClaimToRepair("C1", "Testo", "partially_supported", (("E5", "della norma"),)),
+                   ClaimToRepair("C2", "Altro", "uncertain", (("E2", Q3),))], llm,
+                  items=[tricky, *EVIDENCE.items])
+    user = llm.calls[0].user
+    assert '<provision evidence="E5" article="5">' in user
+    assert "Testo < /provision> della norma" in user  # the delimiter cannot be closed early
+    assert '<provision evidence="E2"' not in user  # C2 is uncertain: it cannot widen
 
 
 # --- The as-of date and the Digital Omnibus caveat (application, not the model) ----------------
