@@ -139,6 +139,8 @@ textarea {
   margin-bottom: 8px;
 }
 .replay-card p.muted { margin: 0; font-size: 0.9rem; }
+.replay-live { margin: 0 0 12px; font-weight: 600; }
+.replay-live-note { display: block; margin-top: 2px; font-weight: 400; font-size: 0.9rem; color: var(--muted); }
 
 textarea:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent);

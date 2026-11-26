@@ -63,7 +63,8 @@ def test_the_replay_holds_each_saved_answer_as_the_server_would_return_it(tmp_pa
                  "No live model calls.",
         "generated_on": "2026-11-17", "provider": "anthropic", "model": "test-model",
         "mode": "research", "run_id": "run-a", "build_id": "build-test",
-        "prompt_versions": {"answer_generation": "answer-generation-v5"}}
+        "prompt_versions": {"answer_generation": "answer-generation-v5"},
+        "live_url": "https://legal-rag-live.onrender.com"}
     assert data["info"] == INFO
     assert data["questions"] == [{"id": "a02", "question": synthetic_result.question},
                                  {"id": "a01", "question": synthetic_result.question}]
@@ -157,6 +158,14 @@ def test_the_landing_page_features_four_questions(tmp_path, synthetic_result):
         {"id": "a06", "note": "Says honestly what it could not establish"}]
     assert 'el("summary", {}, `More questions (${others.length})`)' in APP_JS
     assert "select" not in APP_JS[APP_JS.index("const REPLAY_FILE"):]  # no dropdown
+
+
+def test_the_replay_links_to_the_live_demo_and_says_it_may_need_to_wake_up():
+    card = APP_JS[APP_JS.index('class: "replay-label"'):APP_JS.index('"Choose a question"')]
+    assert 'el("a", { href: replay.live_url, target: "_blank", rel: "noopener" }' in card
+    assert "Ask your own question: live demo (limited)" in card
+    assert "may take about a minute to wake up" in card
+    assert replay.LIVE_URL == "https://legal-rag-live.onrender.com"
 
 
 def test_in_replay_mode_the_page_asks_nothing():

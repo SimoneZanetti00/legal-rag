@@ -601,6 +601,10 @@ async function loadReplay() {
   const others = saved.questions.filter((question) => !featuredIds.has(question.id));
   $("#ask-form").after(el("section", { class: "card ask-card replay-card" },
     el("p", { class: "replay-label" }, replay.label),
+    replay.live_url ? el("p", { class: "replay-live" },
+      el("a", { href: replay.live_url, target: "_blank", rel: "noopener" }, "Ask your own question: live demo (limited)"),
+      el("span", { class: "replay-live-note" }, "It runs on free hosting and may take about a minute to wake up. " +
+        "Questions asked there are sent to Anthropic's API.")) : null,
     el("h2", { class: "picks-title" }, "Choose a question"),
     el("div", { class: "picks" }, featured.map((pick) => button(pick.id, pick.note))),
     others.length ? el("details", { class: "more-questions" },

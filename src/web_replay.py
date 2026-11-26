@@ -45,6 +45,8 @@ REPLAY_FILE = "replay.json"
 
 REPLAY_LABEL = ("Replay of saved answers generated on {date} with {model}. "
                 "No live model calls.")
+# The public live demo (render.yaml), linked from the top of the replay page.
+LIVE_URL = "https://legal-rag-live.onrender.com"
 # The questions the landing page features, in order, with one line on what each shows; the
 # other questions are listed under "More questions".
 FEATURED = (("a12", "Answers a false premise with the text in force (72 hours) and flags the 96-hour proposal"),
@@ -152,7 +154,7 @@ def replay_data(run_dir: Path, ids: Sequence[str], *, describe: Describe,
         "label": REPLAY_LABEL.format(date=date, model=run["model"]),
         "generated_on": date, "provider": run["provider"], "model": run["model"],
         "mode": run["mode"], "run_id": run["run_id"], "build_id": run["build_id"],
-        "prompt_versions": run["prompt_versions"],
+        "prompt_versions": run["prompt_versions"], "live_url": LIVE_URL,
     }
     featured = [{"id": qid, "note": note} for qid, note in FEATURED if qid in ids]
     return {"replay": replay, "info": dict(info), "questions": questions, "featured": featured,
