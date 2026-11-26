@@ -26,8 +26,9 @@
 Roles: **core** = a complete answer must rest on it; **supporting** = useful, not required. The
 role `must_not_cite` is defined but not used yet.
 
-«direct answer» in the outcome column is `expected_direct_answer`: the yes, no, partly or
-cannot_establish a yes/no or premise question should get. It is absent for the other questions.
+«direct answer» in the outcome column is `expected_direct_answer`: the values accepted as the
+direct answer of a yes/no or premise question (yes, no, partly or cannot_establish; «or» separates
+two accepted values). It is absent for the other questions, which expect none.
 
 A unit is written «par. N» (paragraph «N.»), «point N» (point «N)», e.g. the definitions of GDPR
 Art. 4) or «letter x» (letter «x)» inside the paragraph or point). No unit means the whole article.
@@ -41,19 +42,19 @@ Art. 4) or «letter x» (letter «x)» inside the paragraph or point). No unit m
 | a05 | dev | overview | answer | What are the main principles governing the processing of personal data under the GDPR? | GDPR 5 (par. 1), GDPR 5 (par. 2) | — | ✔ owner_reviewed, 2026-11-18 |
 | a06 | dev | overview | answer | What rights do individuals have regarding their personal data under the GDPR? | GDPR 15, GDPR 16, GDPR 17, GDPR 18, GDPR 20, GDPR 21, GDPR 22 | GDPR 12, GDPR 13, GDPR 14, GDPR 19, GDPR 77, GDPR 79, GDPR 82, GDPR 7 (par. 3) | ✔ owner_reviewed, 2026-11-18 |
 | a07 | dev | overview | answer | What are the main obligations of a data controller under the GDPR? | GDPR 5 (par. 2), GDPR 24, GDPR 25, GDPR 30, GDPR 32, GDPR 33, GDPR 34, GDPR 35, GDPR 37 | GDPR 26, GDPR 28, GDPR 12, GDPR 13, GDPR 14 | ✔ owner_reviewed, 2026-11-18 |
-| a08 | dev | lawfulness | answer | Can a company process personal data without the consent of the data subject? | GDPR 6 (par. 1) | GDPR 9 (par. 2), GDPR 10, GDPR 7, GDPR 21 | ✔ owner_reviewed, 2026-11-18 |
+| a08 | dev | lawfulness | answer; direct answer: yes | Can a company process personal data without the consent of the data subject? | GDPR 6 (par. 1) | GDPR 9 (par. 2), GDPR 10, GDPR 7, GDPR 21 | ✔ owner_reviewed, 2026-11-18 |
 | a09 | dev | out_of_scope | abstain (out_of_scope) | What are the legal requirements for establishing a company in Germany? | — | — | ✔ owner_reviewed, 2026-11-18 |
 | a10 | dev | breach | answer | Entro quanto tempo va notificata una violazione dei dati personali al Garante? | GDPR 33 (par. 1) | Codice 2-bis | ✔ owner_reviewed, 2026-11-18 |
-| a11 | dev | false_premise | answer | Il responsabile del trattamento deve notificare la violazione al Garante? | GDPR 33 (par. 2) | GDPR 33 (par. 1), GDPR 28 (par. 3, letter f) | ✔ owner_reviewed, 2026-11-18 |
-| a12 | dev | false_premise | answer | Il GDPR prevede un termine di 96 ore per notificare una violazione dei dati personali? | GDPR 33 (par. 1) | — | ✔ owner_reviewed, 2026-11-18 |
+| a11 | dev | false_premise | answer; direct answer: no | Il responsabile del trattamento deve notificare la violazione al Garante? | GDPR 33 (par. 2) | GDPR 33 (par. 1), GDPR 28 (par. 3, letter f) | ✔ owner_reviewed, 2026-11-18 |
+| a12 | dev | false_premise | answer; direct answer: no | Il GDPR prevede un termine di 96 ore per notificare una violazione dei dati personali? | GDPR 33 (par. 1) | — | ✔ owner_reviewed, 2026-11-18 |
 | a13 | test | definition | answer | Che cos'è un dato personale secondo il GDPR? | GDPR 4 (point 1) | — | ✔ owner_reviewed, 2026-11-18 |
 | a14 | test | obligations | answer | Quando è obbligatoria una valutazione d'impatto sulla protezione dei dati? | GDPR 35 (par. 1), GDPR 35 (par. 3) | GDPR 35 (par. 4), GDPR 36 | |
 | a15 | test | obligations | answer | Quando un'azienda deve designare un responsabile della protezione dei dati (DPO)? | GDPR 37 (par. 1) | GDPR 38, GDPR 39 | |
-| a16 | test | rights | answer | Posso chiedere a un'azienda di cancellare i miei dati? In quali casi? | GDPR 17 (par. 1), GDPR 17 (par. 3) | GDPR 12 (par. 3) | |
+| a16 | test | rights | answer; direct answer: yes or partly | Posso chiedere a un'azienda di cancellare i miei dati? In quali casi? | GDPR 17 (par. 1), GDPR 17 (par. 3) | GDPR 12 (par. 3) | |
 | a17 | test | italian_specific | answer | A partire da quale età un minore può prestare da solo il consenso ai servizi della società dell'informazione in Italia? | GDPR 8 (par. 1), Codice 2-quinquies | — | |
 | a18 | test | historical | answer_limited | Qual era la disciplina applicabile alla notifica di una violazione dei dati personali avvenuta nel 2017? | GDPR 99 (par. 2) | — | |
 | a19 | test | out_of_scope | abstain (out_of_scope) | Quali sono i requisiti per il licenziamento per giusta causa in Italia? | — | — | |
-| a20 | test | transfers | answer | Si possono trasferire dati personali verso un paese terzo senza una decisione di adeguatezza? | GDPR 46, GDPR 49 | GDPR 45, GDPR 44, GDPR 47 | |
+| a20 | test | transfers | answer; direct answer: yes or partly | Si possono trasferire dati personali verso un paese terzo senza una decisione di adeguatezza? | GDPR 46, GDPR 49 | GDPR 45, GDPR 44, GDPR 47 | |
 | a21 | test | sanctions | answer | Qual è la sanzione massima per la violazione dell'obbligo di notificare una violazione dei dati personali? | GDPR 83 (par. 4) | GDPR 83 (par. 2) | |
 | a22 | test | italian_specific | answer | Come si presenta un reclamo al Garante e cosa prevede il Codice privacy? | GDPR 77, Codice 141, Codice 142 | Codice 143 | |
 | a23 | candidate | italian_specific | answer | Qual è l'età minima per il consenso del minore ai servizi della società dell'informazione in Italia? | Codice 2-quinquies (par. 1) | GDPR 8 (par. 1) | |
@@ -201,3 +202,13 @@ One record per reviewed answer, checked by `check_legal_review()`. **No record e
   row number changes.
 - **Not reviewed yet:** a14–a22 (rows 58–81) stay `candidate`. They are not scored in the
   owner-reviewed scope.
+
+## Owner decisions (2026-11-26): expected direct answers
+
+- **Decided by** Simone Zanetti (owner) on 2026-11-26, after a draft by Claude Code (AI assistant).
+- **Owner-reviewed questions:** a08 yes; a11 no; a12 no, each with exactly one accepted value.
+  These questions and their rows stay `owner_reviewed` as on 2026-11-18. Only
+  `expected_direct_answer` was added, by this decision.
+- **Candidate questions:** a16 and a20 accept yes or partly: the right, or the transfer, exists, but
+  only under conditions. a24 and a25 accept no. These four questions stay `candidate`.
+- **Every other question** expects no direct answer: it is an open question.

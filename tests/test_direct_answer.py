@@ -257,7 +257,10 @@ def benchmark_rows(**changes):
 
 
 @pytest.mark.parametrize("changes, error", [
-    ({"expected_direct_answer": "maybe"}, "expected_direct_answer must be one of"),
+    ({"expected_direct_answer": "maybe"}, "expected_direct_answer must be a non-empty list"),
+    ({"expected_direct_answer": []}, "expected_direct_answer must be a non-empty list"),
+    ({"expected_direct_answer": ["yes", "yes"]}, "expected_direct_answer must be a non-empty list"),
+    ({"expected_direct_answer": ["yes", "perhaps"]}, "expected_direct_answer must be a non-empty"),
     ({"expected_direct_answer": "no", "expected_outcome": "abstain",
       "expected_reason": "out_of_scope"}, "an expected abstention has no direct answer"),
 ])
@@ -269,13 +272,15 @@ def test_the_expected_direct_answer_is_checked(changes, error):
 def test_the_expected_direct_answer_is_optional():
     assert ab._question(benchmark_rows(), "row 1").expected_direct_answer is None
     assert ab._question(benchmark_rows(expected_direct_answer="no"),
-                        "row 1").expected_direct_answer == "no"
+                        "row 1").expected_direct_answer == ("no",)
+    assert ab._question(benchmark_rows(expected_direct_answer=["yes", "partly"]),
+                        "row 1").expected_direct_answer == ("yes", "partly")
 
 
 def test_the_report_scores_the_direct_answer_only_for_classified_questions():
     from tests.test_answer_benchmark_run import TEXTS, article_text, claim, item, question
     from tests.test_answer_benchmark_run import result as made, row
-    expecting = dataclasses.replace(question("a01"), expected_direct_answer="no")
+    expecting = dataclasses.replace(question("a01"), expected_direct_answer=("no",))
     base = made([item("E1", "1", TEXTS["1"])],
                 [claim("C1", "E1", "Il titolare notifica la violazione", "SUPPORTED")])
     older = run.stage_metrics(expecting, [row("1")], base, article_text)
@@ -286,7 +291,11 @@ def test_the_report_scores_the_direct_answer_only_for_classified_questions():
     entry = run.stage_metrics(expecting, [row("1")], shown, article_text)
     assert (entry["question_type"], entry["direct_answer"], entry["direct_answer_status"],
             entry["expected_direct_answer"], entry["direct_answer_match"]) == (
-        "yes_no", "no", "shown", "no", True)
+        "yes_no", "no", "shown", ["no"], True)
+    either = dataclasses.replace(question("a01"), expected_direct_answer=("yes", "partly"))
+    partly = {**shown, "direct_answer": {**shown["direct_answer"], "value": "partly"}}
+    assert run.stage_metrics(either, [row("1")], partly, article_text)["direct_answer_match"]
+    assert not run.stage_metrics(either, [row("1")], shown, article_text)["direct_answer_match"]
     open_ = run.stage_metrics(question("a02"), [row("1", qid="a02")],
                               {**base, "analysis": {"question_type": "yes_no"},
                                "direct_answer": {"value": "yes", "text": "Sì.",

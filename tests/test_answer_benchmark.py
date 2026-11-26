@@ -93,8 +93,24 @@ def test_the_questions_from_the_live_demo_as_the_owner_drafted_them(bench):
     assert rows_of(bench, "a25", "core") == [(G, "20", unit("1"))]
     assert rows_of(bench, "a25", "supporting") == [(G, "6", unit("1", letter="f")),
                                                    (G, "21", unit("1"))]
-    assert [by_id[q].expected_direct_answer for q in ("a23", "a24", "a25")] == [None, "no", "no"]
+    assert [by_id[q].expected_direct_answer for q in ("a23", "a24", "a25")] == [
+        None, ("no",), ("no",)]
     assert [r.query_id for r in bench.expectations[82:]] == ["a23"] * 2 + ["a24"] * 3 + ["a25"] * 3
+
+
+def test_the_expected_direct_answers_of_2026_11_26(bench):
+    """The owner's decisions: one accepted value each, except a16 and a20 (yes or partly); the
+    seven yes/no questions only; a08, a11, a12 stay owner_reviewed, the others candidate."""
+    expected = {q.query_id: q.expected_direct_answer for q in bench.questions
+                if q.expected_direct_answer is not None}
+    assert expected == {"a08": ("yes",), "a11": ("no",), "a12": ("no",),
+                        "a16": ("yes", "partly"), "a20": ("yes", "partly"), "a24": ("no",),
+                        "a25": ("no",)}
+    by_id = {q.query_id: q for q in bench.questions}
+    assert [by_id[q].provenance.review_status for q in expected] == (
+        ["owner_reviewed"] * 3 + ["candidate"] * 4)
+    sheet = SHEET.read_text(encoding="utf-8")
+    assert "## Owner decisions (2026-11-26): expected direct answers" in sheet
 
 
 def test_outcomes_and_reasons(bench):
@@ -192,7 +208,7 @@ def test_the_review_sheet_table_matches_the_files(bench):
     for q in bench.questions:
         _, split, category, outcome, text, core, supporting, _ = table[q.query_id]
         expected = (q.expected_outcome + (f" ({q.expected_reason})" if q.expected_reason else "")
-                    + (f"; direct answer: {q.expected_direct_answer}"
+                    + (f"; direct answer: {' or '.join(q.expected_direct_answer)}"
                        if q.expected_direct_answer else ""))
         assert (split, category, outcome, text) == (q.split, q.category, expected, q.question)
         assert parse(core) == rows_of(bench, q.query_id, "core"), q.query_id

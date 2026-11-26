@@ -443,11 +443,11 @@ def stage_metrics(question: ab.Question, rows: Sequence[ab.Expectation],
         expected = question.expected_direct_answer
         entry.update({
             "question_type": result["analysis"]["question_type"],
-            "expected_direct_answer": expected,
+            "expected_direct_answer": list(expected) if expected is not None else None,
             "direct_answer": direct["value"] if shown else None,
             "direct_answer_status": direct["status"] if direct else None,
             "direct_answer_match": None if expected is None else (
-                shown and direct["value"] == expected),
+                shown and direct["value"] in expected),
         })
     return entry
 
@@ -552,7 +552,7 @@ def format_report(data: Mapping[str, Any]) -> str:
             if "question_type" in e:
                 given = e["direct_answer"] or e["direct_answer_status"] or "-"
                 direct = (f" [{e['question_type']}; direct {given}, expected "
-                          f"{e['expected_direct_answer'] or '-'}]")
+                          f"{'|'.join(e['expected_direct_answer'] or ['-'])}]")
             lines.append(f"{e['query_id']} {e['split']:<5} {outcome:<34} "
                          f"{_pct(e['core_candidate_recall'])} {_pct(e['core_evidence_recall'])} "
                          f"{_pct(e['core_citation_recall'])}  {e['claims_in_answer']:>2}/"

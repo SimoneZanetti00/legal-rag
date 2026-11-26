@@ -22,9 +22,11 @@ Metrics, per expected row, reported apart for core and supporting rows:
 Per question: the exact outcome match, whether the system abstained, the reason match for an
 expected abstention, and the citations no row lists (a diagnostic, not a penalty).
 
-A question may also name its expected_direct_answer (yes, no, partly or cannot_establish), for a
-yes/no or premise question (answer_generation.DirectAnswer, TECHNICAL_DEBT.md TD-069). The key
-is optional: absent means no direct answer is expected. The runner reports the match.
+A question may also name its expected_direct_answer, for a yes/no or premise question
+(answer_generation.DirectAnswer, TECHNICAL_DEBT.md TD-069): the accepted values, a list of yes,
+no, partly or cannot_establish (one value alone may be written as a string). The key is optional:
+absent means no direct answer is expected. The runner reports whether the direct answer shown is
+one of the accepted values.
 
 Eligibility: a question is scored only when it and every one of its rows are reviewed
 (owner_reviewed or expert_reviewed); otherwise it is listed as excluded and gets no metrics,
@@ -142,7 +144,8 @@ class Question:
     time_sensitive: TimeSensitivity | None
     split: str
     provenance: Provenance
-    expected_direct_answer: str | None = None  # DIRECT_VALUES; the key is optional
+    # The accepted values (DIRECT_VALUES), or None: no direct answer expected (the key is absent).
+    expected_direct_answer: tuple[str, ...] | None = None
 
 
 @dataclass(frozen=True)
@@ -243,9 +246,14 @@ def _jsonl(path: Path) -> Iterable[tuple[str, dict[str, Any]]]:
 def _question(r: dict[str, Any], where: str) -> Question:
     _keys({k: v for k, v in r.items() if k != "expected_direct_answer"}, QUESTION_KEYS, where)
     direct = r.get("expected_direct_answer")
-    if direct is not None and direct not in DIRECT_VALUES:
-        raise BenchmarkError(f"{where}: expected_direct_answer must be one of "
-                             f"{', '.join(DIRECT_VALUES)}, or absent")
+    if isinstance(direct, str):
+        direct = [direct]
+    if direct is not None and (not isinstance(direct, list) or not direct
+                               or len(set(direct)) != len(direct)
+                               or any(v not in DIRECT_VALUES for v in direct)):
+        raise BenchmarkError(f"{where}: expected_direct_answer must be a non-empty list of "
+                             f"distinct values among {', '.join(DIRECT_VALUES)}, or absent")
+    direct = tuple(direct) if direct is not None else None
     if direct is not None and r.get("expected_outcome") == Outcome.ABSTAIN:
         raise BenchmarkError(f"{where}: an expected abstention has no direct answer")
     if not isinstance(r["query_id"], str) or not _QUERY_ID.fullmatch(r["query_id"]):
