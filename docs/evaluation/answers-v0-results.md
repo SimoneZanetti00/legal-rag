@@ -653,3 +653,24 @@ statement it holds apart (portability). Compared with the previous replay, a01 i
 | test (a13–a22) | 8/10 → 9/10 | 59/7 → 50/3 | 100% → 100% |
 | candidate (a23–a25) | 3/3 → 3/3 | 10/3 → 12/0 | 100% → 100% |
 | Owner-reviewed (a01–a13) | 11/13 → 11/13 | 78/6 → 82/3 | 98% → 97% |
+
+## Live re-test: 2026-11-27
+
+**One question on the live demo, after M2 and M1 were deployed: a single live run. It is not a
+benchmark run, and its answer is not saved under `runs/`.**
+
+Question: "Is it true that every company with more than 250 employees must appoint a Data
+Protection Officer?" (a24 asks the same, with "DPO").
+
+- **Outcome:** `answer`.
+- **Direct answer shown:** "No: the DPO obligation depends on public status or on the nature and
+  scale of the processing, not on having more than 250 employees."
+- **Basis:** the three Art. 37(1) conditions.
+- **Also in the answer:**
+  - the Art. 37(4) claim, which was held apart on 2026-11-25;
+  - Art. 30(5) with its full exception, marked «Widened by the repair pass».
+- **No claim was held apart.**
+- **Weak point:** the second basis claim ("must systematically designate… whenever the listed
+  conditions occur") restates the first and adds little.
+- **Compared with 2026-11-25:** the same correct claims. Then, there was no explicit "no"
+  (TD-069), and the Art. 37(4) claim was held apart (TD-070).

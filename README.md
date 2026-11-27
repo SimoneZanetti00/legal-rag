@@ -105,8 +105,10 @@ Each step is a single run, so model variance is not measured. Details:
 8. **M1, direct answers** (2026-11-26): question type classified as expected on 25/25; direct
    answer shown and correct on 6 of the 7 yes/no questions. The outcome change (21 to 22/25) is
    not M1's effect: M1 changed only a20, for the worse (TD-072).
-9. **Live re-test** (2026-11-27): the deployed M2 and M1, re-tested on the live demo by the owner.
-   Its findings are not recorded in this repository yet.
+9. **Live re-test** (2026-11-27, one live question after M2 and M1): the 250-employee DPO question
+   got an explicit "No", resting on the three Art. 37(1) conditions. The Art. 37(4) claim held
+   apart on 2026-11-25 is now in the answer, Art. 30(5) appears with its full exception as a
+   widened quotation, and no claim was held apart. Weak point: one basis claim restates another.
 
 ## The problem
 
