@@ -1,19 +1,112 @@
 # Legal Research RAG
 
-**Live demo:** [legal-rag-live.onrender.com](https://legal-rag-live.onrender.com): ask your own
-question (research mode, daily limits; on free hosting it may take a minute to wake up).
-**Replay** of saved answers, with no live model calls:
-[huggingface.co/spaces/SimoneZanetti00/legal-rag-demo](https://huggingface.co/spaces/SimoneZanetti00/legal-rag-demo).
+A question-answering prototype for Italian data-protection law (the GDPR and the Italian Privacy
+Code) in which every statement quotes the provision it rests on, and the system says what it
+could not establish.
 
-A retrieval-augmented question-answering prototype for Italian data-protection law: the GDPR and
-the Italian Privacy Code.
-- Every statement in an answer quotes the provision it rests on, and the quotation is checked
-  character by character against the source.
-- Every source states how far it can be trusted.
-- When the evidence is not enough, the system says what it could not establish, or abstains.
+- **Live demo:** [legal-rag-live.onrender.com](https://legal-rag-live.onrender.com). Ask your
+  own question. It is limited (3 questions per visitor per hour, 10 per day), and on free hosting
+  it may take about a minute to wake up. Questions are sent to Anthropic's API.
+- **Replay:** [huggingface.co/spaces/SimoneZanetti00/legal-rag-demo](https://huggingface.co/spaces/SimoneZanetti00/legal-rag-demo).
+  Saved answers to the benchmark's 12 dev questions, with no model calls.
+
+**Three questions to try on the live demo:**
+1. Is it true that every company with more than 250 employees must appoint a DPO?
+2. Qual è l'età minima per il consenso del minore ai servizi della società dell'informazione in
+   Italia?
+3. Il GDPR prevede un termine di 96 ore per notificare una violazione dei dati personali?
+
+**What to look at in an answer:**
+- **The direct answer** to a yes/no question. It is shown only if every statement it rests on is
+  confirmed, and those statements are marked «basis».
+- **The exact quotations.** Each statement ends with the provision it rests on; open it to see
+  the quotation, checked character by character against the source.
+- **Statements held apart.** What the support check did not confirm is shown separately, not as
+  part of the answer.
+- **Widened quotations.** Where the repair pass widened a quotation within the same provision, to
+  include a condition, the quotation is marked, with its original.
+- **The source status.** Each provision says what kind of text it is and that no person has
+  reviewed it yet.
 
 > **Not legal advice.** This is a research and software-engineering prototype. Its output must
 > not be relied on as a legal opinion.
+
+## What it does
+
+A saved answer to benchmark question a24, from run `2026-11-26-direct-answer` (research mode).
+It is shortened here: «[…]» marks text left out, and in the answer every quotation is complete.
+
+```text
+question: Is it true that every company with more than 250 employees must appoint a DPO?
+outcome: ANSWER                                   as of: 2026-11-26
+
+direct answer: NO (an interpretation of the statements it rests on: C1, C2, C3, C4)
+    No: the obligation depends on the conditions in Article 37(1), not on having more than
+    250 employees.
+
+C1 (source statement; support: supported) Article 37(1) requires designation of a DPO in
+   three cases: processing by a public authority or body; […]
+   E1: «il trattamento è effettuato da un'autorità pubblica o da un organismo pubblico, […]»
+   ... (two more quotations of Art. 37(1); C2, also on Art. 37(1))
+C3 (source statement; support: supported; repaired) In cases other than those in paragraph 1,
+   the controller, the processor or […] may designate a data protection officer, or must do so
+   if Union or Member State law provides for it.
+   E1: «Nei casi diversi da quelli di cui al paragrafo 1, […] possono o, se previsto dal diritto
+        dell'Unione o degli Stati membri, devono designare un responsabile della protezione dei
+        dati.»
+        widened by the repair pass from: «possono o, se previsto dal diritto dell'Unione o
+        degli Stati membri, devono designare un responsabile della protezione dei dati.»
+C4 (source statement; support: supported; repaired) Article 30(5), on records of processing
+   activities, provides that the obligations in paragraphs 1 and 2 do not apply to businesses
+   or organisations with fewer than 250 employees, unless the processing is likely to risk the
+   rights and freedoms of the data subject, is not occasional, or includes special categories
+   of data […]
+   E4: «Gli obblighi di cui ai paragrafi 1 e 2 non si applicano alle imprese o organizzazioni
+        con meno di 250 dipendenti, a meno che il trattamento che esse effettuano possa
+        presentare un rischio per i diritti e le libertà dell'interessato, […]»
+        widened by the repair pass from: «Gli obblighi di cui ai paragrafi 1 e 2 non si
+        applicano alle imprese o organizzazioni con meno di 250 dipendenti»
+
+citations: [E1] GDPR Art. 37, [E4] GDPR Art. 30: 2016 original publication, pending human review
+qualifications: research-mode notice · validity not established · the support check is a
+  model's assessment · 11 candidate provisions left out by the evidence limits · as-of date
+```
+
+The model writes the claims and the direct answer. The code decides the rest:
+- which claims stay in the answer, and the outcome;
+- whether the direct answer is shown: only if every claim it rests on is supported;
+- whether a widened quotation is accepted: an exact passage of the same provision that contains
+  the original;
+- the source status and the qualifications.
+
+## How it evolved
+
+Each step is a single run, so model variance is not measured. Details:
+[docs/evaluation/answers-v0-results.md](docs/evaluation/answers-v0-results.md).
+
+1. **Baseline** (2026-11-17): evidence limited to 5 items / 3,000 tokens; 76% of the core
+   provisions reached the model; outcomes 3/22.
+2. **T6, evidence selection:** 12 items / 12,000 tokens; core provisions in the evidence 97%;
+   outcomes 8/22.
+3. **T7, query analysis:** only the issues the user asked (1–2 instead of 4–8); 17/22 under the
+   adopted outcome rule. A rule that scored 22/22 was rejected because it ignored the model's
+   report of a partial answer.
+4. **Final configuration** (2026-11-17): claims quote every element they list and are rated
+   against their own quotations; 18/22, and core citation recall 91% by design (33 claims held
+   apart).
+5. **Repair pass** (2026-11-24, the 12 dev questions): one rewrite round; held-apart claims 16 to
+   8, outcomes unchanged (10/12).
+6. **Live test** (2026-11-25): answers on the live demo showed yes/no questions answered without
+   an explicit yes or no (TD-069), and quotations that stopped before their condition (TD-070).
+   Three of its questions became the candidates a23–a25.
+7. **M2, widening a quotation** (2026-11-26, 25 questions): held-apart claims 26 to 15, outcomes
+   unchanged (21/25). The cap on the added text was raised from 300 to 350 characters after the
+   results.
+8. **M1, direct answers** (2026-11-26): question type classified as expected on 25/25; direct
+   answer shown and correct on 6 of the 7 yes/no questions. The outcome change (21 to 22/25) is
+   not M1's effect: M1 changed only a20, for the worse (TD-072).
+9. **Live re-test** (2026-11-27): the deployed M2 and M1, re-tested on the live demo by the owner.
+   Its findings are not recorded in this repository yet.
 
 ## The problem
 
@@ -29,43 +122,11 @@ checked deterministically: exact quotations, references inside the evidence, and
 may be cited. A model assesses only what cannot be checked that way, and the answer says it was
 a model's assessment.
 
-## What it does
-
-One real answer from the final benchmark run (question a10, research mode, shortened):
-
-```text
-question: Entro quanto tempo va notificata una violazione dei dati personali al Garante?
-outcome: ANSWER                                   as of: 2026-11-17
-
-C1 (source statement; support: supported) In caso di violazione dei dati personali, il titolare
-   del trattamento notifica la violazione all'autorità di controllo competente senza
-   ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è venuto a
-   conoscenza.
-   E2: «senza ingiustificato ritardo e, ove possibile, entro 72 ore dal momento in cui ne è
-        venuto a conoscenza»
-   ... (C2, C3, C4 on Code Art. 2-bis naming the Garante, C6)
-
-citations: [E1] Privacy Code Art. 2-bis: unofficial transcription, pending human review
-           [E2] GDPR Art. 33: 2016 original publication, pending human review
-
-Partially supported or uncertain — not part of the answer:
-C5 (inference; support: partially supported) Il termine per notificare la violazione al Garante
-   è quindi ... salvo che sia improbabile un rischio ...    <- the exception is not quoted
-
-qualifications: research-mode notice · validity not established · as-of date ·
-  Digital Omnibus caveat (COM(2025) 837, not adopted) — in Italian for an Italian question
-```
-
-The model writes the claims. The code decides the rest:
-- which claims stay in the answer, and the outcome;
-- the source status and the qualifications;
-- the lookup of Code Art. 2-bis, because the question names the Garante.
-
-## Try it
+## Run it locally
 
 | What | Command | Needs |
 |---|---|---|
-| **Replay of saved answers** (12 dev questions, final run, no model call) | `.\.venv\Scripts\python.exe -m http.server --bind 127.0.0.1 --directory demo\replay 8001`, then open http://127.0.0.1:8001/ | Python only |
+| **Replay of saved answers** (12 dev questions, from the M1 run, no model call) | `.\.venv\Scripts\python.exe -m http.server --bind 127.0.0.1 --directory demo\replay 8001`, then open http://127.0.0.1:8001/ | Python only |
 | Live web demo | `.\.venv\Scripts\python.exe -m src.web_demo` | An Anthropic API key (the corpus build is in the repository) |
 | Offline pipeline demo | `.\.venv\Scripts\python.exe -m src.demo` | Nothing (synthetic act, scripted model replies) |
 | Tests | `.\.venv\Scripts\python.exe -m pytest` | Nothing (offline; tests needing the local build are skipped without it) |
@@ -80,20 +141,24 @@ The replay is a static site and can be hosted anywhere: see
 flowchart TD
   subgraph build["Corpus build: offline, reproducible, hash-checked"]
     PDF["Source PDFs<br/>GDPR, OJ L 119 of 2016 (Italian)<br/>Privacy Code, author's transcription"] --> SEG["Segment maps and exact anchors<br/>article text to page and character offsets"]
-    SEG --> STORE["Provision store: 321 articles<br/>tier per article: primary, internal_only, blocked"]
+    SEG --> STORE["Provision store: 321 articles, 319 usable in research mode<br/>tier per article: primary, internal_only, blocked"]
     LEDGER["Review ledger<br/>human review records"] --> STORE
   end
-  Q["Question"] --> REF["Reference resolution<br/>deterministic: 'art. 33 GDPR' to a provision"]
-  REF --> PRE{"Corpus preflight:<br/>any provision usable<br/>in this mode?"}
+  Q["Question"] --> REF["Reference resolution (code)<br/>'art. 33 GDPR' to a provision"]
+  REF --> PRE{"Corpus preflight (code):<br/>any provision usable<br/>in this mode?"}
   PRE -- no --> ABST["Abstain<br/>no model call"]
-  PRE -- yes --> QA["Query analysis (LLM)<br/>issues the user asked, Italian search queries, lookups"]
-  QA --> EV["Evidence assembly<br/>BM25 + exact lookups + one hop of references<br/>at most 12 items / 12,000 tokens"]
+  PRE -- yes --> QA["Query analysis (LLM)<br/>question type: yes/no, premise or open<br/>issues the user asked, Italian search queries, lookups"]
+  QA --> EV["Evidence assembly (code)<br/>BM25 + exact lookups + one hop of references<br/>at most 12 items / 12,000 tokens"]
   STORE --> EV
-  EV --> GEN["Generation (LLM, JSON schema)<br/>claims with exact quotations, summary"]
-  GEN --> VAL["Deterministic validation<br/>quotations exact, references inside the evidence"]
+  EV --> GEN["Generation (LLM, JSON schema)<br/>claims with exact quotations<br/>direct answer for yes/no and premise questions<br/>summary, off by default"]
+  GEN --> VAL["Deterministic validation (code)<br/>quotations exact, references inside the evidence"]
   VAL --> SUP["Support check (LLM)<br/>each claim against its own quotations"]
-  SUP --> OUT["Outcome rule<br/>answer, answer_limited or abstain"]
-  OUT --> RES["Result: answer, claims held apart, sources with status,<br/>what could not be established, qualifications"]
+  SUP -- "partially supported or uncertain" --> REP["Repair pass (LLM, one round)<br/>rewrite the claim, or widen a quotation<br/>within the same provision"]
+  REP --> REVAL["Re-validation (code)<br/>and a second support check (LLM)"]
+  REVAL -- "confirmed rewrites" --> OUT
+  SUP -- "supported" --> OUT["Outcome rule (code)<br/>answer, answer_limited or abstain<br/>a yes/no question needs a shown direct answer"]
+  OUT --> QUAL["Qualifications (code, not model)<br/>as-of date, Digital Omnibus caveat, research notice"]
+  QUAL --> RES["Result: answer, direct answer, claims held apart,<br/>sources with status, what could not be established"]
 ```
 
 - **Modes** are evidence policies over one pipeline. Verified mode uses only provisions with a
@@ -117,10 +182,15 @@ flowchart TD
 - **Claims held apart.** A claim the support check did not rate SUPPORTED is shown separately
   and is not part of the answer.
 - **One repair round.** The model rewrites each held-apart claim once, to state only what its own
-  quotations state. The rewrite is re-validated by the same checks and re-checked for support;
-  only a confirmed rewrite enters the answer, marked as repaired.
-- **An outcome rule.** The outcome is `answer` only if every issue has a SUPPORTED claim and the
-  model reported none as only partly answered. Otherwise it is `answer_limited`.
+  quotations state. It may also widen a quotation within the same provision to include a
+  condition: the widened text must be an exact passage of that provision, contain the original
+  quotation and add at most 350 characters. The rewrite is re-validated by the same checks and
+  re-checked for support; only a confirmed rewrite enters the answer, marked as repaired.
+- **Direct answers.** A yes/no question's direct answer is shown only if every claim it rests on
+  is SUPPORTED and in the answer, and its text names no provision outside them.
+- **An outcome rule.** The outcome is `answer` only if every issue has a SUPPORTED claim, the
+  model reported none as only partly answered and, for a yes/no question, the direct answer is
+  shown. Otherwise it is `answer_limited`.
 - **Source status.** Each source states separately: official or unofficial transcription;
   compared with an official text or not; reviewed by a person or not; legal currency not
   established; citable or not.
@@ -130,7 +200,9 @@ flowchart TD
 
 **Assessed by a model, not guaranteed:**
 - whether a claim's quotations state everything it says (the support check);
-- the issues a question raises, and what to search for.
+- the issues a question raises, its type (yes/no, premise or open), and what to search for;
+- the wording of a direct answer: it is an interpretation of its claims and is not
+  support-checked itself.
 
 **Not established at all:** whether any provision is valid, in force or applicable at any date.
 The GDPR text is the 2016 original publication; the Privacy Code text is an unofficial
@@ -226,9 +298,18 @@ Three of its questions became the candidates a23–a25.
   - Every call was made again in the M1 run, so the fall in held-apart claims cannot be
     separated from that variation either.
 
-**Cost and variance.** The final run cost **$1.08** for 22 questions, from the API's reported
-token usage, under a budget guard that stops a run before it can exceed its limit. It is a
-single run, so model variance is not measured.
+**Cost and variance.** Costs come from the API's reported token usage, under a budget guard that
+stops a run before it can exceed its limit.
+
+| Run | Questions | Live calls | Cost |
+|---|---|---|---|
+| Final run (2026-11-17) | 22 | generation and support check | $1.08 |
+| M2 baseline (2026-11-26) | 25 | repair calls on a13–a22; a23–a25 fully | $0.284 |
+| M2, widening | 25 | repair calls and their support checks only | $0.416 |
+| M2, cap re-run | 2 (a07, a24) | as M2 | $0.063 |
+| M1, direct answers | 25 | every call | $1.702 |
+
+Each is a single run, so model variance is not measured.
 
 **Owner-reviewed scope.** The owner reviewed a01–a13 and their rows on 2026-11-18, with a
 second opinion from an AI assistant on each row; the decisions are the owner's. On those 13
@@ -256,7 +337,7 @@ template are ready in [docs/reviews/](docs/reviews/).
 - **No human review recorded yet.** Verified mode abstains on every question, and every answer
   shown here rests on provisions pending review.
 - **The sources.** The Privacy Code text is an **unofficial transcription** supplied by the
-  user, not verified against an official text. Its PDF is not in the repository. The corpus
+  author, not verified against an official text. Its PDF is not in the repository. The corpus
   build tracked for the live demo contains its full text, and the saved runs and the replay
   contain excerpts, all labelled as such. The GDPR text is the 2016 original.
 - **Scope.** Two acts, current text only: no case law and no point-in-time versions.
@@ -286,6 +367,8 @@ template are ready in [docs/reviews/](docs/reviews/).
 8. **A deterministic absence check.** A claim that something is absent (no 96-hour deadline)
    cannot be quoted, so the support check cannot confirm it. Accept it only if the term does not
    occur in the cited provision's text (TD-068).
+9. **A minimal basis for direct answers.** Let the model name the claims that alone establish
+   the direct answer, so that one failed context claim does not withhold it (TD-072).
 
 ## Documentation
 

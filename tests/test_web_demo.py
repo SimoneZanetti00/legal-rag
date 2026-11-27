@@ -509,12 +509,12 @@ def test_the_page_lists_only_the_answer_sources_and_notes_an_unrated_answer():
     assert "result.citations.map((ref) => renderSource(" not in APP_JS
     assert "heldSources.length ? [el(\"p\", { class: \"subhead\" }, HELD_SOURCES_TITLE)" in APP_JS
     assert ('card("What the provisions say", renderDirect(direct),\n'
-            '      result.summary ? el("p", { class: "summary" }, result.summary) : null,'
+            '      result.summary ? el("p", { class: "summary" }, inAnswerLang(result.summary)) : null,'
             '\n      supportNotice(result),') in APP_JS
 
 
 def test_the_page_shows_the_kept_summary_and_the_as_of_date():
-    assert 'result.summary ? el("p", { class: "summary" }, result.summary) : null' in APP_JS
+    assert 'result.summary ? el("p", { class: "summary" }, inAnswerLang(result.summary)) : null' in APP_JS
     assert ("`As of ${result.as_of}: the answer reflects the texts in the corpus on that date, "
             "not the law in force then or later.`") in APP_JS
 
@@ -522,7 +522,7 @@ def test_the_page_shows_the_kept_summary_and_the_as_of_date():
 def test_the_simple_view():
     page = (web.STATIC_DIR / "index.html").read_text(encoding="utf-8")
     # On top: the question and a plain-language outcome, with the abstention reason in words.
-    assert 'el("p", { class: "question" }, result.question)' in APP_JS
+    assert 'el("p", { class: "question" }, inAnswerLang(result.question))' in APP_JS
     for title in ('title: "Answer"', 'title: "Partial answer"', 'title: "No answer"'):
         assert title in APP_JS
     assert "reason ? `${outcome.title}: ${reason}` : outcome.title" in APP_JS
@@ -552,3 +552,27 @@ def test_the_simple_view():
     # The reading guide, three lines, on both pages.
     guide = page[page.index('<aside class="howto"'):page.index("</aside>", page.index('<aside class="howto"'))]
     assert "How to read an answer" in guide and guide.count("<li>") == 3
+
+
+# --- Accessibility ------------------------------------------------------------------------------
+
+
+def test_the_page_marks_italian_text_and_announces_each_result():
+    page = (web.STATIC_DIR / "index.html").read_text(encoding="utf-8")
+    assert '<html lang="en">' in page
+    # The Italian example questions, the quotations (always Italian) and Italian answers.
+    assert page.count('class="chip example" lang="it"') == 3
+    assert APP_JS.count('italian(`«${quote.text}»`)') == 2
+    assert 'answerLang = result.analysis && result.analysis.language === "it" ? "it" : null;' in APP_JS
+    for marked in ("inAnswerLang(claim.text)", "inAnswerLang(direct.text)", "inAnswerLang(result.question)"):
+        assert marked in APP_JS
+    # A polite live region, visually hidden, gets the outcome of each result shown.
+    assert '<p id="announce" class="sr-only" aria-live="polite"></p>' in page
+    assert 'announce.textContent = `Result: ${' in APP_JS
+    assert '<section id="state" aria-live="polite"></section>' in page
+
+
+def test_the_focus_ring_is_solid():
+    css = (web.STATIC_DIR / "app.css").read_text(encoding="utf-8")
+    assert "outline: 3px solid var(--accent);" in css
+    assert "color-mix(in srgb, var(--accent) 45%, transparent)" not in css

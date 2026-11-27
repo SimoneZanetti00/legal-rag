@@ -370,8 +370,9 @@ def render_answer(result: AnswerResult) -> str:
             lines.append(f"  summary: {result.summary}")
         direct = result.direct_answer
         if direct is not None and direct.status == DIRECT_SHOWN:
-            lines.append(f"  direct answer ({DIRECT_LABEL}: {', '.join(direct.claim_ids)}): "
-                         f"{direct.value.upper()}. {direct.text}")
+            # The value as the label, the sentence below it, unchanged (it may start with "No").
+            lines += [f"  direct answer: {direct.value.upper()} ({DIRECT_LABEL}: "
+                      f"{', '.join(direct.claim_ids)})", f"    {direct.text}"]
         elif direct is not None:
             lines.append(f"  direct answer: none shown "
                          f"({DIRECT_NOT_SHOWN.get(direct.status, direct.status)})")

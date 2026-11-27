@@ -101,17 +101,18 @@ src/
   hybrid_retrieval.py # Reciprocal Rank Fusion, hybrid retriever, search CLI
   retrieval_eval.py # retrieval metrics, evaluation data loading, evaluation CLI
   citations.py   # legal references in a question, resolved to provisions
-  query_analysis.py # the question's issues, Italian search queries and suggested lookups (LLM)
+  query_analysis.py # the question's type, issues, Italian search queries and lookups (LLM)
   evidence.py    # evidence assembly: search hits and lookups to E1..En, within the limits
-  answer_generation.py # the answer pipeline: generation, validation, outcome rule, qualifications
+  answer_generation.py # the answer pipeline: generation, validation, direct answer, outcome rule, qualifications
   support_verification.py # the support check: each claim against its own quotations (LLM)
+  claim_repair.py # the repair pass: one rewrite of held-apart claims, or a widened quotation (LLM)
   source_status.py # what is known about each evidence item's source
   llm.py         # one structured-JSON interface to the model; MockLLM and AnthropicLLM
   answer_benchmark.py / answer_benchmark_run.py # benchmark answers-v0: format, runs, replay, report
   web_demo.py    # the local web page and its JSON API
   web_replay.py  # the static replay of a saved run
   web_static/    # the page: index.html, app.css, app.js
-demo/replay/     # the replay of the final run's dev questions (a static site)
+demo/replay/     # the replay of the dev questions of run 2026-11-26-direct-answer (a static site)
 tools/
   reference_inventory/ # build and cross-check the reference inventories (see data/reference/README.md)
 tests/           # pytest suite; builds synthetic TXT/PDF fixtures on the fly
@@ -1076,9 +1077,11 @@ or invalid arguments. Errors say which command to run.
 2. **Corpus preflight**: if no article of the build may be cited, `ask` abstains
    and sends nothing to any provider. With the empty review ledger this is
    always the outcome today.
-3. **Query analysis** (LLM), **evidence assembly** (BM25, exact lookups, and one
-   hop of explicit references: in the Privacy Code, "articolo 51 del regolamento"
-   is GDPR Art. 51), and **answer generation** (LLM, citable evidence only).
+3. **Query analysis** (LLM, which also classifies the question as yes/no, premise
+   or open), **evidence assembly** (BM25, exact lookups, and one hop of explicit
+   references: in the Privacy Code, "articolo 51 del regolamento" is GDPR Art. 51),
+   and **answer generation** (LLM, citable evidence only; for a yes/no or premise
+   question, also a direct answer and the claims it rests on).
    BM25 is the only retriever here: the dense, hybrid and reranking retrievers
    are not used by `ask`.
 4. **Validation**: every claim must quote its cited evidence exactly, and every
@@ -1089,6 +1092,16 @@ or invalid arguments. Errors say which command to run.
    `partially_supported`, `unsupported`, `uncertain`). Unsupported claims are
    removed; only supported ones make a complete answer. This is a model's
    assessment, not legal validation or human review.
+6. **Repair pass** (LLM, one round, `src/claim_repair.py`): each claim rated
+   partially supported or uncertain is rewritten once to state only what its
+   quotations state; for a partially supported claim, a quotation may be widened
+   within the same provision (an exact passage containing the original, at most
+   350 added characters). Rewrites are validated again and support-checked once
+   more; only confirmed ones enter the answer.
+7. **Outcome**: `answer` only if every issue has a supported claim, the model
+   reported none as only partly answered and, for a yes/no or premise question,
+   the direct answer is shown (every claim it rests on supported). Otherwise
+   `answer_limited`.
 
 Exit codes: 0 an answer or an abstention; 2 configuration, build or argument
 errors; 3 the LLM provider request failed. Planned work and known limits:
@@ -1164,8 +1177,9 @@ the choice is never remembered.
 3. Ask, for example: «When is a personal data breach required to be notified
    to the Italian Data Protection Authority?»
 
-That is one real, billed question: up to three model tasks (analysis,
-generation, support check), each with at most one retry.
+That is one real, billed question: up to five model calls (analysis,
+generation, support check, repair, and the support check of the rewrites), each
+with at most one retry.
 
 To send the same request from PowerShell instead of the browser:
 
@@ -1210,7 +1224,9 @@ Research mode is for demonstration and development only.
 This command writes a static copy of the page that replays the saved answers of one benchmark
 run (by default the latest run with every dev question). The page shows:
 - "Replay of saved answers generated on <date> with <model>. No live model calls.";
-- a question selector instead of the question box.
+- question buttons instead of the question box: four featured questions, each with a caption,
+  and the others under «More questions»;
+- a link to the live demo, which may take about a minute to wake up.
 
 Nothing is sent to a server or a model. Any static host can serve the folder; deployment as a
 Hugging Face static Space is described in [docs/deploy-replay.md](deploy-replay.md).
@@ -1280,7 +1296,7 @@ This is an engineering prototype, not a validated legal advice system.
   question. Research mode answers from provisions pending review, marked as such.
 - **Legal validity is not established** for any provision. Nothing here says a
   provision is valid, in force or applicable at any date.
-- **The Privacy Code text is an unofficial transcription,** supplied by the user
+- **The Privacy Code text is an unofficial transcription,** supplied by the author
   and not independently verified against an official text. The GDPR text is the
   2016 original publication, without later corrigenda. Saved benchmark runs
   (`data/evaluation/answers-v0/runs/`) contain excerpts of both texts as evidence;

@@ -97,6 +97,13 @@ function el(tag, attrs, ...children) {
 }
 
 const badge = (tone, text) => el("span", { class: `badge ${tone || ""}` }, text);
+// Language marks (the page is lang="en"): quotations are always Italian, and an answer is in the
+// language of its question. answerLang is set by renderResult for the result shown.
+let answerLang = null;
+const italian = (text) => el("span", { lang: "it" }, text);
+const inAnswerLang = (text) => (answerLang === "it" ? italian(text) : text);
+// A fixed qualification as displayed: Italian when display_qualifications translated it.
+const asDisplayed = (result, text) => (result.display_qualifications && !result.qualifications.includes(text) ? italian(text) : text);
 const pages = (start, end) => (start === end ? `p. ${start}` : `pp. ${start}–${end}`);
 const card = (title, ...body) => el("section", { class: "card" }, el("h3", {}, title), ...body);
 // A section collapsed by default: the details below the simple view.
@@ -269,6 +276,7 @@ function updateCounter() {
 // notes and every caveat.
 
 function renderResult(result) {
+  answerLang = result.analysis && result.analysis.language === "it" ? "it" : null;
   const statusById = result.source_status || {};
   const evidenceItems = result.evidence ? result.evidence.items : [];
   const itemById = Object.fromEntries(evidenceItems.map((item) => [item.evidence_id, item]));
@@ -297,7 +305,7 @@ function renderResult(result) {
   if (result.claims.length) {
     // The summary is shown only when the application kept it (answer_generation._summary()).
     sections.push(card("What the provisions say", renderDirect(direct),
-      result.summary ? el("p", { class: "summary" }, result.summary) : null,
+      result.summary ? el("p", { class: "summary" }, inAnswerLang(result.summary)) : null,
       supportNotice(result),
       shown.length
         ? el("div", { class: "answer" }, shown.map((claim) => renderStatement(claim, refById, statusById, basis.has(claim.claim_id))))
@@ -318,12 +326,15 @@ function renderResult(result) {
   sections.push(renderTransparency(result, statusById, itemById, shown));
   if (result.model_notes.length) {
     sections.push(fold(`Model notes (${result.model_notes.length})`,
-      el("p", { class: "subhead" }, info.model_notes_label), list(result.model_notes, (note) => note)));
+      el("p", { class: "subhead" }, info.model_notes_label), list(result.model_notes, (note) => inAnswerLang(note))));
   }
   sections.push(renderCaveats(result));
   $("#result").replaceChildren(...sections.filter(Boolean));
   $("#result").hidden = false;
   $("#reset").hidden = false;
+  // A short announcement for screen readers (index.html #announce, aria-live).
+  const announce = $("#announce");
+  if (announce) announce.textContent = `Result: ${(OUTCOMES[result.outcome] || { title: result.outcome }).title}.`;
   $("#result").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
@@ -331,7 +342,7 @@ function renderOutcome(result) {
   const outcome = OUTCOMES[result.outcome] || { tone: "warn", title: result.outcome, text: "" };
   const reason = result.outcome === "abstain" ? PLAIN_REASONS[result.abstention_reason] || result.abstention_reason : null;
   const banner = el("div", { class: `banner ${outcome.tone}` },
-    el("p", { class: "question" }, result.question),
+    el("p", { class: "question" }, inAnswerLang(result.question)),
     el("h2", {}, reason ? `${outcome.title}: ${reason}` : outcome.title),
     outcome.text ? el("p", {}, outcome.text) : null);
   const analysis = result.analysis;
@@ -353,7 +364,7 @@ function renderDirect(direct) {
   return el("div", { class: "direct" },
     el("p", { class: "direct-label" }, el("strong", {}, `Direct answer: ${DIRECT_VALUES[direct.value] || direct.value}`),
       " · an interpretation of the statements marked «basis» below"),
-    el("p", { class: "direct-text" }, direct.text));
+    el("p", { class: "direct-text" }, inAnswerLang(direct.text)));
 }
 
 // Always visible, one line each: the mode, not legal advice, the as-of date, the Omnibus caveat.
@@ -370,7 +381,7 @@ function renderNotices(result) {
   }
   // The Art. 33 caveat itself, as displayed (in Italian for an Italian question).
   const omnibus = (result.display_qualifications || result.qualifications).find((text) => text.includes(OMNIBUS_MARK));
-  if (omnibus) lines.push(el("li", {}, omnibus));
+  if (omnibus) lines.push(el("li", {}, asDisplayed(result, omnibus)));
   return el("ul", { class: "notices" }, lines);
 }
 
@@ -398,8 +409,8 @@ function renderStatement(claim, refById, statusById, isBasis = false) {
     const status = statusById[evidenceId];
     const panelId = `quote-${claim.claim_id}-${evidenceId}`;
     const panel = el("div", { class: "quote-panel", id: panelId, hidden: true },
-      claim.quotes.filter((quote) => quote.evidence_id === evidenceId).map((quote) => el("blockquote", {}, `«${quote.text}»`,
-        quote.widened_from ? el("span", { class: "widened-note" }, `Widened by the repair pass, within the same provision, from «${quote.widened_from}».`) : null)),
+      claim.quotes.filter((quote) => quote.evidence_id === evidenceId).map((quote) => el("blockquote", {}, italian(`«${quote.text}»`),
+        quote.widened_from ? el("span", { class: "widened-note" }, "Widened by the repair pass, within the same provision, from ", italian(`«${quote.widened_from}»`), ".") : null)),
       ref ? el("p", { class: "muted" }, `${provisionName(ref)} — ${ref.heading}${ref.title ? ` (${displayTitle(ref.title)})` : ""}, ` +
         `${pages(ref.page_start, ref.page_end)} of the source PDF` + (pending(status) ? ". Human review pending: not verified." : ".")) : null);
     panels.push(panel);
@@ -415,7 +426,7 @@ function renderStatement(claim, refById, statusById, isBasis = false) {
   return el("div", { class: "statement" },
     el("p", {}, isBasis ? el("span", { class: "kind-tag basis-tag" }, "Basis") : null,
       claim.kind === "inference" ? el("span", { class: "kind-tag" }, "Interpretation") : null,
-      claim.text, " ", chips),
+      inAnswerLang(claim.text), " ", chips),
     panels);
 }
 
@@ -424,35 +435,35 @@ function renderMissing(result, issueText) {
   if (!result.unanswered_issues.length) return null;
   return el("div", { class: "missing" },
     el("p", { class: "subhead" }, "Not answered by the provisions found"),
-    list(result.unanswered_issues, (gap) => issueText[gap.issue_id] || gap.issue_id));
+    list(result.unanswered_issues, (gap) => (issueText[gap.issue_id] ? inAnswerLang(issueText[gap.issue_id]) : gap.issue_id)));
 }
 
 function renderClaim(claim, statusById, itemById) {
   const [tone, label] = VERIFICATION[claim.verification] || ["", claim.verification];
   return el("article", { class: "claim" },
-    el("p", { class: "claim-text" }, claim.text),
+    el("p", { class: "claim-text" }, inAnswerLang(claim.text)),
     el("div", { class: "meta" },
       badge("", claim.claim_id), badge(claim.kind === "inference" ? "warn" : "", KINDS[claim.kind] || claim.kind),
       badge(tone, label), claim.repaired_from ? badge("ok", "Repaired") : null,
       claim.issue_ids.length ? badge("", `Issue ${claim.issue_ids.join(", ")}`) : null),
     claim.repaired_from ? el("p", { class: "muted" }, "Rewritten by the repair pass from a wording the support check did not confirm: ",
-      `«${claim.repaired_from}». The rewrite keeps quotations of that statement` +
+      inAnswerLang(`«${claim.repaired_from}»`), ". The rewrite keeps quotations of that statement" +
       (claim.quotes.some((quote) => quote.widened_from) ? ", widened within the same provision where marked," : "") +
       " and was confirmed by the support check.") : null,
     claim.quotes.map((quote) => {
       const status = statusById[quote.evidence_id];
       const item = itemById[quote.evidence_id];
       return el("blockquote", { class: pending(status) ? "unreviewed" : "" },
-        `«${quote.text}» `, el("span", { class: "muted" }, quote.evidence_id),
+        italian(`«${quote.text}»`), " ", el("span", { class: "muted" }, quote.evidence_id),
         item ? el("span", { class: "muted" }, ` ${item.heading}`) : null,
-        quote.widened_from ? el("span", { class: "widened-note" }, `Widened by the repair pass, within the same provision, from «${quote.widened_from}».`) : null);
+        quote.widened_from ? el("span", { class: "widened-note" }, "Widened by the repair pass, within the same provision, from ", italian(`«${quote.widened_from}»`), ".") : null);
     }));
 }
 
 function renderCaveats(result) {
   return fold("All caveats and limitations",
     list(result.display_qualifications || result.qualifications, (text) => (RESEARCH_PREFIXES.some((p) => text.startsWith(p))
-      ? el("span", { class: "caveat-research" }, text) : text)),
+      ? el("span", { class: "caveat-research" }, asDisplayed(result, text)) : asDisplayed(result, text))),
     result.warnings.length ? el("p", { class: "muted" }, `Warnings: ${result.warnings.join(", ")}`) : null);
 }
 
@@ -635,7 +646,7 @@ async function loadReplay() {
   const featuredIds = new Set(featured.map((pick) => pick.id));
   const button = (id, note) => {
     const node = el("button", { type: "button", class: "pick", "data-id": id, "aria-pressed": "false" },
-      el("span", { class: "pick-question" }, textOf[id]), note ? el("span", { class: "pick-note" }, note) : null);
+      el("span", { class: "pick-question", lang: ((saved.answers[id] || {}).analysis || {}).language === "it" ? "it" : null }, textOf[id]), note ? el("span", { class: "pick-note" }, note) : null);
     node.addEventListener("click", () => showSaved(id));
     return node;
   };
